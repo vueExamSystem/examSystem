@@ -13,6 +13,10 @@ import Test from './views/Test.vue'
 
 let routes = [
     {
+        path: '/',
+        component: Test,
+    },
+    {
         path: '/login',
         component: Login,
         name: '',
@@ -24,9 +28,9 @@ let routes = [
         name: '',
         hidden: true
     },
-    //{ path: '/main', component: Main },
+    { path: '/main', component: Main },
     {
-        path: '/',
+        path: '/past',
         component: Home,
         name: '导航一',
         iconCls: 'el-icon-message',//图标样式class
@@ -38,7 +42,7 @@ let routes = [
         ]
     },
     {
-        path: '/',
+        path: '/past',
         component: Home,
         name: '导航二',
         iconCls: 'fa fa-id-card-o',
@@ -48,7 +52,7 @@ let routes = [
         ]
     },
     {
-        path: '/',
+        path: '/past',
         component: Home,
         name: '',
         iconCls: 'fa fa-address-card',
@@ -58,7 +62,7 @@ let routes = [
         ]
     },
     {
-        path: '/',
+        path: '/past',
         component: Home,
         name: 'Charts',
         iconCls: 'fa fa-bar-chart',
@@ -66,14 +70,11 @@ let routes = [
             { path: '/echarts', component: echarts, name: 'echarts' }
         ]
     },
+
     {
         path: '*',
         hidden: true,
         redirect: { path: '/404' }
-    },
-    {
-        path: '/test',
-        component: Test
     }
 ];
 
