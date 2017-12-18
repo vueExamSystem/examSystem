@@ -5,6 +5,9 @@
 This is a project template for [vue-cli](https://github.com/vuejs/vue-cli)
 
 ``` bash
+# npm 切换淘宝源（安装npm相关会变快）
+npm config set registry https://registry.npm.taobao.org
+
 # install dependencies
 npm install
 

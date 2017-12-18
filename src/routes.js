@@ -9,6 +9,7 @@ import Page4 from './views/nav2/Page4.vue'
 import Page5 from './views/nav2/Page5.vue'
 import Page6 from './views/nav3/Page6.vue'
 import echarts from './views/charts/echarts.vue'
+import Test from './views/Test.vue'
 
 let routes = [
     {
@@ -69,6 +70,10 @@ let routes = [
         path: '*',
         hidden: true,
         redirect: { path: '/404' }
+    },
+    {
+        path: '/test',
+        component: Test
     }
 ];
 
