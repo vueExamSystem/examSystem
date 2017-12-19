@@ -15,6 +15,7 @@
 				sysName:'VUEADMIN'
 			}
 		},
+
 		methods: {
 		},
 		mounted() {
