@@ -1,41 +1,30 @@
 <template>
-	<el-container>
-		<el-header height="50px">
-			<el-row>
-				<el-col :span="2"><div class="grid-content bg-purple">EXAM</div></el-col>
-				<el-col :span="2"><div class="grid-content bg-purple">首页</div></el-col>
-				<el-col :span="2"><div class="grid-content bg-purple">试题</div></el-col>
-				<el-col :span="2"><div class="grid-content bg-purple">试卷</div></el-col>
-				<el-col :span="2"><div class="grid-content bg-purple">练习</div></el-col>
-				<el-col :span="2"><div class="grid-content bg-purple">测验</div></el-col>
-				<el-col :span="2"><div class="grid-content bg-purple">考试</div></el-col>
-				<el-col :span="2"><div class="grid-content bg-purple">监考</div></el-col>
-				<el-col :span="2"><div class="grid-content bg-purple">成绩</div></el-col>
-				<el-col :span="2"><div class="grid-content bg-purple">统计</div></el-col>
-				<el-col :span="2"><div class="grid-content bg-purple">后台</div></el-col>
-				<el-col :span="2"><div class="grid-content bg-purple">设置</div></el-col>
-			</el-row>
-		</el-header>
-		<el-container>
-			<el-aside width="120px">
-				<ul>
-					<li>试题</li>
-				</ul>
-			</el-aside>
-			<el-main>Main</el-main>
-		</el-container>
-	</el-container>
+	<el-row>
+		<div class="el-col- logo">EXAM</div>
+		<el-col :span="2"><div class="grid-content bg-purple">试题</div></el-col>
+		<el-col :span="2"><div class="grid-content bg-purple">试卷</div></el-col>
+		<el-col :span="2"><div class="grid-content bg-purple">练习</div></el-col>
+		<el-col :span="2"><div class="grid-content bg-purple">测验</div></el-col>
+		<el-col :span="2"><div class="grid-content bg-purple">考试</div></el-col>
+		<el-col :span="2"><div class="grid-content bg-purple">监考</div></el-col>
+		<el-col :span="2"><div class="grid-content bg-purple">成绩</div></el-col>
+		<el-col :span="2"><div class="grid-content bg-purple">统计</div></el-col>
+		<el-col :span="2"><div class="grid-content bg-purple">后台</div></el-col>
+		<el-col :span="2"><div class="grid-content bg-purple">设置</div></el-col>
+	</el-row>
 </template>
 
 <script>
 	export default {
 		data() {
 			return {
-				sysName:'VUEADMIN'
+				sysName:'VUEADMIN',
+                activeIndex: '1',
 			}
 		},
 
 		methods: {
+            handleSelect: {},
 		},
 		mounted() {
 		}
@@ -50,9 +39,11 @@
 			line-height: 50px;
 			font-size: 18px;
 		}
-		.el-col-3{
+		.logo{
 			font-size: 24px;
 			color: $color-primary;
+			width: 120px;
+			line-height: 50px;
 		}
 	}
 </style>
