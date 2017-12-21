@@ -3,17 +3,39 @@
 		<el-header height="50px">
 			<el-row>
 				<div class="el-col- logo">EXAM</div>
-				<el-col :span="1"><router-link to="/" class="grid-content bg-purple">首页</router-link></el-col>
-				<el-col :span="1"><router-link to="/question" class="grid-content bg-purple">试题</router-link></el-col>
-				<el-col :span="1"><router-link to="/paper" class="grid-content bg-purple">试卷</router-link></el-col>
-				<el-col :span="1"><div class="grid-content bg-purple">练习</div></el-col>
-				<el-col :span="1"><div class="grid-content bg-purple">测验</div></el-col>
-				<el-col :span="1"><div class="grid-content bg-purple">考试</div></el-col>
-				<el-col :span="1"><div class="grid-content bg-purple">监考</div></el-col>
-				<el-col :span="1"><div class="grid-content bg-purple">成绩</div></el-col>
-				<el-col :span="1"><div class="grid-content bg-purple">统计</div></el-col>
-				<el-col :span="1"><div class="grid-content bg-purple">后台</div></el-col>
-				<el-col :span="1"><div class="grid-content bg-purple">设置</div></el-col>
+				<el-col :span="1">
+					<router-link to="/dashbord" class="grid-content bg-purple">首页</router-link>
+				</el-col>
+				<el-col :span="1">
+					<router-link to="/question" class="grid-content bg-purple">试题</router-link>
+				</el-col>
+				<el-col :span="1">
+					<router-link to="/paper" class="grid-content bg-purple">试卷</router-link>
+				</el-col>
+				<el-col :span="1">
+					<router-link to="/preview" class="grid-content bg-purple">预习</router-link>
+				</el-col>
+				<el-col :span="1">
+					<router-link to="/test" class="grid-content bg-purple">测验</router-link>
+				</el-col>
+				<el-col :span="1">
+					<router-link to="/exam" class="grid-content bg-purple">考试</router-link>
+				</el-col>
+				<el-col :span="1">
+					<router-link to="/listen" class="grid-content bg-purple">监考</router-link>
+				</el-col>
+				<el-col :span="1">
+					<router-link to="/score" class="grid-content bg-purple">成绩</router-link>
+				</el-col>
+				<el-col :span="1">
+					<router-link to="/statistics" class="grid-content bg-purple">统计</router-link>
+				</el-col>
+				<el-col :span="1">
+					<router-link to="/backstage" class="grid-content bg-purple">后台</router-link>
+				</el-col>
+				<el-col :span="1">
+					<router-link to="/setting" class="grid-content bg-purple">设置</router-link>
+				</el-col>
 			</el-row>
 		</el-header>
 		<el-main>
