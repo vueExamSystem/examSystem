@@ -20,24 +20,18 @@ let routes = [
         path: '/',
         component: HomePage,
         children: [
-
-        ]
-    },
-    {
-        path: '/question',
-        component: HomePage,
-        children: [
             {
-                path: '/question',
+                path: 'question',
                 component: QuestionHome,
                 name: '试题',
                 children: [
-                    { path: '/question/questionTag', component: TagManger, name: '标签管理' },
-                    { path: '/question', component: QuestionManger, name: '试题管理' },
+                    { path: 'questionTag', component: TagManger, name: '标签管理' },
+                    { path: '/', component: QuestionManger, name: '试题管理' },
                 ]
             },
         ]
     },
+
     {
         path: '/login',
         component: Login,

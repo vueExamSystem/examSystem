@@ -1,22 +1,22 @@
 <template>
     <el-container>
         <el-aside width="120px">
-            <div>
-                <a href="/question">
+            <router-link to="/question">
+                <div>
                     <i class="fa fa-bars"></i>
                     <span slot="title">
                         试题管理
                     </span>
-                </a>
-            </div>
-            <div>
-                <a href="/question/questionTag">
+                </div>
+            </router-link>
+            <router-link to="/question/questionTag">
+                <div>
                     <i class="fa fa-bars"></i>
                     <span slot="title">
                         标签管理
                     </span>
-                </a>
-            </div>
+                </div>
+            </router-link>
         </el-aside>
         <el-main>
             <router-view></router-view>
