@@ -21,14 +21,12 @@
 </template>
 
 <script>
-    import Nav from '../common/Nav.vue'
     export default {
         data() {
             return {
             }
         },
         components: {
-            Nav,
         },
         methods: {
             handleSelect: {},
