@@ -1,6 +1,7 @@
 import babelpolyfill from 'babel-polyfill'
 import Vue from 'vue'
 import App from './App'
+import './styles/reset.css'
 import ElementUI from 'element-ui'
 import './styles/element-variables.scss'
 // import 'element-ui/lib/theme-chalk/index.css'
