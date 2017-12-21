@@ -27,9 +27,9 @@ $--color-primary-light-8: mix($--color-white, $--color-primary, 80%) !default; /
 $--color-primary-light-9: mix($--color-white, $--color-primary, 90%) !default; /* ecf5ff */
 
 $--color-success: #87BFBC !default;
-$--color-warning: #e6a23c !default;
+$--color-warning: #F8D29A !default;
 $--color-danger: #D06D69 !default;
-$--color-info: #909399 !default;
+$--color-info: #74AFC9 !default;
 
 $--color-success-light: mix($--color-white, $--color-success, 80%) !default;
 $--color-warning-light: mix($--color-white, $--color-warning, 80%) !default;
@@ -42,7 +42,7 @@ $--color-danger-lighter: mix($--color-white, $--color-danger, 90%) !default;
 $--color-info-lighter: mix($--color-white, $--color-info, 90%) !default;
 
 $--color-text-primary: #303133 !default;
-$--color-text-regular: #606266 !default;
+$--color-text-regular: #4a4a4a !default;
 $--color-text-secondary: #909399 !default;
 $--color-text-placeholder: #c0c4cc !default;
 
@@ -53,13 +53,13 @@ $--link-hover-color: $--color-primary !default;
 
 /* Background
 -------------------------- */
-$--background-color-base: #f5f7fa !default;
+$--background-color-base: #f0f0f0 !default;
 
 /* Border
 -------------------------- */
 $--border-width-base: 1px !default;
 $--border-style-base: solid !default;
-$--border-color-base: #dcdfe6 !default;
+$--border-color-base: #B5B5CD !default;
 $--border-color-light: #e4e7ed !default;
 $--border-color-lighter: #ebeef5 !default;
 $--border-color-extra-light: #f2f6fc !default;
@@ -114,13 +114,13 @@ $--icon-color-base: $--color-info !default;
 -------------------------- */
 $--checkbox-font-size: 14px !default;
 $--checkbox-font-weight: $--font-weight-primary !default;
-$--checkbox-color: $--color-text-regular !default;
-$--checkbox-input-height: 14px !default;
-$--checkbox-input-width: 14px !default;
+$--checkbox-color: #4a4a4a !default;
+$--checkbox-input-height: 16px !default;
+$--checkbox-input-width: 16px !default;
 $--checkbox-input-border-radius: $--border-radius-small !default;
 $--checkbox-input-fill: $--color-white !default;
 $--checkbox-input-border: $--border-base !default;
-$--checkbox-input-border-color: $--border-color-base !default;
+$--checkbox-input-border-color: #979797 !default;
 $--checkbox-icon-color: $--color-white !default;
 
 $--checkbox-disabled-input-border-color: $--border-color-base !default;
@@ -131,10 +131,10 @@ $--checkbox-disabled-checked-input-fill: $--border-color-extra-light !default;
 $--checkbox-disabled-checked-input-border-color: $--border-color-base !default;
 $--checkbox-disabled-checked-icon-color: $--color-text-placeholder !default;
 
-$--checkbox-checked-text-color: $--color-primary !default;
+$--checkbox-checked-text-color: #4a4a4a !default;
 $--checkbox-checked-input-border-color: $--color-primary !default;
-$--checkbox-checked-input-fill: $--color-primary !default;
-$--checkbox-checked-icon-color: $--fill-base !default;
+$--checkbox-checked-input-fill: $--color-white !default;
+$--checkbox-checked-icon-color: #4990e2 !default;
 
 $--checkbox-input-border-color-hover: $--color-primary !default;
 
@@ -158,19 +158,29 @@ $--checkbox-button-checked-fill: $--color-primary !default;
 $--checkbox-button-checked-color: $--color-white !default;
 $--checkbox-button-checked-border-color: $--color-primary !default;
 
+.el-checkbox{
+	.el-checkbox__input .el-checkbox__inner:after{
+		left: 8px;
+		top: 0;
+	}
+	.el-checkbox__input.is-checked .el-checkbox__inner:after{
+		transform: rotate(45deg) scale(1.8);
+	}
+}
+
 
 
 /* Radio
 -------------------------- */
 $--radio-font-size: 14px !default;
 $--radio-font-weight: $--font-weight-primary !default;
-$--radio-color: $--color-text-regular !default;
-$--radio-input-height: 14px !default;
-$--radio-input-width: 14px !default;
+$--radio-color: #4a4a4a !default;
+$--radio-input-height: 16px !default;
+$--radio-input-width: 16px !default;
 $--radio-input-border-radius: $--border-radius-circle !default;
 $--radio-input-fill: $--color-white !default;
 $--radio-input-border: $--border-base !default;
-$--radio-input-border-color: $--border-color-base !default;
+$--radio-input-border-color: #979797 !default;
 $--radio-icon-color: $--color-white !default;
 
 $--radio-disabled-input-border-color: $--disabled-border-base !default;
@@ -178,13 +188,13 @@ $--radio-disabled-input-fill: $--disabled-fill-base !default;
 $--radio-disabled-icon-color: $--disabled-fill-base !default;
 
 $--radio-disabled-checked-input-border-color: $--disabled-border-base !default;
-$--radio-disabled-checked-input-fill: $--disabled-fill-base !default;
+$--radio-disabled-checked-input-fill: #edf2fc !default;
 $--radio-disabled-checked-icon-color: $--color-text-placeholder !default;
 
-$--radio-checked-text-color: $--color-primary !default;
+$--radio-checked-text-color: #4a4a4a !default;
 $--radio-checked-input-border-color: $--color-primary !default;
 $--radio-checked-input-fill: $--color-white !default;
-$--radio-checked-icon-color: $--color-primary !default;
+$--radio-checked-icon-color: $--color-white !default;
 
 $--radio-input-border-color-hover: $--color-primary !default;
 
@@ -209,6 +219,16 @@ $--radio-button-checked-color: $--color-white !default;
 $--radio-button-checked-border-color: $--color-primary !default;
 $--radio-button-disabled-checked-fill: $--border-color-extra-light !default;
 
+.el-radio{
+	.el-radio__input .el-radio__inner:after{
+		width: 8px;
+		height: 8px;
+	}
+	.el-radio__input.is-checked .el-radio__inner:after{
+		background: #4990e2;
+	}
+}
+
 /* Select
 -------------------------- */
 $--select-border-color-hover: $--border-color-hover !default;
@@ -216,8 +236,8 @@ $--select-disabled-border: $--disabled-border-base !default;
 $--select-font-size: $--font-size-base !default;
 $--select-close-hover-color: $--color-text-secondary !default;
 
-$--select-input-color: $--color-text-placeholder !default;
-$--select-multiple-input-color: #666 !default;
+$--select-input-color: #4a4a4a !default;
+$--select-multiple-input-color: #4a4a4a !default;
 $--select-input-focus-background: $--color-primary !default;
 $--select-input-font-size: 14px !default;
 
@@ -240,6 +260,15 @@ $--select-dropdown-max-height: 274px !default;
 $--select-dropdown-padding: 6px 0 !default;
 $--select-dropdown-empty-padding: 10px 0 !default;
 $--select-dropdown-border: solid 1px $--border-color-light !default;
+.el-select {
+	.el-input--suffix {
+		.el-input__inner{
+			height: 36px;
+			background: #F2F0E2;
+			border-color: #F2F0E2;
+		}
+	}
+}
 
 /* Alert
 -------------------------- */
@@ -316,28 +345,27 @@ $--notification-danger-color: $--color-danger !default;
 -------------------------- */
 $--input-font-size: $--font-size-base !default;
 $--input-color: $--color-text-regular !default;
-$--input-width: 140px !default;
-$--input-height: 40px !default;
+$--input-width: 240px !default;
+$--input-height: 28px !default;
 $--input-border: $--border-base !default;
 $--input-border-color: $--border-color-base !default;
-$--input-border-radius: $--border-radius-base !default;
+$--input-border-radius: 3px !default;
 $--input-border-color-hover: $--border-color-hover !default;
 $--input-fill: $--color-white !default;
 $--input-fill-disabled: $--disabled-fill-base !default;
-$--input-color-disabled: $--font-color-disabled-base !default;
+$--input-color-disabled: #3C5398 !default;
 $--input-icon-color: $--color-text-placeholder !default;
 $--input-placeholder-color: $--color-text-placeholder !default;
-$--input-max-width: 314px !default;
+$--input-max-width: 240px !default;
 
 $--input-hover-border: $--border-color-hover !default;
 $--input-clear-hover-color: $--color-text-secondary !default;
 
 $--input-focus-border: $--color-primary !default;
 $--input-focus-fill: $--color-white !default;
-
 $--input-disabled-fill: $--disabled-fill-base !default;
-$--input-disabled-border: $--disabled-border-base !default;
-$--input-disabled-color: $--disabled-color-base !default;
+$--input-disabled-border: 1px solid #B5B5CD !default;
+$--input-disabled-color: #3C5398 !default;
 $--input-disabled-placeholder-color: $--color-text-placeholder !default;
 
 $--input-medium-font-size: 14px !default;
@@ -348,6 +376,12 @@ $--input-small-height: 32px !default;
 
 $--input-mini-font-size: 12px !default;
 $--input-mini-height: 28px !default;
+.el-input{
+	.el-input__inner{
+		width: 240px;
+	}
+}
+
 
 /* Cascader
 -------------------------- */
@@ -430,7 +464,7 @@ $--button-primary-fill: $--color-primary !default;
 $--button-success-border: $--color-success !default;
 $--button-success-color: $--color-white !default;
 $--button-success-fill: $--color-success !default;
-.el-button--success{
+.el-button--success.el-button-shadow{
 	box-shadow: 0 2px 4px 0 #87BFBC;
 }
 
@@ -441,7 +475,7 @@ $--button-warning-fill: $--color-warning !default;
 $--button-danger-border: $--color-danger !default;
 $--button-danger-color: $--color-white !default;
 $--button-danger-fill: $--color-danger !default;
-.el-button--danger{
+.el-button--danger.el-button-shadow{
 	box-shadow: 0 2px 4px 0 #D06D69;
 }
 
@@ -482,14 +516,22 @@ $--dialog-padding-primary: 15px !default;
 
 /* Table
 -------------------------- */
-$--table-border:  1px solid $--border-color-lighter !default;
+$--table-border: 0 !default;
 $--table-text-color: $--color-text-regular !default;
-$--table-header-color: $--color-text-secondary !default;
-$--table-row-hover-background: $--background-color-base !default;
-$--table-current-row-background: $--color-primary-light-9 !default;
-$--table-header-background: $--color-text-secondary !default;
+$--table-header-color: #3C5398 !default;
+$--table-row-hover-background: transparent !default;
+$--table-current-row-background: transparent !default;
+$--table-header-background: #fff !default;
 $--table-footer-background: $--color-text-placeholder !default;
 $--table-fixed-box-shadow: 0 0 10px rgba(0, 0, 0, .12) !default;
+
+.el-table {
+	.el-table__body{
+		tr:nth-child(odd){
+			background: #f0f0f0;
+		}
+	}
+}
 
 /* Pagination
 -------------------------- */
