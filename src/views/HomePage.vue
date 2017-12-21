@@ -26,7 +26,12 @@
 	export default {
 		data() {
 			return {
-				sysName:'VUEADMIN'
+				menu: [
+					{
+					    key: 'question',
+						name: '试题'
+					}
+				]
 			}
 		},
         components: {

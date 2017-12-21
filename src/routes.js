@@ -19,21 +19,23 @@ let routes = [
     {
         path: '/',
         component: HomePage,
-    },
-    {
-        path: '/question',
-        component: HomePage,
         children: [
             {
                 path: '/question',
-                component: QuestionHome,
-                name: '试题',
+                component: HomePage,
                 children: [
-                    { path: '/question', component: QuestionManger, name: '试题管理' },
+                    {
+                        path: '/question',
+                        component: QuestionHome,
+                        name: '试题',
+                        children: [
+                            { path: '/question', component: QuestionManger, name: '试题管理' },
+                        ]
+                    },
+                    { path: '/question/questionManger', component: QuestionManger, name: '试题管理' },
+                    { path: '/question/tagManger', component: TagManger, name: '标签管理' },
                 ]
-            },
-            { path: '/question/questionManger', component: QuestionManger, name: '试题管理' },
-            { path: '/question/tagManger', component: TagManger, name: '标签管理' },
+            }
         ]
     },
     {
