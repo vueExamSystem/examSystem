@@ -32,11 +32,10 @@ let routes = [
                 component: QuestionHome,
                 name: '试题',
                 children: [
+                    { path: '/question/questionTag', component: TagManger, name: '标签管理' },
                     { path: '/question', component: QuestionManger, name: '试题管理' },
                 ]
             },
-            { path: '/question/questionManger', component: QuestionManger, name: '试题管理' },
-            { path: '/question/tagManger', component: TagManger, name: '标签管理' },
         ]
     },
     {

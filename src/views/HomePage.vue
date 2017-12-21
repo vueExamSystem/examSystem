@@ -26,12 +26,6 @@
 	export default {
 		data() {
 			return {
-				menu: [
-					{
-					    key: 'question',
-						name: '试题'
-					}
-				]
 			}
 		},
         components: {
