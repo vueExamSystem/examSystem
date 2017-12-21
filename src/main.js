@@ -7,9 +7,9 @@ import 'element-ui/lib/theme-chalk/index.css'
 import VueRouter from 'vue-router'
 import store from './vuex/store'
 import Vuex from 'vuex'
+import routers from './routes'
 //import NProgress from 'nprogress'
 //import 'nprogress/nprogress.css'
-import routes from './routes'
 import Mock from './mock'
 Mock.bootstrap();
 import 'font-awesome/css/font-awesome.min.css'
@@ -21,7 +21,8 @@ Vue.use(Vuex)
 //NProgress.configure({ showSpinner: false });
 
 const router = new VueRouter({
-  routes
+    mode: 'history',
+    routes: routers
 })
 
 router.beforeEach((to, from, next) => {

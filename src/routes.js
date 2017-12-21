@@ -11,11 +11,30 @@ import Page6 from './views/demo/nav3/Page6.vue'
 import echarts from './views/demo/charts/echarts.vue'
 import Test from './views/Test.vue'
 import HomePage from './views/HomePage.vue'
+import QuestionHome from './views/question/Home.vue'
+import QuestionManger from './views/question/QuestionManger.vue'
+import TagManger from './views/question/TagManger.vue'
 
 let routes = [
     {
         path: '/',
         component: HomePage,
+    },
+    {
+        path: '/question',
+        component: HomePage,
+        children: [
+            {
+                path: '/question',
+                component: QuestionHome,
+                name: '试题',
+                children: [
+                    { path: '/question', component: QuestionManger, name: '试题管理' },
+                ]
+            },
+            { path: '/question/questionManger', component: QuestionManger, name: '试题管理' },
+            { path: '/question/tagManger', component: TagManger, name: '标签管理' },
+        ]
     },
     {
         path: '/login',
