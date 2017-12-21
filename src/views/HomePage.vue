@@ -3,9 +3,9 @@
 		<el-header height="50px">
 			<el-row>
 				<div class="el-col- logo">EXAM</div>
-				<el-col :span="1"><a href="/" class="grid-content bg-purple">首页</a></el-col>
-				<el-col :span="1"><a href="/question" class="grid-content bg-purple">试题</a></el-col>
-				<el-col :span="1"><div class="grid-content bg-purple">试卷</div></el-col>
+				<el-col :span="1"><router-link to="/" class="grid-content bg-purple">首页</router-link></el-col>
+				<el-col :span="1"><router-link to="/question" class="grid-content bg-purple">试题</router-link></el-col>
+				<el-col :span="1"><router-link to="/paper" class="grid-content bg-purple">试卷</router-link></el-col>
 				<el-col :span="1"><div class="grid-content bg-purple">练习</div></el-col>
 				<el-col :span="1"><div class="grid-content bg-purple">测验</div></el-col>
 				<el-col :span="1"><div class="grid-content bg-purple">考试</div></el-col>

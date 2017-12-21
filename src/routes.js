@@ -11,9 +11,17 @@ import Page6 from './views/demo/nav3/Page6.vue'
 import echarts from './views/demo/charts/echarts.vue'
 import Test from './views/Test.vue'
 import HomePage from './views/HomePage.vue'
+
+/*question*/
 import QuestionHome from './views/question/Home.vue'
 import QuestionManger from './views/question/QuestionManger.vue'
 import TagManger from './views/question/TagManger.vue'
+
+/*paper*/
+import PaperHome from './views/paper/Home.vue'
+import PaperPapers from './views/paper/papers/Home.vue'
+import PaperQuiz from './views/paper/quiz/Home.vue'
+import PaperExercises from './views/paper/exercises/Home.vue'
 
 let routes = [
     {
@@ -27,6 +35,16 @@ let routes = [
                 children: [
                     { path: 'questionTag', component: TagManger, name: '标签管理' },
                     { path: '/', component: QuestionManger, name: '试题管理' },
+                ]
+            },
+            {
+                path: '/paper',
+                component: PaperHome,
+                name: '试卷',
+                children: [
+                    { path: '/', component: PaperPapers, name: '考试试卷',},
+                    { path: 'quiz', component: PaperQuiz, name: '随堂测验' },
+                    { path: 'exercises', component: PaperExercises, name: '练习题' }
                 ]
             },
         ]
