@@ -4,7 +4,7 @@
 			<div class="logo">EXAM</div>
 			<el-row id="nav-header">
 				<el-col :span="2" :offset="1">
-					<router-link to="/dashbord" class="grid-content bg-purple">首页</router-link>
+					<router-link to="/" class="grid-content bg-purple">首页</router-link>
 				</el-col>
 				<el-col :span="2">
 					<router-link to="/question" class="grid-content bg-purple">试题</router-link>

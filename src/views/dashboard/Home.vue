@@ -72,6 +72,14 @@
                             </el-col>
                         </el-row>
                     </div>
+                    <div class="panel charts">
+                        <div class="title">
+                            <span>学生成绩统计</span>
+                        </div>
+                        <div class="content">
+                            <Echarts></Echarts>
+                        </div>
+                    </div>
                 </div>
             </el-main>
         </el-container>
@@ -79,12 +87,14 @@
 </template>
 
 <script>
+    import charts from './Echarts.vue';
     export default {
         data() {
             return {
             }
         },
         components: {
+            'Echarts': charts
         },
         methods: {
             goQue: () => {
@@ -143,6 +153,16 @@
             }
             .bg-purple{
                 @include gradient(#D98FBB, #DA7A7A);
+            }
+        }
+
+        .charts{
+            margin-top: 20px;
+            height: 645px;
+            .content{
+                height: 400px;
+                padding: 20px;
+                box-sizing: border-box;
             }
         }
 

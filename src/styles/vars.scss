@@ -2,6 +2,8 @@ $text-base-size:14px;
 $text-base-color:#4a4a4a;
 $base-background:#f0f0f0;
 $color-primary: #8684BC; //主色调
+
+$radius-size: 6px;
 /* Colors
 -------------------------- */
 $-color-white: #fff !default;
@@ -55,8 +57,40 @@ $-color-text-placeholder: #c0c4cc !default;
 .el-aside{
   &>a{
     display: block;
-    padding: 20px 12px;
+    padding: 8px 12px 8px 0;
     color: $color-primary;
     line-height: 22px;
+    width: 112px;
+    float: right;
+    border-bottom: 1px solid $color-primary;
+  }
+}
+// 通用对panel
+.panel{
+  -webkit-border-radius: $radius-size;
+  -moz-border-radius: $radius-size;
+  border-radius: $radius-size;
+  overflow: hidden;
+  margin: 0 10px;
+  .title{
+    height: 45px;
+    background-color: $base-background;
+    line-height: 43px;
+    box-sizing: border-box;
+    box-shadow: 0 4px 4px 0 rgba(181,181,205,0.50);
+
+    &>span:first-child{
+      font-size: 18px;
+      color: #3C5398;
+      margin-left: 12px;
+    }
+  }
+  .content{
+    min-height: 50px;
+    border: 1px solid $color-primary;
+    border-top: 0;
+    border-bottom-left-radius: $radius-size;
+    border-bottom-right-radius: $radius-size;
+
   }
 }
