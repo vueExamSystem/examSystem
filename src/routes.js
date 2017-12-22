@@ -9,7 +9,8 @@ import Page4 from './views/demo/nav2/Page4.vue'
 import Page5 from './views/demo/nav2/Page5.vue'
 import Page6 from './views/demo/nav3/Page6.vue'
 import echarts from './views/demo/charts/echarts.vue'
-import Test from './views/Test.vue'
+
+import Dashboard from './views/dashboard/Home.vue'
 import HomePage from './views/HomePage.vue'
 import QuestionHome from './views/question/Home.vue'
 import QuestionManger from './views/question/QuestionManger.vue'
@@ -21,12 +22,17 @@ let routes = [
         component: HomePage,
         children: [
             {
+                path: '/',
+                component: Dashboard,
+                name: '首页'
+            },
+            {
                 path: 'question',
                 component: QuestionHome,
                 name: '试题',
                 children: [
-                    { path: 'questionTag', component: TagManger, name: '标签管理' },
                     { path: '/', component: QuestionManger, name: '试题管理' },
+                    { path: 'tag', component: TagManger, name: '标签管理' },
                 ]
             },
         ]

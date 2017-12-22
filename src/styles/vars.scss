@@ -1,1 +1,24 @@
 $color-primary: #8684BC; //主色调
+
+.el-main{
+  padding: 0;
+}
+// 渐变色背景
+@mixin gradient($col1, $col2) {
+  background-color: $col1;
+  background: -ms-linear-gradient(left, $col1, $col2);        /* IE 10 */
+  background:-moz-linear-gradient(left, $col1, $col2);/*火狐*/
+  background:-webkit-gradient(linear, 0% 0%, 0% 100%,from($col1), to($col2));/*谷歌*/
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from($col1), to($col2));      /* Safari 4-5, Chrome 1-9*/
+  background: -webkit-linear-gradient(left, $col1, $col2);   /*Safari5.1 Chrome 10+*/
+  background: -o-linear-gradient(left, $col1, $col2);  /*Opera 11.10+*/
+}
+// left nav
+.el-aside{
+  &>a{
+    display: block;
+    padding: 20px 12px;
+    color: $color-primary;
+    line-height: 22px;
+  }
+}

@@ -3,7 +3,7 @@
 </template>
 
 <script>
-  import { testData } from '../api/api';
+  import { testData } from '../../api/api';
   // import axios from 'axios';
   //import NProgress from 'nprogress'
   export default {

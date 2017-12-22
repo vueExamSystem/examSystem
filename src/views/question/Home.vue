@@ -9,7 +9,7 @@
                     </span>
                 </div>
             </router-link>
-            <router-link to="/question/questionTag">
+            <router-link to="/question/tag">
                 <div>
                     <i class="fa fa-bars"></i>
                     <span slot="title">
