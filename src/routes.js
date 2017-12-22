@@ -12,9 +12,34 @@ import echarts from './views/demo/charts/echarts.vue'
 
 import Dashboard from './views/dashboard/Home.vue'
 import HomePage from './views/HomePage.vue'
+/*首页*/
+import DashbordHome from './views/dashbord/Home.vue'
+/*试题*/
 import QuestionHome from './views/question/Home.vue'
 import QuestionManger from './views/question/QuestionManger.vue'
 import TagManger from './views/question/TagManger.vue'
+/*试卷*/
+import PaperHome from './views/paper/Home.vue'
+import PaperDefault from './views/paper/papers/Home.vue'
+import PaperQuiz from './views/paper/quiz/Home.vue'
+import PaperExercises from './views/paper/exercises/Home.vue'
+/*预习*/
+import PreviewHome from './views/preview/Home.vue'
+/*测验*/
+import TestHome from './views/test/Home.vue'
+/*考试*/
+import ExamHome from './views/exam/Home.vue'
+/*监考*/
+import ListenHome from './views/listen/Home.vue'
+/*成绩*/
+import ScoreHome from './views/score/Home.vue'
+/*统计*/
+import StatisticsHome from './views/statistics/Home.vue'
+/*后台*/
+import BackstageHome from './views/backstage/Home.vue'
+/*设置*/
+import SettingHome from './views/setting/Home.vue'
+
 
 let routes = [
     {
@@ -23,8 +48,9 @@ let routes = [
         children: [
             {
                 path: '/',
-                component: Dashboard,
-                name: '首页'
+                component: DashbordHome,
+                name: '首页',
+                children: []
             },
             {
                 path: 'question',
@@ -34,6 +60,64 @@ let routes = [
                     { path: '/', component: QuestionManger, name: '试题管理' },
                     { path: 'tag', component: TagManger, name: '标签管理' },
                 ]
+            },
+            {
+                path: 'paper',
+                component: PaperHome,
+                name: '试卷',
+                children: [
+                    { path: '/', component: PaperDefault, name: '考试试卷',},
+                    { path: 'quiz', component: PaperQuiz, name: '随堂测验' },
+                    { path: 'exercises', component: PaperExercises, name: '练习题' }
+                ]
+            },
+            {
+                path: 'preview',
+                component: PreviewHome,
+                name: '预习',
+                children: []
+            },
+            {
+                path: 'test',
+                component: TestHome,
+                name: '测验',
+                children: []
+            },
+            {
+                path: 'exam',
+                component: ExamHome,
+                name: '考试',
+                children: []
+            },
+            {
+                path: 'listen',
+                component: ListenHome,
+                name: '监考',
+                children: []
+            },
+            {
+                path: 'score',
+                component: ScoreHome,
+                name: '成绩',
+                children: []
+            },
+            {
+                path: 'statistics',
+                component: StatisticsHome,
+                name: '统计',
+                children: []
+            },
+            {
+                path: 'backstage',
+                component: BackstageHome,
+                name: '后台',
+                children: []
+            },
+            {
+                path: 'setting',
+                component: SettingHome,
+                name: '设置',
+                children: []
             },
         ]
     },
