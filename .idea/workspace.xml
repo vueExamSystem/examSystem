@@ -2,27 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ded44d1b-31ca-4019-bb9f-513cd69c457b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/styles/reset.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/styles/style.scss" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/views/backstage/Home.vue" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/views/dashbord/Home.vue" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/views/exam/Home.vue" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/views/listen/Home.vue" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/views/paper/Home.vue" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/views/paper/exercises/Home.vue" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/views/paper/papers/Home.vue" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/views/paper/quiz/Home.vue" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/views/preview/Home.vue" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/views/score/Home.vue" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/views/setting/Home.vue" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/views/statistics/Home.vue" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/views/test/Home.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/App.vue" afterPath="$PROJECT_DIR$/src/App.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main.js" afterPath="$PROJECT_DIR$/src/main.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/routes.js" afterPath="$PROJECT_DIR$/src/routes.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/styles/element-variables.scss" afterPath="$PROJECT_DIR$/src/styles/element-variables.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/styles/vars.scss" afterPath="$PROJECT_DIR$/src/styles/vars.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/views/HomePage.vue" afterPath="$PROJECT_DIR$/src/views/HomePage.vue" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -142,8 +122,8 @@
       <file leaf-file-name="routes.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/routes.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="32" column="39" lean-forward="true" selection-start-line="32" selection-start-column="39" selection-end-line="32" selection-end-column="39" />
+            <state relative-caret-position="90">
+              <caret line="24" column="61" lean-forward="true" selection-start-line="24" selection-start-column="61" selection-end-line="24" selection-end-column="61" />
               <folding />
             </state>
           </provider>
@@ -280,7 +260,21 @@
               <item name="examSystem" type="b2602c69:ProjectViewProjectNode" />
               <item name="examSystem" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="styles" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="examSystem" type="b2602c69:ProjectViewProjectNode" />
+              <item name="examSystem" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="dashboard" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="examSystem" type="b2602c69:ProjectViewProjectNode" />
+              <item name="examSystem" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="dashbord" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -399,12 +393,12 @@
       <option name="presentableId" value="Default" />
       <updated>1513560802257</updated>
       <workItem from="1513560803807" duration="12822000" />
-      <workItem from="1513909708193" duration="4315000" />
+      <workItem from="1513909708193" duration="4589000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="48135000" />
+    <option name="totallyTimeSpent" value="48409000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -869,8 +863,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/routes.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="32" column="39" lean-forward="true" selection-start-line="32" selection-start-column="39" selection-end-line="32" selection-end-column="39" />
+        <state relative-caret-position="90">
+          <caret line="24" column="61" lean-forward="true" selection-start-line="24" selection-start-column="61" selection-end-line="24" selection-end-column="61" />
           <folding />
         </state>
       </provider>

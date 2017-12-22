@@ -13,7 +13,7 @@ import echarts from './views/demo/charts/echarts.vue'
 import Dashboard from './views/dashboard/Home.vue'
 import HomePage from './views/HomePage.vue'
 /*首页*/
-import DashbordHome from './views/dashbord/Home.vue'
+import DashbordHome from './views/dashboard/Home.vue'
 /*试题*/
 import QuestionHome from './views/question/Home.vue'
 import QuestionManger from './views/question/QuestionManger.vue'
