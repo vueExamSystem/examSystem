@@ -1,77 +1,74 @@
 <template>
-    <div id="dashboard">
-        <el-container>
-            <el-aside width="120px">
-                <router-link to="/">
-                    <div>
-                        <i class="fa fa-plus"></i>
-                        <span slot="title">
-                        试题
-                    </span>
-                    </div>
-                </router-link>
-                <router-link to="/">
-                    <div>
-                        <i class="fa fa-plus"></i>
-                        <span slot="title">
-                        试卷
-                    </span>
-                    </div>
-                </router-link>
-                <router-link to="/">
-                    <div>
-                        <i class="fa fa-plus"></i>
-                        <span slot="title">
-                        考试
-                    </span>
-                    </div>
-                </router-link>
-                <router-link to="/">
-                    <div>
-                        <i class="fa fa-plus"></i>
-                        <span slot="title">
-                        随堂测试
-                    </span>
-                    </div>
-                </router-link>
-                <router-link to="/">
-                    <div>
-                        <i class="fa fa-plus"></i>
-                        <span slot="title">
-                        预习练习
-                    </span>
-                    </div>
-                </router-link>
-            </el-aside>
-            <el-main>
+    <el-container id="dashboard">
+        <el-aside width="120px">
+            <router-link to="/">
                 <div>
-                    <div class="tip">
-                        <i class="fa fa-volume-up"></i>
-                        <span>16级大学英语即将开考，请各位同学做好准备！</span>
-                    </div>
-                    <div class="exam-panel">
-                        <el-row :gutter="1">
-                            <el-col :span="12">
-                                <div class="grid-content bg-green">
-                                    <i class="fa fa-th"></i>
-                                    <dl>
-                                        <dt>今日考试</dt>
-                                        <dd>2</dd>
-                                    </dl>
-                                </div>
-                            </el-col>
-                            <el-col :span="12">
-                                <div class="grid-content bg-purple">
-                                    <i class="fa fa-th"></i>
-                                    <dl>
-                                        <dt>全部考试（已结束／未进行）</dt>
-                                        <dd>23/4</dd>
-                                    </dl>
-
-                                </div>
-                            </el-col>
-                        </el-row>
-                    </div>
+                    <i class="fa fa-plus"></i>
+                    <span slot="title">
+                    试题
+                </span>
+                </div>
+            </router-link>
+            <router-link to="/">
+                <div>
+                    <i class="fa fa-plus"></i>
+                    <span slot="title">
+                    试卷
+                </span>
+                </div>
+            </router-link>
+            <router-link to="/">
+                <div>
+                    <i class="fa fa-plus"></i>
+                    <span slot="title">
+                    考试
+                </span>
+                </div>
+            </router-link>
+            <router-link to="/">
+                <div>
+                    <i class="fa fa-plus"></i>
+                    <span slot="title">
+                    随堂测试
+                </span>
+                </div>
+            </router-link>
+            <router-link to="/">
+                <div>
+                    <i class="fa fa-plus"></i>
+                    <span slot="title">
+                    预习练习
+                </span>
+                </div>
+            </router-link>
+        </el-aside>
+        <el-main>
+            <div>
+                <div class="tip">
+                    <i class="fa fa-volume-up"></i>
+                    <span>16级大学英语即将开考，请各位同学做好准备！</span>
+                </div>
+                <div class="exam-panel">
+                    <el-row :gutter="1">
+                        <el-col :span="12">
+                            <div class="grid-content bg-green">
+                                <i class="fa fa-th"></i>
+                                <dl>
+                                    <dt>今日考试</dt>
+                                    <dd>2</dd>
+                                </dl>
+                            </div>
+                        </el-col>
+                        <el-col :span="12">
+                            <div class="grid-content bg-purple">
+                                <i class="fa fa-th"></i>
+                                <dl>
+                                    <dt>全部考试（已结束／未进行）</dt>
+                                    <dd>23/4</dd>
+                                </dl>
+                            </div>
+                        </el-col>
+                    </el-row>
                     <div class="panel charts">
                         <div class="title">
                             <span>学生成绩统计</span>
@@ -81,9 +78,9 @@
                         </div>
                     </div>
                 </div>
-            </el-main>
-        </el-container>
-    </div>
+            </div>
+        </el-main>
+    </el-container>
 </template>
 
 <script>
