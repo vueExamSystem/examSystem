@@ -567,9 +567,9 @@ $--badge-size: 18px !default;
 
 /* Card
 --------------------------*/
-$--card-border-color: transparent !default;
+$--card-border-color: $--border-color-lighter !default;
 $--card-border-radius: 4px !default;
-$--card-padding: 16px !default;
+$--card-padding: 20px !default;
 
 /* Slider
 --------------------------*/
