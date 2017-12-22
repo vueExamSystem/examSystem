@@ -3,7 +3,7 @@
 		<el-header height="50px">
 			<div class="logo">EXAM</div>
 			<el-row id="nav-header">
-				<el-col :span="2">
+				<el-col :span="2" :offset="1">
 					<router-link to="/dashbord" class="grid-content bg-purple">首页</router-link>
 				</el-col>
 				<el-col :span="2">

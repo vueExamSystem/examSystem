@@ -1,6 +1,6 @@
 <template>
     <el-container>
-        <el-aside width="200px">
+        <el-aside width="120px">
             <router-link to="/listen">监考</router-link>
         </el-aside>
         <el-main>

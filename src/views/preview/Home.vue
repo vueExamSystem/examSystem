@@ -1,6 +1,6 @@
 <template>
     <el-container>
-        <el-aside width="200px">
+        <el-aside width="120px">
             <router-link to="/preview">预习</router-link>
         </el-aside>
         <el-main>
