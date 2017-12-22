@@ -1,6 +1,6 @@
 <template>
     <el-container>
-        <el-aside width="200px">
+        <el-aside width="120px">
             <router-link to="/paper">考试试卷</router-link>
             <router-link to="/paper/quiz">随堂测验</router-link>
             <router-link to="/paper/exercises">练习题</router-link>

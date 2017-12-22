@@ -1,4 +1,7 @@
 @import '~scss_vars';
+.el-aside{
+	background: #fff;
+}
 .el-button--success.el-button-shadow{
 	box-shadow: 0 2px 4px 0 $-color-success;
 }
@@ -42,5 +45,20 @@
 		tr:nth-child(odd){
 			background: #f0f0f0;
 		}
+	}
+}
+.el-tabs--border-card > .el-tabs__header{
+	background-color: $-color-primary; 
+	.el-tabs__item{
+		margin-top:2px;
+		line-height: 36px;
+	}
+}
+#content{
+	.el-main{
+		margin-left: 10px;
+		margin-bottom: 10px;
+		background: #fff;
+		padding: 0;
 	}
 }

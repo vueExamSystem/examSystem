@@ -378,11 +378,11 @@ $--group-title-width: 66px !default;
 
 /* Tab
 -------------------------- */
-$--tab-font-size: $--font-size-base !default;
-$--tab-border-line: 1px solid #e4e4e4 !default;
-$--tab-header-color-active: $--color-text-secondary !default;
+$--tab-font-size: 16px !default;
+$--tab-border-line: 1px solid transparent !default;
+$--tab-header-color-active: #3C5398 !default;
 $--tab-header-color-hover: $--color-text-regular !default;
-$--tab-header-color: $--color-text-regular !default;
+$--tab-header-color: $--color-white !default;
 $--tab-header-fill-active: rgba($--color-black, 0.06) !default;
 $--tab-header-fill-hover: rgba($--color-black, 0.06) !default;
 $--tab-vertical-header-width: 90px !default;
@@ -459,7 +459,7 @@ $--switch-font-size: $--font-size-base !default;
 $--switch-core-border-radius: 10px !default;
 $--switch-width: 40px !default;
 $--switch-height: 20px !default;
-$--switch-button-size: 16px !default;
+$--switch-button-size: 15px !default;
 
 /* Dialog
 -------------------------- */
@@ -567,9 +567,9 @@ $--badge-size: 18px !default;
 
 /* Card
 --------------------------*/
-$--card-border-color: $--border-color-lighter !default;
+$--card-border-color: transparent !default;
 $--card-border-radius: 4px !default;
-$--card-padding: 20px !default;
+$--card-padding: 16px !default;
 
 /* Slider
 --------------------------*/
@@ -646,7 +646,7 @@ $--carousel-indicator-out-color: $--border-color-hover !default;
 --------------------------*/
 $--collapse-border-color: $--border-color-lighter !default;
 $--collapse-header-height: 48px !default;
-$--collapse-header-padding: 20px !default;
+$--collapse-header-padding: 10px !default;
 $--collapse-header-fill: $--color-white !default;
 $--collapse-header-color: $--color-text-primary !default;
 $--collapse-header-size: 13px !default;
@@ -669,15 +669,15 @@ $--transfer-filter-height: 32px !default;
 
 /* Header
   --------------------------*/
-$--header-padding: 0 20px !default;
+$--header-padding: 0 10px !default;
 
 /* Footer
 --------------------------*/
-$--footer-padding: 0 20px !default;
+$--footer-padding: 0 10px !default;
 
 /* Main
 --------------------------*/
-$--main-padding: 20px !default;
+$--main-padding: 10px !default;
 
 /* Break-point
 --------------------------*/

@@ -38,7 +38,7 @@
 				</el-col>
 			</el-row>
 		</el-header>
-		<el-main>
+		<el-main id="content">
 			<router-view></router-view>
 		</el-main>
 	</el-container>
@@ -63,7 +63,7 @@
 <style scoped lang="scss">
 	@import '~scss_vars';
 	.el-container{
-		min-height:100%;
+		height:100%;
 		.el-header{
 			padding-right: 10px;
 			padding-left:10px;
@@ -97,6 +97,8 @@
 		}
 		.el-main{
 			margin-top:10px;
+			padding:0;
+			height: calc(100% - 70px;);
 		}
 	}
 </style>
