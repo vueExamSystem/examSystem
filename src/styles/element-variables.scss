@@ -158,18 +158,6 @@ $--checkbox-button-checked-fill: $--color-primary !default;
 $--checkbox-button-checked-color: $--color-white !default;
 $--checkbox-button-checked-border-color: $--color-primary !default;
 
-.el-checkbox{
-	.el-checkbox__input .el-checkbox__inner:after{
-		left: 8px;
-		top: 0;
-	}
-	.el-checkbox__input.is-checked .el-checkbox__inner:after{
-		transform: rotate(45deg) scale(1.8);
-	}
-}
-
-
-
 /* Radio
 -------------------------- */
 $--radio-font-size: 14px !default;
@@ -219,16 +207,6 @@ $--radio-button-checked-color: $--color-white !default;
 $--radio-button-checked-border-color: $--color-primary !default;
 $--radio-button-disabled-checked-fill: $--border-color-extra-light !default;
 
-.el-radio{
-	.el-radio__input .el-radio__inner:after{
-		width: 8px;
-		height: 8px;
-	}
-	.el-radio__input.is-checked .el-radio__inner:after{
-		background: #4990e2;
-	}
-}
-
 /* Select
 -------------------------- */
 $--select-border-color-hover: $--border-color-hover !default;
@@ -260,15 +238,6 @@ $--select-dropdown-max-height: 274px !default;
 $--select-dropdown-padding: 6px 0 !default;
 $--select-dropdown-empty-padding: 10px 0 !default;
 $--select-dropdown-border: solid 1px $--border-color-light !default;
-.el-select {
-	.el-input--suffix {
-		.el-input__inner{
-			height: 36px;
-			background: #F2F0E2;
-			border-color: #F2F0E2;
-		}
-	}
-}
 
 /* Alert
 -------------------------- */
@@ -376,12 +345,6 @@ $--input-small-height: 32px !default;
 
 $--input-mini-font-size: 12px !default;
 $--input-mini-height: 28px !default;
-.el-input{
-	.el-input__inner{
-		width: 240px;
-	}
-}
-
 
 /* Cascader
 -------------------------- */
@@ -464,9 +427,6 @@ $--button-primary-fill: $--color-primary !default;
 $--button-success-border: $--color-success !default;
 $--button-success-color: $--color-white !default;
 $--button-success-fill: $--color-success !default;
-.el-button--success.el-button-shadow{
-	box-shadow: 0 2px 4px 0 #87BFBC;
-}
 
 $--button-warning-border: $--color-warning !default;
 $--button-warning-color: $--color-white !default;
@@ -475,9 +435,6 @@ $--button-warning-fill: $--color-warning !default;
 $--button-danger-border: $--color-danger !default;
 $--button-danger-color: $--color-white !default;
 $--button-danger-fill: $--color-danger !default;
-.el-button--danger.el-button-shadow{
-	box-shadow: 0 2px 4px 0 #D06D69;
-}
 
 $--button-info-border: $--color-info !default;
 $--button-info-color: $--color-white !default;
@@ -524,14 +481,6 @@ $--table-current-row-background: transparent !default;
 $--table-header-background: #fff !default;
 $--table-footer-background: $--color-text-placeholder !default;
 $--table-fixed-box-shadow: 0 0 10px rgba(0, 0, 0, .12) !default;
-
-.el-table {
-	.el-table__body{
-		tr:nth-child(odd){
-			background: #f0f0f0;
-		}
-	}
-}
 
 /* Pagination
 -------------------------- */
