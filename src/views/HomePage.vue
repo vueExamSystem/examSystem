@@ -4,37 +4,37 @@
 			<div class="logo">EXAM</div>
 			<el-row id="nav-header">
 				<el-col :span="2" :offset="1">
-					<router-link to="/dashbord" class="grid-content bg-purple">首页</router-link>
+					<router-link to="/">首页</router-link>
 				</el-col>
 				<el-col :span="2">
-					<router-link to="/question" class="grid-content bg-purple">试题</router-link>
+					<router-link to="/question">试题</router-link>
 				</el-col>
 				<el-col :span="2">
-					<router-link to="/paper" class="grid-content bg-purple">试卷</router-link>
+					<router-link to="/paper">试卷</router-link>
 				</el-col>
 				<el-col :span="2">
-					<router-link to="/preview" class="grid-content bg-purple">预习</router-link>
+					<router-link to="/preview">预习</router-link>
 				</el-col>
 				<el-col :span="2">
-					<router-link to="/test" class="grid-content bg-purple">测验</router-link>
+					<router-link to="/test">测验</router-link>
 				</el-col>
 				<el-col :span="2">
-					<router-link to="/exam" class="grid-content bg-purple">考试</router-link>
+					<router-link to="/exam">考试</router-link>
 				</el-col>
 				<el-col :span="2">
-					<router-link to="/listen" class="grid-content bg-purple">监考</router-link>
+					<router-link to="/listen">监考</router-link>
 				</el-col>
 				<el-col :span="2">
-					<router-link to="/score" class="grid-content bg-purple">成绩</router-link>
+					<router-link to="/score">成绩</router-link>
 				</el-col>
 				<el-col :span="2">
-					<router-link to="/statistics" class="grid-content bg-purple">统计</router-link>
+					<router-link to="/statistics">统计</router-link>
 				</el-col>
 				<el-col :span="2">
-					<router-link to="/backstage" class="grid-content bg-purple">后台</router-link>
+					<router-link to="/backstage">后台</router-link>
 				</el-col>
 				<el-col :span="2">
-					<router-link to="/setting" class="grid-content bg-purple">设置</router-link>
+					<router-link to="/setting">设置</router-link>
 				</el-col>
 			</el-row>
 		</el-header>
@@ -77,7 +77,7 @@
 					letter-spacing: 2.3px;
 					line-height: 50px;
 				}
-				a.router-link-active{
+				a.router-link-active.router-link-exact-active{
 					color:$color-primary;
 				}
 			}
