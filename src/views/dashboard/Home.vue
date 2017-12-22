@@ -125,7 +125,7 @@
             margin-top: 1px;
             .grid-content{
                 height: 100px;
-                line-height: 100px;
+                line-height: 80px;
                 text-align: center;
                 color: #ffffff;
                 .fa{
@@ -135,6 +135,7 @@
                 dl{
                     display: inline-block;
                     height: 40px;
+                    margin-left: 10px;
                     dt{
                         font-size: 14px;
                         height: 18px;
@@ -142,6 +143,7 @@
                     dd{
                         font-size: 24px;
                         height: 18px;
+                        text-align: left;
                     }
                 }
             }
