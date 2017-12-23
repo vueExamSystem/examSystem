@@ -5,9 +5,11 @@
         		<li class="filter-row" :field="row.field">
 	                <label>{{row.title}}：</label>
 	                <ul class="filter-items">
-	                    <li :class="{checked:row.isCheckedAll}" @click="toggleCheck($event);" role="all"><span>全部</span></li>
+	                    <!-- <li :class="{checked:row.isCheckedAll}" @click="toggleCheck($event);" role="all"><span>全部</span></li> -->
+	                    <li class="checked" @click="toggleCheck($event);" role="all"><span>全部</span></li>
 	                    <template v-for="item in row.children">
-	                		<li :class="{checked:item.isChecked}" @click="toggleCheck($event);" role="item" :name="item.value">
+	                		<!-- <li :class="{checked:item.isChecked}" @click="toggleCheck($event);" role="item" :name="item.value"> -->
+	                		<li @click="toggleCheck($event);" role="item" :name="item.value">
 	                			<span>{{item.text}}</span>
 	                		</li>
                 		</template>
@@ -51,18 +53,18 @@
 			var _this_ = this;
     		for(var i=0;i<_this_.list.length;i++){
     			var row = _this_.list[i];
-    			row.isCheckedAll = 1;
+    			// row.isCheckedAll = 1;
     			_this_.filters[row.field] = [];
-    			for(var j=0;j<row.children.length;j++){
-    				var item = row.children[j];
-    				if(item.isChecked === 1 || item.isChecked === '1'){
-						item.isChecked = 1;
-						row.isCheckedAll = 0;
-						_this_.filters[row.field].push(item.value);
-    				}else{
-    					item.isChecked = 0;
-    				}
-    			}
+    		// 	for(var j=0;j<row.children.length;j++){
+    		// 		var item = row.children[j];
+    		// 		if(item.isChecked === 1 || item.isChecked === '1'){
+						// item.isChecked = 1;
+						// row.isCheckedAll = 0;
+						// _this_.filters[row.field].push(item.value);
+    		// 		}else{
+    		// 			item.isChecked = 0;
+    		// 		}
+    		// 	}
     		}
         },
         methods: {
@@ -84,47 +86,47 @@
                 var field = $row.attr('field');
                 if(role == 'all'){
 
-                	// if($element.hasClass('checked')){
-                	// 	return;
-                	// }else{
-                	// 	$element.addClass('checked');
-                	// 	$row.find('[role="item"]').removeClass('checked');
-                	// 	_this_.filters[field].length = 0;
-                	// }
-
-                	if(_this_.list[rowIndex].isCheckedAll){
+                	if($element.hasClass('checked')){
                 		return;
                 	}else{
-						_this_.list[rowIndex].isCheckedAll = 1;
-						for(var i=0;i<_this_.list[rowIndex].children.length;i++){
-							_this_.list[rowIndex].children[i].isChecked = 0;
-						}
-						_this_.filters[field].length = 0;
+                		$element.addClass('checked');
+                		$row.find('[role="item"]').removeClass('checked');
+                		_this_.filters[field].length = 0;
                 	}
+
+      //           	if(_this_.list[rowIndex].isCheckedAll){
+      //           		return;
+      //           	}else{
+						// _this_.list[rowIndex].isCheckedAll = 1;
+						// for(var i=0;i<_this_.list[rowIndex].children.length;i++){
+						// 	_this_.list[rowIndex].children[i].isChecked = 0;
+						// }
+						// _this_.filters[field].length = 0;
+      //           	}
                 }else{
                 	var value = $element.attr('name');
-      //           	$element.toggleClass('checked');
-      //           	if($element.hasClass('checked')){
-      //           		$row.find('[role="all"]').removeClass('checked');
-      //           		_this_.filters[field].push(value);
-      //           	}else{
-						// _this_.removeArrValue(_this_.filters[field],value);
-      //           		if(_this_.filters[field].length==0){
-      //           			$row.find('[role="all"]').addClass('checked');
-      //           		}
-      //           	}
-
-                	_this_.list[rowIndex].children[itemIndex].isChecked = !_this_.list[rowIndex].children[itemIndex].isChecked;
-
-                	if(_this_.list[rowIndex].children[itemIndex].isChecked){
-                		_this_.$set(_this_.list[rowIndex].isCheckedAll,0);
-						_this_.filters[field].push(value);
+                	$element.toggleClass('checked');
+                	if($element.hasClass('checked')){
+                		$row.find('[role="all"]').removeClass('checked');
+                		_this_.filters[field].push(value);
                 	}else{
-                		_this_.removeArrValue(_this_.filters[field],value);
+						_this_.removeArrValue(_this_.filters[field],value);
                 		if(_this_.filters[field].length==0){
-                			_this_.list[rowIndex].isCheckedAll = 1;
+                			$row.find('[role="all"]').addClass('checked');
                 		}
                 	}
+
+      //           	_this_.list[rowIndex].children[itemIndex].isChecked = !_this_.list[rowIndex].children[itemIndex].isChecked;
+
+      //           	if(_this_.list[rowIndex].children[itemIndex].isChecked){
+      //           		_this_.$set(_this_.list[rowIndex].isCheckedAll,0);
+						// _this_.filters[field].push(value);
+      //           	}else{
+      //           		_this_.removeArrValue(_this_.filters[field],value);
+      //           		if(_this_.filters[field].length==0){
+      //           			_this_.list[rowIndex].isCheckedAll = 1;
+      //           		}
+      //           	}
                 }
                 console.log('_this_.list',_this_.list[rowIndex])
                 _this_.$emit('callback', _this_.filters);
@@ -158,13 +160,13 @@
 						font-size: 14px;
 						color: #3C5398;
 						letter-spacing: 0.87px;
-						margin: 6px 10px;
+						margin: 6px 12px;
 						padding: 6px;
 						cursor:pointer;
 						user-select:none;
 						&.checked{
 							margin: 6px;
-							padding: 6px 15px;
+							padding: 6px 12px;
 						 	background: $-color-success;
 						 	color:#fff;
 							font-size: 16px;

@@ -18,23 +18,19 @@
         components:{myFilter},
         data() {
             return {
-                msg:'000',
                 activeName:'paperlist',
-                isOpen:0,
                 filterList:[{
                     title:'课程',
                     field:'project',
-                    isCheckedAll:1,
                     children:[{
                         value:'hysics',
                         text:'大学物理'
                     },{
                         value:'mathematics',
-                        text:'高等数学',
-                        isChecked:1
+                        text:'高等数学'
                     },{
                         value:'english',
-                        text:'大学英语',
+                        text:'大学英语'
                     }]
                 },{
                     title:'类别',
@@ -67,25 +63,8 @@
         methods: {
             search(value){
                 console.log('search',value);
-            },
-            toggleCheck(e){
-                var $element = $(e.currentTarget);
-                var $row = $element.closest('.filter-row');
-                var role = $element.attr('role');
-                var field = $row.attr('field');
-                if(role == 'all'){
-                    if($element.hasClass('checked')){
-                        return;
-                    }else{
-                        $element.addClass('checked');
-                        $row.find('[role="item"]').removeClass('checked');
-                        this.$delete(this.$data.filters,field);
-                    }
-                }else{
-                    $element.toggleClass('checked');
-                }
-                
-           }
+            }
+           
         },
         mounted() {
 
