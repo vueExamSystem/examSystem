@@ -58,11 +58,16 @@ $-color-text-placeholder: #c0c4cc !default;
   &>a{
     display: block;
     padding: 8px 12px 8px 0;
+    margin-left: 12px;
     color: $color-primary;
     line-height: 22px;
-    width: 112px;
-    float: right;
     border-bottom: 1px solid $color-primary;
+  }
+  &>a.router-link-exact-active.router-link-active{
+  	background: $-color-primary;
+  	color:#fff;
+  	margin-left:0;
+  	padding-left:12px;
   }
 }
 // 通用对panel
@@ -87,7 +92,7 @@ $-color-text-placeholder: #c0c4cc !default;
   }
   .content{
     min-height: 50px;
-    border: 1px solid $color-primary;
+    border: 1px solid #B5B5CD;
     border-top: 0;
     border-bottom-left-radius: $radius-size;
     border-bottom-right-radius: $radius-size;

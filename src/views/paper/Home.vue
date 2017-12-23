@@ -1,9 +1,18 @@
 <template>
     <el-container>
         <el-aside width="120px">
-            <router-link to="/paper">考试试卷</router-link>
-            <router-link to="/paper/quiz">随堂测验</router-link>
-            <router-link to="/paper/exercises">练习题</router-link>
+            <router-link to="/paper">
+                <i class="fa fa-bars"></i>
+                <span>考试试卷</span>
+            </router-link>
+            <router-link to="/paper/quiz">
+                <i class="fa fa-bars"></i>
+                <span>随堂测验</span>
+            </router-link>
+            <router-link to="/paper/exercises">
+                <i class="fa fa-bars"></i>
+                <span>练习题</span>
+            </router-link>
         </el-aside>
         <el-main>
             <router-view></router-view>
