@@ -48,24 +48,52 @@
                             name:'优秀',
                             type:'bar',
                             stack: '搜索引擎',
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'inside',
+                                    formatter: '{c}'
+                                },
+                            },
                             data:[8, 8, 8, 8, 8, 8, 8]
                         },
                         {
                             name:'良好',
                             type:'bar',
                             stack: '搜索引擎',
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'inside',
+                                    formatter: '{c}'
+                                },
+                            },
                             data:[30, 30, 30, 30, 30, 30, 30]
                         },
                         {
                             name:'中等',
                             type:'bar',
                             stack: '搜索引擎',
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'inside',
+                                    formatter: '{c}'
+                                },
+                            },
                             data:[54, 54, 54, 54, 54, 54, 54]
                         },
                         {
                             name:'不及格',
                             type:'bar',
                             stack: '搜索引擎',
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'inside',
+                                    formatter: '{c}'
+                                },
+                            },
                             data:[8, 8, 8, 8, 8, 8, 8]
                         }
                     ],

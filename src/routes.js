@@ -16,8 +16,11 @@ import HomePage from './views/HomePage.vue'
 import DashbordHome from './views/dashboard/Home.vue'
 /*试题*/
 import QuestionHome from './views/question/Home.vue'
-import QuestionManger from './views/question/QuestionManger.vue'
-import TagManger from './views/question/TagManger.vue'
+import QuestionManger from './views/question/que/Home.vue'
+import QuestionTag from './views/question/tag/Home.vue'
+import QuestionSame from './views/question/same/Home.vue'
+import QuestionChapter from './views/question/chapter/Home.vue'
+import QuestionCourse from './views/question/course/Home.vue'
 /*试卷*/
 import PaperHome from './views/paper/Home.vue'
 import PaperDefault from './views/paper/papers/Home.vue'
@@ -58,7 +61,10 @@ let routes = [
                 name: '试题',
                 children: [
                     { path: '/', component: QuestionManger, name: '试题管理' },
-                    { path: 'tag', component: TagManger, name: '标签管理' },
+                    { path: 'tag', component: QuestionTag, name: '标签管理' },
+                    { path: 'course', component: QuestionCourse, name: '课程管理' },
+                    { path: 'chapter', component: QuestionChapter, name: '章节管理' },
+                    { path: 'same', component: QuestionSame, name: '相似题组' },
                 ]
             },
             {
