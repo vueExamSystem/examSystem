@@ -1,7 +1,7 @@
 <template>
     <el-container id="dashboard">
         <el-aside width="120px">
-            <router-link to="/">
+            <router-link to="/question">
                 <div>
                     <i class="fa fa-plus"></i>
                     <span slot="title">
@@ -9,7 +9,7 @@
                 </span>
                 </div>
             </router-link>
-            <router-link to="/">
+            <router-link to="/paper">
                 <div>
                     <i class="fa fa-plus"></i>
                     <span slot="title">
@@ -17,7 +17,7 @@
                 </span>
                 </div>
             </router-link>
-            <router-link to="/">
+            <router-link to="/exam">
                 <div>
                     <i class="fa fa-plus"></i>
                     <span slot="title">
@@ -25,7 +25,7 @@
                 </span>
                 </div>
             </router-link>
-            <router-link to="/">
+            <router-link to="/paper/quiz">
                 <div>
                     <i class="fa fa-plus"></i>
                     <span slot="title">
@@ -33,7 +33,7 @@
                 </span>
                 </div>
             </router-link>
-            <router-link to="/">
+            <router-link to="/preview">
                 <div>
                     <i class="fa fa-plus"></i>
                     <span slot="title">
