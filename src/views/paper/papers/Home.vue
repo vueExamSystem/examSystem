@@ -1,53 +1,62 @@
 <template>
-    <el-tabs type="border-card" v-model="activeName" @tab-click="handleClick">
+    <el-tabs type="border-card" v-model="activeName">
         <el-tab-pane label="试卷列表" name="paperlist">
-        列表
-        <section>
-            <el-col :span="24">
-                <el-button type="success" class="el-button-shadow">保存</el-button>
-                <el-button type="danger" class="el-button-shadow">取消</el-button>
-            </el-col>
-            
-            <el-table :data="users" highlight-current-row v-loading="listLoading" @selection-change="selsChange" style="width: 100%;">
-                <el-table-column type="selection" width="55">
-                </el-table-column>
-                <el-table-column type="index" width="60">
-                </el-table-column>
-                <el-table-column prop="name" label="姓名" width="120" sortable>
-                </el-table-column>
-                <el-table-column prop="sex" label="性别" width="100" :formatter="formatSex" sortable>
-                </el-table-column>
-                <el-table-column prop="age" label="年龄" width="100" sortable>
-                </el-table-column>
-                <el-table-column prop="birth" label="生日" width="120" sortable>
-                </el-table-column>
-                <el-table-column prop="addr" label="地址" min-width="180" sortable>
-                </el-table-column>
-                <el-table-column label="操作" width="150">
-                    <template scope="scope">
-                        <el-button type="primary" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                        <el-button type="danger" @click="handleDel(scope.$index, scope.row)">删除</el-button>
-                    </template>
-                </el-table-column>
-            </el-table>
-        </section>
+           <my-filter :list="filterList" @callback="search"></my-filter>
         </el-tab-pane>
         <el-tab-pane label="添加试卷" name="paperadd">添加</el-tab-pane>
     </el-tabs>
 </template>
 
 <script>
+    import myFilter from '../../common/myFilter.vue'
+    console.log('Filter',myFilter)
     import util from '../../../common/js/util'
     //import NProgress from 'nprogress'
     import { getUserListPage, removeUser, batchRemoveUser, editUser, addUser } from '../../../api/api';
 
     export default {
+        components:{myFilter},
         data() {
             return {
+                msg:'000',
                 activeName:'paperlist',
-                filters: {
-                    name: ''
-                },
+                isOpen:0,
+                filterList:[{
+                    title:'课程',
+                    field:'project',
+                    isCheckedAll:1,
+                    children:[{
+                        value:'hysics',
+                        text:'大学物理'
+                    },{
+                        value:'mathematics',
+                        text:'高等数学',
+                        isChecked:1
+                    },{
+                        value:'english',
+                        text:'大学英语',
+                    }]
+                },{
+                    title:'类别',
+                    field:'category',
+                    children:[{
+                        value:'random',
+                        text:'随机组卷'
+                    },{
+                        value:'manual',
+                        text:'手动组卷'
+                    }]
+                },{
+                    title:'状态',
+                    field:'status',
+                    children:[{
+                        value:'doing',
+                        text:'未完成'
+                    },{
+                        value:'done',
+                        text:'已完成'
+                    }]
+                }],
                 users: [],
                 total: 0,
                 page: 1,
@@ -56,59 +65,30 @@
             }
         },
         methods: {
-            handleClick(tab, event){
-                console.log('tab',tab,event);
+            search(value){
+                console.log('search',value);
             },
-            //性别显示转换
-            formatSex: function (row, column) {
-                return row.sex == 1 ? '男' : row.sex == 0 ? '女' : '未知';
-            },
-            handleCurrentChange(val) {
-                this.page = val;
-                this.getUsers();
-            },
-            //获取用户列表
-            getUsers() {
-                let para = {
-                    page: this.page,
-                    name: this.filters.name
-                };
-                this.listLoading = true;
-                //NProgress.start();
-                getUserListPage(para).then((res) => {
-                    this.total = res.data.total;
-                    this.users = res.data.users;
-                    this.listLoading = false;
-                    //NProgress.done();
-                });
-            },
-            //删除
-            handleDel: function (index, row) {
-                this.$confirm('确认删除该记录吗?', '提示', {
-                    type: 'warning'
-                }).then(() => {
-                    this.listLoading = true;
-                    //NProgress.start();
-                    let para = { id: row.id };
-                    removeUser(para).then((res) => {
-                        this.listLoading = false;
-                        //NProgress.done();
-                        this.$message({
-                            message: '删除成功',
-                            type: 'success'
-                        });
-                        this.getUsers();
-                    });
-                }).catch(() => {
-
-                });
-            },
-            selsChange: function (sels) {
-                this.sels = sels;
-            }
+            toggleCheck(e){
+                var $element = $(e.currentTarget);
+                var $row = $element.closest('.filter-row');
+                var role = $element.attr('role');
+                var field = $row.attr('field');
+                if(role == 'all'){
+                    if($element.hasClass('checked')){
+                        return;
+                    }else{
+                        $element.addClass('checked');
+                        $row.find('[role="item"]').removeClass('checked');
+                        this.$delete(this.$data.filters,field);
+                    }
+                }else{
+                    $element.toggleClass('checked');
+                }
+                
+           }
         },
         mounted() {
-            this.getUsers();
+
         }
     }
 
