@@ -61,13 +61,14 @@ export default {
 
     //获取用户列表（分页）
     mock.onGet('/user/listpage').reply(config => {
-      let {page, name} = config.params;
+      let {page, name, pageSize} = config.params;
       let mockUsers = _Users.filter(user => {
         if (name && user.name.indexOf(name) == -1) return false;
         return true;
       });
       let total = mockUsers.length;
-      mockUsers = mockUsers.filter((u, index) => index < 20 * page && index >= 20 * (page - 1));
+      pageSize = pageSize ? pageSize : 20;
+      mockUsers = mockUsers.filter((u, index) => index < pageSize * page && index >= pageSize * (page - 1));
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           resolve([200, {

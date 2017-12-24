@@ -21,10 +21,11 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
-      'vue$': 'vue/dist/vue.esm.js',
-      '@': resolve('src'),
-      'jquery': path.resolve(__dirname, '../node_modules/jquery/src/jquery'),
-      'scss_vars': '@/styles/vars.scss'
+        'vue$': 'vue/dist/vue.esm.js',
+        '@': resolve('src'),
+        'jquery': path.resolve(__dirname, '../node_modules/jquery/src/jquery'),
+        '_': path.resolve(__dirname, '../node_modules/lodash'),
+        'scss_vars': '@/styles/vars.scss'
     }
   },
   module: {

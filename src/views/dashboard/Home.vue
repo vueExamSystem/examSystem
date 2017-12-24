@@ -69,6 +69,9 @@
                             </div>
                         </el-col>
                     </el-row>
+                    <div class="exam-table">
+                        <examTable></examTable>
+                    </div>
                     <div class="panel charts">
                         <div class="title">
                             <span>学生成绩统计</span>
@@ -85,13 +88,15 @@
 
 <script>
     import charts from './Echarts.vue';
+    import table from './Table.vue';
     export default {
         data() {
             return {
             }
         },
         components: {
-            'Echarts': charts
+            'Echarts': charts,
+            'examTable': table
         },
         methods: {
             goQue: () => {
@@ -153,6 +158,10 @@
             .bg-purple{
                 @include gradient(#D98FBB, #DA7A7A);
             }
+        }
+
+        .exam-table{
+            margin-top: 20px;
         }
 
         .charts{
