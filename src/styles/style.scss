@@ -2,6 +2,9 @@
 .el-aside{
 	background: #fff;
 }
+.el-button{
+	letter-spacing:1px;
+}
 .el-button--success.el-button-shadow{
 	box-shadow: 0 2px 4px 0 $-color-success;
 }
@@ -35,11 +38,14 @@
 		}
 	}
 }
-.el-input{
-	.el-input__inner{
-		width: 240px;
+form{
+	.el-input{
+		.el-input__inner{
+			width: 240px;
+		}
 	}
 }
+
 .el-table {
 	.el-table__body{
 		tr:nth-child(odd){
