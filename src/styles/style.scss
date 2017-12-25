@@ -1,4 +1,13 @@
 @import '~scss_vars';
+.text-primary{
+	color: $-color-primary!important;
+}
+.text-success{
+	color: $-color-success!important;
+}
+.text-danger{
+	color: $-color-danger!important;
+}
 .el-aside{
 	background: #fff;
 }
@@ -40,9 +49,14 @@
 }
 form{
 	.el-input{
-		.el-input__inner{
-			width: 240px;
-		}
+		width: 240px;
+	}
+	.el-form-item__label{
+		color: #000;
+	    text-align: left;
+	}
+	.el-form-item{
+		margin-bottom: 12px;
 	}
 }
 

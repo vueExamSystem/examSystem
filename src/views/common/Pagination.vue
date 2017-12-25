@@ -4,7 +4,7 @@
             第
             <span>{{currentPage}}</span>
             /
-            <sapn>{{getAllPage}}</sapn>
+            <span>{{getAllPage}}</span>
             页
         </div>
         <ul>
