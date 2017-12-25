@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ded44d1b-31ca-4019-bb9f-513cd69c457b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/views/common/Pagination.vue" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/views/dashboard/Table.vue" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/webpack.base.conf.js" afterPath="$PROJECT_DIR$/build/webpack.base.conf.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package-lock.json" afterPath="$PROJECT_DIR$/package-lock.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mock/mock.js" afterPath="$PROJECT_DIR$/src/mock/mock.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/styles/vars.scss" afterPath="$PROJECT_DIR$/src/styles/vars.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/views/dashboard/Home.vue" afterPath="$PROJECT_DIR$/src/views/dashboard/Home.vue" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -50,8 +42,8 @@
       <file leaf-file-name="Pagination.vue" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/views/common/Pagination.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="97">
-              <caret line="32" column="32" lean-forward="false" selection-start-line="32" selection-start-column="32" selection-end-line="32" selection-end-column="32" />
+            <state relative-caret-position="200">
+              <caret line="14" column="17" lean-forward="true" selection-start-line="14" selection-start-column="17" selection-end-line="14" selection-end-column="17" />
               <folding>
                 <element signature="e#849#872#0" expanded="true" />
               </folding>
@@ -62,11 +54,16 @@
       <file leaf-file-name="myFilter.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/views/common/myFilter.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="121">
-              <caret line="76" column="23" lean-forward="false" selection-start-line="76" selection-start-column="12" selection-end-line="76" selection-end-column="23" />
+            <state relative-caret-position="436">
+              <caret line="78" column="23" lean-forward="false" selection-start-line="78" selection-start-column="23" selection-end-line="78" selection-end-column="23" />
               <folding>
-                <element signature="e#1565#2102#0" expanded="false" />
-                <element signature="e#2747#3418#0" expanded="false" />
+                <marker date="1514135749000" expanded="true" signature="5691:5893" ph="{...}" />
+                <marker date="1514135749000" expanded="true" signature="5691:5900" ph="{...}" />
+                <marker date="1514135749000" expanded="true" signature="5691:5906" ph="{...}" />
+                <marker date="1514135749000" expanded="true" signature="5691:6148" ph="{...}" />
+                <marker date="1514135749000" expanded="true" signature="5691:6152" ph="{...}" />
+                <marker date="1514135749000" expanded="true" signature="5691:6163" ph="..." />
+                <marker date="1514135749000" expanded="true" signature="5925:6143" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -391,12 +388,12 @@
       <updated>1513560802257</updated>
       <workItem from="1513560803807" duration="12822000" />
       <workItem from="1513909708193" duration="17044000" />
-      <workItem from="1514047544462" duration="15779000" />
+      <workItem from="1514047544462" duration="16213000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="76643000" />
+    <option name="totallyTimeSpent" value="77077000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -804,19 +801,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/views/common/myFilter.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="121">
-          <caret line="76" column="23" lean-forward="false" selection-start-line="76" selection-start-column="12" selection-end-line="76" selection-end-column="23" />
+        <state relative-caret-position="436">
+          <caret line="78" column="23" lean-forward="false" selection-start-line="78" selection-start-column="23" selection-end-line="78" selection-end-column="23" />
           <folding>
-            <element signature="e#1565#2102#0" expanded="false" />
-            <element signature="e#2747#3418#0" expanded="false" />
+            <marker date="1514135749000" expanded="true" signature="5691:5893" ph="{...}" />
+            <marker date="1514135749000" expanded="true" signature="5691:5900" ph="{...}" />
+            <marker date="1514135749000" expanded="true" signature="5691:5906" ph="{...}" />
+            <marker date="1514135749000" expanded="true" signature="5691:6148" ph="{...}" />
+            <marker date="1514135749000" expanded="true" signature="5691:6152" ph="{...}" />
+            <marker date="1514135749000" expanded="true" signature="5691:6163" ph="..." />
+            <marker date="1514135749000" expanded="true" signature="5925:6143" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/views/common/Pagination.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="97">
-          <caret line="32" column="32" lean-forward="false" selection-start-line="32" selection-start-column="32" selection-end-line="32" selection-end-column="32" />
+        <state relative-caret-position="200">
+          <caret line="14" column="17" lean-forward="true" selection-start-line="14" selection-start-column="17" selection-end-line="14" selection-end-column="17" />
           <folding>
             <element signature="e#849#872#0" expanded="true" />
           </folding>
