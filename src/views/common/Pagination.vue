@@ -93,9 +93,6 @@
     @import '~scss_vars';
 
     #pagination{
-        width: 360px;
-        float: right;
-
         .page{
             min-width: 72px;
             float: left;

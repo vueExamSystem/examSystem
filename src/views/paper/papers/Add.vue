@@ -1,80 +1,90 @@
 <template>
-	<div class="panel">
-		<div class="title">
-			<span>添加试卷</span>
-			<div class="pull-right">
-				<el-button type="success" @click="onSubmit('form')" class="el-button-shadow">保存</el-button>
-				<el-button type="danger" @click="resetForm('form')" class="el-button-shadow">重置</el-button>
+	<section>
+		<div v-show="!isNext" class="panel">
+			<div class="title">
+				<span>添加试卷</span>
+				<div class="pull-right">
+					<el-button type="success" @click="onSubmit('form')" class="el-button-shadow">保存</el-button>
+					<el-button type="danger" @click="resetForm('form')" class="el-button-shadow">重置</el-button>
+				</div>
+			</div>
+			<div class="content">
+				<el-form id="paperForm" ref="form" :model="form" :rules="rules" label-width="110px" :inline-message="isInlineMessage" @submit.prevent="onSubmit">
+					<el-form-item label="试卷名称：" prop="name">
+						<el-input v-model="form.name"></el-input>
+					</el-form-item>
+					<el-form-item label="选择科目：" prop="subject"> 
+						<el-select v-model="form.subject" placeholder="请选择科目">
+							<el-option label="大学物理" value="hysics"></el-option>
+							<el-option label="高等数学" value="mathematics"></el-option>
+							<el-option label="大学英语" value="english"></el-option>
+						</el-select>
+					</el-form-item>
+					<el-form-item label="组卷方式：" prop="mode">
+						<el-select v-model="form.mode" placeholder="请选择组卷方式">
+							<el-option label="自动" value="random"></el-option>
+							<el-option label="手动组卷" value="manual"></el-option>
+						</el-select>
+					</el-form-item>
+					<el-form-item label="考试时长：" prop="time">
+						<el-input v-model="form.time"></el-input>
+						<span class="text-primary" style="margin-left:12px;">*单位分钟</span>
+					</el-form-item>
+					<el-form-item label="考试题型：" :required="isConfigRequired" v-if="isConfigRequired">
+						<el-col :span="24">
+							<el-form-item class="form-item-unit" prop="radiocount">
+								单选 <el-input v-model.integer="form.radiocount"></el-input> 道
+							</el-form-item>
+							<el-form-item class="form-item-unit" prop="radioscore">
+								分值 <el-input v-model.integer="form.radioscore"></el-input> 分
+							</el-form-item>
+						</el-col>
+						<el-col :span="24">
+							<el-form-item class="form-item-unit" prop="checkcount">
+								多选 <el-input v-model.integer="form.checkcount"></el-input> 道
+							</el-form-item>
+							<el-form-item class="form-item-unit" prop="checkscore">
+								分值 <el-input v-model.integer="form.checkscore"></el-input> 分
+							</el-form-item>
+						</el-col>
+						<el-col :span="24">
+							<el-form-item class="form-item-unit" prop="judgecount">
+								判断 <el-input v-model.integer="form.judgecount"></el-input> 道
+							</el-form-item>
+							<el-form-item class="form-item-unit" prop="judgescore">
+								分值 <el-input v-model.integer="form.judgescore"></el-input> 分
+							</el-form-item>
+						</el-col>
+						<el-col :span="24">
+							<el-form-item class="form-item-unit" prop="optional">
+								选做 <el-input v-model.integer="form.optional"></el-input> 道
+							</el-form-item>
+							<el-form-item class="form-item-unit" prop="necessary">
+								需做 <el-input v-model.integer="form.necessary"></el-input> 道
+							</el-form-item>
+							<el-form-item class="form-item-unit" prop="choosescore">
+								分值 <el-input v-model.integer="form.choosescore"></el-input> 分
+							</el-form-item>
+						</el-col>
+					</el-form-item>
+					<el-form-item label="试卷总分：" required>
+						<el-input v-model="form.total" disabled></el-input>
+					</el-form-item>
+					<el-form-item v-if="!isConfigRequired">
+						<el-button type="success" class="el-button-shadow" @click="onSubmit">下一步</el-button>
+					</el-form-item>
+				</el-form>
 			</div>
 		</div>
-		<div class="content">
-			<el-form id="paperForm" ref="form" :model="form" :rules="rules" label-width="110px" :inline-message="isInlineMessage" @submit.prevent="onSubmit">
-				<el-form-item label="试卷名称：" prop="name">
-					<el-input v-model="form.name"></el-input>
-				</el-form-item>
-				<el-form-item label="选择科目：" prop="subject"> 
-					<el-select v-model="form.subject" placeholder="请选择科目">
-						<el-option label="大学物理" value="hysics"></el-option>
-						<el-option label="高等数学" value="mathematics"></el-option>
-						<el-option label="大学英语" value="english"></el-option>
-					</el-select>
-				</el-form-item>
-				<el-form-item label="组卷方式：" prop="mode">
-					<el-select v-model="form.mode" placeholder="请选择组卷方式">
-						<el-option label="自动" value="random"></el-option>
-						<el-option label="手动" value="manual"></el-option>
-					</el-select>
-				</el-form-item>
-				<el-form-item label="考试时长：" prop="time">
-					<el-input v-model="form.time"></el-input>
-					<span class="text-primary" style="margin-left:12px;">*单位分钟</span>
-				</el-form-item>
-				<el-form-item label="考试题型：" :required="isConfigRequired" v-if="isConfigRequired">
-					<el-col :span="24">
-						<el-form-item class="form-item-unit" prop="radiocount">
-							单选 <el-input v-model.integer="form.radiocount"></el-input> 道
-						</el-form-item>
-						<el-form-item class="form-item-unit" prop="radioscore">
-							分值 <el-input v-model.integer="form.radioscore"></el-input> 分
-						</el-form-item>
-					</el-col>
-					<el-col :span="24">
-						<el-form-item class="form-item-unit" prop="checkcount">
-							多选 <el-input v-model.integer="form.checkcount"></el-input> 道
-						</el-form-item>
-						<el-form-item class="form-item-unit" prop="checkscore">
-							分值 <el-input v-model.integer="form.checkscore"></el-input> 分
-						</el-form-item>
-					</el-col>
-					<el-col :span="24">
-						<el-form-item class="form-item-unit" prop="judgecount">
-							判断 <el-input v-model.integer="form.judgecount"></el-input> 道
-						</el-form-item>
-						<el-form-item class="form-item-unit" prop="judgescore">
-							分值 <el-input v-model.integer="form.judgescore"></el-input> 分
-						</el-form-item>
-					</el-col>
-					<el-col :span="24">
-						<el-form-item class="form-item-unit" prop="optional">
-							选做 <el-input v-model.integer="form.optional"></el-input> 道
-						</el-form-item>
-						<el-form-item class="form-item-unit" prop="necessary">
-							需做 <el-input v-model.integer="form.necessary"></el-input> 道
-						</el-form-item>
-						<el-form-item class="form-item-unit" prop="choosescore">
-							分值 <el-input v-model.integer="form.choosescore"></el-input> 分
-						</el-form-item>
-					</el-col>
-				</el-form-item>
-				<el-form-item label="试卷总分：" required>
-					<el-input v-model="form.total" disabled></el-input>
-				</el-form-item>
-			</el-form>
-		</div>
-	</div>
+		<Detail v-if="isNext"></Detail>
+	</section>
 </template>
 <script>
+	import Detail from './Detail.vue'
 	export default {
+		components:{
+			Detail
+		},
 		data() {
 			var integerPattern = '^\\d+$';//>=0整数正则
 			var isRequiedValidator = (rule, value, callback) => {//考试题型是否需要验证
@@ -86,6 +96,7 @@
 			};
 			return {
 				isInlineMessage: true,
+				isNext: 0,
 				form: {
 					name: '',
 					subject: '',
@@ -166,8 +177,11 @@
 			onSubmit(formName) {
 				this.$refs[formName].validate((isValid) => {
 					if(isValid){
-						//submit
-						console.log('submitted!')
+						if(isConfigRequired){
+							console.log('submitted!')
+						}else{
+							console.log('去组卷!')
+						}
 					}else{
 						return false;
 					}
@@ -181,11 +195,6 @@
 </script>
 <style scoped lang="scss">
     @import '~scss_vars';
-    .panel{
-        &>.title{
-            padding-right:12px;
-        }
-    }
     #paperForm{
     	min-width:600px;
     	padding:20px 10px;

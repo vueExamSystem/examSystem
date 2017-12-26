@@ -9,6 +9,7 @@
                 <div class="pageArea">
                     <Page></Page>
                 </div>
+                
             </div>
             <div class="content">
                 <el-table :data="papers" highlight-current-row v-loading="listLoading" style="width: 100%;">
@@ -141,7 +142,6 @@
         &>.title{
             .el-input{
                 width:280px;
-                margin-left: 12px;
             }
         }
         .content{
