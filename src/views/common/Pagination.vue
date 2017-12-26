@@ -35,7 +35,7 @@
                 pageNum: 1,
                 currentPage: _.parseInt(this.current),
                 totalNum: _.parseInt(this.total),
-                PageSizeNum: _.parseInt(this.pageSize),
+                pageSizeNum: _.parseInt(this.pageSize),
             };
         },
         methods: {
@@ -65,17 +65,18 @@
                 if (val === NaN) return;
                 if (val > this.pageNum || val < 1) return;
                 if (val === this.currentPage) return;
-                if (_.round(val) !== val) return;
+                if (_.floor(val) !== val) return;
                 this.currentPage = val;
                 this.bindPageChangeEve();
             },
             getPageNum() {
                 let num = 1;
-                if (this.totalNum % this.PageSizeNum > 0) {
-                    num = _.round(this.totalNum / this.PageSizeNum) + 1;
+                if (this.totalNum % this.pageSizeNum > 0) {
+                    num = _.floor(this.totalNum / this.pageSizeNum) + 1;
                 }
-                if (this.totalNum % this.PageSizeNum === 0 && this.totalNum !== 0) {
-                    num = this.totalNum / this.PageSizeNum;
+                if (this.totalNum / this.pageSizeNum === 0 ||
+                this.totalNum === this.pageSizeNum) {
+                    num = 1;
                 }
                 return num;
             },

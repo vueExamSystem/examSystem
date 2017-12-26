@@ -8,11 +8,9 @@
                 <Page current="1" total="23" pageSize="5" @page-change="handleCurrentChange"></Page>
             </div>
 
-            <div class="search-input mid">
-                <el-input placeholder="请输入搜索关键词" v-model="searchkey">
-                    <el-button slot="append" icon="el-icon-search"></el-button>
-                </el-input>
-            </div>
+            <el-input class="mid" placeholder="请输入搜索关键词" v-model="searchkey">
+                <el-button slot="append" icon="el-icon-search"></el-button>
+            </el-input>
 
 
         </div>
@@ -24,15 +22,13 @@
                     v-loading="listLoading"
                     @selection-change="selsChange"
                     style="width: 100%;">
-                <el-table-column type="selection" width="55">
+                <el-table-column type="index">
                 </el-table-column>
-                <el-table-column type="index" width="60">
+                <el-table-column prop="name" label="姓名" sortable>
                 </el-table-column>
-                <el-table-column prop="name" label="姓名" width="120" sortable>
+                <el-table-column prop="sex" label="性别" :formatter="formatSex" sortable>
                 </el-table-column>
-                <el-table-column prop="sex" label="性别" width="100" :formatter="formatSex" sortable>
-                </el-table-column>
-                <el-table-column prop="age" label="年龄" width="100" sortable>
+                <el-table-column prop="age" label="年龄" sortable>
                 </el-table-column>
                 <el-table-column prop="birth" label="生日" sortable>
                 </el-table-column>
@@ -52,6 +48,7 @@
     export default {
         data() {
             return {
+                searchkey: '',
                 filters: {
                     name: ''
                 },
@@ -110,19 +107,6 @@
     @import '~scss_vars';
 
     #dashboardTable {
-        .search-input{
-            width: 280px;
-            height: auto;
-            margin: 2px 12px 0 8px;
-            float: left;
-            &.mid{
-                float: right;
-            }
 
-        }
-        .pageArea{
-            float: right;
-            margin-top: 10px;
-        }
     }
 </style>

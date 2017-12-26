@@ -159,6 +159,31 @@ form{
 	      	color: #3C5398;
 	      	letter-spacing: 1.12px;
 	    }
+		.el-input{
+			width: 280px;
+			margin-top: 9px;
+
+			&.mid{
+				float: right;
+				margin: 9px 30px 0 8px;
+			}
+			input{
+				border-bottom-left-radius: $radius-size;
+				border-top-left-radius: $radius-size;
+			}
+			.el-input-group__append{
+				background-color: $color-primary;
+				color: #ffffff;
+				text-align: center;
+				border-bottom-right-radius: $radius-size;
+				border-top-right-radius: $radius-size;
+			}
+
+		}
+		.pageArea{
+			float: right;
+			margin-top: 10px;
+		}
   	}
 	.content{
 	    min-height: 50px;

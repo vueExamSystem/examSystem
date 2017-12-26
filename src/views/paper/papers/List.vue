@@ -7,7 +7,7 @@
                     <el-button slot="append" icon="el-icon-search"></el-button>
                 </el-input>
                 <div class="pageArea">
-                    <Page></Page>
+                    <Page current="1" total="3" pageSize="5"></Page>
                 </div>
                 
             </div>
