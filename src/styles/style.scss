@@ -98,6 +98,24 @@ form{
 		overflow: auto;
 	}
 }
+.el-collapse{
+	.el-collapse-item .el-collapse-item__header .el-collapse-item__arrow{
+		    transform: rotate(90deg);
+	}
+	.el-collapse-item.is-active .el-collapse-item__header .el-collapse-item__arrow{
+		    transform: rotate(-90deg);
+	}
+	.el-collapse-item__header{
+		font-size: 16px;
+		color: #3C5398;
+		letter-spacing: 1px;
+		padding-left: 10px;
+		@include gradientTop(#FFFFFF, #B5B5CD);
+	}
+	.el-collapse-item__content{
+		padding: 16px 10px 40px;
+	}
+}
 #content{
 	.el-main{
 		margin-left: 10px;
@@ -106,7 +124,25 @@ form{
 		overflow-x: hidden;
 	}
 }
-// 通用对panel
+/* left nav */
+.el-aside{
+  &>a{
+    display: block;
+    padding: 8px 12px 8px 0;
+    margin-left: 12px;
+    color: $color-primary;
+    line-height: 22px;
+    border-bottom: 1px solid $color-primary;
+    letter-spacing: 1px;
+  }
+  &>a.router-link-exact-active.router-link-active{
+  	background: $-color-primary;
+  	color:#fff;
+  	margin-left:0;
+  	padding-left:12px;
+  }
+}
+/* 通用对panel */
 .panel{
     -webkit-border-radius: $radius-size;
     -moz-border-radius: $radius-size;
@@ -122,6 +158,7 @@ form{
 	    &>span:first-child{
 	      	font-size: 18px;
 	      	color: #3C5398;
+	      	letter-spacing: 1.12px;
 	    }
   	}
 	.content{

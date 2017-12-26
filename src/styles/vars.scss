@@ -66,22 +66,3 @@ $-color-text-placeholder: #c0c4cc !default;
   background: -o-linear-gradient(top, $col1, $col2);  /*Opera 11.10+*/
 }
 
-// left nav
-.el-aside{
-  &>a{
-    display: block;
-    padding: 8px 12px 8px 0;
-    margin-left: 12px;
-    color: $color-primary;
-    line-height: 22px;
-    border-bottom: 1px solid $color-primary;
-    letter-spacing: 1px;
-  }
-  &>a.router-link-exact-active.router-link-active{
-  	background: $-color-primary;
-  	color:#fff;
-  	margin-left:0;
-  	padding-left:12px;
-  }
-}
-

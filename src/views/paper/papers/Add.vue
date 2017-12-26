@@ -71,12 +71,12 @@
 						<el-input v-model="form.total" disabled></el-input>
 					</el-form-item>
 					<el-form-item v-if="!isConfigRequired">
-						<el-button type="success" class="el-button-shadow" @click="onSubmit">下一步</el-button>
+						<el-button type="success" class="el-button-shadow" @click="onSubmit('form','next')">下一步</el-button>
 					</el-form-item>
 				</el-form>
 			</div>
 		</div>
-		<Detail v-if="isNext"></Detail>
+		<Detail v-if="isNext" @back="detailBack"></Detail>
 	</section>
 </template>
 <script>
@@ -96,7 +96,7 @@
 			};
 			return {
 				isInlineMessage: true,
-				isNext: 0,
+				isNext: 1,
 				form: {
 					name: '',
 					subject: '',
@@ -115,8 +115,8 @@
 				},
 				rules:{
 					name:[
-						{required: true, message: '请输入试卷名称', trigger: 'change'},
-						{min: 2, max: 30, message: '长度在2-30个字符', trigger: 'change'}
+						{required: true, message: '请输入试卷名称', trigger: 'blur'},
+						{min: 2, max: 30, message: '长度在2-30个字符', trigger: 'blur'}
 					],
 					subject:[
 						{required: true, message: '请选择科目', trigger:'change'}
@@ -174,13 +174,13 @@
 			}
 		},
 		methods: {
-			onSubmit(formName) {
+			onSubmit(formName, flag) {
 				this.$refs[formName].validate((isValid) => {
 					if(isValid){
-						if(isConfigRequired){
-							console.log('submitted!')
-						}else{
-							console.log('去组卷!')
+						//to do
+						//save ...
+						if(flag && flag == 'next'){
+							this.isNext = true;
 						}
 					}else{
 						return false;
@@ -189,6 +189,9 @@
 			},
 			resetForm(formName){
 				this.$refs[formName].resetFields();
+			},
+			detailBack(){
+				this.isNext = false;
 			}
 		}
 	}
