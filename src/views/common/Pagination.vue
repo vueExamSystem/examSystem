@@ -4,7 +4,7 @@
             第
             <span>{{currentPage}}</span>
             /
-            <sapn>{{getAllPage}}</sapn>
+            <span>{{getAllPage}}</span>
             页
         </div>
         <ul>
@@ -92,9 +92,6 @@
     @import '~scss_vars';
 
     #pagination{
-        width: 360px;
-        float: right;
-
         .page{
             min-width: 72px;
             float: left;

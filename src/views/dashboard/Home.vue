@@ -159,6 +159,10 @@
                 @include gradient(#D98FBB, #DA7A7A);
             }
         }
+        
+        .panel{
+            margin: 0 10px;
+        }
 
         .exam-table{
             margin-top: 20px;
