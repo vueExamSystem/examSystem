@@ -29,40 +29,40 @@
 					<el-input v-model="form.time"></el-input>
 					<span class="text-primary" style="margin-left:12px;">*单位分钟</span>
 				</el-form-item>
-				<el-form-item label="考试题型：" required>
+				<el-form-item label="考试题型：" :required="isConfigRequired" v-if="isConfigRequired">
 					<el-col :span="24">
 						<el-form-item class="form-item-unit" prop="radiocount">
-							单选 <el-input v-model="form.config.radiocount"></el-input> 道
+							单选 <el-input v-model.integer="form.radiocount"></el-input> 道
 						</el-form-item>
 						<el-form-item class="form-item-unit" prop="radioscore">
-							分值 <el-input v-model="form.config.radioscore"></el-input> 分
+							分值 <el-input v-model.integer="form.radioscore"></el-input> 分
 						</el-form-item>
 					</el-col>
 					<el-col :span="24">
 						<el-form-item class="form-item-unit" prop="checkcount">
-							多选 <el-input v-model="form.config.checkcount"></el-input> 道
+							多选 <el-input v-model.integer="form.checkcount"></el-input> 道
 						</el-form-item>
 						<el-form-item class="form-item-unit" prop="checkscore">
-							分值 <el-input v-model="form.config.checkscore"></el-input> 分
+							分值 <el-input v-model.integer="form.checkscore"></el-input> 分
 						</el-form-item>
 					</el-col>
 					<el-col :span="24">
 						<el-form-item class="form-item-unit" prop="judgecount">
-							判断 <el-input v-model="form.config.judgecount"></el-input> 道
+							判断 <el-input v-model.integer="form.judgecount"></el-input> 道
 						</el-form-item>
 						<el-form-item class="form-item-unit" prop="judgescore">
-							分值 <el-input v-model="form.config.judgescore"></el-input> 分
+							分值 <el-input v-model.integer="form.judgescore"></el-input> 分
 						</el-form-item>
 					</el-col>
 					<el-col :span="24">
 						<el-form-item class="form-item-unit" prop="optional">
-							选做 <el-input v-model="form.config.optional"></el-input> 道
+							选做 <el-input v-model.integer="form.optional"></el-input> 道
 						</el-form-item>
 						<el-form-item class="form-item-unit" prop="necessary">
-							需做 <el-input v-model="form.config.necessary"></el-input> 道
+							需做 <el-input v-model.integer="form.necessary"></el-input> 道
 						</el-form-item>
 						<el-form-item class="form-item-unit" prop="choosescore">
-							分值 <el-input v-model="form.config.choosescore"></el-input> 分
+							分值 <el-input v-model.integer="form.choosescore"></el-input> 分
 						</el-form-item>
 					</el-col>
 				</el-form-item>
@@ -76,11 +76,14 @@
 <script>
 	export default {
 		data() {
-			var isDigit = (rule, value, callback) => {
-				if(!Number.isInteger(value)){
-					return callback(new Error('请输入数值'));
+			var integerPattern = '^\\d+$';//>=0整数正则
+			var isRequiedValidator = (rule, value, callback) => {//考试题型是否需要验证
+				if(this.isConfigRequired && value.length == 0){
+					callback(new Error('该项不能为空'));
+				}else{
+					callback();
 				}
-			}
+			};
 			return {
 				isInlineMessage: true,
 				form: {
@@ -88,17 +91,15 @@
 					subject: '',
 					mode: 'random',
 					time: '',
-					config:{
-						radiocount:'',
-						radioscore:'',
-						checkcount:'',
-						checkscore:'',
-						judgecount:'',
-						judgescore:'',
-						optional:'',
-						necessary:'',
-						choosescore:'',
-					},
+					radiocount:'',
+					radioscore:'',
+					checkcount:'',
+					checkscore:'',
+					judgecount:'',
+					judgescore:'',
+					optional:'',
+					necessary:'',
+					choosescore:'',
 					total: '100'
 				},
 				rules:{
@@ -114,45 +115,51 @@
 					],
 					time: [
 						{required: true, message: '请输入时长', trigger:'change'},
-						{type: 'number', message: '请输入数值', trigger:'change'}
+						{pattern: integerPattern, message: '请输入整数', trigger:'change'}
 					],
 					radiocount: [
-						{required: true, message: '请输入题数', trigger:'change'},
-						{type: 'number', message: '请输入数值', trigger:'change'}
+						{validator: isRequiedValidator, message: '请输入题数', trigger:'change'},
+						{pattern: integerPattern, message: '请输入整数', trigger: 'change'}
 					],
 					radioscore: [
-						{required: true, message: '请输入分值', trigger:'change'},
-						{type: 'number', message: '请输入数值', trigger:'change'}
+						{validator: isRequiedValidator, message: '请输入分值', trigger:'change'},
+						{pattern: integerPattern, message: '请输入整数', trigger:'change'}
 					],
 					checkcount: [
-						{required: true, message: '请输入题数', trigger:'change'},
-						{type: 'number', message: '请输入数值', trigger:'change'}
+						{validator: isRequiedValidator, message: '请输入题数', trigger:'change'},
+						{pattern: integerPattern, message: '请输入整数', trigger:'change'}
 					],
 					checkscore: [
-						{required: true, message: '请输入分值', trigger:'change'},
-						{type: 'number', message: '请输入数值', trigger:'change'}
+						{validator: isRequiedValidator, message: '请输入分值', trigger:'change'},
+						{pattern: integerPattern, message: '请输入整数', trigger:'change'}
 					],
 					judgecount: [
-						{required: true, message: '请输入题数', trigger:'change'},
-						{type: 'number', message: '请输入数值', trigger:'change'}
+						{validator: isRequiedValidator, message: '请输入题数', trigger:'change'},
+						{pattern: integerPattern, message: '请输入整数', trigger:'change'}
 					],
 					judgescore: [
-						{required: true, message: '请输入分值', trigger:'change'},
-						{type: 'number', message: '请输入数值', trigger:'change'}
+						{validator: isRequiedValidator, message: '请输入分值', trigger:'change'},
+						{pattern: integerPattern, message: '请输入整数', trigger:'change'}
 					],
 					optional: [
-						{required: true, message: '请输入选做题数', trigger:'change'},
-						{type: 'number', message: '请输入数值', trigger:'change'}
+						{validator: isRequiedValidator, message: '请输入选做题数', trigger:'change'},
+						{pattern: integerPattern, message: '请输入整数', trigger:'change'}
 					],
 					necessary: [
-						{required: true, message: '请输入必做题数', trigger:'change'},
-						{type: 'number', message: '请输入数值', trigger:'change'}
+						{validator: isRequiedValidator, message: '请输入必做题数', trigger:'change'},
+						{pattern: integerPattern, message: '请输入整数', trigger:'change'}
 					],
 					choosescore: [
-						{required: true, message: '请输入分值', trigger:'change'},
-						{validator: isDigit, message: '请输入数值2', trigger:'change'}
+						{validator: isRequiedValidator, message: '请输入分值', trigger:'change'},
+						{pattern: integerPattern, message: '请输入整数', trigger:'change'}
 					],
+					total:{required:true}
 				}
+			}
+		},
+		computed:{
+			isConfigRequired(){
+				return this.form.mode === 'random';
 			}
 		},
 		methods: {
@@ -160,6 +167,7 @@
 				this.$refs[formName].validate((isValid) => {
 					if(isValid){
 						//submit
+						console.log('submitted!')
 					}else{
 						return false;
 					}
