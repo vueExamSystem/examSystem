@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ded44d1b-31ca-4019-bb9f-513cd69c457b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/views/common/Pagination.vue" afterPath="$PROJECT_DIR$/src/views/common/Pagination.vue" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -42,10 +43,10 @@
       <file leaf-file-name="Pagination.vue" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/views/common/Pagination.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="14" column="17" lean-forward="true" selection-start-line="14" selection-start-column="17" selection-end-line="14" selection-end-column="17" />
+            <state relative-caret-position="196">
+              <caret line="50" column="41" lean-forward="true" selection-start-line="50" selection-start-column="41" selection-end-line="50" selection-end-column="41" />
               <folding>
-                <element signature="e#849#872#0" expanded="true" />
+                <element signature="e#876#899#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -117,9 +118,9 @@
       <find>loda</find>
       <find>selsChange</find>
       <find>B5B5CD</find>
-      <find>dashboardTable</find>
       <find>removeArrValue</find>
       <find>toggleCheck</find>
+      <find>dashboardTable</find>
     </findStrings>
     <replaceStrings>
       <replace>.</replace>
@@ -239,13 +240,6 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="views" type="462c0819:PsiDirectoryNode" />
               <item name="common" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="examSystem" type="b2602c69:ProjectViewProjectNode" />
-              <item name="examSystem" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="dashboard" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="examSystem" type="b2602c69:ProjectViewProjectNode" />
@@ -388,12 +382,12 @@
       <updated>1513560802257</updated>
       <workItem from="1513560803807" duration="12822000" />
       <workItem from="1513909708193" duration="17044000" />
-      <workItem from="1514047544462" duration="16213000" />
+      <workItem from="1514047544462" duration="18395000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="77077000" />
+    <option name="totallyTimeSpent" value="79259000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -695,14 +689,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/dashboard/Echarts.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="37" column="76" lean-forward="false" selection-start-line="37" selection-start-column="73" selection-end-line="37" selection-end-column="76" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/views/common/Test.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="237">
@@ -815,12 +801,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/dashboard/Echarts.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="537">
+          <caret line="37" column="76" lean-forward="false" selection-start-line="37" selection-start-column="73" selection-end-line="37" selection-end-column="76" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/views/common/Pagination.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="14" column="17" lean-forward="true" selection-start-line="14" selection-start-column="17" selection-end-line="14" selection-end-column="17" />
+        <state relative-caret-position="196">
+          <caret line="50" column="41" lean-forward="true" selection-start-line="50" selection-start-column="41" selection-end-line="50" selection-end-column="41" />
           <folding>
-            <element signature="e#849#872#0" expanded="true" />
+            <element signature="e#876#899#0" expanded="true" />
           </folding>
         </state>
       </provider>

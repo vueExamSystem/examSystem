@@ -11,7 +11,7 @@
             <li class="box first" @click="setFirstPage()"><i class="fa fa-step-backward"></i></li>
             <li class="box pre" @click="setPrePage()"><i class="fa fa-angle-left"></i></li>
             <li class="input">
-                <input id="inputVal" type="text" placeholder="页码">
+                <input id="inputVal" type="text" placeholder="页码" v-bind:value="currentPage">
             </li>
             <li class="box next" @click="setNextPage()"><i class="fa fa-angle-right"></i></li>
             <li class="box last" @click="setLastPage()"><i class="fa fa-step-forward"></i></li>
@@ -29,7 +29,6 @@
       return {
           currentPage: 1, // 当前页
           total: 23, // 总共多少条数据
-          inputPage: 1, // 输入框内输入的页数
           pageSize: 5, // 每页数据数量
       };
     },
@@ -40,11 +39,11 @@
           },
           setPrePage() {
               if(this.currentPage === 1) return;
-              this.currentPage = this.currentPage --;
+              this.currentPage = this.currentPage - 1;
           },
           setNextPage() {
               if(this.currentPage === this.getPageNum()) return;
-              this.currentPage = this.currentPage ++;
+              this.currentPage = this.currentPage + 1;
           },
           setLastPage() {
               const allPage = this.getPageNum();
