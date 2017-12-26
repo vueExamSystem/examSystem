@@ -2,10 +2,18 @@
     <section id="dashboardTable" class="panel">
         <div class="title">
             <span>本周考试</span>
-            <!--工具条-->
+
+            <!--分页-->
             <div class="pageArea">
-                <Page></Page>
+                <Page current="1" total="23" pageSize="5" @page-change="handleCurrentChange"></Page>
             </div>
+
+            <div class="search-input mid">
+                <el-input placeholder="请输入搜索关键词" v-model="searchkey">
+                    <el-button slot="append" icon="el-icon-search"></el-button>
+                </el-input>
+            </div>
+
 
         </div>
 
@@ -53,14 +61,6 @@
                 pageSize: 5,
                 listLoading: false,
                 sels: [],//列表选中列
-
-                editFormVisible: false,//编辑界面是否显示
-                editLoading: false,
-                editFormRules: {
-                    name: [
-                        { required: true, message: '请输入姓名', trigger: 'blur' }
-                    ]
-                },
 
             }
         },
@@ -110,6 +110,16 @@
     @import '~scss_vars';
 
     #dashboardTable {
+        .search-input{
+            width: 280px;
+            height: auto;
+            margin: 2px 12px 0 8px;
+            float: left;
+            &.mid{
+                float: right;
+            }
+
+        }
         .pageArea{
             float: right;
             margin-top: 10px;

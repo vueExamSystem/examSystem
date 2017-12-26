@@ -29,3 +29,6 @@ body{
 .clearfix {
    zoom: 1;
 }
+input{
+	outline: none;
+}
