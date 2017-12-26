@@ -136,7 +136,7 @@ $--checkbox-checked-input-border-color: $--color-primary !default;
 $--checkbox-checked-input-fill: $--color-white !default;
 $--checkbox-checked-icon-color: #4990e2 !default;
 
-$--checkbox-input-border-color-hover: $--color-primary !default;
+$--checkbox-input-border-color-hover: transparent !default;
 
 $--checkbox-bordered-height: 40px !default;
 $--checkbox-bordered-padding: 9px 20px 9px 10px !default;
@@ -184,7 +184,7 @@ $--radio-checked-input-border-color: $--color-primary !default;
 $--radio-checked-input-fill: $--color-white !default;
 $--radio-checked-icon-color: $--color-white !default;
 
-$--radio-input-border-color-hover: $--color-primary !default;
+$--radio-input-border-color-hover: transparent !default;
 
 $--radio-bordered-height: 40px !default;
 $--radio-bordered-padding: 12px 20px 0 10px !default;
@@ -644,14 +644,14 @@ $--carousel-indicator-out-color: $--border-color-hover !default;
 
 /* Collapse
 --------------------------*/
-$--collapse-border-color: $--border-color-lighter !default;
+$--collapse-border-color: transparent !default;
 $--collapse-header-height: 48px !default;
 $--collapse-header-padding: 10px !default;
 $--collapse-header-fill: $--color-white !default;
-$--collapse-header-color: $--color-text-primary !default;
-$--collapse-header-size: 13px !default;
+$--collapse-header-color: #3C5398 !default;
+$--collapse-header-size: 16px !default;
 $--collapse-content-fill: $--color-white !default;
-$--collapse-content-size: 13px !default;
+$--collapse-content-size: 14px !default;
 $--collapse-content-color: $--color-text-primary !default;
 
 /* Transfer

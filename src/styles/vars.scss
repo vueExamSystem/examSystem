@@ -42,9 +42,6 @@ $-color-text-regular: #4a4a4a !default;
 $-color-text-secondary: #909399 !default;
 $-color-text-placeholder: #c0c4cc !default;
 
-.el-main{
-  padding: 0;
-}
 // 渐变色背景left -> right
 @mixin gradient($col1, $col2) {
   background-color: $col1;
