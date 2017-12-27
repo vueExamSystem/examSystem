@@ -28,6 +28,8 @@ import PaperQuiz from './views/paper/quiz/Home.vue'
 import PaperExercises from './views/paper/exercises/Home.vue'
 /*预习*/
 import PreviewHome from './views/preview/Home.vue'
+import PreviewExample from './views/preview/example/Home.vue'
+import PreviewDoc from './views/preview/doc/Home.vue'
 /*测验*/
 import TestHome from './views/test/Home.vue'
 /*考试*/
@@ -81,7 +83,10 @@ let routes = [
                 path: 'preview',
                 component: PreviewHome,
                 name: '预习',
-                children: []
+                children: [
+                    { path: '/', component: PreviewExample, name: '预习题',},
+                    { path: 'doc', component: PreviewDoc, name: '预习资料' },
+                ]
             },
             {
                 path: 'test',
