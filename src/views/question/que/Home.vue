@@ -1,7 +1,7 @@
 <template>
     <el-tabs type="border-card" v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="试题列表" name="list">
-            试题列表
+            <que-table></que-table>
         </el-tab-pane>
         <el-tab-pane label="添加试题" name="add">
             添加试题
@@ -13,6 +13,7 @@
 </template>
 
 <script>
+    import table from './Table.vue';
     export default {
         data() {
             return {
@@ -20,6 +21,7 @@
             }
         },
         components: {
+            'que-table': table,
         },
         methods: {
             handleClick(tab, event){
