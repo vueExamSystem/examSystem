@@ -136,7 +136,7 @@ $--checkbox-checked-input-border-color: $--color-primary !default;
 $--checkbox-checked-input-fill: $--color-white !default;
 $--checkbox-checked-icon-color: #4990e2 !default;
 
-$--checkbox-input-border-color-hover: transparent !default;
+$--checkbox-input-border-color-hover: $--color-primary !default;
 
 $--checkbox-bordered-height: 40px !default;
 $--checkbox-bordered-padding: 9px 20px 9px 10px !default;
@@ -184,7 +184,7 @@ $--radio-checked-input-border-color: $--color-primary !default;
 $--radio-checked-input-fill: $--color-white !default;
 $--radio-checked-icon-color: $--color-white !default;
 
-$--radio-input-border-color-hover: transparent !default;
+$--radio-input-border-color-hover: $--color-primary !default;
 
 $--radio-bordered-height: 40px !default;
 $--radio-bordered-padding: 12px 20px 0 10px !default;

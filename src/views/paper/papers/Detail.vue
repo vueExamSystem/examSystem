@@ -193,7 +193,7 @@
 					hasSet: '6'
 				},
 				radioAnswer:'A',
-				checkAnswer:'A,B',
+				checkAnswer:'A',
 				judgeAnswer:'A',
 				optionAnswer:'A',
 				isAddProblem: false,

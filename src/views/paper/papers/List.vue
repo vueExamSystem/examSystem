@@ -7,7 +7,7 @@
                     <el-button slot="append" icon="el-icon-search"></el-button>
                 </el-input>
                 <div class="pageArea">
-                    <Page current="1" total="3" pageSize="5"></Page>
+                    <Page :current="currentPage" :total="total" :pageSize="pageSize" @page-change="pageChange"></Page>
                 </div>
                 
             </div>
@@ -108,14 +108,18 @@
                     status:'2',
                     creator:'admin'
                 }],
-                total: 0,
-                page: 1,
+                total: 10,
+                currentPage: 1,
+                pageSize:5,
                 listLoading: false
             }
         },
         methods: {
             search(value){
                 console.log('search',value);
+            },
+            pageChange(){
+
             },
             formatStatus(row, column){
                 if(row.status == '0'){
