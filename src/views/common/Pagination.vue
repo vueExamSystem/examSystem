@@ -8,13 +8,13 @@
             页
         </div>
         <ul>
-            <li class="box first" @click="setFirstPage()"><i class="fa fa-step-backward"></i></li>
-            <li class="box pre" @click="setPrePage()"><i class="fa fa-angle-left"></i></li>
+            <li class="box first" @click="setFirstPage()"><i class="iconfont icon-step-backward"></i></li>
+            <li class="box pre" @click="setPrePage()"><i class="iconfont icon-angle-left"></i></li>
             <li class="input">
                 <input id="inputVal" type="text" placeholder="页码" v-bind:value="currentPage">
             </li>
-            <li class="box next" @click="setNextPage()"><i class="fa fa-angle-right"></i></li>
-            <li class="box last" @click="setLastPage()"><i class="fa fa-step-forward"></i></li>
+            <li class="box next" @click="setNextPage()"><i class="iconfont icon-angle-right"></i></li>
+            <li class="box last" @click="setLastPage()"><i class="iconfont icon-step-forward"></i></li>
             <li class="btn" @click="setInputPage()">GO</li>
         </ul>
     </section>
