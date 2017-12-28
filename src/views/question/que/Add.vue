@@ -9,8 +9,9 @@
 
 				<el-form-item label="试题类型" prop="type">
 					<el-select v-model="ruleForm.type" placeholder="请选择试题类型">
-						<el-option label="区域一" value="shanghai"></el-option>
-						<el-option label="区域二" value="beijing"></el-option>
+						<template v-for="item in data.queTypeList">
+							<el-option :label="item.name" :value="item.id"></el-option>
+						</template>
 					</el-select>
 				</el-form-item>
 				<el-form-item label="来源" prop="source">
@@ -23,6 +24,7 @@
 </template>
 
 <script>
+	import { getQueTypeList } from '../../../api/api';
 	export default {
 		data() {
 			return {
@@ -60,7 +62,11 @@
                         { required: true, message: '请输入活动名称', trigger: 'blur' },
                         { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
                     ],
-                }
+                },
+				// 默认数据
+                data: {
+                    queTypeList: [],
+				}
 			}
 		},
 		methods: {
@@ -76,8 +82,17 @@
             },
             resetForm(formName) {
                 this.$refs[formName].resetFields();
-            }
-		}
+            },
+			getQueTypeList() {
+                getQueTypeList({}).then((res) => {
+					this.data.queTypeList = res.data;
+					console.log(res);
+                });
+			}
+		},
+        mounted() {
+            this.getQueTypeList();
+        }
 	}
 
 </script>

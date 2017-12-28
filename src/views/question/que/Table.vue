@@ -38,7 +38,7 @@
 
 <script>
     import util from '../../../common/js/util'
-    import { getUserListPage } from '../../../api/api';
+    import { getQueList } from '../../../api/api';
     import Pagination from '../../common/Pagination.vue'
 
     export default {
@@ -81,7 +81,7 @@
                 };
                 this.listLoading = true;
                 //NProgress.start();
-                getUserListPage(para).then((res) => {
+                getQueList(para).then((res) => {
                     this.total = res.data.total;
                     this.users = res.data.users;
                     this.listLoading = false;

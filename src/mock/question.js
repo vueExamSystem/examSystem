@@ -1,8 +1,11 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import { LoginUsers, Users } from './data/user';
+
+import { Users } from './data/user';
+import { TypeList } from './data/question';
 let _Users = Users;
 
+const _type = 'question';
 export default {
   /**
    * mock bootstrap
@@ -10,31 +13,18 @@ export default {
   bootstrap() {
     let mock = new MockAdapter(axios);
 
-    //登录
-    mock.onPost('/login').reply(config => {
-      let {username, password} = JSON.parse(config.data);
-      return new Promise((resolve, reject) => {
-        let user = null;
-        setTimeout(() => {
-          let hasUser = LoginUsers.some(u => {
-            if (u.username === username && u.password === password) {
-              user = JSON.parse(JSON.stringify(u));
-              user.password = undefined;
-              return true;
-            }
-          });
+    // mock success request
+    mock.onGet('/success').reply(200, {
+      msg: 'success'
+    });
 
-          if (hasUser) {
-            resolve([200, { code: 200, msg: '请求成功', user }]);
-          } else {
-            resolve([200, { code: 500, msg: '账号或密码错误' }]);
-          }
-        }, 1000);
-      });
+    // mock error request
+    mock.onGet('/error').reply(500, {
+      msg: 'failure'
     });
 
     //获取用户列表
-    mock.onGet('/user/list').reply(config => {
+    mock.onGet('/question/list').reply(config => {
       let {name} = config.params;
       let mockUsers = _Users.filter(user => {
         if (name && user.name.indexOf(name) == -1) return false;
@@ -49,8 +39,17 @@ export default {
       });
     });
 
+      //获取用户列表
+      mock.onGet(`/${_type}/type/list`).reply(config => {
+          return new Promise((resolve, reject) => {
+              setTimeout(() => {
+                  resolve([200, TypeList]);
+              }, 1000);
+          });
+      });
+
     //获取用户列表（分页）
-    mock.onGet('/user/listpage').reply(config => {
+    mock.onGet('/question/listpage').reply(config => {
       let {page, name, pageSize} = config.params;
       let mockUsers = _Users.filter(user => {
         if (name && user.name.indexOf(name) == -1) return false;
@@ -70,7 +69,7 @@ export default {
     });
 
     //删除用户
-    mock.onGet('/user/remove').reply(config => {
+    mock.onGet('/question/remove').reply(config => {
       let { id } = config.params;
       _Users = _Users.filter(u => u.id !== id);
       return new Promise((resolve, reject) => {
@@ -84,7 +83,7 @@ export default {
     });
 
     //批量删除用户
-    mock.onGet('/user/batchremove').reply(config => {
+    mock.onGet('/question/batchremove').reply(config => {
       let { ids } = config.params;
       ids = ids.split(',');
       _Users = _Users.filter(u => !ids.includes(u.id));
@@ -99,7 +98,7 @@ export default {
     });
 
     //编辑用户
-    mock.onGet('/user/edit').reply(config => {
+    mock.onGet('/question/edit').reply(config => {
       let { id, name, addr, age, birth, sex } = config.params;
       _Users.some(u => {
         if (u.id === id) {
@@ -122,7 +121,7 @@ export default {
     });
 
     //新增用户
-    mock.onGet('/user/add').reply(config => {
+    mock.onGet('/question/add').reply(config => {
       let { name, addr, age, birth, sex } = config.params;
       _Users.push({
         name: name,
