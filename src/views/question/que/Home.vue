@@ -4,7 +4,7 @@
             <que-table></que-table>
         </el-tab-pane>
         <el-tab-pane label="添加试题" name="add">
-            添加试题
+            <que-add></que-add>
         </el-tab-pane>
         <el-tab-pane label="导入试题" name="import">
             导入试题
@@ -14,6 +14,7 @@
 
 <script>
     import table from './Table.vue';
+    import add from './Add.vue'
     export default {
         data() {
             return {
@@ -22,6 +23,7 @@
         },
         components: {
             'que-table': table,
+            'que-add': add,
         },
         methods: {
             handleClick(tab, event){

@@ -1,6 +1,6 @@
 <template>
     <section id="dashboardTable" class="panel">
-        <div class="title">
+        <div class="title home">
             <span>本周考试</span>
 
             <!--分页-->
