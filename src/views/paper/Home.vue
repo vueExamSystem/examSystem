@@ -2,15 +2,15 @@
     <el-container>
         <el-aside width="120px">
             <router-link to="/paper">
-                <i class="fa fa-bars"></i>
+                <i class="iconfont icon-kaoshi"></i>
                 <span>考试试卷</span>
             </router-link>
             <router-link to="/paper/quiz">
-                <i class="fa fa-bars"></i>
+                <i class="iconfont icon-ceyan"></i>
                 <span>随堂测验</span>
             </router-link>
             <router-link to="/paper/exercises">
-                <i class="fa fa-bars"></i>
+                <i class="iconfont icon-pencil"></i>
                 <span>练习题</span>
             </router-link>
         </el-aside>

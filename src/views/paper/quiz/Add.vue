@@ -2,7 +2,7 @@
 	<section>
 		<div v-show="!isNext" class="panel">
 			<div class="title">
-				<span>添加试卷</span>
+				<span>添加测试</span>
 				<div class="pull-right">
 					<el-button type="success" @click="onSubmit('form')" class="el-button-shadow">保存</el-button>
 					<el-button type="danger" @click="resetForm('form')" class="el-button-shadow">重置</el-button>
@@ -10,7 +10,7 @@
 			</div>
 			<div class="content">
 				<el-form id="paperForm" ref="form" :model="form" :rules="rules" label-width="110px" :inline-message="isInlineMessage" @submit.prevent="onSubmit">
-					<el-form-item label="试卷名称：" prop="name">
+					<el-form-item label="测试名称：" prop="name">
 						<el-input v-model="form.name"></el-input>
 					</el-form-item>
 					<el-form-item label="选择科目：" prop="subject"> 

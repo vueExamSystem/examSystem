@@ -1,9 +1,9 @@
 <template>
     <el-tabs type="border-card" v-model="activeName">
-        <el-tab-pane label="练习题列表" name="exerciselist">
+        <el-tab-pane label="习题列表" name="examplelist">
             <List></List>
         </el-tab-pane>
-        <el-tab-pane label="添加练习题" name="exerciseadd">
+        <el-tab-pane label="发布习题" name="exampleadd">
             <add-form></add-form>
         </el-tab-pane>
     </el-tabs>
@@ -19,7 +19,7 @@
         },
         data() {
             return {
-                activeName:'exerciselist',
+                activeName:'examplelist',
             }
         },
         methods: {

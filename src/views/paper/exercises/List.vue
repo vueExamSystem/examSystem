@@ -15,7 +15,7 @@
                 <el-table :data="papers" highlight-current-row v-loading="listLoading" style="width: 100%;">
                     <el-table-column type="index" label="序号" width="60">
                     </el-table-column>
-                    <el-table-column prop="name" label="试卷名称" min-width="160">
+                    <el-table-column prop="name" label="练习题名称" min-width="160">
                         <template scope="scope">
                             <router-link to="/">{{scope.row.name}}</router-link>
                         </template>
