@@ -9,7 +9,14 @@
 
 				<el-form-item label="试题类型" prop="type">
 					<el-select v-model="ruleForm.type" placeholder="请选择试题类型">
-						<template v-for="item in data.queTypeList">
+						<template v-for="item in data.typeArr">
+							<el-option :label="item.name" :value="item.id"></el-option>
+						</template>
+					</el-select>
+				</el-form-item>
+				<el-form-item label="试题用途" prop="usage">
+					<el-select v-model="ruleForm.usage" placeholder="请选择试题用途">
+						<template v-for="item in data.usageArr">
 							<el-option :label="item.name" :value="item.id"></el-option>
 						</template>
 					</el-select>
@@ -24,7 +31,7 @@
 </template>
 
 <script>
-	import { getQueTypeList } from '../../../api/api';
+	import { getQueTypeList, getQueUsageList } from '../../../api/api';
 	export default {
 		data() {
 			return {
@@ -65,7 +72,8 @@
                 },
 				// 默认数据
                 data: {
-                    queTypeList: [],
+                    typeArr: [],
+					usageArr: [],
 				}
 			}
 		},
@@ -83,14 +91,18 @@
             resetForm(formName) {
                 this.$refs[formName].resetFields();
             },
-			getQueTypeList() {
+			getDefaultData() {
                 getQueTypeList({}).then((res) => {
-					this.data.queTypeList = res.data;
+					this.data.typeList = res.data;
 					console.log(res);
+                });
+                getQueUsageList({}).then((res) => {
+                    this.data.usageArr = res.data;
+                    console.log(res);
                 });
 			}
 		},
-        mounted() {
+        getDefaultData() {
             this.getQueTypeList();
         }
 	}

@@ -23,3 +23,5 @@ export const testData = params => { return axios.get('http://api.github.com', { 
 export const getQueList = params => { return axios.get(`${base}/${question}/list`, { params: params }); };
 
 export const getQueTypeList = params => { return axios.get(`${base}/${question}/type/list`, { params: params }); };
+
+export const getQueUsageList = params => { return axios.get(`${base}/${question}/usage/list`, { params: params }); };
