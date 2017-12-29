@@ -4,8 +4,6 @@
 
 <script>
   import { testData } from '../../api/api';
-  // import axios from 'axios';
-  //import NProgress from 'nprogress'
   export default {
     data() {
       return {
@@ -15,10 +13,6 @@
     methods: {
     },
     mounted() {
-//      console.log('axios');
-//      axios.get('http://api.github.com').then((res) => {
-//        console.log('res', res);
-//      });
       console.log('api');
       testData().then((res) => {
         console.log('res', res);

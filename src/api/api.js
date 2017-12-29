@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-let base = '';
+let base = 'http://localhost:8888';
 const question = 'question';
 
 export const requestLogin = params => { return axios.post(`${base}/login`, params).then(res => res.data); };
@@ -18,6 +18,9 @@ export const editUser = params => { return axios.get(`${base}/user/edit`, { para
 export const addUser = params => { return axios.get(`${base}/user/add`, { params: params }); };
 
 export const testData = params => { return axios.get('http://api.github.com', { params: params }); };
+
+// 测试api
+export const testApi = params => { return axios.post(`${base}/test`, params ); };
 
 // 试题 start
 export const getQueList = params => { return axios.get(`${base}/${question}/list`, { params: params }); };

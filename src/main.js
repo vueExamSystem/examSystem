@@ -13,8 +13,8 @@ import Vuex from 'vuex'
 import routers from './routes'
 //import NProgress from 'nprogress'
 //import 'nprogress/nprogress.css'
-import Mock from './mock'
-Mock.bootstrap();
+// import Mock from './mock'
+// Mock.bootstrap();
 import 'font-awesome/css/font-awesome.min.css'
 import './styles/iconfont/iconfont.css'
 

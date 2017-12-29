@@ -45,6 +45,7 @@ import BackstageHome from './views/backstage/Home.vue'
 /*设置*/
 import SettingHome from './views/setting/Home.vue'
 
+import testApi from './views/demo/Test.vue'
 
 let routes = [
     {
@@ -186,6 +187,11 @@ let routes = [
         children: [
             { path: '/echarts', component: echarts, name: 'echarts' }
         ]
+    },
+    {
+        path: '/testApi',
+        component: testApi,
+        name: 'testApi',
     },
 
     {
