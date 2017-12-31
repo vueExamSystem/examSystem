@@ -2,7 +2,13 @@ import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 
 import { Users } from './data/user';
-import { TypeList, UsageList } from './data/question';
+import {
+    TypeList,
+    UsageList,
+    SubjectList,
+    ChapterList,
+    DepartmentList,
+} from './data/question';
 let _Users = Users;
 
 const _type = 'question';
@@ -53,6 +59,33 @@ export default {
           return new Promise((resolve, reject) => {
               setTimeout(() => {
                   resolve([200, UsageList]);
+              }, 1000);
+          });
+      });
+
+      //获取科目列表
+      mock.onGet(`/${_type}/subject/list`).reply(config => {
+          return new Promise((resolve, reject) => {
+              setTimeout(() => {
+                  resolve([200, SubjectList]);
+              }, 1000);
+          });
+      });
+
+      //获取章节列表
+      mock.onGet(`/${_type}/chapter/list`).reply(config => {
+          return new Promise((resolve, reject) => {
+              setTimeout(() => {
+                  resolve([200, ChapterList]);
+              }, 1000);
+          });
+      });
+
+      //获取题组列表
+      mock.onGet(`/${_type}/department/list`).reply(config => {
+          return new Promise((resolve, reject) => {
+              setTimeout(() => {
+                  resolve([200, DepartmentList]);
               }, 1000);
           });
       });

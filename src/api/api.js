@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-let base = 'http://localhost:8888';
+let base = '';
 const question = 'question';
 
 export const requestLogin = params => { return axios.post(`${base}/login`, params).then(res => res.data); };
@@ -22,9 +22,23 @@ export const testData = params => { return axios.get('http://api.github.com', { 
 // 测试api
 export const testApi = params => { return axios.post(`${base}/test`, params ); };
 
-// 试题 start
+/*
+* 试题 start
+* */
+//
 export const getQueList = params => { return axios.get(`${base}/${question}/list`, { params: params }); };
 
-export const getQueTypeList = params => { return axios.get(`${base}/${question}/type/list`, { params: params }); };
+// 试题类型列表
+export const getQueTypeList = params => { return axios.get(`${base}/${question}/type/list`, params ); };
 
-export const getQueUsageList = params => { return axios.get(`${base}/${question}/usage/list`, { params: params }); };
+// 试题用途列表
+export const getQueUsageList = params => { return axios.get(`${base}/${question}/usage/list`, params ); };
+
+// 科目列表
+export const getQueSubjectList = params => { return axios.get(`${base}/${question}/subject/list`, params ); };
+
+// 章节列表
+export const getQueChapterList = params => { return axios.get(`${base}/${question}/chapter/list`, params ); };
+
+// 题组
+export const getQueDepartmentList = params => { return axios.get(`${base}/${question}/department/list`, params ); };
