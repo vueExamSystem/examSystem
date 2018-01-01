@@ -65,6 +65,9 @@
 					subject:[
 						{required: true, message: '请选择预习科目', trigger:'change'}
 					],
+					grade: [
+						{required: true, message: '请选择预习年级', trigger:'change'}
+					],
 					department: [
 						{required: true, message: '请选择预习院系', trigger:'change'}
 					],
