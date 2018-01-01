@@ -226,11 +226,20 @@ form{
 	    border-bottom-right-radius: $radius-size;
 
 		&>form{
-			padding:10px 20px;
 			min-width:600px;
-
+	    	padding:20px 10px;
+	    	letter-spacing:0.87px;
 			.el-form-item__label{
 				text-align: right;
+			}
+			.form-item-unit{
+				display: inline-block;
+				vertical-align: top;
+				width: 180px;
+				.el-input{
+					width: 80px;
+					margin: 0 10px;
+				}
 			}
 		}
 	 }
