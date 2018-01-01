@@ -142,18 +142,4 @@
     .filter-wrap{
         margin-bottom: 20px;
     }
-    .panel{
-        &>.title{
-            .el-input{
-                width:280px;
-            }
-        }
-        .content{
-            min-height: 300px;
-        }
-        .pageArea{
-            float: right;
-            margin-top: 10px;
-        }
-    }
 </style>
