@@ -47,7 +47,11 @@
 
 .icon-angle-right:before { content: "\e62c"; }
 
-.icon-remove-circle:before { content: "\e62d"; }
+.icon-remove-circle:before {
+    content: "\e62d";
+    font-size: 28px;
+    color: #D06D69;
+}
 
 .icon-search:before { content: "\e62e"; }
 
@@ -59,7 +63,11 @@
 
 .icon-angle-down:before { content: "\e632"; }
 
-.icon-add-circle:before { content: "\e633"; }
+.icon-add-circle:before {
+  content: "\e633";
+  font-size: 28px;
+  color: #87BFBC;
+}
 
 .icon-lock:before { content: "\e634"; }
 

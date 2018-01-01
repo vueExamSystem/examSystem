@@ -1,7 +1,11 @@
 <template>
-	<section class="panel">
+	<section class="panel" id="queForm">
 		<div class="title">
 			<span>添加试题</span>
+			<div class="pull-right">
+				<el-button type="success" @click="onSubmit('form')" class="el-button-shadow">保存</el-button>
+				<el-button type="danger" @click="resetForm('form')" class="el-button-shadow">重置</el-button>
+			</div>
 		</div>
 
 		<div class="content">
@@ -61,26 +65,26 @@
 						<el-button type="primary" icon="iconfont icon-plus">添加照片</el-button>
 					</el-upload>
 				</el-form-item>
-				<el-form-item label="试题选项" prop="selectionA">
+				<el-form-item label="试题选项" prop="selectionA" class="spec">
 					<span>A</span>
 					<el-input v-model="ruleForm.source"></el-input>
 					<el-upload
-							class="upload-demo"
+							class="upload-demo inline"
 							:action="uploadSource"
 							:on-preview="handlePreviewA"
 							:on-remove="handleRemoveA"
 							:file-list="ruleForm.selectionAPic"
 							list-type="picture">
 						<el-button type="primary" icon="iconfont icon-plus">添加照片</el-button>
-						<div slot="tip" class="el-upload__tip">*最多添加4个选项</div>
 					</el-upload>
 					<i class="iconfont icon-remove-circle"></i>
+					<span class="tip">*最多添加4个选项</span>
 				</el-form-item>
-				<el-form-item label="" prop="selectionB">
+				<el-form-item label="" prop="selectionB" class="spec">
 					<span>B</span>
 					<el-input v-model="ruleForm.source"></el-input>
 					<el-upload
-							class="upload-demo"
+							class="upload-demo inline"
 							:action="uploadSource"
 							:on-preview="handlePreviewB"
 							:on-remove="handleRemoveB"
@@ -90,8 +94,58 @@
 					</el-upload>
 					<i class="iconfont icon-remove-circle"></i>
 				</el-form-item>
+				<el-form-item label="" prop="selectionC" v-if="isShowSelectionC" class="spec">
+					<span>C</span>
+					<el-input v-model="ruleForm.source"></el-input>
+					<el-upload
+							class="upload-demo inline"
+							:action="uploadSource"
+							:on-preview="handlePreviewC"
+							:on-remove="handleRemoveC"
+							:file-list="ruleForm.selectionCPic"
+							list-type="picture">
+						<el-button type="primary" icon="iconfont icon-plus">添加照片</el-button>
+					</el-upload>
+					<i class="iconfont icon-remove-circle"></i>
+				</el-form-item>
+				<el-form-item label="" prop="selectionD" v-if="isShowSelectionD" class="spec">
+					<span>D</span>
+					<el-input v-model="ruleForm.source"></el-input>
+					<el-upload
+							class="upload-demo inline"
+							:action="uploadSource"
+							:on-preview="handlePreviewD"
+							:on-remove="handleRemoveD"
+							:file-list="ruleForm.selectionDPic"
+							list-type="picture">
+						<el-button type="primary" icon="iconfont icon-plus">添加照片</el-button>
+					</el-upload>
+					<i class="iconfont icon-remove-circle"></i>
+				</el-form-item>
+				<el-form-item label="" prop="selectionAdd" v-if="isShowSelectionAdd" class="spec">
+					<div class="hidden inline">
+						<span>H</span>
+						<el-input v-model="selectNum"></el-input>
+						<el-button type="primary" icon="iconfont icon-plus">添加照片</el-button>
+					</div>
+					<i class="iconfont icon-add-circle" @click="selectAddFunc"></i>
+				</el-form-item>
 				<el-form-item label="来源" prop="source">
 					<el-input v-model="ruleForm.source"></el-input>
+				</el-form-item>
+				<el-form-item label="考点" prop="testSites">
+					<el-input v-model="ruleForm.testSites"></el-input>
+				</el-form-item>
+				<el-form-item label="关键字" prop="keywords">
+					<el-input v-model="ruleForm.keywords"></el-input>
+				</el-form-item>
+				<el-form-item label="解析" prop="analysis">
+					<el-input
+							type="textarea"
+							:rows="3"
+							placeholder="请输入内容"
+							v-model="ruleForm.analysis">
+					</el-input>
 				</el-form-item>
 			</el-form>
 		</div>
@@ -117,6 +171,7 @@
                     chapter: '',
                     department: '',
                     content: '',
+                    contentPic: [],
                     selectionA: '',
                     selectionB: '',
                     selectionC: '',
@@ -130,7 +185,6 @@
                     testSites: '', // 考点
                     keywords: '',
                     analysis: '', // 解析
-                    contentPic: [],
                 },
                 rules: {
                     type: [
@@ -154,6 +208,8 @@
                 },
 				// 上传文件的路径
 				uploadSource: 'https://jsonplaceholder.typicode.com/posts/',
+				// 选项个数
+				selectNum: 2,
 				// 默认数据
 				typeArr: [],
 				usageArr: [],
@@ -229,7 +285,21 @@
             },
             handlePreviewD(file) {
                 console.log(file);
-            }
+            },
+            selectAddFunc() {
+                this.selectNum = this.selectNum + 1;
+			}
+		},
+        computed: {
+            isShowSelectionC() {
+                return this.selectNum > 2;
+            },
+            isShowSelectionD() {
+                return this.selectNum > 3;
+            },
+            isShowSelectionAdd() {
+                return this.selectNum < 4;
+			},
 		},
         mounted() {
             this.getDefaultData();
@@ -237,3 +307,29 @@
 	}
 
 </script>
+
+<style scoped lang="scss">
+	@import '~scss_vars';
+	#queForm{
+		.inline{
+			display: inline-block;
+		}
+		.hidden{
+			visibility: hidden;
+		}
+		.tip{
+			color: $color-primary;
+		}
+		.icon-remove-circle,
+		.icon-add-circle{
+			position: relative;
+			top: 1px;
+		}
+		.spec{
+			.el-form-item__label{
+				line-height: 50px;
+			}
+		}
+	}
+
+</style>

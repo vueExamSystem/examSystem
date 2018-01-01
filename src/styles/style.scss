@@ -227,8 +227,11 @@ form{
 
 		&>form{
 			padding:10px 20px;
-			width:60%;
 			min-width:600px;
+
+			.el-form-item__label{
+				text-align: right;
+			}
 		}
 	 }
 }
