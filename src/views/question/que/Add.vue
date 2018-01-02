@@ -147,9 +147,9 @@
 
 <script>
 	import {
-        getQueSubjectList,
-		getQueChapterList,
-        getQueDepartmentList,
+        getSubjectList,
+		getChapterList,
+        getDepartmentList,
 	} from '../../../api/api';
 	export default {
 		data() {
@@ -262,15 +262,15 @@
             },
 			// 获取初始数据
 			getDefaultData() {
-                getQueSubjectList({}).then((res) => {
+                getSubjectList({}).then((res) => {
                     this.subjectArr = res.data;
                     console.log(res);
                 });
-                getQueChapterList({}).then((res) => {
+                getChapterList({}).then((res) => {
                     this.chapterArr = res.data;
                     console.log(res);
                 });
-                getQueDepartmentList({}).then((res) => {
+                getDepartmentList({}).then((res) => {
                     this.departmentArr = res.data;
                     console.log(res);
                 });
@@ -325,20 +325,6 @@
 <style scoped lang="scss">
 	@import '~scss_vars';
 	#queForm{
-		.inline{
-			display: inline-block;
-		}
-		.hidden{
-			visibility: hidden;
-		}
-		.tip{
-			color: $color-primary;
-		}
-		.icon-remove-circle,
-		.icon-add-circle{
-			position: relative;
-			top: 1px;
-		}
 		.spec{
 			.el-form-item__label{
 				line-height: 50px;

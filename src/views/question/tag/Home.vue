@@ -1,15 +1,17 @@
 <template>
     <el-tabs type="border-card" v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="标签列表" name="list">
-            标签列表
+            <tag-table></tag-table>
         </el-tab-pane>
         <el-tab-pane label="添加标签" name="add">
-            添加标签
+            <tag-add></tag-add>
         </el-tab-pane>
     </el-tabs>
 </template>
 
 <script>
+    import tagTable from './Table.vue';
+    import tagAdd from './Add.vue'
     export default {
         data() {
             return {
@@ -17,6 +19,8 @@
             }
         },
         components: {
+            tagTable,
+            tagAdd,
         },
         methods: {
             handleClick(tab, event){

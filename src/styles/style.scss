@@ -241,6 +241,20 @@ form{
 					margin: 0 10px;
 				}
 			}
+			.inline{
+				display: inline-block;
+			}
+			.hidden{
+				visibility: hidden;
+			}
+			.tip{
+				color: $color-primary;
+			}
+			.icon-remove-circle,
+			.icon-add-circle{
+				position: relative;
+				top: 1px;
+			}
 		}
 	 }
 }

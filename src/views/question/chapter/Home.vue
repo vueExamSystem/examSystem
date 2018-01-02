@@ -1,15 +1,17 @@
 <template>
     <el-tabs type="border-card" v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="试题章节" name="list">
-            试题章节
+            <chapter-table></chapter-table>
         </el-tab-pane>
         <el-tab-pane label="添加章节" name="add">
-            添加章节
+            <chapter-add></chapter-add>
         </el-tab-pane>
     </el-tabs>
 </template>
 
 <script>
+    import chapterTable from './Table.vue';
+    import chapterAdd from './Add.vue'
     export default {
         data() {
             return {
@@ -17,6 +19,8 @@
             }
         },
         components: {
+            chapterTable,
+            chapterAdd,
         },
         methods: {
             handleClick(tab, event){

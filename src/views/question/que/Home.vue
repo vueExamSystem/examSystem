@@ -7,14 +7,15 @@
             <que-add></que-add>
         </el-tab-pane>
         <el-tab-pane label="导入试题" name="import">
-            导入试题
+            <que-import></que-import>
         </el-tab-pane>
     </el-tabs>
 </template>
 
 <script>
-    import table from './Table.vue';
-    import add from './Add.vue'
+    import queTable from './Table.vue';
+    import queAdd from './Add.vue'
+    import queImport from './Import.vue'
     export default {
         data() {
             return {
@@ -22,8 +23,9 @@
             }
         },
         components: {
-            'que-table': table,
-            'que-add': add,
+            queTable,
+            queAdd,
+            queImport,
         },
         methods: {
             handleClick(tab, event){
