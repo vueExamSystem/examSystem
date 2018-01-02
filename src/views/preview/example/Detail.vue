@@ -24,11 +24,36 @@
 					</tr>
 				</table>
 			</div>
+			<div class="panel inner-panel">
+				<div class="title">
+					<el-input placeholder="请输入搜索关键词" v-model="searchkey">
+	                    <el-button slot="append" icon="el-icon-search"></el-button>
+	                </el-input>
+	                <div class="pageArea">
+	                    <Page :current="currentPage" :total="total" :pageSize="pageSize" @page-change="pageChange"></Page>
+	                </div>
+				</div>
+				<div class="content">
+					<el-table :data="previewList" highlight-current-row v-loading="listLoading" fit>
+	                    <el-table-column type="index" label="序号" width="60">
+	                    </el-table-column>
+	                    <el-table-column prop="studentNo" label="学号" min-width="120"></el-table-column>
+	                    <el-table-column prop="name" label="姓名" min-width="100"></el-table-column>
+	                    <el-table-column prop="class" label="班级" min-width="160"></el-table-column>
+	                    <el-table-column prop="percentage" label="预习进度" min-width="150">
+	                    	<template scope="scope">
+	                            <el-progress :percentage="scope.row.percentage" :stroke-width="12"></el-progress>
+	                        </template>
+	                    </el-table-column>
+	                </el-table>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
 <script>
 	import myFilter from '../../common/myFilter.vue'
+	import Pagination from '../../common/Pagination.vue'
 	export default{
 		props:{
 			id:{
@@ -36,7 +61,8 @@
 			}
 		},
 		components:{
-			myFilter
+			myFilter,
+			'Page': Pagination
 		},
 		data(){
 			return {
@@ -72,11 +98,50 @@
 						value: '20170803',
 						text: '3班'
 					}]
-				}]
+				}],
+				searchkey: '',
+				currentPage: 1,
+				total: 4,
+				pageSize: 5,
+				previewList:[{
+					studentNo: '01112307',
+					name: '叶子',
+					class: '16级计算机3班',
+					percentage: 70
+				},{
+					studentNo: '01112307',
+					name: '叶子',
+					class: '16级计算机3班',
+					percentage: 70
+				},{
+					studentNo: '01112307',
+					name: '叶子',
+					class: '16级计算机3班',
+					percentage: 70
+				},{
+					studentNo: '01112307',
+					name: '叶子',
+					class: '16级计算机3班',
+					percentage: 70
+				},{
+					studentNo: '01112307',
+					name: '叶子',
+					class: '16级计算机3班',
+					percentage: 70
+				},{
+					studentNo: '01112307',
+					name: '叶子',
+					class: '16级计算机3班',
+					percentage: 70
+				}],
+                listLoading: false,
 			}
 		},
 		methods:{
 			search(filterArr){
+
+			},
+			pageChange(){
 
 			},
 			close(){
@@ -87,5 +152,13 @@
 </script>
 <style lang="scss" scoped="">
 	@import '~scss_vars';
-	
+	.filter-wrap{
+		box-shadow: none;
+		border-radius: 0;
+	}
+	.inner-panel{
+		.content{
+			border-width: 0;
+		}
+	}
 </style>

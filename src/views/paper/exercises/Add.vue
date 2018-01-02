@@ -198,19 +198,4 @@
 </script>
 <style scoped lang="scss">
     @import '~scss_vars';
-    #paperForm{
-    	min-width:600px;
-    	padding:20px 10px;
-    	letter-spacing:0.87px;
-    	.form-item-unit{
-			display: inline-block;
-			vertical-align: top;
-			width: 180px;
-			.el-input{
-				width: 80px;
-				margin: 0 10px;
-			}
-		}
-    }
-
 </style>

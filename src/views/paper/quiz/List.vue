@@ -141,19 +141,7 @@
 </script>
 <style scoped lang="scss">
     @import '~scss_vars';
-    .panel{
-        margin: 20px 0 0;
-        &>.title{
-            .el-input{
-                width:280px;
-            }
-        }
-        .content{
-            min-height: 300px;
-        }
-        .pageArea{
-            float: right;
-            margin-top: 10px;
-        }
+    .filter-wrap{
+        margin-bottom: 20px;
     }
 </style>
