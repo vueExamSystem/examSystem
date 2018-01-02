@@ -5,6 +5,7 @@ const UsageList = [];
 const DepartmentList = [];
 const ChapterList = [];
 const SubjectList = [];
+const QuestionList = [];
 
 for (let i = 0; i < 3; i++) {
     TypeList.push(Mock.mock({
@@ -36,6 +37,17 @@ for (let i = 0; i < 3; i++) {
         name: `题组_${i}`,
     }));
 }
+for (let i = 0; i < 86; i++) {
+    QuestionList.push(Mock.mock({
+        id: Mock.Random.guid(),
+        name: '万有引力',
+        type: '单选',
+        subject: '大学物理',
+        chapter: '基础物理',
+        creator: 'admin',
+        same: '组01',
+    }));
+}
 
 export {
     TypeList,
@@ -43,4 +55,5 @@ export {
     SubjectList,
     ChapterList,
     DepartmentList,
+    QuestionList,
 };

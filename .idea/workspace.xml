@@ -3,9 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="ded44d1b-31ca-4019-bb9f-513cd69c457b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/styles/iconfont/iconfont.css" afterPath="$PROJECT_DIR$/src/styles/iconfont/iconfont.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/styles/style.scss" afterPath="$PROJECT_DIR$/src/styles/style.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mock/data/question.js" afterPath="$PROJECT_DIR$/src/mock/data/question.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mock/question.js" afterPath="$PROJECT_DIR$/src/mock/question.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/views/question/que/Add.vue" afterPath="$PROJECT_DIR$/src/views/question/que/Add.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/views/question/que/Table.vue" afterPath="$PROJECT_DIR$/src/views/question/que/Table.vue" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -22,55 +23,23 @@
       <file leaf-file-name="Add.vue" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/views/question/que/Add.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2724">
-              <caret line="124" column="97" lean-forward="false" selection-start-line="124" selection-start-column="97" selection-end-line="124" selection-end-column="97" />
+            <state relative-caret-position="349">
+              <caret line="292" column="39" lean-forward="true" selection-start-line="292" selection-start-column="39" selection-end-line="292" selection-end-column="39" />
               <folding>
-                <element signature="e#5559#5713#0" expanded="true" />
+                <element signature="e#5136#5250#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="question.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/mock/data/question.js">
+      <file leaf-file-name="Table.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/views/question/que/Table.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" column="16" lean-forward="true" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Add.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/views/paper/papers/Add.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="157">
-              <caret line="170" column="16" lean-forward="false" selection-start-line="170" selection-start-column="8" selection-end-line="170" selection-end-column="16" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="style.scss" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/styles/style.scss">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1724">
-              <caret line="232" column="33" lean-forward="false" selection-start-line="232" selection-start-column="33" selection-end-line="232" selection-end-column="33" />
+            <state relative-caret-position="139">
+              <caret line="105" column="44" lean-forward="false" selection-start-line="105" selection-start-column="36" selection-end-line="105" selection-end-column="44" />
               <folding>
-                <element signature="e#4307#5071#0" expanded="false" />
-                <marker date="1514743586000" expanded="true" signature="1509:1513" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Home.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/views/dashboard/Home.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="13" column="54" lean-forward="true" selection-start-line="13" selection-start-column="20" selection-end-line="13" selection-end-column="54" />
-              <folding>
-                <element signature="e#3058#3093#0" expanded="true" />
+                <element signature="n#style#0;n#el-table#0;n#div#1;n#div#0;n#section#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="e#1753#1795#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -80,13 +49,10 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>搜索引擎</find>
-      <find>20</find>
       <find>page</find>
       <find>.el-input .el-input__inner</find>
       <find>.el-input .el-input</find>
       <find>loda</find>
-      <find>selsChange</find>
       <find>removeArrValue</find>
       <find>toggleCheck</find>
       <find>list</find>
@@ -108,8 +74,11 @@
       <find>que</find>
       <find>pull-right</find>
       <find>inline</find>
-      <find>selectAddFunc</find>
+      <find>selsChange</find>
       <find>isConfigRequired</find>
+      <find>selectAddFunc</find>
+      <find>correctOption</find>
+      <find>handlePreview</find>
     </findStrings>
     <replaceStrings>
       <replace>.</replace>
@@ -156,7 +125,6 @@
         <option value="$PROJECT_DIR$/src/views/question/que/Home.vue" />
         <option value="$PROJECT_DIR$/src/views/dashboard/Table.vue" />
         <option value="$PROJECT_DIR$/src/mock/index.js" />
-        <option value="$PROJECT_DIR$/src/views/question/que/Table.vue" />
         <option value="$PROJECT_DIR$/src/views/common/Test.vue" />
         <option value="$PROJECT_DIR$/src/routes.js" />
         <option value="$PROJECT_DIR$/src/mock/mock.js" />
@@ -164,10 +132,11 @@
         <option value="$PROJECT_DIR$/src/views/demo/Test.vue" />
         <option value="$PROJECT_DIR$/src/main.js" />
         <option value="$PROJECT_DIR$/src/api/api.js" />
-        <option value="$PROJECT_DIR$/src/mock/data/question.js" />
-        <option value="$PROJECT_DIR$/src/mock/question.js" />
         <option value="$PROJECT_DIR$/src/styles/iconfont/iconfont.css" />
         <option value="$PROJECT_DIR$/src/styles/style.scss" />
+        <option value="$PROJECT_DIR$/src/mock/data/question.js" />
+        <option value="$PROJECT_DIR$/src/mock/question.js" />
+        <option value="$PROJECT_DIR$/src/views/question/que/Table.vue" />
         <option value="$PROJECT_DIR$/src/views/question/que/Add.vue" />
       </list>
     </option>
@@ -236,14 +205,7 @@
               <item name="examSystem" type="b2602c69:ProjectViewProjectNode" />
               <item name="examSystem" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="styles" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="examSystem" type="b2602c69:ProjectViewProjectNode" />
-              <item name="examSystem" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="styles" type="462c0819:PsiDirectoryNode" />
-              <item name="iconfont" type="462c0819:PsiDirectoryNode" />
+              <item name="mock" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="examSystem" type="b2602c69:ProjectViewProjectNode" />
@@ -257,6 +219,14 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="views" type="462c0819:PsiDirectoryNode" />
               <item name="question" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="examSystem" type="b2602c69:ProjectViewProjectNode" />
+              <item name="examSystem" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="question" type="462c0819:PsiDirectoryNode" />
+              <item name="que" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -377,12 +347,12 @@
       <updated>1513560802257</updated>
       <workItem from="1513560803807" duration="12822000" />
       <workItem from="1513909708193" duration="17044000" />
-      <workItem from="1514047544462" duration="54219000" />
+      <workItem from="1514047544462" duration="65397000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="115083000" />
+    <option name="totallyTimeSpent" value="126261000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -545,14 +515,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/paper/papers/Home.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="36" column="0" lean-forward="true" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/views/paper/Home.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -593,16 +555,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/paper/papers/List.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="65" column="24" lean-forward="false" selection-start-line="65" selection-start-column="24" selection-end-line="65" selection-end-column="24" />
-          <folding>
-            <element signature="n#div#0;n#section#0;n#template#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/views/question/Home.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="419">
@@ -629,14 +581,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/mock/data/user.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="20" lean-forward="false" selection-start-line="4" selection-start-column="15" selection-end-line="4" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/routes.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1835">
@@ -644,22 +588,6 @@
           <folding>
             <element signature="e#0#37#0" expanded="false" />
             <element signature="e#1759#1809#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mock/mock.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-            <element signature="e#1206#1660#0" expanded="false" />
-            <element signature="e#1738#2452#0" expanded="false" />
-            <element signature="e#2522#2887#0" expanded="false" />
-            <element signature="e#2964#3372#0" expanded="false" />
-            <element signature="e#3440#4086#0" expanded="false" />
-            <element signature="e#4153#4668#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -730,35 +658,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/question/que/Table.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="40" column="23" lean-forward="false" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/api/api.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="365">
           <caret line="37" column="87" lean-forward="true" selection-start-line="37" selection-start-column="87" selection-end-line="37" selection-end-column="87" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mock/question.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="93">
-          <caret line="66" column="35" lean-forward="false" selection-start-line="66" selection-start-column="35" selection-end-line="66" selection-end-column="35" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-            <element signature="e#1066#1242#0" expanded="false" />
-            <element signature="e#2346#2932#0" expanded="false" />
-            <element signature="e#2998#3277#0" expanded="false" />
-            <element signature="e#3350#3666#0" expanded="false" />
-            <element signature="e#3730#4208#0" expanded="false" />
-            <element signature="e#4271#4654#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -778,16 +682,6 @@
             <element signature="e#290#318#0" expanded="true" />
             <element signature="e#557#603#0" expanded="true" />
             <marker date="1514613430000" expanded="true" signature="891:1134" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/dashboard/Home.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="54" lean-forward="true" selection-start-line="13" selection-start-column="20" selection-end-line="13" selection-end-column="54" />
-          <folding>
-            <element signature="e#3058#3093#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -824,13 +718,55 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/styles/style.scss">
+    <entry file="file://$PROJECT_DIR$/src/views/paper/papers/Home.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1724">
-          <caret line="232" column="33" lean-forward="false" selection-start-line="232" selection-start-column="33" selection-end-line="232" selection-end-column="33" />
+        <state relative-caret-position="540">
+          <caret line="36" column="0" lean-forward="true" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
           <folding>
-            <element signature="e#4307#5071#0" expanded="false" />
-            <marker date="1514743586000" expanded="true" signature="1509:1513" ph="{...}" />
+            <element signature="e#315#344#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/paper/papers/List.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1430">
+          <caret line="137" column="0" lean-forward="true" selection-start-line="137" selection-start-column="0" selection-end-line="137" selection-end-column="0" />
+          <folding>
+            <element signature="e#2281#2329#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mock/data/question.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="31" column="8" lean-forward="true" selection-start-line="31" selection-start-column="8" selection-end-line="31" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mock/mock.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="54" column="37" lean-forward="false" selection-start-line="54" selection-start-column="29" selection-end-line="54" selection-end-column="37" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+            <element signature="e#1206#1660#0" expanded="false" />
+            <element signature="e#2522#2887#0" expanded="false" />
+            <element signature="e#2964#3372#0" expanded="false" />
+            <element signature="e#3440#4086#0" expanded="false" />
+            <element signature="e#4153#4668#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/dashboard/Home.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1611">
+          <caret line="13" column="54" lean-forward="true" selection-start-line="13" selection-start-column="20" selection-end-line="13" selection-end-column="54" />
+          <folding>
+            <element signature="e#3058#3093#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -843,20 +779,57 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/mock/data/question.js">
+    <entry file="file://$PROJECT_DIR$/src/mock/data/user.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="16" lean-forward="true" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
+        <state relative-caret-position="135">
+          <caret line="9" column="2" lean-forward="true" selection-start-line="9" selection-start-column="2" selection-end-line="9" selection-end-column="2" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mock/question.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="600">
+          <caret line="40" column="27" lean-forward="false" selection-start-line="40" selection-start-column="19" selection-end-line="40" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+            <element signature="e#1374#1550#0" expanded="false" />
+            <element signature="e#3309#3588#0" expanded="false" />
+            <element signature="e#3661#3977#0" expanded="false" />
+            <element signature="e#4041#4519#0" expanded="false" />
+            <element signature="e#4582#4965#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/styles/style.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1724">
+          <caret line="232" column="33" lean-forward="false" selection-start-line="232" selection-start-column="33" selection-end-line="232" selection-end-column="33" />
+          <folding>
+            <element signature="e#4307#5071#0" expanded="false" />
+            <marker date="1514743586000" expanded="true" signature="1509:1513" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/question/que/Table.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="139">
+          <caret line="105" column="44" lean-forward="false" selection-start-line="105" selection-start-column="36" selection-end-line="105" selection-end-column="44" />
+          <folding>
+            <element signature="n#style#0;n#el-table#0;n#div#1;n#div#0;n#section#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="e#1753#1795#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/views/question/que/Add.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2724">
-          <caret line="124" column="97" lean-forward="false" selection-start-line="124" selection-start-column="97" selection-end-line="124" selection-end-column="97" />
+        <state relative-caret-position="349">
+          <caret line="292" column="39" lean-forward="true" selection-start-line="292" selection-start-column="39" selection-end-line="292" selection-end-column="39" />
           <folding>
-            <element signature="e#5559#5713#0" expanded="true" />
+            <element signature="e#5136#5250#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -8,6 +8,7 @@ import {
     SubjectList,
     ChapterList,
     DepartmentList,
+    QuestionList,
 } from './data/question';
 let _Users = Users;
 
@@ -31,18 +32,22 @@ export default {
 
     //获取用户列表
     mock.onGet('/question/list').reply(config => {
-      let {name} = config.params;
-      let mockUsers = _Users.filter(user => {
-        if (name && user.name.indexOf(name) == -1) return false;
-        return true;
-      });
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          resolve([200, {
-            users: mockUsers
-          }]);
-        }, 1000);
-      });
+        let {page, name, pageSize} = config.params;
+        let mockList = QuestionList.filter(user => {
+            if (name && user.name.indexOf(name) == -1) return false;
+            return true;
+        });
+        let total = mockList.length;
+        pageSize = pageSize ? pageSize : 20;
+        mockList = mockList.filter((u, index) => index < pageSize * page && index >= pageSize * (page - 1));
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve([200, {
+                    total: total,
+                    list: mockList
+                }]);
+            }, 1000);
+        });
     });
 
       //获取类型列表
@@ -104,7 +109,7 @@ export default {
         setTimeout(() => {
           resolve([200, {
             total: total,
-            users: mockUsers
+            data: QuestionList,
           }]);
         }, 1000);
       });

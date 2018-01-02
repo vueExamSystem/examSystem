@@ -19,28 +19,32 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item label="试题用途" prop="usage">
-					<el-select v-model="ruleForm.usage" placeholder="请选择试题用途">
-						<template v-for="item in usageArr">
-							<el-option :label="item.name" :value="item.id"></el-option>
-						</template>
+					<el-select v-model="ruleForm.usage" multiple placeholder="请选择试题用途">
+						<el-option
+								v-for="item in usageArr"
+								:label="item.name"
+								:value="item.id"
+								:key="item.id"
+						>
+						</el-option>
 					</el-select>
 				</el-form-item>
 				<el-form-item label="选择科目" prop="subject">
-					<el-select v-model="ruleForm.usage" placeholder="请选择科目">
+					<el-select v-model="ruleForm.subject" placeholder="请选择科目">
 						<template v-for="item in subjectArr">
 							<el-option :label="item.name" :value="item.id"></el-option>
 						</template>
 					</el-select>
 				</el-form-item>
 				<el-form-item label="章节选择" prop="chapter">
-					<el-select v-model="ruleForm.usage" placeholder="请选择章节">
+					<el-select v-model="ruleForm.chapter" placeholder="请选择章节">
 						<template v-for="item in chapterArr">
 							<el-option :label="item.name" :value="item.id"></el-option>
 						</template>
 					</el-select>
 				</el-form-item>
 				<el-form-item label="题组" prop="department">
-					<el-select v-model="ruleForm.usage" placeholder="请选择题组">
+					<el-select v-model="ruleForm.department" placeholder="请选择题组">
 						<template v-for="item in departmentArr">
 							<el-option :label="item.name" :value="item.id"></el-option>
 						</template>
@@ -65,70 +69,58 @@
 						<el-button type="primary" icon="iconfont icon-plus">添加照片</el-button>
 					</el-upload>
 				</el-form-item>
-				<el-form-item label="试题选项" prop="selectionA" class="spec">
-					<span>A</span>
-					<el-input v-model="ruleForm.source"></el-input>
-					<el-upload
-							class="upload-demo inline"
-							:action="uploadSource"
-							:on-preview="handlePreviewA"
-							:on-remove="handleRemoveA"
-							:file-list="ruleForm.selectionAPic"
-							list-type="picture">
-						<el-button type="primary" icon="iconfont icon-plus">添加照片</el-button>
-					</el-upload>
-					<i class="iconfont icon-remove-circle"></i>
-					<span class="tip">*最多添加4个选项</span>
+				<template v-if="!isJudgment">
+					<el-form-item
+							v-for="(item, index) in correctManyArr"
+							:label="item === 'A' ? '试题选项' : ''"
+							:prop="`selection${item}`"
+							class="spec">
+						<span>{{item}}</span>
+						<el-input v-model="ruleForm.selection[index]"></el-input>
+						<el-upload
+								class="upload-demo inline"
+								:action="uploadSource"
+								:on-preview="handlePreview"
+								:on-remove="handleRemove"
+								:file-list="ruleForm.selectionPic[index]"
+								>
+							<el-button type="primary" icon="iconfont icon-plus">添加照片</el-button>
+						</el-upload>
+						<i class="iconfont icon-remove-circle"></i>
+						<span class="tip" v-if="item === 'A' && isRadio">*最多添加4个选项</span>
+					</el-form-item>
+					<el-form-item label="" prop="selectionAdd" v-if="isShowSelectionAdd" class="spec">
+						<div class="hidden inline">
+							<span>H</span>
+							<el-input v-model="selectNum"></el-input>
+							<el-button type="primary" icon="iconfont icon-plus">添加照片</el-button>
+						</div>
+						<i class="iconfont icon-add-circle" @click="selectAddFunc"></i>
+					</el-form-item>
+				</template>
+				<el-form-item label="正确选项" prop="correctOptionRadio" v-if="isRadio">
+					<el-select v-model="ruleForm.correctOptionRadio" placeholder="请选择正确选项">
+						<el-option
+								v-for="item in correctRadioArr"
+								:label="item.name"
+								:value="item.id"
+						>
+						</el-option>
+					</el-select>
 				</el-form-item>
-				<el-form-item label="" prop="selectionB" class="spec">
-					<span>B</span>
-					<el-input v-model="ruleForm.source"></el-input>
-					<el-upload
-							class="upload-demo inline"
-							:action="uploadSource"
-							:on-preview="handlePreviewB"
-							:on-remove="handleRemoveB"
-							:file-list="ruleForm.selectionBPic"
-							list-type="picture">
-						<el-button type="primary" icon="iconfont icon-plus">添加照片</el-button>
-					</el-upload>
-					<i class="iconfont icon-remove-circle"></i>
+				<el-form-item label="正确选项" prop="correctOptionRadio" v-if="isJudgment">
+					<el-select v-model="ruleForm.correctOptionRadio" placeholder="请选择正确选项">
+						<el-option label="正确" value="1"></el-option>
+						<el-option label="错误" value="0"></el-option>
+					</el-select>
 				</el-form-item>
-				<el-form-item label="" prop="selectionC" v-if="isShowSelectionC" class="spec">
-					<span>C</span>
-					<el-input v-model="ruleForm.source"></el-input>
-					<el-upload
-							class="upload-demo inline"
-							:action="uploadSource"
-							:on-preview="handlePreviewC"
-							:on-remove="handleRemoveC"
-							:file-list="ruleForm.selectionCPic"
-							list-type="picture">
-						<el-button type="primary" icon="iconfont icon-plus">添加照片</el-button>
-					</el-upload>
-					<i class="iconfont icon-remove-circle"></i>
-				</el-form-item>
-				<el-form-item label="" prop="selectionD" v-if="isShowSelectionD" class="spec">
-					<span>D</span>
-					<el-input v-model="ruleForm.source"></el-input>
-					<el-upload
-							class="upload-demo inline"
-							:action="uploadSource"
-							:on-preview="handlePreviewD"
-							:on-remove="handleRemoveD"
-							:file-list="ruleForm.selectionDPic"
-							list-type="picture">
-						<el-button type="primary" icon="iconfont icon-plus">添加照片</el-button>
-					</el-upload>
-					<i class="iconfont icon-remove-circle"></i>
-				</el-form-item>
-				<el-form-item label="" prop="selectionAdd" v-if="isShowSelectionAdd" class="spec">
-					<div class="hidden inline">
-						<span>H</span>
-						<el-input v-model="selectNum"></el-input>
-						<el-button type="primary" icon="iconfont icon-plus">添加照片</el-button>
-					</div>
-					<i class="iconfont icon-add-circle" @click="selectAddFunc"></i>
+				<el-form-item label="正确选项" prop="correctOptionMany" v-if="isCheckbox">
+					<el-checkbox-group
+							v-model="ruleForm.correctOptionMany">
+						<el-checkbox v-for="item in correctManyArr" :label="item" :key="item">
+							{{item}}
+						</el-checkbox>
+					</el-checkbox-group>
 				</el-form-item>
 				<el-form-item label="来源" prop="source">
 					<el-input v-model="ruleForm.source"></el-input>
@@ -155,8 +147,6 @@
 
 <script>
 	import {
-	    getQueTypeList,
-		getQueUsageList,
         getQueSubjectList,
 		getQueChapterList,
         getQueDepartmentList,
@@ -165,22 +155,25 @@
 		data() {
 			return {
                 ruleForm: {
-                    type: '',
-                    usage: '',
+                    type: '0',
+                    usage: '0',
                     subject: '',
                     chapter: '',
                     department: '',
                     content: '',
                     contentPic: [],
+					selection: [],
                     selectionA: '',
                     selectionB: '',
                     selectionC: '',
                     selectionD: '',
+                    selectionPic: [],
 					selectionAPic: [],
 					selectionBPic: [],
 					selectionCPic: [],
 					selectionDPic: [],
-                    correctOption: '',
+                    correctOptionRadio: '',
+                    correctOptionMany: [],
 					source: '',
                     testSites: '', // 考点
                     keywords: '',
@@ -205,17 +198,52 @@
                     content: [
                         { required: true, message: '请输入试题内容', trigger: 'blur' }
                     ],
+					selectionA: [
+                        { required: true, message: '请输入试题选项', trigger: 'blur' }
+                    ],
+                    correctOptionRadio: [
+                        { required: true, message: '请选择正确选项', trigger: 'change' }
+                    ],
+					correctOptionMany: [
+                        { required: true, message: '请选择正确选项', trigger: 'change' }
+                    ],
                 },
 				// 上传文件的路径
 				uploadSource: 'https://jsonplaceholder.typicode.com/posts/',
 				// 选项个数
 				selectNum: 2,
 				// 默认数据
-				typeArr: [],
-				usageArr: [],
+				typeArr: [{
+                    id: '0',
+					name: '单选题',
+				},{
+                    id: '1',
+					name: '多选题',
+				},{
+                    id: '2',
+					name: '判断题',
+				}],
+				usageArr: [{
+                    id: '0',
+                    name: '练习题',
+                },{
+                    id: '1',
+                    name: '随堂测验',
+                },{
+                    id: '2',
+                    name: '正规考试',
+                }],
 				subjectArr: [],
 				chapterArr: [],
 				departmentArr: [],
+				correctRadioArr: [{
+                    id: '0',
+                    name: 'A',
+                },{
+                    id: '1',
+                    name: 'B',
+                }],
+				correctManyArr: ['A', 'B'],
 			}
 		},
 		methods: {
@@ -234,14 +262,6 @@
             },
 			// 获取初始数据
 			getDefaultData() {
-                getQueTypeList({}).then((res) => {
-					this.typeArr = res.data;
-					console.log(res);
-                });
-                getQueUsageList({}).then((res) => {
-                    this.usageArr = res.data;
-                    console.log(res);
-                });
                 getQueSubjectList({}).then((res) => {
                     this.subjectArr = res.data;
                     console.log(res);
@@ -262,32 +282,17 @@
             handlePreviewContent(file) {
                 console.log(file);
             },
-			handleRemoveA(file, fileList) {
-                console.log(file, fileList);
+			handleRemove(file, fileList, type) {
+                console.log(file, fileList, type);
             },
-            handlePreviewA(file) {
-                console.log(file);
-            },
-			handleRemoveB(file, fileList) {
-                console.log(file, fileList);
-            },
-            handlePreviewB(file) {
-                console.log(file);
-            },
-			handleRemoveC(file, fileList) {
-                console.log(file, fileList);
-            },
-            handlePreviewC(file) {
-                console.log(file);
-            },
-			handleRemoveD(file, fileList) {
-                console.log(file, fileList);
-            },
-            handlePreviewD(file) {
-                console.log(file);
+            handlePreview(file, type) {
+                console.log(file, type);
             },
             selectAddFunc() {
                 this.selectNum = this.selectNum + 1;
+                const str = String.fromCharCode(64 + this.selectNum);
+                this.correctRadioArr.push({ id: this.selectNum - 1, name: str });
+                this.correctManyArr.push(str);
 			}
 		},
         computed: {
@@ -300,6 +305,15 @@
             isShowSelectionAdd() {
                 return this.selectNum < 4;
 			},
+            isRadio() {
+                return this.ruleForm.type === '0';
+			},
+			isCheckbox() {
+                return this.ruleForm.type === '1';
+			},
+            isJudgment() {
+                return this.ruleForm.type === '2';
+            },
 		},
         mounted() {
             this.getDefaultData();
