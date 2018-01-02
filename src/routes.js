@@ -32,6 +32,8 @@ import PreviewExample from './views/preview/example/Home.vue'
 import PreviewDoc from './views/preview/doc/Home.vue'
 /*测验*/
 import TestHome from './views/test/Home.vue'
+import TestInfo from './views/test/info/Home.vue'
+import TestPublish from './views/test/publish/Home.vue'
 /*考试*/
 import ExamHome from './views/exam/Home.vue'
 /*监考*/
@@ -93,7 +95,10 @@ let routes = [
                 path: 'test',
                 component: TestHome,
                 name: '测验',
-                children: []
+                children: [
+                    { path: '/', component: TestInfo, name: '课堂测验',},
+                    { path: 'publish', component: TestPublish, name: '发布测验' },
+                ]
             },
             {
                 path: 'exam',
