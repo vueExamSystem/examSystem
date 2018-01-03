@@ -1,15 +1,17 @@
 <template>
     <el-tabs type="border-card" v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="题组列表" name="list">
-            题组列表
+            <same-table></same-table>
         </el-tab-pane>
         <el-tab-pane label="添加题组" name="add">
-            添加题组
+            <same-add></same-add>
         </el-tab-pane>
     </el-tabs>
 </template>
 
 <script>
+    import sameTable from './Table.vue';
+    import sameAdd from './Add.vue'
     export default {
         data() {
             return {
@@ -17,6 +19,8 @@
             }
         },
         components: {
+            sameTable,
+            sameAdd,
         },
         methods: {
             handleClick(tab, event){

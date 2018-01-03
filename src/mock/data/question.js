@@ -51,14 +51,6 @@ for (let i = 0; i < 3; i++) {
         desc: '描述',
     }));
 }
-for (let i = 0; i < 3; i++) {
-    DepartmentList.push(Mock.mock({
-        id: i,
-        name: `题组_${i}`,
-        subject: '大学物理',
-        chapter: '第一章',
-    }));
-}
 for (let i = 0; i < 86; i++) {
     QuestionList.push(Mock.mock({
         id: Mock.Random.id(),
@@ -68,6 +60,16 @@ for (let i = 0; i < 86; i++) {
         chapter: '基础物理',
         creator: 'admin',
         same: '组01',
+    }));
+}
+for (let i = 0; i < 20; i++) {
+    const arr = _.slice(QuestionList, i * 3, i * 3 + 4);
+    DepartmentList.push(Mock.mock({
+        id: i,
+        name: `题组_${i}`,
+        subject: '大学物理',
+        chapter: '第一章',
+        children: arr,
     }));
 }
 for (let i = 0; i < 86; i++) {
