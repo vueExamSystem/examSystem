@@ -36,6 +36,8 @@ import TestInfo from './views/test/info/Home.vue'
 import TestPublish from './views/test/publish/Home.vue'
 /*考试*/
 import ExamHome from './views/exam/Home.vue'
+import ExamInfo from './views/exam/info/Home.vue'
+import ExamPublish from './views/exam/publish/Home.vue'
 /*监考*/
 import ListenHome from './views/listen/Home.vue'
 /*成绩*/
@@ -104,7 +106,10 @@ let routes = [
                 path: 'exam',
                 component: ExamHome,
                 name: '考试',
-                children: []
+                children: [
+                    { path: '/', component: ExamInfo, name: '考试',},
+                    { path: 'publish', component: ExamPublish, name: '发布考试' },
+                ]
             },
             {
                 path: 'listen',
