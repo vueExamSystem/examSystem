@@ -1,5 +1,6 @@
 import babelpolyfill from 'babel-polyfill'
 import Vue from 'vue'
+import Common from './common/js/util';
 import App from './App'
 import './styles/reset.css'
 import ElementUI from 'element-ui'
@@ -18,6 +19,7 @@ Mock.bootstrap();
 import 'font-awesome/css/font-awesome.min.css'
 import './styles/iconfont/iconfont.css'
 
+Vue.use(Common)
 Vue.use(ElementUI)
 Vue.use(VueRouter)
 Vue.use(Vuex)

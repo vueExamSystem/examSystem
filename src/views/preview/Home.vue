@@ -2,11 +2,11 @@
     <el-container>
         <el-aside width="120px">
             <router-link to="/preview">
-                <i class="iconfont icon-pencil"></i>
+                <i class="iconfont icon-pencil-larger"></i>
                 <span>预习题</span>
             </router-link>
             <router-link to="/preview/doc">
-                <i class="iconfont icon-book"></i>
+                <i class="iconfont icon-book-larger"></i>
                 <span>预习资料</span>
             </router-link>
         </el-aside>

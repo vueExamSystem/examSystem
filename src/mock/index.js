@@ -1,9 +1,5 @@
 import mock from './mock';
-import question from './question';
 
 export default {
-    ...mock,
-    ...question,
+    ...mock
 };
-
-console.log(mock);

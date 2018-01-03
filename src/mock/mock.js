@@ -1,6 +1,17 @@
 import axios from 'axios';
+import u from '../common/js/util';
 import MockAdapter from 'axios-mock-adapter';
 import {LoginUsers, Users} from './data/user';
+import {
+    TypeList,
+    UsageList,
+    SubjectList,
+    ChapterList,
+    DepartmentList,
+    QuestionList,
+    CourseList,
+    TagList,
+} from './data/question';
 
 let _Users = Users;
 
@@ -26,7 +37,7 @@ export default {
                     });
 
                     if (hasUser) {
-                        resolve([200, {code: 200, msg: '请求成功', user}]);
+                        resolve([200, {code: '0000', msg: '请求成功', data:{user}}]);
                     } else {
                         resolve([200, {code: 500, msg: '账号或密码错误'}]);
                     }
@@ -153,6 +164,39 @@ export default {
                     }
                 }, 1000);
             });
+        });
+
+
+        /** 以下question **/
+
+        //获取que列表
+        mock.onGet('/question/list').reply(config => {
+            return u.getMockList(config, QuestionList);
+        });
+
+        //获取tag列表
+        mock.onGet('/tag/list').reply(config => {
+            return u.getMockList(config, TagList);
+        });
+
+        //获取科目列表
+        mock.onGet(`/subject/list`).reply(config => {
+            return u.getMockList(config, SubjectList);
+        });
+
+        //获取章节列表
+        mock.onGet(`/chapter/list`).reply(config => {
+            return u.getMockList(config, ChapterList);
+        });
+
+        //获取题组列表
+        mock.onGet(`/department/list`).reply(config => {
+            return u.getMockList(config, DepartmentList);
+        });
+
+        //获取course列表
+        mock.onGet(`/course/list`).reply(config => {
+            return u.getMockList(config, CourseList);
         });
     }
 };

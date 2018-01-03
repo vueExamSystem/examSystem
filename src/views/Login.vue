@@ -1,72 +1,53 @@
 <template>
-  <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-position="left" label-width="0px" class="demo-ruleForm login-container">
-    <h3 class="title">系统登录</h3>
-    <el-form-item prop="account">
-      <el-input type="text" v-model="ruleForm2.account" auto-complete="off" placeholder="账号"></el-input>
-    </el-form-item>
-    <el-form-item prop="checkPass">
-      <el-input type="password" v-model="ruleForm2.checkPass" auto-complete="off" placeholder="密码"></el-input>
-    </el-form-item>
-    <el-checkbox v-model="checked" checked class="remember">记住密码</el-checkbox>
-    <el-form-item style="width:100%;">
-      <el-button type="primary" style="width:100%;" @click.native.prevent="handleSubmit2" :loading="logining">登录</el-button>
-      <!--<el-button @click.native.prevent="handleReset2">重置</el-button>-->
-    </el-form-item>
-  </el-form>
+  <div class="login-page">
+    <el-form :model="loginForm" :rules="rules" ref="loginForm" label-position="left" label-width="0px" class="login-container">
+      <div class="title"><img src="/static/images/logo.png"></div>
+      <el-form-item prop="account">
+        <el-input type="text" v-model="loginForm.account" auto-complete="off" placeholder="请输入账号"></el-input>
+        <div class="el-input-myprepend"><i class="iconfont icon-user-larger"></i></div>
+      </el-form-item>
+      <el-form-item prop="checkPass">
+        <el-input type="password" v-model="loginForm.checkPass" auto-complete="off" placeholder="请输入密码"></el-input>
+        <div class="el-input-myprepend"><i class="iconfont icon-lock-larger"></i></div>
+      </el-form-item>
+      <el-form-item style="margin-top:40px;">
+        <el-button type="primary" style="width:100%;" @click.native.prevent="handleSubmit">登录</el-button>
+      </el-form-item>
+    </el-form>
+  </div>
 </template>
 
 <script>
-  import { requestLogin } from '../api/api';
-  //import NProgress from 'nprogress'
   export default {
     data() {
       return {
-        logining: false,
-        ruleForm2: {
+        loginForm: {
           account: 'admin',
           checkPass: '123456'
         },
-        rules2: {
+        rules: {
           account: [
-            { required: true, message: '请输入账号', trigger: 'blur' },
-            //{ validator: validaePass }
+            { required: true, message: '请输入账号', trigger: 'blur' }
           ],
           checkPass: [
-            { required: true, message: '请输入密码', trigger: 'blur' },
-            //{ validator: validaePass2 }
+            { required: true, message: '请输入密码', trigger: 'blur' }
           ]
         },
         checked: true
       };
     },
     methods: {
-      handleReset2() {
-        this.$refs.ruleForm2.resetFields();
-      },
-      handleSubmit2(ev) {
+      handleSubmit(ev) {
         var _this = this;
-        this.$refs.ruleForm2.validate((valid) => {
+        this.$refs.loginForm.validate((valid) => {
           if (valid) {
-            //_this.$router.replace('/table');
-            this.logining = true;
-            //NProgress.start();
-            var loginParams = { username: this.ruleForm2.account, password: this.ruleForm2.checkPass };
-            requestLogin(loginParams).then(data => {
-              this.logining = false;
-              //NProgress.done();
-              let { msg, code, user } = data;
-              if (code !== 200) {
-                this.$message({
-                  message: msg,
-                  type: 'error'
-                });
-              } else {
-                sessionStorage.setItem('user', JSON.stringify(user));
-                this.$router.push({ path: '/table' });
-              }
+            var loginParams = { username: this.loginForm.account, password: this.loginForm.checkPass };
+            this.systemPost('login',loginParams,data => {
+              let {user} = data;
+              sessionStorage.setItem('user', JSON.stringify(user));
+              this.$router.push({ path: '/' });
             });
           } else {
-            console.log('error submit!!');
             return false;
           }
         });
@@ -76,26 +57,49 @@
 
 </script>
 
-<style lang="scss" scoped>
-  .login-container {
-    /*box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.06), 0 1px 0px 0 rgba(0, 0, 0, 0.02);*/
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    -moz-border-radius: 5px;
-    background-clip: padding-box;
-    margin: 180px auto;
-    width: 350px;
-    padding: 35px 35px 15px 35px;
-    background: #fff;
-    border: 1px solid #eaeaea;
-    box-shadow: 0 0 25px #cac6c6;
-    .title {
-      margin: 0px auto 40px auto;
-      text-align: center;
-      color: #505458;
+<style lang="scss">
+  .login-page{
+    padding-top: 180px;
+    height: 100%;
+    background-image: linear-gradient(-135deg, #C6ADD1 0%, #9DAFD0 50%, #ABA9CE 100%);
+    .login-container {
+      width: 300px;
+      margin: 0 auto;
+      .title {
+        margin: 0px auto 40px auto;
+        text-align: center;
+        color: #505458;
+      }
+      .el-form-item{
+        position:relative;
+        margin-bottom: 20px;
+        .el-input-myprepend{
+          position:absolute;
+          top:0;
+          left:0;
+          width:50px;
+          height:28px;
+          margin-top: 11px;
+          line-height: 28px;
+          padding: 0 20px;
+          color: #8684BC;
+          border-right: 1px solid #B5B5CD;
+        }
+        .el-input{
+          width: 100%;
+          height: 50px;
+          .el-input__inner{
+              height: 100%;
+              border-radius: 50px;
+              padding-left: 65px;
+          }
+        }
+      }
+      .el-button{
+        height: 40px;
+        background-image: linear-gradient(-90deg, #AA84BC 0%, #8684BC 100%);
+        border-radius: 25px;
+      }
     }
-    .remember {
-      margin: 0px 0px 35px 0px;
-    }
-  }
+}
 </style>
