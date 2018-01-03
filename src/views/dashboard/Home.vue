@@ -3,7 +3,7 @@
         <el-aside width="120px">
             <router-link to="/question">
                 <div>
-                    <i class="iconfont icon-plus"></i>
+                    <i class="iconfont icon-shiti-larger"></i>
                     <span slot="title">
                     试题
                 </span>
@@ -11,7 +11,7 @@
             </router-link>
             <router-link to="/paper">
                 <div>
-                    <i class="iconfont icon-plus"></i>
+                    <i class="iconfont icon-kaoshi-larger"></i>
                     <span slot="title">
                     试卷
                 </span>
@@ -19,7 +19,7 @@
             </router-link>
             <router-link to="/exam">
                 <div>
-                    <i class="iconfont icon-plus"></i>
+                    <i class="iconfont icon-pencil-larger"></i>
                     <span slot="title">
                     考试
                 </span>
@@ -27,7 +27,7 @@
             </router-link>
             <router-link to="/paper/quiz">
                 <div>
-                    <i class="iconfont icon-plus"></i>
+                    <i class="iconfont icon-ceyan-larger"></i>
                     <span slot="title">
                     随堂测试
                 </span>
@@ -35,7 +35,7 @@
             </router-link>
             <router-link to="/preview">
                 <div>
-                    <i class="iconfont icon-plus"></i>
+                    <i class="iconfont icon-book-larger"></i>
                     <span slot="title">
                     预习练习
                 </span>

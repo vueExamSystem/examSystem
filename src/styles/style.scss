@@ -156,6 +156,9 @@ form{
     border-bottom: 1px solid $color-primary;
     letter-spacing: 1px;
     font-size: 16px;
+    .iconfont{
+    	font-size: 14px;
+    }
   }
   &>a.router-link-exact-active.router-link-active{
   	background: $-color-primary;

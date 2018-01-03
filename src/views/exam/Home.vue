@@ -2,11 +2,11 @@
     <el-container>
         <el-aside width="120px">
             <router-link to="/exam">
-                <i class="iconfont icon-kaoshi"></i>
+                <i class="iconfont icon-kaoshi-larger"></i>
                 <span>考试</span>
             </router-link>
             <router-link to="/exam/publish">
-                <i class="iconfont icon-publish"></i>
+                <i class="iconfont icon-publish-larger"></i>
                 <span>发布考试</span>
             </router-link>
         </el-aside>

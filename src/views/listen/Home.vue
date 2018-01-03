@@ -1,7 +1,10 @@
 <template>
     <el-container>
         <el-aside width="120px">
-            <router-link to="/listen">监考</router-link>
+            <router-link to="/listen">
+                <i class="iconfont icon-kaoshi-larger"></i>
+                <span>考试监考</span>
+            </router-link>
         </el-aside>
         <el-main>
             <router-view></router-view>
