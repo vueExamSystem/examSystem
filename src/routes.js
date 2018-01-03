@@ -10,7 +10,6 @@ import Page5 from './views/demo/nav2/Page5.vue'
 import Page6 from './views/demo/nav3/Page6.vue'
 import echarts from './views/demo/charts/echarts.vue'
 
-import Dashboard from './views/dashboard/Home.vue'
 import HomePage from './views/HomePage.vue'
 /*首页*/
 import DashbordHome from './views/dashboard/Home.vue'

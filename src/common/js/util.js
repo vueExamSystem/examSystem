@@ -1,12 +1,64 @@
 var SIGN_REGEXP = /([yMdhsm])(\1*)/g;
 var DEFAULT_PATTERN = 'yyyy-MM-dd';
+var base = '';
 function padding(s, len) {
     var len = len - (s + '').length;
     for (var i = 0; i < len; i++) { s = '0' + s; }
     return s;
 };
 
+import axios from 'axios';
+
 export default {
+    install(Vue,options){
+        Vue.prototype.systemPost = function(url,params,resolve,reject,fail){
+            //mask loading
+            return axios.post(`${base}/` + url, params).then(res => {
+                //end loading
+                let {code,msg,data} = res.data;
+                if(code == '0000'){
+                    if($.isFunction(resolve)) resolve(data,msg);
+                }else{
+                    this.$message({
+                      message: msg,
+                      type: 'error'
+                    });
+                    if($.isFunction(reject)) reject(res.data);
+                }
+            }).catch(error => {
+                //end loading
+                this.$message({
+                  message: error,
+                  type: 'error'
+                });
+                if($.isFunction(fail)) fail(error);
+            });
+        }
+
+        Vue.prototype.systemGet = function(url,params){
+            //mask loading
+            return axios.post(`${base}/` + url, params).then(res => {
+                //end loading
+                let {code,msg,data} = res.data;
+                if(code == '0000'){
+                    if($.isFunction(resolve)) resolve(data,msg);
+                }else{
+                    this.$message({
+                      message: msg,
+                      type: 'error'
+                    });
+                    if($.isFunction(reject)) reject(res.data);
+                }
+            }).catch(error => {
+                //end loading
+                this.$message({
+                  message: error,
+                  type: 'error'
+                });
+                if($.isFunction(fail)) fail(error);
+            });
+        }
+    },
     getQueryStringByName: function (name) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
         var r = window.location.search.substr(1).match(reg);
@@ -18,8 +70,6 @@ export default {
         return context == null || context == "" || context == "undefined" ? "" : context;
     },
     formatDate: {
-
-
         format: function (date, pattern) {
             pattern = pattern || DEFAULT_PATTERN;
             return pattern.replace(SIGN_REGEXP, function ($0) {
