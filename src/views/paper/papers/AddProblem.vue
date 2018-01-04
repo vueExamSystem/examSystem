@@ -46,8 +46,8 @@
 					                    	<template></template>
 					                    </el-table-column>
 					                    <el-table-column prop="radio" width="60">
-					                    	<template scope="scope">
-					                    		<el-radio v-model="scope.$index" :label="scope.row.id"></el-radio>
+					                    	<template scope="props">
+					                    		<el-radio v-model="scope.row.innerRadio" :label="props.row.id"></el-radio>
 					                    	</template>
 					                    </el-table-column>
 					                    <el-table-column prop="name" min-width="160">

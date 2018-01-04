@@ -4,22 +4,22 @@
 			<span>添加试题</span>
 			<div class="pull-right">
 				<el-button type="success" @click="onSubmit('form')" class="el-button-shadow">保存</el-button>
-				<el-button type="danger" @click="resetForm('form')" class="el-button-shadow">重置</el-button>
+				<el-button type="danger" @click="resetForm('form')" class="el-button-shadow">取消</el-button>
 			</div>
 		</div>
 
 		<div class="content">
-			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+			<el-form :model="form" :rules="rules" ref="form" label-width="100px" class="demo-form">
 
 				<el-form-item label="试题类型" prop="type">
-					<el-select v-model="ruleForm.type" placeholder="请选择试题类型">
+					<el-select v-model="form.type" placeholder="请选择试题类型">
 						<template v-for="item in typeArr">
 							<el-option :label="item.name" :value="item.id"></el-option>
 						</template>
 					</el-select>
 				</el-form-item>
 				<el-form-item label="试题用途" prop="usage">
-					<el-select v-model="ruleForm.usage" multiple placeholder="请选择试题用途">
+					<el-select v-model="form.usage" multiple placeholder="请选择试题用途">
 						<el-option
 								v-for="item in usageArr"
 								:label="item.name"
@@ -30,21 +30,21 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item label="选择科目" prop="subject">
-					<el-select v-model="ruleForm.subject" placeholder="请选择科目">
+					<el-select v-model="form.subject" placeholder="请选择科目">
 						<template v-for="item in subjectArr">
 							<el-option :label="item.name" :value="item.id"></el-option>
 						</template>
 					</el-select>
 				</el-form-item>
 				<el-form-item label="章节选择" prop="chapter">
-					<el-select v-model="ruleForm.chapter" placeholder="请选择章节">
+					<el-select v-model="form.chapter" placeholder="请选择章节">
 						<template v-for="item in chapterArr">
 							<el-option :label="item.name" :value="item.id"></el-option>
 						</template>
 					</el-select>
 				</el-form-item>
 				<el-form-item label="题组" prop="department">
-					<el-select v-model="ruleForm.department" placeholder="请选择题组">
+					<el-select v-model="form.department" placeholder="请选择题组">
 						<template v-for="item in departmentArr">
 							<el-option :label="item.name" :value="item.id"></el-option>
 						</template>
@@ -55,7 +55,7 @@
 							type="textarea"
 							:rows="3"
 							placeholder="请输入内容"
-							v-model="ruleForm.content">
+							v-model="form.content">
 					</el-input>
 				</el-form-item>
 				<el-form-item label="" prop="contentPic">
@@ -64,7 +64,7 @@
 							:action="uploadSource"
 							:on-preview="handlePreviewContent"
 							:on-remove="handleRemoveContent"
-							:file-list="ruleForm.contentPic"
+							:file-list="form.contentPic"
 							list-type="picture">
 						<el-button type="primary" icon="iconfont icon-plus">添加照片</el-button>
 					</el-upload>
@@ -76,17 +76,17 @@
 							:prop="`selection${item}`"
 							class="spec">
 						<span>{{item}}</span>
-						<el-input v-model="ruleForm.selection[index]"></el-input>
+						<el-input v-model="form[`selection${item}`]"></el-input>
 						<el-upload
 								class="upload-demo inline"
 								:action="uploadSource"
 								:on-preview="handlePreview"
 								:on-remove="handleRemove"
-								:file-list="ruleForm.selectionPic[index]"
+								:file-list="form.selectionPic[index]"
 								>
 							<el-button type="primary" icon="iconfont icon-plus">添加照片</el-button>
 						</el-upload>
-						<i class="iconfont icon-remove-circle"></i>
+						<i class="iconfont icon-remove-circle" @click="delSelection(index)"></i>
 						<span class="tip" v-if="item === 'A' && isRadio">*最多添加4个选项</span>
 					</el-form-item>
 					<el-form-item label="" prop="selectionAdd" v-if="isShowSelectionAdd" class="spec">
@@ -99,7 +99,7 @@
 					</el-form-item>
 				</template>
 				<el-form-item label="正确选项" prop="correctOptionRadio" v-if="isRadio">
-					<el-select v-model="ruleForm.correctOptionRadio" placeholder="请选择正确选项">
+					<el-select v-model="form.correctOptionRadio" placeholder="请选择正确选项">
 						<el-option
 								v-for="item in correctRadioArr"
 								:label="item.name"
@@ -109,34 +109,34 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item label="正确选项" prop="correctOptionRadio" v-if="isJudgment">
-					<el-select v-model="ruleForm.correctOptionRadio" placeholder="请选择正确选项">
+					<el-select v-model="form.correctOptionRadio" placeholder="请选择正确选项">
 						<el-option label="正确" value="1"></el-option>
 						<el-option label="错误" value="0"></el-option>
 					</el-select>
 				</el-form-item>
 				<el-form-item label="正确选项" prop="correctOptionMany" v-if="isCheckbox">
 					<el-checkbox-group
-							v-model="ruleForm.correctOptionMany">
+							v-model="form.correctOptionMany">
 						<el-checkbox v-for="item in correctManyArr" :label="item" :key="item">
 							{{item}}
 						</el-checkbox>
 					</el-checkbox-group>
 				</el-form-item>
 				<el-form-item label="来源" prop="source">
-					<el-input v-model="ruleForm.source"></el-input>
+					<el-input v-model="form.source"></el-input>
 				</el-form-item>
 				<el-form-item label="考点" prop="testSites">
-					<el-input v-model="ruleForm.testSites"></el-input>
+					<el-input v-model="form.testSites"></el-input>
 				</el-form-item>
 				<el-form-item label="关键字" prop="keywords">
-					<el-input v-model="ruleForm.keywords"></el-input>
+					<el-input v-model="form.keywords"></el-input>
 				</el-form-item>
 				<el-form-item label="解析" prop="analysis">
 					<el-input
 							type="textarea"
 							:rows="3"
 							placeholder="请输入内容"
-							v-model="ruleForm.analysis">
+							v-model="form.analysis">
 					</el-input>
 				</el-form-item>
 			</el-form>
@@ -154,7 +154,7 @@
 	export default {
 		data() {
 			return {
-                ruleForm: {
+                form: {
                     type: '0',
                     usage: '0',
                     subject: '',
@@ -163,15 +163,7 @@
                     content: '',
                     contentPic: [],
 					selection: [],
-                    selectionA: '',
-                    selectionB: '',
-                    selectionC: '',
-                    selectionD: '',
                     selectionPic: [],
-					selectionAPic: [],
-					selectionBPic: [],
-					selectionCPic: [],
-					selectionDPic: [],
                     correctOptionRadio: '',
                     correctOptionMany: [],
 					source: '',
@@ -179,35 +171,7 @@
                     keywords: '',
                     analysis: '', // 解析
                 },
-                rules: {
-                    type: [
-                        { required: true, message: '请选择试题类型', trigger: 'change' }
-                    ],
-                    usage: [
-                        { required: true, message: '请选择试题用途', trigger: 'change' }
-                    ],
-                    subject: [
-                        { required: true, message: '请选择科目', trigger: 'change' }
-                    ],
-                    chapter: [
-                        { required: true, message: '请选择章节', trigger: 'change' }
-                    ],
-                    department: [
-                        { required: false, message: '请选择题组', trigger: 'change' }
-                    ],
-                    content: [
-                        { required: true, message: '请输入试题内容', trigger: 'blur' }
-                    ],
-					selectionA: [
-                        { required: true, message: '请输入试题选项', trigger: 'blur' }
-                    ],
-                    correctOptionRadio: [
-                        { required: true, message: '请选择正确选项', trigger: 'change' }
-                    ],
-					correctOptionMany: [
-                        { required: true, message: '请选择正确选项', trigger: 'change' }
-                    ],
-                },
+                rules: this.getRuleArr(this.selectNum),
 				// 上传文件的路径
 				uploadSource: 'https://jsonplaceholder.typicode.com/posts/',
 				// 选项个数
@@ -247,7 +211,8 @@
 			}
 		},
 		methods: {
-            submitForm(formName) {
+            onSubmit(formName) {
+                console.log(formName);
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         alert('submit!');
@@ -258,7 +223,8 @@
                 });
             },
             resetForm(formName) {
-                this.$refs[formName].resetFields();
+                // this.$refs[formName].resetFields();
+				console.log('cancel');
             },
 			// 获取初始数据
 			getDefaultData() {
@@ -288,12 +254,77 @@
             handlePreview(file, type) {
                 console.log(file, type);
             },
+			// 添加选项
             selectAddFunc() {
                 this.selectNum = this.selectNum + 1;
                 const str = String.fromCharCode(64 + this.selectNum);
                 this.correctRadioArr.push({ id: this.selectNum - 1, name: str });
                 this.correctManyArr.push(str);
-			}
+                // this.rules = this.getRuleArr(this.selectNum);
+			},
+            // 删除选项
+            delSelection(index) {
+                console.log('del selection', index);
+                this.selectNum = this.selectNum - 1;
+                this.correctManyArr = this.getCorrectArrByNum(this.selectNum, 'many');
+                this.correctRadioArr = this.getCorrectArrByNum(this.selectNum, 'radio');
+                this.form.selection.splice(index, 1);
+                this.form.selectionPic.splice(index, 1);
+                // this.rules = this.getRuleArr(this.selectNum);
+			},
+			getCorrectArrByNum(num, type) {
+                const arr = [];
+                for(let i= 0;i< num;i++){
+                    const str = String.fromCharCode(65 + i);
+                    if (type === 'radio') {
+                        arr.push({id: i, name: str});
+					} else {
+                        arr.push(str);
+					}
+				}
+				return arr;
+			},
+            getRuleArr(num) {
+                const arr = [];
+                for (let i = 1; i< num; i++) {
+                    const str = String.fromCharCode(65 + i);
+                    arr[`selection${str}`] = [
+                            { required: true, message: `请输入试题选项${str}`, trigger: 'blur' }
+                        ];
+                }
+                const result = {
+                    ...arr,
+                    type: [
+                        { required: true, message: '请选择试题类型', trigger: 'change' }
+                    ],
+                    usage: [
+                        { required: true, message: '请选择试题用途', trigger: 'change' }
+                    ],
+                    subject: [
+                        { required: true, message: '请选择科目', trigger: 'change' }
+                    ],
+                    chapter: [
+                        { required: true, message: '请选择章节', trigger: 'change' }
+                    ],
+                    department: [
+                        { required: false, message: '请选择题组', trigger: 'change' }
+                    ],
+                    content: [
+                        { required: true, message: '请输入试题内容', trigger: 'blur' }
+                    ],
+                    selectionA: [
+                        { required: true, message: '请输入试题选项', trigger: 'blur' }
+                    ],
+                    correctOptionRadio: [
+                        { required: true, message: '请选择正确选项', trigger: 'change' }
+                    ],
+                    correctOptionMany: [
+                        { required: true, message: '请选择正确选项', trigger: 'change' }
+                    ],
+                };
+                console.log('rules', result);
+                return result;
+            }
 		},
         computed: {
             isShowSelectionC() {
@@ -303,16 +334,16 @@
                 return this.selectNum > 3;
             },
             isShowSelectionAdd() {
-                return this.selectNum < 4;
+                return !(this.selectNum > 3 && this.form.type === '0');
 			},
             isRadio() {
-                return this.ruleForm.type === '0';
+                return this.form.type === '0';
 			},
 			isCheckbox() {
-                return this.ruleForm.type === '1';
+                return this.form.type === '1';
 			},
             isJudgment() {
-                return this.ruleForm.type === '2';
+                return this.form.type === '2';
             },
 		},
         mounted() {

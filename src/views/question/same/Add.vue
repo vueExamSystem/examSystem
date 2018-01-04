@@ -1,17 +1,20 @@
 <template>
 	<section class="panel" id="queForm">
 		<div class="title">
-			<span>添加章节</span>
+			<span>添加题组</span>
 			<div class="pull-right">
 				<el-button type="success" @click="onSubmit('form')" class="el-button-shadow">保存</el-button>
-				<el-button type="danger" @click="resetForm('form')" class="el-button-shadow">重置</el-button>
+				<el-button type="danger" @click="resetForm('form')" class="el-button-shadow">取消</el-button>
 			</div>
 		</div>
 
 		<div class="content">
 			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-				<el-form-item label="所属课程" prop="usage">
-					<el-select v-model="ruleForm.course" multiple placeholder="请选择试题用途">
+				<el-form-item label="题组名称" prop="name">
+					<el-input v-model="ruleForm.name"></el-input>
+				</el-form-item>
+				<el-form-item label="所属课程" prop="course">
+					<el-select v-model="ruleForm.course" multiple placeholder="请选择所属课程">
 						<el-option
 								v-for="item in courseArr"
 								:label="item.name"
@@ -21,10 +24,19 @@
 						</el-option>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="章节名称" prop="name">
-					<el-input v-model="ruleForm.name"></el-input>
+				<el-form-item label="所属章节" prop="chapter">
+					<el-select v-model="ruleForm.chapter" multiple placeholder="请选择所属章节">
+						<el-option
+								v-for="item in chapterArr"
+								:label="item.name"
+								:value="item.id"
+								:key="item.id"
+						>
+						</el-option>
+					</el-select>
 				</el-form-item>
-				<el-form-item label="章节描述" prop="desc">
+				<el-form-item label="题组描述" prop="desc">
+					<el-button type="primary" icon="iconfont icon-plus">添加试题</el-button>
 					<el-input
 							type="textarea"
 							:rows="3"
@@ -41,6 +53,7 @@
 <script>
     import {
         getCourseList,
+		getChapterList,
     } from '../../../api/api';
 	export default {
 		data() {
@@ -48,20 +61,25 @@
                 ruleForm: {
                     name: '',
                     desc: '',
+					chapter: '',
                     course: '',
                 },
                 rules: {
                     name: [
-                        { required: true, message: '请填写章节名称', trigger: 'blur' }
+                        { required: true, message: '请填写题组名称', trigger: 'blur' }
                     ],
                     desc: [
-                        { required: true, message: '请填写章节描述', trigger: 'blur' }
+                        { required: true, message: '请填写题组描述', trigger: 'blur' }
                     ],
                     course: [
                         { required: true, message: '请选择所属课程', trigger: 'change' }
                     ],
+                    chapter: [
+                        { required: true, message: '请选择所属章节', trigger: 'change' }
+                    ],
                 },
                 courseArr: [],
+                chapterArr: [],
 			}
 		},
 		methods: {
@@ -82,6 +100,10 @@
             getDefaultData() {
                 getCourseList({}).then((res) => {
                     this.courseArr = res.data;
+                    console.log(res);
+                });
+                getChapterList({}).then((res) => {
+                    this.chapterArr = res.data;
                     console.log(res);
                 });
             },

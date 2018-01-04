@@ -48,7 +48,7 @@
                                     </el-table-column>
                                     <el-table-column width="100">
                                         <template scope="props">
-                                            <i class="iconfont icon-remove-circle" @click="delQuestion(props)"></i>
+                                            <i class="iconfont icon-remove-circle" @click="delQuestion(props.row.id)"></i>
                                             <i class="iconfont icon-add-circle"></i>
                                         </template>
                                     </el-table-column>
@@ -71,8 +71,8 @@
                     <el-table-column
                             label="操作"
                             width="100">
-                        <template slot-scope="scope">
-                            <el-button type="text" size="small">删除</el-button>
+                        <template scope="scope">
+                            <el-button type="danger" size="small" @click="delDepartment(scope.row.id)">删除</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -160,9 +160,11 @@
                     //NProgress.done();
                 });
             },
-            delQuestion(data, d) {
-                console.log(data);
-                console.log(d);
+            delDepartment(id){
+                console.log('del department id = ', id);
+            },
+            delQuestion(id) {
+                console.log('del question id = ', id);
             }
         },
         components: {
