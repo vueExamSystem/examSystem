@@ -47,6 +47,10 @@ import StatisticsHome from './views/statistics/Home.vue'
 import BackstageHome from './views/backstage/Home.vue'
 /*设置*/
 import SettingHome from './views/setting/Home.vue'
+import SettingInfo from './views/setting/info/Home.vue'
+import SettingLog from './views/setting/log/Home.vue'
+import SettingAlert from './views/setting/alert/Home.vue'
+import SettingChart from './views/setting/chart/Home.vue'
 
 import testApi from './views/demo/Test.vue'
 
@@ -138,7 +142,12 @@ let routes = [
                 path: 'setting',
                 component: SettingHome,
                 name: '设置',
-                children: []
+                children: [
+                    { path: '/', component: SettingInfo, name: '个人信息',},
+                    { path: 'log', component: SettingLog, name: '系统日志' },
+                    { path: 'alert', component: SettingAlert, name: '考试异常' },
+                    { path: 'chart', component: SettingChart, name: '数据监控' },
+                ]
             },
         ]
     },

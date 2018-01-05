@@ -9,7 +9,7 @@
 		</div>
 
 		<div class="content">
-			<el-form :model="form" :rules="rules" ref="form" label-width="100px" class="demo-form">
+			<el-form :model="form" :rules="rules" ref="form" label-width="110px" :inline-message="isInlineMessage" @submit.prevent="onSubmit">
 
 				<el-form-item label="试题类型" prop="type">
 					<el-select v-model="form.type" placeholder="请选择试题类型">
@@ -74,7 +74,9 @@
 							v-for="(item, index) in correctManyArr"
 							:label="item === 'A' ? '试题选项' : ''"
 							:prop="`selection${item}`"
-							class="spec">
+							:rules="[{required: true, message: `请输入试题选项${item}`, trigger: 'blur'}]"
+							class="spec"
+					>
 						<span>{{item}}</span>
 						<el-input v-model="form[`selection${item}`]"></el-input>
 						<el-upload
@@ -171,7 +173,33 @@
                     keywords: '',
                     analysis: '', // 解析
                 },
-                rules: this.getRuleArr(this.selectNum),
+                rules: {
+                    type: [
+                        { required: true, message: '请选择试题类型', trigger: 'change' }
+                    ],
+                    usage: [
+                        { required: true, message: '请选择试题用途', trigger: 'change' }
+                    ],
+                    subject: [
+                        { required: true, message: '请选择科目', trigger: 'change' }
+                    ],
+                    chapter: [
+                        { required: true, message: '请选择章节', trigger: 'change' }
+                    ],
+                    department: [
+                        { required: false, message: '请选择题组', trigger: 'change' }
+                    ],
+                    content: [
+                        { required: true, message: '请输入试题内容', trigger: 'blur' }
+                    ],
+                    correctOptionRadio: [
+                        { required: true, message: '请选择正确选项', trigger: 'change' }
+                    ],
+                    correctOptionMany: [
+                        { required: true, message: '请选择正确选项', trigger: 'change' }
+                    ],
+				},
+                isInlineMessage: true,
 				// 上传文件的路径
 				uploadSource: 'https://jsonplaceholder.typicode.com/posts/',
 				// 选项个数
@@ -260,17 +288,20 @@
                 const str = String.fromCharCode(64 + this.selectNum);
                 this.correctRadioArr.push({ id: this.selectNum - 1, name: str });
                 this.correctManyArr.push(str);
-                // this.rules = this.getRuleArr(this.selectNum);
+                this.rules = this.getRuleArr(this.selectNum);
 			},
             // 删除选项
             delSelection(index) {
+                if (this.selectNum === 2) {
+                    return;
+				}
                 console.log('del selection', index);
                 this.selectNum = this.selectNum - 1;
                 this.correctManyArr = this.getCorrectArrByNum(this.selectNum, 'many');
                 this.correctRadioArr = this.getCorrectArrByNum(this.selectNum, 'radio');
                 this.form.selection.splice(index, 1);
                 this.form.selectionPic.splice(index, 1);
-                // this.rules = this.getRuleArr(this.selectNum);
+                this.rules = this.getRuleArr(this.selectNum);
 			},
 			getCorrectArrByNum(num, type) {
                 const arr = [];
@@ -294,33 +325,7 @@
                 }
                 const result = {
                     ...arr,
-                    type: [
-                        { required: true, message: '请选择试题类型', trigger: 'change' }
-                    ],
-                    usage: [
-                        { required: true, message: '请选择试题用途', trigger: 'change' }
-                    ],
-                    subject: [
-                        { required: true, message: '请选择科目', trigger: 'change' }
-                    ],
-                    chapter: [
-                        { required: true, message: '请选择章节', trigger: 'change' }
-                    ],
-                    department: [
-                        { required: false, message: '请选择题组', trigger: 'change' }
-                    ],
-                    content: [
-                        { required: true, message: '请输入试题内容', trigger: 'blur' }
-                    ],
-                    selectionA: [
-                        { required: true, message: '请输入试题选项', trigger: 'blur' }
-                    ],
-                    correctOptionRadio: [
-                        { required: true, message: '请选择正确选项', trigger: 'change' }
-                    ],
-                    correctOptionMany: [
-                        { required: true, message: '请选择正确选项', trigger: 'change' }
-                    ],
+
                 };
                 console.log('rules', result);
                 return result;
