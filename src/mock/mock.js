@@ -12,6 +12,10 @@ import {
     CourseList,
     TagList,
 } from './data/question';
+import {
+    PaperList,
+    PaperDetail
+} from './data/paper';
 
 let _Users = Users;
 
@@ -37,7 +41,7 @@ export default {
                     });
 
                     if (hasUser) {
-                        resolve([200, {code: '0000', msg: '请求成功', data:{user}}]);
+                        resolve([200, {code: 200, msg: '请求成功', data:user}]);
                     } else {
                         resolve([200, {code: 500, msg: '账号或密码错误'}]);
                     }
@@ -197,6 +201,20 @@ export default {
         //获取course列表
         mock.onGet(`/course/list`).reply(config => {
             return u.getMockList(config, CourseList);
+        });
+
+        /** 以下paper **/
+        //获取试卷列表
+        mock.onPost(`/paper/list`).reply(config => {
+            return u.getMockList(config, PaperList);
+        });
+        //获取试卷详情
+        mock.onPost(`/paper/detail`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, PaperDetail]);
+                }, 1000);
+            });
         });
     }
 };
