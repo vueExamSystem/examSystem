@@ -41,3 +41,10 @@ export const getChapterList = params => { return axios.get(`${base}/chapter/list
 
 // department
 export const getDepartmentList = params => { return axios.get(`${base}/department/list`, params ); };
+
+/*
+* 试卷 start
+* */
+export const getPaperList = params => { return axios.post(`${base}/paper/list`, params ); };
+//试卷详情
+export const getPaperDetail = params => { return axios.post(`${base}/paper/detail`, params ); };

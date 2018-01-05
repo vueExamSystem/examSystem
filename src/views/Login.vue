@@ -11,13 +11,14 @@
         <div class="el-input-myprepend"><i class="iconfont icon-lock-larger"></i></div>
       </el-form-item>
       <el-form-item style="margin-top:40px;">
-        <el-button type="primary" style="width:100%;" @click.native.prevent="handleSubmit">登录</el-button>
+        <el-button type="primary" style="width:100%;" :loading="logining" @click.native.prevent="handleSubmit">登录</el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script>
+  import { requestLogin } from '../api/api';
   export default {
     data() {
       return {
@@ -33,7 +34,7 @@
             { required: true, message: '请输入密码', trigger: 'blur' }
           ]
         },
-        checked: true
+        logining: false
       };
     },
     methods: {
@@ -41,11 +42,20 @@
         var _this = this;
         this.$refs.loginForm.validate((valid) => {
           if (valid) {
+            this.logining = true;
             var loginParams = { username: this.loginForm.account, password: this.loginForm.checkPass };
-            this.systemPost('login',loginParams,data => {
-              let {user} = data;
-              sessionStorage.setItem('user', JSON.stringify(user));
-              this.$router.push({ path: '/' });
+            requestLogin(loginParams).then(res => {
+              this.logining = false;
+              let { msg, code, data } = res;
+              if (code !== 200) {
+                this.$message({
+                  message: msg,
+                  type: 'error'
+                });
+              } else {
+                sessionStorage.setItem('user', JSON.stringify(data));
+                this.$router.push({ path: '/' });
+              }
             });
           } else {
             return false;

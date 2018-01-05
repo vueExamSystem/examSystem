@@ -3,11 +3,11 @@
 		<div class="panel" v-show="!isAddProblem">
 			<div class="title">
 				<span>
-				{{paper.name}}
-				（总分：{{paper.total}}分 &nbsp;&nbsp; 已有分值：{{paper.hasSet}}分）
+				{{detail.name}}
+				（总分：{{detail.total}}分  <span v-if="isEditAble" style="margin-left:12px;">已有分值：{{totalSet}}分</span>）
 				</span>
 				<div class="pull-right">
-					<el-button type="success" @click="onSave()" class="el-button-shadow">保存</el-button>
+					<el-button v-if="isEditAble" type="success" @click="onSave()" class="el-button-shadow">保存</el-button>
 					<el-button type="danger" @click="goBack()" class="el-button-shadow">取消</el-button>
 				</div>
 			</div>
@@ -15,8 +15,8 @@
 				<el-collapse>
 					<el-collapse-item>
 						<template slot="title">
-							<span>单选题（共1题 &nbsp; 每题2分）</span>
-							<el-button type="primary" @click.stop="addProblem('radio')">添加试题</el-button>
+							<span>单选题（共<span>{{detail.radio.count}}</span>题 &nbsp; 每题<span>{{detail.radio.perScore}}</span>分）</span>
+							<el-button v-if="isEditAble" type="primary" @click.stop="addProblem('radio')">添加试题</el-button>
 						</template>
 						<div class="el-question">
 							<div class="el-question-title">
@@ -49,14 +49,14 @@
 								</div>
 							</div>
 							<div class="pageArea">
-								<Page></Page>
+								<Page v-if="isDrawPage" current="1" :total="radioCount" pageSize="1" @page-change="radioPageChange"></Page>
 							</div>
 						</div>
 					</el-collapse-item>
 					<el-collapse-item>
 						<template slot="title">
-							<span>多选题（共1题 &nbsp; 每题2分）</span>
-							<el-button type="primary" @click.stop="addProblem('check')">添加试题</el-button>
+							<span>多选题（共<span>{{detail.check.count}}</span>题 &nbsp; 每题<span>{{detail.check.perScore}}</span>分）</span>
+							<el-button v-if="isEditAble" type="primary" @click.stop="addProblem('check')">添加试题</el-button>
 						</template>
 						<div class="el-question">
 							<div class="el-question-title">
@@ -89,14 +89,14 @@
 								</div>
 							</div>
 							<div class="pageArea">
-								<Page></Page>
+								<Page v-if="isDrawPage" current="1" :total="detail.check.count" pageSize="1" @page-change="checkPageChange"></Page>
 							</div>
 						</div>
 					</el-collapse-item>
 					<el-collapse-item>
 						<template slot="title">
-							<span>判断题（共1题 &nbsp; 每题2分）</span>
-							<el-button type="primary" @click.stop="addProblem('judge')">添加试题</el-button>
+							<span>判断题（共<span>{{detail.judge.count}}</span>题 &nbsp; 每题<span>{{detail.judge.perScore}}</span>分）</span>
+							<el-button v-if="isEditAble" type="primary" @click.stop="addProblem('judge')">添加试题</el-button>
 						</template>
 						<div class="el-question">
 							<div class="el-question-title">
@@ -127,14 +127,14 @@
 								</div>
 							</div>
 							<div class="pageArea">
-								<Page></Page>
+								<Page v-if="isDrawPage" current="1" :total="detail.judge.count" pageSize="1" @page-change="judgePageChange"></Page>
 							</div>
 						</div>
 					</el-collapse-item>
 					<el-collapse-item>
 						<template slot="title">
-							<span>选做题（共1题 &nbsp; 每题2分）</span>
-							<el-button type="primary" @click.stop="addProblem('option')">添加试题</el-button>
+							<span>选做题（共<span>{{detail.option.count}}</span>题 &nbsp; 每题<span>{{detail.option.perScore}}</span>分）</span>
+							<el-button v-if="isEditAble" type="primary" @click.stop="addProblem('option')">添加试题</el-button>
 						</template>
 						<div class="el-question">
 							<div class="el-question-title">
@@ -167,30 +167,52 @@
 								</div>
 							</div>
 							<div class="pageArea">
-								<Page></Page>
+								<Page v-if="isDrawPage" current="1" :total="detail.option.count" pageSize="1" @page-change="optionPageChange"></Page>
 							</div>
 						</div>
 					</el-collapse-item>
 				</el-collapse>
 			</div>
 		</div>
-		<add-problem :flag="addType" v-if="isAddProblem" @back="addProblemBack"></add-problem>
+		<add-problem :flag="addType" v-if="isEditAble && isAddProblem" @back="addProblemBack"></add-problem>
 	</section>
 </template>
 <script>
+	import { getPaperDetail } from '../../../api/api';
 	import Page from '../../common/Pagination.vue'
 	import addProblem from './AddProblem.vue'
 	export default{
+		props:{
+			id:{
+				required: true
+			}
+		},
 		components: {
 			Page,
 			addProblem
 		},
 		data(){
 			return {
-				paper:{
-					name: '大学物理期中试卷',
-					total: '100',
-					hasSet: '6'
+				isDrawPage: false,
+				detail:{
+					name:'',
+				    total:'',
+				    radio:{
+				        count: '',
+				        perScore:''
+				    },
+				    check:{
+				        count: '',
+				        perScore:''
+				    },
+				    judge:{
+				        count: '',
+				        perScore:''
+				    },
+				    option:{
+				        count: '',
+				        perScore:''
+				    }
 				},
 				radioAnswer:'A',
 				checkAnswer:'A',
@@ -200,12 +222,34 @@
 				addType: 'radio'
 			}
 		},
+		computed:{
+			isEditAble(){
+				return this.detail.status === '0'
+			},
+			totalSet(){
+				return (this.detail.radio.count * this.detail.radio.perScore)+(this.detail.check.count * this.detail.check.perScore)+(this.detail.judge.count * this.detail.judge.perScore)+(this.detail.judge.count * this.detail.judge.perScore)
+			},
+			radioCount(){
+				console.log(this.detail.radio.count)
+				return this.detail.radio.count;
+			}
+		},
 		methods:{
+			init(){
+				var param = {
+					id: this.id
+				};
+				getPaperDetail(param).then(res => {
+					console.log(res)
+					this.detail = res.data;
+					this.isDrawPage = true;
+				});
+			},
 			onSave(){
 
 			},
 			goBack(){
-				this.$emit('back');
+				this.$emit('close');
 			},
 			addProblemBack(){//取消添加试题
 				this.isAddProblem = false;
@@ -213,10 +257,24 @@
 			addProblem(type){//添加试题
 				this.isAddProblem = true;
 				this.addType = type;
+			},
+			radioPageChange(current){
+
+			},
+			checkPageChange(current){
+
+			},
+			judgePageChange(current){
+
+			},
+			optionPageChange(current){
+
 			}
 		},
-		mounted(){
-
+		created(){
+			this.$nextTick(() => {
+				this.init();
+			});
 		}
 	}
 </script>

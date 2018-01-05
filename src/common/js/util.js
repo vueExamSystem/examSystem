@@ -11,50 +11,55 @@ import axios from 'axios';
 
 export default {
     install(Vue,options){
+
+        /**弹出错误提示*/
+        Vue.prototype.alerrError = function(msg){
+            this.$message({
+                message: msg,
+                type: 'error'
+            });
+        };
+
+        /*封装post*/
         Vue.prototype.systemPost = function(url,params,resolve,reject,fail){
             //mask loading
-            return axios.post(`${base}/` + url, params).then(res => {
+            if(url.substr(0,1) != '/'){
+                url = '/' + url;
+            }
+            return axios.post(`${base}` + url, params).then(res => {
                 //end loading
                 let {code,msg,data} = res.data;
                 if(code == '0000'){
                     if($.isFunction(resolve)) resolve(data,msg);
                 }else{
-                    this.$message({
-                      message: msg,
-                      type: 'error'
-                    });
+                    this.alerrError(error);
                     if($.isFunction(reject)) reject(res.data);
                 }
             }).catch(error => {
                 //end loading
-                this.$message({
-                  message: error,
-                  type: 'error'
-                });
+                this.alerrError(error);
                 if($.isFunction(fail)) fail(error);
             });
         }
 
-        Vue.prototype.systemGet = function(url,params){
+        /*封装get*/
+        Vue.prototype.systemGet = function(url,params,resolve,reject,fail){
             //mask loading
-            return axios.post(`${base}/` + url, params).then(res => {
+            if(url.substr(0,1) != '/'){
+                url = '/' + url;
+            }
+            return axios.get(`${base}` + url, params).then(res => {
                 //end loading
                 let {code,msg,data} = res.data;
                 if(code == '0000'){
                     if($.isFunction(resolve)) resolve(data,msg);
                 }else{
-                    this.$message({
-                      message: msg,
-                      type: 'error'
-                    });
+                    this.alerrError(msg);
                     if($.isFunction(reject)) reject(res.data);
                 }
             }).catch(error => {
                 //end loading
-                this.$message({
-                  message: error,
-                  type: 'error'
-                });
+                this.alerrError(error);
                 if($.isFunction(fail)) fail(error);
             });
         }
