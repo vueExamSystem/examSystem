@@ -1,6 +1,6 @@
 <template>
     <el-tabs type="border-card" v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="考试异常" name="list">
+        <el-tab-pane label="系统日志" name="list">
             <table></table>
         </el-tab-pane>
     </el-tabs>

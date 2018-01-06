@@ -19,15 +19,14 @@
                         :data="list"
                         highlight-current-row
                         v-loading="listLoading"
-                        @selection-change="selsChange"
                         style="width: 100%;">
                     <el-table-column type="index" label="ID" sortable>
                     </el-table-column>
-                    <el-table-column prop="name" label="标签名称" sortable>
+                    <el-table-column prop="account" label="帐号" sortable>
                     </el-table-column>
-                    <el-table-column prop="desc" label="描述" sortable>
+                    <el-table-column prop="time" label="登录时间" sortable>
                     </el-table-column>
-                    <el-table-column prop="creator" label="创建人" sortable>
+                    <el-table-column prop="state" label="状态" sortable>
                     </el-table-column>
                 </el-table>
             </div>
@@ -43,15 +42,11 @@
         data() {
             return {
                 searchkey: '',
-                filters: {
-                    name: ''
-                },
                 list: [],
                 total: 0,
                 page: 1,
                 pageSize: 5,
                 listLoading: false,
-                sels: [],//列表选中列
 
             }
         },
@@ -62,9 +57,6 @@
             handleCurrentChange(val) {
                 this.page = val;
                 this.getList();
-            },
-            selsChange: function (sels) {
-                this.sels = sels;
             },
             search() {},
             //获取用户列表
