@@ -23,11 +23,15 @@
                         style="width: 100%;">
                     <el-table-column type="index" label="ID" sortable>
                     </el-table-column>
-                    <el-table-column prop="name" label="标签名称" sortable>
+                    <el-table-column prop="account" label="学号" sortable>
                     </el-table-column>
-                    <el-table-column prop="desc" label="描述" sortable>
+                    <el-table-column prop="name" label="姓名" sortable>
                     </el-table-column>
-                    <el-table-column prop="creator" label="创建人" sortable>
+                    <el-table-column prop="examName" label="考试名称" sortable>
+                    </el-table-column>
+                    <el-table-column prop="errorTime" label="异常时间" sortable>
+                    </el-table-column>
+                    <el-table-column prop="desc" label="说明" sortable>
                     </el-table-column>
                 </el-table>
             </div>
@@ -36,7 +40,7 @@
 </template>
 
 <script>
-    import {getTagList} from '../../../api/api';
+    import {getSetAlertList} from '../../../api/api';
     import Pagination from '../../common/Pagination.vue'
 
     export default {
@@ -76,7 +80,7 @@
                 };
                 this.listLoading = true;
                 //NProgress.start();
-                getTagList(para).then((res) => {
+                getSetAlertList(para).then((res) => {
                     this.total = res.data.total;
                     this.list = res.data.list;
                     this.listLoading = false;

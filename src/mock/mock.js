@@ -16,6 +16,11 @@ import {
     PaperList,
     PaperDetail
 } from './data/paper';
+import {
+    LogList,
+    AlertList,
+    ChartList,
+} from './data/setting';
 
 let _Users = Users;
 
@@ -201,6 +206,21 @@ export default {
         //获取course列表
         mock.onGet(`/course/list`).reply(config => {
             return u.getMockList(config, CourseList);
+        });
+
+        /** 以下setting **/
+
+        //获取log列表
+        mock.onGet('/log/list').reply(config => {
+            return u.getMockList(config, LogList);
+        });
+        //获取log列表
+        mock.onGet('/alert/list').reply(config => {
+            return u.getMockList(config, AlertList);
+        });
+        //获取chart列表
+        mock.onGet('/chart/list').reply(config => {
+            return u.getMockList(config, ChartList);
         });
 
         /** 以下paper **/

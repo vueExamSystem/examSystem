@@ -15,88 +15,44 @@ const _selectArr = [
         name: '筛选项_2'
     },
 ];
-const TypeList = [];
-const UsageList = [];
-const DepartmentList = [];
-const ChapterList = [];
-const SubjectList = [];
-const QuestionList = [];
-const TagList = [];
-const CourseList = [];
+const LogList = [{
+    id: 1,
+    account: 12345678,
+    time: '2017/12/22 11:20:34',
+    state: '手机端，登录成功',
+},{
+    id: 2,
+    account: 21111111,
+    time: '2017/12/23 11:20:34',
+    state: '手机端，登录成功',
+},{
+    id: 3,
+    account: 222222222,
+    time: '2017/11/22 11:20:34',
+    state: '电脑端，登录成功',
+}];
 
-for (let i = 0; i < 3; i++) {
-    TypeList.push(Mock.mock({
-        id: i,
-        name: `类型_${i}`,
-    }));
-}
-for (let i = 0; i < 3; i++) {
-    UsageList.push(Mock.mock({
-        id: i,
-        name: `用途_${i}`,
-    }));
-}
-for (let i = 0; i < 3; i++) {
-    SubjectList.push(Mock.mock({
-        id: i,
-        name: `科目_${i}`,
-    }));
-}
-for (let i = 0; i < 3; i++) {
-    ChapterList.push(Mock.mock({
-        id: i,
-        name: `章节_${i}`,
-        subject: '大学物理',
-        creator: 'admin',
-        desc: '描述',
-    }));
-}
-for (let i = 0; i < 86; i++) {
-    QuestionList.push(Mock.mock({
-        id: Mock.Random.id(),
-        name: '万有引力',
-        type: '单选',
-        subject: '大学物理',
-        chapter: '基础物理',
-        creator: 'admin',
-        same: '组01',
-    }));
-}
-for (let i = 0; i < 20; i++) {
-    const arr = _.slice(QuestionList, i * 3, i * 3 + 4);
-    DepartmentList.push(Mock.mock({
-        id: i,
-        name: `题组_${i}`,
-        subject: '大学物理',
-        chapter: '第一章',
-        children: arr,
-    }));
-}
-for (let i = 0; i < 86; i++) {
-    TagList.push(Mock.mock({
-        id: i,
-        name: `标签${i}`,
-        creator: 'admin',
-        desc: '描述',
-    }));
-}
-for (let i = 0; i < 86; i++) {
-    CourseList.push(Mock.mock({
-        id: i,
-        name: `课程${i}`,
-        subject: '物理',
-        grade: '14级',
-        creator: 'admin',
-    }));
-}
+const AlertList= [
+    {
+        id: 1,
+        account: 2111101,
+        name: '张三',
+        examName: '大学物理',
+        errorTime: '2017/11/22 11:20:34',
+        desc: '多端登录',
+    }
+];
+
+const ChartList= [
+    {
+        id: 1,
+        database: 'student.sql',
+        isOnline: '是',
+    }
+];
 
 export {
-    TypeList,
-    UsageList,
-    SubjectList,
-    ChapterList,
-    DepartmentList,
-    QuestionList,
-    CourseList,
-    TagList,
+    LogList,
+    AlertList,
+    ChartList,
 };

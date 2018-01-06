@@ -1,13 +1,13 @@
 <template>
     <el-tabs type="border-card" v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="数据监控" name="list">
-            <table></table>
+            <chart-table></chart-table>
         </el-tab-pane>
     </el-tabs>
 </template>
 
 <script>
-    import table from './Table.vue';
+    import chartTable from './Table.vue';
     export default {
         data() {
             return {
@@ -15,7 +15,7 @@
             }
         },
         components: {
-            table,
+            chartTable,
         },
         methods: {
             handleClick(tab, event){

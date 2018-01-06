@@ -35,7 +35,7 @@
 </template>
 
 <script>
-    import {getTagList} from '../../../api/api';
+    import {getSetLogList} from '../../../api/api';
     import Pagination from '../../common/Pagination.vue'
 
     export default {
@@ -63,12 +63,12 @@
             getList() {
                 let para = {
                     page: this.page,
-                    name: this.filters.name,
                     pageSize: this.pageSize
                 };
                 this.listLoading = true;
                 //NProgress.start();
-                getTagList(para).then((res) => {
+                getSetLogList(para).then((res) => {
+                    console.log('res', res);
                     this.total = res.data.total;
                     this.list = res.data.list;
                     this.listLoading = false;

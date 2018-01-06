@@ -1,13 +1,13 @@
 <template>
     <el-tabs type="border-card" v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="系统日志" name="list">
-            <table></table>
+            <log-table></log-table>
         </el-tab-pane>
     </el-tabs>
 </template>
 
 <script>
-    import table from './Table.vue';
+    import logTable from './Table.vue';
     export default {
         data() {
             return {
@@ -15,7 +15,7 @@
             }
         },
         components: {
-            table,
+            logTable,
         },
         methods: {
             handleClick(tab, event){

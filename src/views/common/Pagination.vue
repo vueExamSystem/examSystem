@@ -84,6 +84,11 @@
                 this.$emit('page-change', this.currentPage);
             }
         },
+        computed: {
+            getTotal() {
+                return this.total;
+            }
+        },
         mounted() {
             this.pageNum = this.getPageNum();
         }

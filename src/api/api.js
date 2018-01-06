@@ -43,6 +43,18 @@ export const getChapterList = params => { return axios.get(`${base}/chapter/list
 export const getDepartmentList = params => { return axios.get(`${base}/department/list`, params ); };
 
 /*
+*  设置 start
+* */
+// log
+export const getSetLogList = params => { return axios.get(`${base}/log/list`, params ); };
+
+// alert
+export const getSetAlertList = params => { return axios.get(`${base}/alert/list`, params ); };
+
+// chart
+export const getSetChartList = params => { return axios.get(`${base}/chart/list`, params ); };
+
+/*
 * 试卷 start
 * */
 export const getPaperList = params => { return axios.post(`${base}/paper/list`, params ); };
