@@ -45,6 +45,11 @@ import ScoreHome from './views/score/Home.vue'
 import StatisticsHome from './views/statistics/Home.vue'
 /*后台*/
 import BackstageHome from './views/backstage/Home.vue'
+import BackstageStudent from './views/backstage/student/Home.vue'
+import BackstageCourse from './views/backstage/course/Home.vue'
+import BackstageCompetence from './views/backstage/competence/Home.vue'
+import BackstageRole from './views/backstage/role/Home.vue'
+import BackstageScore from './views/backstage/score/Home.vue'
 /*设置*/
 import SettingHome from './views/setting/Home.vue'
 import SettingInfo from './views/setting/info/Home.vue'
@@ -136,7 +141,13 @@ let routes = [
                 path: 'backstage',
                 component: BackstageHome,
                 name: '后台',
-                children: []
+                children: [
+                    { path: '/', component: BackstageStudent, name: '学生管理',},
+                    { path: 'course', component: BackstageCourse, name: '选课管理' },
+                    { path: 'role', component: BackstageRole, name: '角色管理' },
+                    { path: 'score', component: BackstageScore, name: '成绩管理' },
+                    { path: 'competence', component: BackstageCompetence, name: '权限管理' },
+                ]
             },
             {
                 path: 'setting',
