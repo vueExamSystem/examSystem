@@ -73,6 +73,8 @@
                 let num = 1;
                 if (this.totalNum % this.pageSizeNum > 0) {
                     num = _.floor(this.totalNum / this.pageSizeNum) + 1;
+                } else {
+                    num = _.floor(this.totalNum / this.pageSizeNum);
                 }
                 if (this.totalNum / this.pageSizeNum === 0 ||
                 this.totalNum === this.pageSizeNum) {

@@ -18,38 +18,35 @@
 							<span>单选题（共<span>{{detail.radio.count}}</span>题 &nbsp; 每题<span>{{detail.radio.perScore}}</span>分）</span>
 							<el-button v-if="isEditAble" type="primary" @click.stop="addProblem('radio')">添加试题</el-button>
 						</template>
-						<div class="el-question">
+						<div class="el-question" v-loading="isRadioLoading">
 							<div class="el-question-title">
-								<span>1. 某物体在一足够大的光滑平面上向西运动，当它受到一个向南的恒定外力作用时，物体运动将是（）</span>
+								<span>{{radioCurrent}}. {{radioProblem.title}}</span>
 							</div>
 							<div class="el-question-options">
-								<el-radio-group v-model="radioAnswer">
-								<el-radio label="A">A. 直线运动且是匀变速直线运动</el-radio>
-								<el-radio label="B">B. 曲线运动但加速度方向不变、大小不变，是匀变速运动</el-radio>
-								<el-radio label="C">C. 曲线运动但加速度方向改变、大小不变，是非匀变速曲线运动</el-radio>
-								<el-radio label="D">D. 曲线运动，加速度大小和方向均改变，是非匀变速曲线运动</el-radio>
+								<el-radio-group v-model="radioProblem.answer">
+								<el-radio v-for="option in radioProblem.options" :label="option.flag">{{option.flag}}. {{option.text}}</el-radio>
 							</el-radio-group>
 							</div>
 							<div class="el-question-info">
 								<div class="el-info">
 									<div class="el-label el-label-light-green">正确答案</div>
-									<div class="el-info-content">A</div>
+									<div class="el-info-content">{{radioProblem.answer}}</div>
 								</div>
 								<div class="el-info">
 									<div class="el-label el-label-blue">解析</div>
-									<div class="el-info-content">光滑、摩擦力</div>
+									<div class="el-info-content">{{radioProblem.analysis}}</div>
 								</div>
 								<div class="el-info">
 									<div class="el-label el-label-green">考点</div>
-									<div class="el-info-content">曲线运动，匀速运动</div>
+									<div class="el-info-content">{{radioProblem.keynote}}</div>
 								</div>
 								<div class="el-info">
 									<div class="el-label el-label-purple">添加人</div>
-									<div class="el-info-content">Admin</div>
+									<div class="el-info-content">{{radioProblem.creator}}</div>
 								</div>
 							</div>
 							<div class="pageArea">
-								<Page v-if="isDrawPage" current="1" :total="radioCount" pageSize="1" @page-change="radioPageChange"></Page>
+								<Page v-if="isDrawPage" current="1" :total="detail.radio.count" pageSize="1" @page-change="radioPageChange"></Page>
 							</div>
 						</div>
 					</el-collapse-item>
@@ -58,34 +55,31 @@
 							<span>多选题（共<span>{{detail.check.count}}</span>题 &nbsp; 每题<span>{{detail.check.perScore}}</span>分）</span>
 							<el-button v-if="isEditAble" type="primary" @click.stop="addProblem('check')">添加试题</el-button>
 						</template>
-						<div class="el-question">
+						<div class="el-question" v-loading="isCheckLoading">
 							<div class="el-question-title">
-								<span>1. 某物体在一足够大的光滑平面上向西运动，当它受到一个向南的恒定外力作用时，物体运动将是（）</span>
+								<span>{{checkCurrent}}. {{checkProblem.title}}</span>
 							</div>
 							<div class="el-question-options">
-								<el-checkbox-group v-model="checkAnswer">
-								<el-checkbox label="A">A. 直线运动且是匀变速直线运动</el-checkbox>
-								<el-checkbox label="B">B. 曲线运动但加速度方向不变、大小不变，是匀变速运动</el-checkbox>
-								<el-checkbox label="C">C. 曲线运动但加速度方向改变、大小不变，是非匀变速曲线运动</el-checkbox>
-								<el-checkbox label="D">D. 曲线运动，加速度大小和方向均改变，是非匀变速曲线运动</el-checkbox>
-							</el-checkbox-group>
+								<el-checkbox-group v-model="checkProblem.answer">
+									<el-checkbox v-for="option in checkProblem.options" :label="option.flag">{{option.flag}}. {{option.text}}</el-checkbox>
+								</el-checkbox-group>
 							</div>
 							<div class="el-question-info">
 								<div class="el-info">
 									<div class="el-label el-label-light-green">正确答案</div>
-									<div class="el-info-content">A,B</div>
+									<div class="el-info-content">{{checkProblem.answer}}</div>
 								</div>
 								<div class="el-info">
 									<div class="el-label el-label-blue">解析</div>
-									<div class="el-info-content">光滑、摩擦力</div>
+									<div class="el-info-content">{{checkProblem.analysis}}</div>
 								</div>
 								<div class="el-info">
 									<div class="el-label el-label-green">考点</div>
-									<div class="el-info-content">曲线运动，匀速运动</div>
+									<div class="el-info-content">{{checkProblem.keynote}}</div>
 								</div>
 								<div class="el-info">
 									<div class="el-label el-label-purple">添加人</div>
-									<div class="el-info-content">Admin</div>
+									<div class="el-info-content">{{checkProblem.creator}}</div>
 								</div>
 							</div>
 							<div class="pageArea">
@@ -98,32 +92,31 @@
 							<span>判断题（共<span>{{detail.judge.count}}</span>题 &nbsp; 每题<span>{{detail.judge.perScore}}</span>分）</span>
 							<el-button v-if="isEditAble" type="primary" @click.stop="addProblem('judge')">添加试题</el-button>
 						</template>
-						<div class="el-question">
+						<div class="el-question" v-loading="isJudgeLoading">
 							<div class="el-question-title">
-								<span>1. 某物体在一足够大的光滑平面上向西运动，当它受到一个向南的恒定外力作用时，物体运动将是直线运动且是匀变速直线运动。</span>
+								<span>{{judgeCurrent}}. {{judgeProblem.title}}</span>
 							</div>
 							<div class="el-question-options">
-								<el-radio-group v-model="judgeAnswer">
-								<el-radio label="A">A. 正确</el-radio>
-								<el-radio label="B">B. 错误</el-radio>
-							</el-radio-group>
+								<el-radio-group v-model="judgeProblem.answer">
+									<el-radio v-for="option in judgeProblem.options" :label="option.flag">{{option.flag}}. {{option.text}}</el-radio>
+								</el-radio-group>
 							</div>
 							<div class="el-question-info">
 								<div class="el-info">
 									<div class="el-label el-label-light-green">正确答案</div>
-									<div class="el-info-content">A</div>
+									<div class="el-info-content">{{judgeProblem.answer}}</div>
 								</div>
 								<div class="el-info">
 									<div class="el-label el-label-blue">解析</div>
-									<div class="el-info-content">光滑、摩擦力</div>
+									<div class="el-info-content">{{judgeProblem.analysis}}</div>
 								</div>
 								<div class="el-info">
 									<div class="el-label el-label-green">考点</div>
-									<div class="el-info-content">曲线运动，匀速运动</div>
+									<div class="el-info-content">{{judgeProblem.keynote}}</div>
 								</div>
 								<div class="el-info">
 									<div class="el-label el-label-purple">添加人</div>
-									<div class="el-info-content">Admin</div>
+									<div class="el-info-content">{{judgeProblem.creator}}</div>
 								</div>
 							</div>
 							<div class="pageArea">
@@ -136,34 +129,34 @@
 							<span>选做题（共<span>{{detail.option.count}}</span>题 &nbsp; 每题<span>{{detail.option.perScore}}</span>分）</span>
 							<el-button v-if="isEditAble" type="primary" @click.stop="addProblem('option')">添加试题</el-button>
 						</template>
-						<div class="el-question">
+						<div class="el-question" v-loading="isOptionLoading">
 							<div class="el-question-title">
-								<span>1. 某物体在一足够大的光滑平面上向西运动，当它受到一个向南的恒定外力作用时，物体运动将是（）</span>
+								<span>{{optionCurrent}}. {{optionProblem.title}}</span>
 							</div>
 							<div class="el-question-options">
-								<el-radio-group v-model="optionAnswer">
-								<el-radio label="A">A. 直线运动且是匀变速直线运动</el-radio>
-								<el-radio label="B">B. 曲线运动但加速度方向不变、大小不变，是匀变速运动</el-radio>
-								<el-radio label="C">C. 曲线运动但加速度方向改变、大小不变，是非匀变速曲线运动</el-radio>
-								<el-radio label="D">D. 曲线运动，加速度大小和方向均改变，是非匀变速曲线运动</el-radio>
-							</el-radio-group>
+								<el-checkbox-group v-if="optionProblem.type=='check'" v-model="optionProblem.answer">
+									<el-checkbox v-for="option in optionProblem.options" :label="option.flag">{{option.flag}}. {{option.text}}</el-checkbox>
+								</el-checkbox-group>
+								<el-radio-group v-else v-model="optionProblem.answer">
+									<el-radio v-for="option in optionProblem.options" :label="option.flag">{{option.flag}}. {{option.text}}}</el-radio>
+								</el-radio-group>
 							</div>
 							<div class="el-question-info">
 								<div class="el-info">
 									<div class="el-label el-label-light-green">正确答案</div>
-									<div class="el-info-content">A</div>
+									<div class="el-info-content">{{optionProblem.answer}}</div>
 								</div>
 								<div class="el-info">
 									<div class="el-label el-label-blue">解析</div>
-									<div class="el-info-content">光滑、摩擦力</div>
+									<div class="el-info-content">{{optionProblem.analysis}}</div>
 								</div>
 								<div class="el-info">
 									<div class="el-label el-label-green">考点</div>
-									<div class="el-info-content">曲线运动，匀速运动</div>
+									<div class="el-info-content">{{optionProblem.keynote}}</div>
 								</div>
 								<div class="el-info">
 									<div class="el-label el-label-purple">添加人</div>
-									<div class="el-info-content">Admin</div>
+									<div class="el-info-content">{{optionProblem.creator}}</div>
 								</div>
 							</div>
 							<div class="pageArea">
@@ -178,7 +171,7 @@
 	</section>
 </template>
 <script>
-	import { getPaperDetail } from '../../../api/api';
+	import { getPaperDetail, getPaperProblem } from '../../../api/api';
 	import Page from '../../common/Pagination.vue'
 	import addProblem from './AddProblem.vue'
 	export default{
@@ -195,29 +188,37 @@
 			return {
 				isDrawPage: false,
 				detail:{
-					name:'',
-				    total:'',
-				    radio:{
-				        count: '',
-				        perScore:''
-				    },
-				    check:{
-				        count: '',
-				        perScore:''
-				    },
-				    judge:{
-				        count: '',
-				        perScore:''
-				    },
-				    option:{
-				        count: '',
-				        perScore:''
-				    }
+					name:'...',
+				    total:'...',
+				    // radio:{
+				    //     count: 0,
+				    //     perScore:0
+				    // },
+				    // check:{
+				    //     count: 0,
+				    //     perScore:0
+				    // },
+				    // judge:{
+				    //     count: 0,
+				    //     perScore:0
+				    // },
+				    // option:{
+				    //     count: 0,
+				    //     perScore:0
+				    // }
 				},
-				radioAnswer:'A',
-				checkAnswer:'A',
-				judgeAnswer:'A',
-				optionAnswer:'A',
+				isRadioLoading: true,
+				radioProblem:'',
+				radioCurrent: 1,
+				isCheckLoading: true,
+				checkProblem:'',
+				checkCurrent: 1,
+				isJudgeLoading: true,
+				judgeProblem:'',
+				judgeCurrent: 1,
+				isOptionLoading: true,
+				optionProblem:'',
+				optionCurrent: 1,
 				isAddProblem: false,
 				addType: 'radio'
 			}
@@ -228,10 +229,6 @@
 			},
 			totalSet(){
 				return (this.detail.radio.count * this.detail.radio.perScore)+(this.detail.check.count * this.detail.check.perScore)+(this.detail.judge.count * this.detail.judge.perScore)+(this.detail.judge.count * this.detail.judge.perScore)
-			},
-			radioCount(){
-				console.log(this.detail.radio.count)
-				return this.detail.radio.count;
 			}
 		},
 		methods:{
@@ -240,10 +237,13 @@
 					id: this.id
 				};
 				getPaperDetail(param).then(res => {
-					console.log(res)
 					this.detail = res.data;
 					this.isDrawPage = true;
 				});
+				this.radioPageChange(1);
+				this.checkPageChange(1);
+				this.judgePageChange(1);
+				this.optionPageChange(1);
 			},
 			onSave(){
 
@@ -258,17 +258,53 @@
 				this.isAddProblem = true;
 				this.addType = type;
 			},
+			getProblemDetail(isNecessary,type,current,callback){//获取试卷题目内容
+				var param = {
+					id: this.id,//试卷id,
+					isNecessary:isNecessary,//是否必做题
+					type:type,//题目类型
+					current:current,//第几题
+					pageSize:1,//题目个数
+				};
+				getPaperProblem(param).then(res => {
+					callback(res.data);
+				});
+			},
 			radioPageChange(current){
-
+				var _this_ = this;
+				_this_.isRadioLoading = true;
+				this.getProblemDetail(true,'radio',current,function(data){
+					_this_.radioCurrent = current;
+					_this_.radioProblem = data;
+					_this_.isRadioLoading = false;
+				});
 			},
 			checkPageChange(current){
-
+				var _this_ = this;
+				_this_.isCheckLoading = true;
+				this.getProblemDetail(true,'check',current,function(data){
+					_this_.checkCurrent = current;
+					_this_.checkProblem = data;
+					_this_.isCheckLoading = false;
+				});
 			},
 			judgePageChange(current){
-
+				var _this_ = this;
+				_this_.isJudgeLoading = true;
+				this.getProblemDetail(true,'judge',current,function(data){
+					_this_.judgeCurrent = current;
+					_this_.judgeProblem = data;
+					_this_.isJudgeLoading = false;
+				});
 			},
 			optionPageChange(current){
-
+				var _this_ = this;
+				_this_.isOptionLoading = true;
+				this.getProblemDetail(false,'',current,function(data){
+					_this_.optionCurrent = current;
+					_this_.optionProblem = data;
+					_this_.isOptionLoading = false;
+				});
 			}
 		},
 		created(){
