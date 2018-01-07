@@ -22,7 +22,7 @@
 							<div class="el-question-title">
 								<span>{{radioCurrent}}. {{radioProblem.title}}</span>
 							</div>
-							<div class="el-question-options">
+							<div class="el-question-options mask">
 								<el-radio-group v-model="radioProblem.answer">
 								<el-radio v-for="option in radioProblem.options" :label="option.flag">{{option.flag}}. {{option.text}}</el-radio>
 							</el-radio-group>
@@ -59,7 +59,7 @@
 							<div class="el-question-title">
 								<span>{{checkCurrent}}. {{checkProblem.title}}</span>
 							</div>
-							<div class="el-question-options">
+							<div class="el-question-options mask">
 								<el-checkbox-group v-model="checkProblem.answer">
 									<el-checkbox v-for="option in checkProblem.options" :label="option.flag">{{option.flag}}. {{option.text}}</el-checkbox>
 								</el-checkbox-group>
@@ -96,7 +96,7 @@
 							<div class="el-question-title">
 								<span>{{judgeCurrent}}. {{judgeProblem.title}}</span>
 							</div>
-							<div class="el-question-options">
+							<div class="el-question-options mask">
 								<el-radio-group v-model="judgeProblem.answer">
 									<el-radio v-for="option in judgeProblem.options" :label="option.flag">{{option.flag}}. {{option.text}}</el-radio>
 								</el-radio-group>
@@ -133,7 +133,7 @@
 							<div class="el-question-title">
 								<span>{{optionCurrent}}. {{optionProblem.title}}</span>
 							</div>
-							<div class="el-question-options">
+							<div class="el-question-options mask">
 								<el-checkbox-group v-if="optionProblem.type=='check'" v-model="optionProblem.answer">
 									<el-checkbox v-for="option in optionProblem.options" :label="option.flag">{{option.flag}}. {{option.text}}</el-checkbox>
 								</el-checkbox-group>
@@ -318,26 +318,5 @@
 	@import '~scss_vars';
 	.pageArea{
 		float: right;
-	}
-	.el-question{
-		.el-question-title{
-			font-size: 16px;
-			color: #000000;
-			letter-spacing: 1px;
-			line-height: 22px;
-		}
-		.el-question-options{
-			padding: 10px;
-			.el-radio, .el-checkbox{
-				display: block;
-				margin: 20px 0;
-			}
-		}
-	}
-	.el-info{
-		.el-info-content{
-			padding: 10px 0;
-		}
-		margin-bottom: 10px;
 	}
 </style>

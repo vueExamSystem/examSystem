@@ -76,7 +76,7 @@
 				</el-form>
 			</div>
 		</div>
-		<Detail v-if="isNext" @back="detailBack"></Detail>
+		<Detail :id="detailPaperId" v-if="isNext" @close="detailBack"></Detail>
 	</section>
 </template>
 <script>
@@ -113,6 +113,7 @@
 					choosescore:'',
 					total: '100'
 				},
+				detailPaperId:'',
 				rules:{
 					name:[
 						{required: true, message: '请输入试卷名称', trigger: 'blur'},
@@ -180,6 +181,8 @@
 						//to do
 						//save ...
 						if(flag && flag == 'next'){
+							this.resetForm('form');
+							this.detailPaperId = '1';
 							this.isNext = true;
 						}
 					}else{
