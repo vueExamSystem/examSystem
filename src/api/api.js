@@ -60,3 +60,5 @@ export const getSetChartList = params => { return axios.get(`${base}/chart/list`
 export const getPaperList = params => { return axios.post(`${base}/paper/list`, params ); };
 //试卷详情
 export const getPaperDetail = params => { return axios.post(`${base}/paper/detail`, params ); };
+//获取试卷题目详情
+export const getPaperProblem = params => { return axios.post(`${base}/paper/problem`, params ); };

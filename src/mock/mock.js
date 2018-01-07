@@ -14,7 +14,11 @@ import {
 } from './data/question';
 import {
     PaperList,
-    PaperDetail
+    PaperDetail,
+    radioProblem,
+    checkProblem,
+    judgeProblem,
+    optionProblem
 } from './data/paper';
 import {
     LogList,
@@ -233,6 +237,25 @@ export default {
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
                     resolve([200, PaperDetail]);
+                }, 1000);
+            });
+        });
+        //获取试卷题目详情
+        mock.onPost(`/paper/problem`).reply(config => {
+            var params = JSON.parse(config.data);
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    if(params.isNecessary){
+                        if(params.type === 'radio'){
+                            resolve([200, radioProblem]);
+                        }else if(params.type === 'check'){
+                            resolve([200, checkProblem]);
+                        }else if(params.type === 'judge'){
+                            resolve([200, judgeProblem]);
+                        }
+                    }else{
+                        resolve([200, optionProblem]);
+                    }
                 }, 1000);
             });
         });

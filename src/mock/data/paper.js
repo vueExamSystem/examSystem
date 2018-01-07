@@ -48,7 +48,97 @@ const getDetail = () => {
 };
 getDetail();
 
+const radioProblem = {
+    isNecessary: true,//必做題
+    type:'radio',//題目類型
+    title: '某物体在一足够大的光滑平面上向西运动，当它受到一个向南的恒定外力作用时，物体运动将是（）',
+    answer:'A',
+    options:[{
+        flag:'A',
+        text:'直线运动且是匀变速直线运动'
+    },{
+        flag:'B',
+        text:'曲线运动但加速度方向不变、大小不变，是匀变速运动'
+    },{
+        flag:'C',
+        text:'曲线运动但加速度方向改变、大小不变，是非匀变速曲线运动'
+    },{
+        flag:'D',
+        text:'曲线运动，加速度大小和方向均改变，是非匀变速曲线运动'
+    }],
+    analysis:'光滑、摩擦力',
+    keynote:'曲线运动，匀速运动',
+    creator:'Admin'
+};
+
+const checkProblem = {
+    isNecessary: true,
+    type:'check',
+    title: '某物体在一足够大的光滑平面上向西运动，当它受到一个向南的恒定外力作用时，物体运动将是（）',
+    answer:['A','B'],
+    options:[{
+        flag:'A',
+        text:'直线运动且是匀变速直线运动'
+    },{
+        flag:'B',
+        text:'曲线运动但加速度方向不变、大小不变，是匀变速运动'
+    },{
+        flag:'C',
+        text:'曲线运动但加速度方向改变、大小不变，是非匀变速曲线运动'
+    },{
+        flag:'D',
+        text:'曲线运动，加速度大小和方向均改变，是非匀变速曲线运动'
+    }],
+    analysis:'光滑、摩擦力',
+    keynote:'曲线运动，匀速运动',
+    creator:'Admin'
+};
+
+const judgeProblem = {
+    isNecessary: true,
+    type:'judge',
+    title: '某物体在一足够大的光滑平面上向西运动，当它受到一个向南的恒定外力作用时，物体运动将是直线运动且是匀变速直线运动。',
+    answer:'A',
+    options:[{
+        flag:'A',
+        text:'正确'
+    },{
+        flag:'B',
+        text:'错误'
+    }],
+    analysis:'光滑、摩擦力',
+    keynote:'曲线运动，匀速运动',
+    creator:'Admin'
+};
+
+const optionProblem = {
+    isNecessary: false,
+    type:'radio',
+    title: '某物体在一足够大的光滑平面上向西运动，当它受到一个向南的恒定外力作用时，物体运动将是（）',
+    answer:'A',
+    options:[{
+        flag:'A',
+        text:'直线运动且是匀变速直线运动'
+    },{
+        flag:'B',
+        text:'曲线运动但加速度方向不变、大小不变，是匀变速运动'
+    },{
+        flag:'C',
+        text:'曲线运动但加速度方向改变、大小不变，是非匀变速曲线运动'
+    },{
+        flag:'D',
+        text:'曲线运动，加速度大小和方向均改变，是非匀变速曲线运动'
+    }],
+    analysis:'光滑、摩擦力',
+    keynote:'曲线运动，匀速运动',
+    creator:'Admin'
+};
+
 export {
     PaperList,
-    PaperDetail
+    PaperDetail,
+    radioProblem,
+    checkProblem,
+    judgeProblem,
+    optionProblem
 };
