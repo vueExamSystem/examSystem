@@ -65,7 +65,7 @@ let routes = [
         component: HomePage,
         children: [
             {
-                path: '/',
+                path: '/index',
                 component: DashbordHome,
                 name: '首页',
                 children: []

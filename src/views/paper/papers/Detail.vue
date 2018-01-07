@@ -67,7 +67,7 @@
 							<div class="el-question-info">
 								<div class="el-info">
 									<div class="el-label el-label-light-green">正确答案</div>
-									<div class="el-info-content">{{checkProblem.answer}}</div>
+									<div class="el-info-content">{{checkProblem.answer?checkProblem.answer.toString():''}}</div>
 								</div>
 								<div class="el-info">
 									<div class="el-label el-label-blue">解析</div>
@@ -144,7 +144,7 @@
 							<div class="el-question-info">
 								<div class="el-info">
 									<div class="el-label el-label-light-green">正确答案</div>
-									<div class="el-info-content">{{optionProblem.answer}}</div>
+									<div class="el-info-content">{{optionProblem.answer?optionProblem.answer.toString():''}}</div>
 								</div>
 								<div class="el-info">
 									<div class="el-label el-label-blue">解析</div>
@@ -190,22 +190,22 @@
 				detail:{
 					name:'...',
 				    total:'...',
-				    // radio:{
-				    //     count: 0,
-				    //     perScore:0
-				    // },
-				    // check:{
-				    //     count: 0,
-				    //     perScore:0
-				    // },
-				    // judge:{
-				    //     count: 0,
-				    //     perScore:0
-				    // },
-				    // option:{
-				    //     count: 0,
-				    //     perScore:0
-				    // }
+				    radio:{
+				        count: 0,
+				        perScore:0
+				    },
+				    check:{
+				        count: 0,
+				        perScore:0
+				    },
+				    judge:{
+				        count: 0,
+				        perScore:0
+				    },
+				    option:{
+				        count: 0,
+				        perScore:0
+				    }
 				},
 				isRadioLoading: true,
 				radioProblem:'',
