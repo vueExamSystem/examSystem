@@ -1,13 +1,13 @@
 <template>
     <el-tabs type="border-card" v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="院系班级" name="list">
-            <log-table></log-table>
+            <student-table></student-table>
         </el-tab-pane>
         <el-tab-pane label="添加学生" name="add">
-            <log-table></log-table>
+            <student-add></student-add>
         </el-tab-pane>
         <el-tab-pane label="导入学生" name="import">
-            <log-table></log-table>
+            <student-import></student-import>
         </el-tab-pane>
     </el-tabs>
 </template>

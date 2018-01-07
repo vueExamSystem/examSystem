@@ -1,31 +1,15 @@
 <template>
 	<section class="panel" id="queForm">
 		<div class="title">
-			<span>导入试题</span>
+			<span>批量导入学生（注意：院系班级要存在才能导入成功！）</span>
 			<div class="pull-right">
 				<el-button type="success" @click="onSubmit('form')" class="el-button-shadow">保存</el-button>
-				<el-button type="danger" @click="resetForm('form')" class="el-button-shadow">重置</el-button>
+				<el-button type="danger" @click="resetForm('form')" class="el-button-shadow">取消</el-button>
 			</div>
 		</div>
 
 		<div class="content">
 			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-				<el-form-item label="试题用途" prop="usage">
-					<el-select v-model="ruleForm.usage" multiple placeholder="请选择试题用途">
-						<el-option
-								v-for="item in usageArr"
-								:label="item.name"
-								:value="item.id"
-								:key="item.id"
-						>
-						</el-option>
-					</el-select>
-				</el-form-item>
-				<el-form-item label="选择课程" prop="course">
-					<el-select v-model="ruleForm.type" placeholder="请选择课程">
-						<el-option v-for="item in courseArr" :label="item.name" :value="item.id"></el-option>
-					</el-select>
-				</el-form-item>
 				<el-form-item label="下载模版" prop="download">
 					<el-button type="primary" icon="iconfont icon-arrow-down">点击下载</el-button>
 				</el-form-item>
