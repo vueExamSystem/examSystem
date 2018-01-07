@@ -319,37 +319,4 @@
 	.pageArea{
 		float: right;
 	}
-	.el-question{
-		.el-question-title{
-			font-size: 16px;
-			color: #000000;
-			letter-spacing: 1px;
-			line-height: 22px;
-		}
-		.el-question-options{
-			padding: 10px;
-			.el-radio, .el-checkbox{
-				display: block;
-				margin: 20px 0;
-			}
-			&.mask{
-				position:relative;
-				&:after{
-					position:absolute;
-					content:'';
-					top:0;
-					left:0;
-					bottom:0;
-					right:0;
-					z-index:2;
-				}
-			}
-		}
-	}
-	.el-info{
-		.el-info-content{
-			padding: 10px 0;
-		}
-		margin-bottom: 10px;
-	}
 </style>
