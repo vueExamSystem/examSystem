@@ -13,13 +13,13 @@
                 <i class="fa fa-bars"></i>
                 <span>角色管理</span>
             </router-link>
-            <router-link to="/backstage/right">
+            <router-link to="/backstage/competence">
                 <i class="iconfont icon-lock-larger"></i>
                 <span>权限管理</span>
             </router-link>
             <router-link to="/backstage/score">
                 <i class="iconfont icon-score-larger"></i>
-                <span>成绩管理</span>
+                <span>成绩等级</span>
             </router-link>
         </el-aside>
         <el-main>
