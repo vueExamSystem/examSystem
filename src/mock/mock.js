@@ -7,7 +7,7 @@ import {
     UsageList,
     SubjectList,
     ChapterList,
-    DepartmentList,
+    GroupList,
     QuestionList,
     CourseList,
     TagList,
@@ -25,6 +25,12 @@ import {
     AlertList,
     ChartList,
 } from './data/setting';
+import {
+    DepartmentList,
+    ClassObject,
+    ClassList,
+    RoleList,
+} from './data/backstage';
 
 let _Users = Users;
 
@@ -203,8 +209,8 @@ export default {
         });
 
         //获取题组列表
-        mock.onGet(`/department/list`).reply(config => {
-            return u.getMockList(config, DepartmentList);
+        mock.onGet(`/group/list`).reply(config => {
+            return u.getMockList(config, GroupList);
         });
 
         //获取course列表
@@ -225,6 +231,28 @@ export default {
         //获取chart列表
         mock.onGet('/chart/list').reply(config => {
             return u.getMockList(config, ChartList);
+        });
+
+        /** 以下backstage **/
+        //获取院系列表
+        mock.onGet('/department/list').reply(config => {
+            return u.getMockList(config, DepartmentList);
+        });
+        //获取班级列表
+        mock.onGet('/class/list').reply(config => {
+            return u.getMockList(config, ClassList);
+        });
+        //获取班级列表
+        mock.onGet('/role/list').reply(config => {
+            return u.getMockList(config, RoleList);
+        });
+        //获取班级详情
+        mock.onGet('/class/detail').reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, ClassObject]);
+                }, 1000);
+            });
         });
 
         /** 以下paper **/

@@ -11,14 +11,14 @@
 		<div class="content">
 			<el-form :model="form" :rules="rules" ref="form" label-width="110px" :inline-message="isInlineMessage" @submit.prevent="onSubmit">
 
-				<el-form-item label="试题类型" prop="type">
+				<el-form-item label="试题类型:" prop="type">
 					<el-select v-model="form.type" placeholder="请选择试题类型">
 						<template v-for="item in typeArr">
 							<el-option :label="item.name" :value="item.id"></el-option>
 						</template>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="试题用途" prop="usage">
+				<el-form-item label="试题用途:" prop="usage">
 					<el-select v-model="form.usage" multiple placeholder="请选择试题用途">
 						<el-option
 								v-for="item in usageArr"
@@ -29,28 +29,28 @@
 						</el-option>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="选择科目" prop="subject">
+				<el-form-item label="选择科目:" prop="subject">
 					<el-select v-model="form.subject" placeholder="请选择科目">
 						<template v-for="item in subjectArr">
 							<el-option :label="item.name" :value="item.id"></el-option>
 						</template>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="章节选择" prop="chapter">
+				<el-form-item label="章节选择:" prop="chapter">
 					<el-select v-model="form.chapter" placeholder="请选择章节">
 						<template v-for="item in chapterArr">
 							<el-option :label="item.name" :value="item.id"></el-option>
 						</template>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="题组" prop="department">
+				<el-form-item label="题组:" prop="department">
 					<el-select v-model="form.department" placeholder="请选择题组">
 						<template v-for="item in departmentArr">
 							<el-option :label="item.name" :value="item.id"></el-option>
 						</template>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="试题内容" prop="content">
+				<el-form-item label="试题内容:" prop="content">
 					<el-input
 							type="textarea"
 							:rows="3"
@@ -100,7 +100,7 @@
 						<i class="iconfont icon-add-circle" @click="selectAddFunc"></i>
 					</el-form-item>
 				</template>
-				<el-form-item label="正确选项" prop="correctOptionRadio" v-if="isRadio">
+				<el-form-item label="正确选项:" prop="correctOptionRadio" v-if="isRadio">
 					<el-select v-model="form.correctOptionRadio" placeholder="请选择正确选项">
 						<el-option
 								v-for="item in correctRadioArr"
@@ -110,13 +110,13 @@
 						</el-option>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="正确选项" prop="correctOptionRadio" v-if="isJudgment">
+				<el-form-item label="正确选项:" prop="correctOptionRadio" v-if="isJudgment">
 					<el-select v-model="form.correctOptionRadio" placeholder="请选择正确选项">
 						<el-option label="正确" value="1"></el-option>
 						<el-option label="错误" value="0"></el-option>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="正确选项" prop="correctOptionMany" v-if="isCheckbox">
+				<el-form-item label="正确选项:" prop="correctOptionMany" v-if="isCheckbox">
 					<el-checkbox-group
 							v-model="form.correctOptionMany">
 						<el-checkbox v-for="item in correctManyArr" :label="item" :key="item">
@@ -124,16 +124,16 @@
 						</el-checkbox>
 					</el-checkbox-group>
 				</el-form-item>
-				<el-form-item label="来源" prop="source">
+				<el-form-item label="来源:" prop="source">
 					<el-input v-model="form.source"></el-input>
 				</el-form-item>
-				<el-form-item label="考点" prop="testSites">
+				<el-form-item label="考点:" prop="testSites">
 					<el-input v-model="form.testSites"></el-input>
 				</el-form-item>
-				<el-form-item label="关键字" prop="keywords">
+				<el-form-item label="关键字:" prop="keywords">
 					<el-input v-model="form.keywords"></el-input>
 				</el-form-item>
-				<el-form-item label="解析" prop="analysis">
+				<el-form-item label="解析:" prop="analysis">
 					<el-input
 							type="textarea"
 							:rows="3"
@@ -151,7 +151,7 @@
 	import {
         getSubjectList,
 		getChapterList,
-        getDepartmentList,
+        getGroupList,
 	} from '../../../api/api';
 	export default {
 		data() {
@@ -264,7 +264,7 @@
                     this.chapterArr = res.data;
                     console.log(res);
                 });
-                getDepartmentList({}).then((res) => {
+                getGroupList({}).then((res) => {
                     this.departmentArr = res.data;
                     console.log(res);
                 });

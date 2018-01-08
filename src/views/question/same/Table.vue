@@ -82,7 +82,7 @@
 </template>
 
 <script>
-    import {getDepartmentList} from '../../../api/api';
+    import {getGroupList} from '../../../api/api';
     import myFilter from '../../common/myFilter.vue';
     import Pagination from '../../common/Pagination.vue';
     import _ from 'lodash';
@@ -153,7 +153,7 @@
                 };
                 this.listLoading = true;
                 //NProgress.start();
-                getDepartmentList(para).then((res) => {
+                getGroupList(para).then((res) => {
                     this.total = res.data.total;
                     this.list = res.data.list;
                     this.listLoading = false;

@@ -81,7 +81,7 @@
 
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
     @import '~scss_vars';
 
     #scoreForm {
@@ -90,6 +90,9 @@
                 & > form {
                     .el-form-item__label {
                         text-align: left;
+                    }
+                    .el-input{
+                        width: 80px;
                     }
                 }
             }

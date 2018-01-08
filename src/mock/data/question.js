@@ -17,7 +17,7 @@ const _selectArr = [
 ];
 const TypeList = [];
 const UsageList = [];
-const DepartmentList = [];
+const GroupList = [];
 const ChapterList = [];
 const SubjectList = [];
 const QuestionList = [];
@@ -64,7 +64,7 @@ for (let i = 0; i < 86; i++) {
 }
 for (let i = 0; i < 20; i++) {
     const arr = _.slice(QuestionList, i * 3, i * 3 + 4);
-    DepartmentList.push(Mock.mock({
+    GroupList.push(Mock.mock({
         id: i,
         name: `题组_${i}`,
         subject: '大学物理',
@@ -95,7 +95,7 @@ export {
     UsageList,
     SubjectList,
     ChapterList,
-    DepartmentList,
+    GroupList,
     QuestionList,
     CourseList,
     TagList,

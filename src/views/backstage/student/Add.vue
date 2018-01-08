@@ -10,136 +10,44 @@
 
 		<div class="content">
 			<el-form :model="form" :rules="rules" ref="form" label-width="110px" :inline-message="isInlineMessage" @submit.prevent="onSubmit">
-
-				<el-form-item label="试题类型" prop="type">
-					<el-select v-model="form.type" placeholder="请选择试题类型">
-						<template v-for="item in typeArr">
+				<el-form-item label="所属年级:" prop="grade" :rules="[{required: true, message: '请选择所属年级', trigger: 'change'}]">
+					<el-select v-model="form.grade" placeholder="请选择所属年级">
+						<template v-for="item in gradeArr">
 							<el-option :label="item.name" :value="item.id"></el-option>
 						</template>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="试题用途" prop="usage">
-					<el-select v-model="form.usage" multiple placeholder="请选择试题用途">
-						<el-option
-								v-for="item in usageArr"
-								:label="item.name"
-								:value="item.id"
-								:key="item.id"
-						>
-						</el-option>
-					</el-select>
-				</el-form-item>
-				<el-form-item label="选择科目" prop="subject">
-					<el-select v-model="form.subject" placeholder="请选择科目">
-						<template v-for="item in subjectArr">
-							<el-option :label="item.name" :value="item.id"></el-option>
-						</template>
-					</el-select>
-				</el-form-item>
-				<el-form-item label="章节选择" prop="chapter">
-					<el-select v-model="form.chapter" placeholder="请选择章节">
-						<template v-for="item in chapterArr">
-							<el-option :label="item.name" :value="item.id"></el-option>
-						</template>
-					</el-select>
-				</el-form-item>
-				<el-form-item label="题组" prop="department">
-					<el-select v-model="form.department" placeholder="请选择题组">
+				<el-form-item label="所属院系:" prop="department" :rules="[{required: true, message: '请选择所属院系', trigger: 'change'}]">
+					<el-select v-model="form.department" placeholder="请选择所属院系">
 						<template v-for="item in departmentArr">
 							<el-option :label="item.name" :value="item.id"></el-option>
 						</template>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="试题内容" prop="content">
-					<el-input
-							type="textarea"
-							:rows="3"
-							placeholder="请输入内容"
-							v-model="form.content">
-					</el-input>
-				</el-form-item>
-				<el-form-item label="" prop="contentPic">
-					<el-upload
-							class="upload-demo"
-							:action="uploadSource"
-							:on-preview="handlePreviewContent"
-							:on-remove="handleRemoveContent"
-							:file-list="form.contentPic"
-							list-type="picture">
-						<el-button type="primary" icon="iconfont icon-plus">添加照片</el-button>
-					</el-upload>
-				</el-form-item>
-				<template v-if="!isJudgment">
-					<el-form-item
-							v-for="(item, index) in correctManyArr"
-							:label="item === 'A' ? '试题选项' : ''"
-							:prop="`selection${item}`"
-							:rules="[{required: true, message: `请输入试题选项${item}`, trigger: 'blur'}]"
-							class="spec"
-					>
-						<span>{{item}}</span>
-						<el-input v-model="form[`selection${item}`]"></el-input>
-						<el-upload
-								class="upload-demo inline"
-								:action="uploadSource"
-								:on-preview="handlePreview"
-								:on-remove="handleRemove"
-								:file-list="form.selectionPic[index]"
-								>
-							<el-button type="primary" icon="iconfont icon-plus">添加照片</el-button>
-						</el-upload>
-						<i class="iconfont icon-remove-circle" @click="delSelection(index)"></i>
-						<span class="tip" v-if="item === 'A' && isRadio">*最多添加4个选项</span>
-					</el-form-item>
-					<el-form-item label="" prop="selectionAdd" v-if="isShowSelectionAdd" class="spec">
-						<div class="hidden inline">
-							<span>H</span>
-							<el-input v-model="selectNum"></el-input>
-							<el-button type="primary" icon="iconfont icon-plus">添加照片</el-button>
-						</div>
-						<i class="iconfont icon-add-circle" @click="selectAddFunc"></i>
-					</el-form-item>
-				</template>
-				<el-form-item label="正确选项" prop="correctOptionRadio" v-if="isRadio">
-					<el-select v-model="form.correctOptionRadio" placeholder="请选择正确选项">
-						<el-option
-								v-for="item in correctRadioArr"
-								:label="item.name"
-								:value="item.id"
-						>
-						</el-option>
+				<el-form-item label="所属班级:" prop="class" :rules="[{required: true, message: '请选择所属班级', trigger: 'change'}]">
+					<el-select v-model="form.class" placeholder="请选择所属班级">
+						<template v-for="item in classArr">
+							<el-option :label="item.name" :value="item.id"></el-option>
+						</template>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="正确选项" prop="correctOptionRadio" v-if="isJudgment">
-					<el-select v-model="form.correctOptionRadio" placeholder="请选择正确选项">
-						<el-option label="正确" value="1"></el-option>
-						<el-option label="错误" value="0"></el-option>
+				<el-form-item label="学生学号:" prop="studentNo" :rules="[{required: true, message: '请输入学生学号', trigger: 'blur'}]">
+					<el-input v-model="form.studentNo" placeholder="请输入学生学号"></el-input>
+				</el-form-item>
+				<el-form-item label="学生姓名:" prop="name" :rules="[{required: true, message: '请输入学生姓名', trigger: 'blur'}]">
+					<el-input v-model="form.name" placeholder="请输入学生姓名"></el-input>
+				</el-form-item>
+				<el-form-item label="学生性别:" prop="sex" :rules="[{required: true, message: '请选择学生性别', trigger: 'change'}]">
+					<el-select v-model="form.sex" placeholder="请选择学生性别">
+						<el-option label="男" value="0"></el-option>
+						<el-option label="女" value="1"></el-option>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="正确选项" prop="correctOptionMany" v-if="isCheckbox">
-					<el-checkbox-group
-							v-model="form.correctOptionMany">
-						<el-checkbox v-for="item in correctManyArr" :label="item" :key="item">
-							{{item}}
-						</el-checkbox>
-					</el-checkbox-group>
+				<el-form-item label="登录帐号:" prop="account" :rules="[{required: true, message: '请输入登录帐号', trigger: 'blur'}]">
+					<el-input v-model="form.account" placeholder="请输入登录帐号"></el-input>
 				</el-form-item>
-				<el-form-item label="来源" prop="source">
-					<el-input v-model="form.source"></el-input>
-				</el-form-item>
-				<el-form-item label="考点" prop="testSites">
-					<el-input v-model="form.testSites"></el-input>
-				</el-form-item>
-				<el-form-item label="关键字" prop="keywords">
-					<el-input v-model="form.keywords"></el-input>
-				</el-form-item>
-				<el-form-item label="解析" prop="analysis">
-					<el-input
-							type="textarea"
-							:rows="3"
-							placeholder="请输入内容"
-							v-model="form.analysis">
-					</el-input>
+				<el-form-item label="初始密码:" prop="password" :rules="[{required: true, message: '请输入初始密码', trigger: 'blur'}]">
+					<el-input v-model="form.password" placeholder="请输入初始密码"></el-input>
 				</el-form-item>
 			</el-form>
 		</div>
@@ -149,93 +57,40 @@
 
 <script>
 	import {
-        getSubjectList,
-		getChapterList,
         getDepartmentList,
+		getClassList,
 	} from '../../../api/api';
 	export default {
 		data() {
 			return {
                 form: {
-                    type: '0',
-                    usage: '0',
-                    subject: '',
-                    chapter: '',
+                    grade: '',
                     department: '',
-                    content: '',
-                    contentPic: [],
-					selection: [],
-                    selectionPic: [],
-                    correctOptionRadio: '',
-                    correctOptionMany: [],
-					source: '',
-                    testSites: '', // 考点
-                    keywords: '',
-                    analysis: '', // 解析
+                    class: '',
+                    studentNo: '',
+                    name: '',
+                    sex: '',
+                    account: '',
+					password: '',
                 },
-                rules: {
-                    type: [
-                        { required: true, message: '请选择试题类型', trigger: 'change' }
-                    ],
-                    usage: [
-                        { required: true, message: '请选择试题用途', trigger: 'change' }
-                    ],
-                    subject: [
-                        { required: true, message: '请选择科目', trigger: 'change' }
-                    ],
-                    chapter: [
-                        { required: true, message: '请选择章节', trigger: 'change' }
-                    ],
-                    department: [
-                        { required: false, message: '请选择题组', trigger: 'change' }
-                    ],
-                    content: [
-                        { required: true, message: '请输入试题内容', trigger: 'blur' }
-                    ],
-                    correctOptionRadio: [
-                        { required: true, message: '请选择正确选项', trigger: 'change' }
-                    ],
-                    correctOptionMany: [
-                        { required: true, message: '请选择正确选项', trigger: 'change' }
-                    ],
-				},
+                rules: {},
                 isInlineMessage: true,
-				// 上传文件的路径
-				uploadSource: 'https://jsonplaceholder.typicode.com/posts/',
-				// 选项个数
-				selectNum: 2,
 				// 默认数据
-				typeArr: [{
+                gradeArr: [{
                     id: '0',
-					name: '单选题',
+					name: '14级',
 				},{
                     id: '1',
-					name: '多选题',
+					name: '15级',
 				},{
                     id: '2',
-					name: '判断题',
+					name: '16级',
+				},{
+                    id: '3',
+					name: '17级',
 				}],
-				usageArr: [{
-                    id: '0',
-                    name: '练习题',
-                },{
-                    id: '1',
-                    name: '随堂测验',
-                },{
-                    id: '2',
-                    name: '正规考试',
-                }],
-				subjectArr: [],
-				chapterArr: [],
+                classArr: [],
 				departmentArr: [],
-				correctRadioArr: [{
-                    id: '0',
-                    name: 'A',
-                },{
-                    id: '1',
-                    name: 'B',
-                }],
-				correctManyArr: ['A', 'B'],
 			}
 		},
 		methods: {
@@ -256,16 +111,12 @@
             },
 			// 获取初始数据
 			getDefaultData() {
-                getSubjectList({}).then((res) => {
-                    this.subjectArr = res.data;
-                    console.log(res);
-                });
-                getChapterList({}).then((res) => {
-                    this.chapterArr = res.data;
-                    console.log(res);
-                });
                 getDepartmentList({}).then((res) => {
                     this.departmentArr = res.data;
+                    console.log(res);
+                });
+                getClassList({}).then((res) => {
+                    this.classArr = res.data;
                     console.log(res);
                 });
 			},

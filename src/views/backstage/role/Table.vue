@@ -1,18 +1,6 @@
 <template>
-    <section>
+    <section id="roleTable">
         <div class="panel">
-            <div class="title">
-                <el-input placeholder="请输入搜索关键词" v-model="searchkey">
-                    <el-button slot="append" icon="el-icon-search"></el-button>
-                </el-input>
-
-                <!--分页-->
-                <div class="pageArea">
-                    <Page current="1" total="23" pageSize="5" @page-change="handleCurrentChange"></Page>
-                </div>
-
-            </div>
-
             <div class="content">
                 <!--列表-->
                 <el-table
@@ -21,17 +9,21 @@
                         v-loading="listLoading"
                         @selection-change="selsChange"
                         style="width: 100%;">
-                    <el-table-column type="index" label="ID" sortable>
+                    <el-table-column type="index" label="ID" hidden>
                     </el-table-column>
-                    <el-table-column prop="account" label="学号" sortable>
+                    <el-table-column prop="role" label="角色" sortable>
+                        <template scope="scope">
+                            <el-button type="text" @click="detailShow(scope.row.id)">{{scope.row.role}}</el-button>
+                        </template>
                     </el-table-column>
-                    <el-table-column prop="name" label="姓名" sortable>
+                    <el-table-column prop="competence" label="权限" sortable>
                     </el-table-column>
-                    <el-table-column prop="examName" label="考试名称" sortable>
-                    </el-table-column>
-                    <el-table-column prop="errorTime" label="异常时间" sortable>
-                    </el-table-column>
-                    <el-table-column prop="desc" label="说明" sortable>
+                    <el-table-column
+                            label="操作"
+                            width="100">
+                        <template slot-scope="scope">
+                            <el-button type="primary" size="small">编辑</el-button>
+                        </template>
                     </el-table-column>
                 </el-table>
             </div>
@@ -40,7 +32,7 @@
 </template>
 
 <script>
-    import {getSetAlertList} from '../../../api/api';
+    import {getRoleList} from '../../../api/api';
     import Pagination from '../../common/Pagination.vue'
 
     export default {
@@ -80,7 +72,7 @@
                 };
                 this.listLoading = true;
                 //NProgress.start();
-                getSetAlertList(para).then((res) => {
+                getRoleList(para).then((res) => {
                     this.total = res.data.total;
                     this.list = res.data.list;
                     this.listLoading = false;
@@ -98,6 +90,11 @@
 
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
     @import '~scss_vars';
+    #roleTable{
+        table{
+            border-top: 1px solid $color-primary;
+        }
+    }
 </style>

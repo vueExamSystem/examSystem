@@ -40,7 +40,7 @@ export const getCourseList = params => { return axios.get(`${base}/course/list`,
 export const getChapterList = params => { return axios.get(`${base}/chapter/list`, params ); };
 
 // department
-export const getDepartmentList = params => { return axios.get(`${base}/department/list`, params ); };
+export const getGroupList = params => { return axios.get(`${base}/group/list`, params ); };
 
 /*
 *  设置 start
@@ -53,6 +53,22 @@ export const getSetAlertList = params => { return axios.get(`${base}/alert/list`
 
 // chart
 export const getSetChartList = params => { return axios.get(`${base}/chart/list`, params ); };
+
+/*
+*  后台 start
+* */
+// department
+export const getDepartmentList = params => { return axios.get(`${base}/department/list`, params ); };
+
+// class
+export const getClassList = params => { return axios.get(`${base}/class/list`, params ); };
+
+// role
+export const getRoleList = params => { return axios.get(`${base}/role/list`, params ); };
+
+// class
+export const getClassObject = params => { return axios.get(`${base}/class/detail`, params ); };
+
 
 /*
 * 试卷 start

@@ -10,10 +10,10 @@
 
 		<div class="content">
 			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-				<el-form-item label="下载模版" prop="download">
+				<el-form-item label="下载模版:" prop="download">
 					<el-button type="primary" icon="iconfont icon-arrow-down">点击下载</el-button>
 				</el-form-item>
-				<el-form-item label="上传文件" prop="upload">
+				<el-form-item label="上传文件:" prop="upload">
 					<el-upload
 							class="upload-demo"
 							:action="uploadSource"

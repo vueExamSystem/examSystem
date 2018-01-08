@@ -1,39 +1,41 @@
 <template>
-    <section id="studentTable">
-        <my-filter :list="filterList" @callback="search"></my-filter>
-        <div class="panel">
-            <div class="title">
-                <el-input placeholder="请输入搜索关键词" v-model="searchkey">
-                    <el-button slot="append" icon="el-icon-search"></el-button>
-                </el-input>
+    <div>
+        <section v-if="!classId" id="studentTable">
+            <my-filter :list="filterList" @callback="search"></my-filter>
+            <div class="panel">
+                <div class="title">
+                    <el-input placeholder="请输入搜索关键词" v-model="searchkey">
+                        <el-button slot="append" icon="el-icon-search"></el-button>
+                    </el-input>
 
-                <!--分页-->
-                <div class="pageArea">
-                    <Page :current="page" :total="total" :pageSize="pageSize" @page-change="handleCurrentChange"></Page>
+                    <el-button type="success" @click="departmentAdd" class="el-button-shadow">添加院系</el-button>
+                    <!--分页-->
+                    <div class="pageArea">
+                        <Page :current="page" :total="total" :pageSize="pageSize" @page-change="handleCurrentChange"></Page>
+                    </div>
+
                 </div>
 
-            </div>
-
-            <div class="content">
-                <el-collapse
-                        accordion
-                        v-model="activeName"
-                        value="0"
-                        v-for="(item, index) in list">
-                    <template>
+                <div class="content">
+                    <el-collapse
+                            accordion
+                            v-model="activeName"
+                            value="0"
+                            change="changeCollapse"
+                            v-for="(item, index) in list">
                         <el-collapse-item>
                             <template slot="title" name="index">
                                 <div v-if="!isShowResetInput(index)">
                                     <span>{{item.department}}</span>
-                                    <el-button type="primary" @click="resetNameEvent(index)" class="el-button-shadow">重命名</el-button>
-                                    <el-button type="success" @click="" class="el-button-shadow">添加班级</el-button>
+                                    <el-button type="primary" @click="resetNameEvent($event, index)" class="el-button-shadow">重命名</el-button>
+                                    <el-button type="success" @click="classAdd($event, index)" class="el-button-shadow">添加班级</el-button>
                                 </div>
                                 <div v-if="isShowResetInput(index)">
                                     <div class="resetNameInput">
                                         <el-input v-model="item.department"></el-input>
                                     </div>
-                                    <el-button type="success" @click="saveResetName(index)" class="el-button-shadow">保存</el-button>
-                                    <el-button type="danger" @click="cancelResetName()" class="el-button-shadow">取消</el-button>
+                                    <el-button type="success" @click="saveResetName($event, index)" class="el-button-shadow">保存</el-button>
+                                    <el-button type="danger" @click="cancelResetName($event)" class="el-button-shadow">取消</el-button>
                                 </div>
                             </template>
                             <!--列表-->
@@ -41,10 +43,14 @@
                                     :data="item.classArr"
                                     highlight-current-row
                                     @selection-change="selsChange"
+                                    v-loading="listLoading"
                                     style="width: 100%;">
                                 <el-table-column type="index" label="ID">
                                 </el-table-column>
                                 <el-table-column prop="name" label="班级名称" sortable>
+                                    <template scope="scope">
+                                        <el-button type="text" @click="detailShow(scope.row.id)">{{scope.row.name}}</el-button>
+                                    </template>
                                 </el-table-column>
                                 <el-table-column prop="personNum" label="班级人数" sortable>
                                 </el-table-column>
@@ -54,23 +60,27 @@
                                         label="操作"
                                         width="100">
                                     <template slot-scope="scope">
-                                        <el-button type="text" size="small">编辑</el-button>
+                                        <el-button type="primary" size="small">编辑</el-button>
                                     </template>
                                 </el-table-column>
                             </el-table>
 
                         </el-collapse-item>
-                    </template>
-                </el-collapse>
+                    </el-collapse>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+        <section v-else>
+            <class-detail id="classId" @close="detailClose"></class-detail>
+        </section>
+    </div>
 </template>
 
 <script>
-    import {getChapterList} from '../../../api/api';
+    import {getDepartmentList} from '../../../api/api';
     import myFilter from '../../common/myFilter.vue'
     import Pagination from '../../common/Pagination.vue'
+    import classDetail from './Detail.vue'
 
     export default {
         data() {
@@ -79,59 +89,17 @@
                 filters: {
                     name: ''
                 },
-                list: [
-                    {
-                        id: 1,
-                        department: '计算机',
-                        classArr: [
-                            {
-                                id: 1,
-                                name: '1班',
-                                personNum: 40,
-                                counselor: '张老师',
-                            }, {
-                                id: 2,
-                                name: '2班',
-                                personNum: 40,
-                                counselor: '张老师',
-                            }, {
-                                id: 3,
-                                name: '3班',
-                                personNum: 40,
-                                counselor: '张老师',
-                            }
-                        ],
-                    }, {
-                        id: 1,
-                        department: '物电学院',
-                        classArr: [
-                            {
-                                id: 1,
-                                name: '1班',
-                                personNum: 40,
-                                counselor: '李老师',
-                            }, {
-                                id: 2,
-                                name: '2班',
-                                personNum: 40,
-                                counselor: '柳老师',
-                            }, {
-                                id: 3,
-                                name: '3班',
-                                personNum: 40,
-                                counselor: '张老师',
-                            }
-                        ],
-                    },
-                ],
+                list: [],
                 total: 0,
                 page: 1,
                 pageSize: 5,
-                listLoading: false,
+                listLoading: true,
                 sels: [],//列表选中列
+                // 手风琴选项的默认
                 activeName: 0,
+                // 重命名的排序索引
                 resetIndex: '',
-
+                // 过滤器数据
                 filterList: [
                     {
                         title: '年级',
@@ -147,6 +115,8 @@
                             text: '16级'
                         }]
                     }],
+                // 选择某个班级id
+                classId: '',
             }
         },
         methods: {
@@ -171,33 +141,51 @@
                 };
                 this.listLoading = true;
                 //NProgress.start();
-//                getChapterList(para).then((res) => {
-//                    this.total = res.data.total;
-//                    this.list = res.data.list;
-//                    this.listLoading = false;
-//                    //NProgress.done();
-//                });
+                getDepartmentList(para).then((res) => {
+                    this.list = res.data.list;
+                    this.listLoading = false;
+                    //NProgress.done();
+                });
+            },
+            changeCollapse(val) {
+                console.log('changeCollapse', val);
             },
             // 重命名
-            resetNameEvent(index){
+            resetNameEvent(e, index){
+                e.stopPropagation();
                 this.resetIndex = index;
             },
             // 保存重命名名称
-            saveResetName(index) {
+            saveResetName(e, index) {
+                e.stopPropagation();
                 console.log('save name success index = ', index);
-                this.cancelResetName();
+                this.resetIndex = '';
             },
             // 取消重命名
-            cancelResetName() {
+            cancelResetName(e) {
+                e.stopPropagation();
                 this.resetIndex = '';
             },
             isShowResetInput(index) {
                 return index === this.resetIndex;
             },
+            // 显示院系的详情面板
+            detailShow(id) {
+                this.classId = id;
+            },
+            // 关闭院系的详情面板
+            detailClose() {
+                this.classId = '';
+            },
+            departmentAdd() {},
+            classAdd(e, index) {
+                e.stopPropagation();
+            },
         },
         components: {
             'Page': Pagination,
             myFilter,
+            classDetail,
         },
         computed: {
 
@@ -209,7 +197,7 @@
 
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
     @import '~scss_vars';
 
     #studentTable{
