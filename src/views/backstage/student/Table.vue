@@ -18,6 +18,7 @@
                 <el-collapse
                         accordion
                         v-model="activeName"
+                        value="0"
                         v-for="(item, index) in list">
                     <template>
                         <el-collapse-item>
