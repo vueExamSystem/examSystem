@@ -69,6 +69,9 @@ export const getRoleList = params => { return axios.get(`${base}/role/list`, par
 // class
 export const getClassObject = params => { return axios.get(`${base}/class/detail`, params ); };
 
+// competence
+export const getCompetenceList = params => { return axios.get(`${base}/competence/list`, params ); };
+
 
 /*
 * 试卷 start

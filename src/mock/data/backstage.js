@@ -128,6 +128,13 @@ const RoleList = [
         competence: '权限1，权限2，权限5，权限6',
     },
 ];
+const CompetenceList = [];
+for (let i = 0; i < 20; i++) {
+    CompetenceList.push(Mock.mock({
+        id: i,
+        name: `权限${i}`,
+    }));
+}
 
 
 export {
@@ -135,4 +142,5 @@ export {
     ClassObject,
     ClassList,
     RoleList,
+    CompetenceList,
 };

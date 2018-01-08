@@ -1,39 +1,46 @@
 <template>
-    <section id="roleTable">
-        <div class="panel">
-            <div class="content">
-                <!--列表-->
-                <el-table
-                        :data="list"
-                        highlight-current-row
-                        v-loading="listLoading"
-                        @selection-change="selsChange"
-                        style="width: 100%;">
-                    <el-table-column type="index" label="ID" hidden>
-                    </el-table-column>
-                    <el-table-column prop="role" label="角色" sortable>
-                        <template scope="scope">
-                            <el-button type="text" @click="detailShow(scope.row.id)">{{scope.row.role}}</el-button>
-                        </template>
-                    </el-table-column>
-                    <el-table-column prop="competence" label="权限" sortable>
-                    </el-table-column>
-                    <el-table-column
-                            label="操作"
-                            width="100">
-                        <template slot-scope="scope">
-                            <el-button type="primary" size="small">编辑</el-button>
-                        </template>
-                    </el-table-column>
-                </el-table>
+    <div>
+        <section v-if="!detailId" id="roleTable">
+            <div class="panel">
+                <div class="content">
+                    <!--列表-->
+                    <el-table
+                            :data="list"
+                            highlight-current-row
+                            v-loading="listLoading"
+                            @selection-change="selsChange"
+                            style="width: 100%;">
+                        <el-table-column type="index" label="ID" hidden>
+                        </el-table-column>
+                        <el-table-column prop="role" label="角色" sortable>
+                            <template scope="scope">
+                                <el-button type="text" @click="detailShow(scope.row.id)">{{scope.row.role}}</el-button>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="competence" label="权限" sortable>
+                        </el-table-column>
+                        <el-table-column
+                                label="操作"
+                                width="100">
+                            <template slot-scope="scope">
+                                <el-button type="primary" size="small">编辑</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+        <section v-else>
+            <role-form id="detailId" @close="detailClose"></role-form>
+        </section>
+    </div>
+
 </template>
 
 <script>
     import {getRoleList} from '../../../api/api';
     import Pagination from '../../common/Pagination.vue'
+    import roleForm from './Form.vue'
 
     export default {
         data() {
@@ -49,6 +56,7 @@
                 listLoading: false,
                 sels: [],//列表选中列
 
+                detailId: '',
             }
         },
         methods: {
@@ -79,9 +87,13 @@
                     //NProgress.done();
                 });
             },
+            detailClose() {
+                this.detailId = '';
+            }
         },
         components: {
             'Page': Pagination,
+            roleForm,
         },
         mounted() {
             this.getList();
