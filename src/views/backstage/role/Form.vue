@@ -3,21 +3,25 @@
         <div class="title">
             <span>个人信息</span>
             <div class="pull-right">
-                <el-button type="success" @click="close" class="el-button-shadow">保存</el-button>
+                <el-button type="success" @click="onSubmit('form')" class="el-button-shadow">保存</el-button>
                 <el-button type="danger" @click="close" class="el-button-shadow">取消</el-button>
             </div>
         </div>
 
         <div class="content">
-            <el-form :model="form" :rules="rules" ref="form" label-width="100px" class="demo-ruleForm">
-                <el-form-item label="权限" prop="competence">
+            <el-form :model="form" ref="form" label-width="100px" class="demo-ruleForm">
+                <el-form-item
+                        label="权限"
+                        prop="competence"
+                        :rules="[{required: true, message: '请选择权限', trigger: 'change'}]">
+                    <el-checkbox-group v-model="form.competence">
                     <el-checkbox
                             v-for="item in competenceArr"
                             :key="item.id"
                             :label="item.name"
                     >
                         {{item.name}}
-                    </el-checkbox>
+                    </el-checkbox></el-checkbox-group>
                 </el-form-item>
             </el-form>
         </div>
@@ -26,28 +30,44 @@
 </template>
 
 <script>
-    import { getCompetenceList } from '../../../api/api'
+    import { getCompetenceList, getRoleList } from '../../../api/api'
     export default {
+        props: {
+            id: {
+                required: true
+            }
+        },
         data() {
             return {
-                props: {
-                    id: {
-                        required: true
-                    }
-                },
                 form: {
                     competence: [],
                 },
                 competenceArr: [],
+                roleList: [],
             }
         },
         methods: {
             onSubmit(formName) {
-                console.log('logout');
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        alert('submit!');
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+                this.close();
             },
             getList() {
                 getCompetenceList().then((res) => {
                     this.competenceArr = res.data;
+                });
+                getRoleList().then((res) => {
+                    if(res.data === undefined) return;
+                    const str = res.data[this.id].competence;
+                    const arr = str.split('，');
+                    console.log(arr);
+                    this.form.competence = arr;
                 });
             },
             close() {
@@ -55,8 +75,15 @@
             },
         },
         computed: {
+            comArr() {
+                const str = res.data[this.id].competence;
+                const arr = str.split('，');
+                console.log(arr);
+                return arr || [];
+            },
         },
         mounted() {
+            this.getList();
         }
     }
 
@@ -64,20 +91,4 @@
 
 <style scoped lang="scss">
     @import '~scss_vars';
-    #infoForm{
-        .el-form{
-            padding: 0;
-        }
-        .el-form-item{
-            width: 100%;
-            padding-left: 10px;
-            margin-bottom: 0;
-            &:nth-child(even){
-                background: #F0F0F0;
-            }
-            .el-form-item__content>span{
-                color: #3C5398;
-            }
-        }
-    }
 </style>

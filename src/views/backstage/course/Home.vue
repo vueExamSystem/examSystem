@@ -1,13 +1,13 @@
 <template>
     <el-tabs type="border-card" v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="个人信息" name="list">
-            <info-form></info-form>
+        <el-tab-pane label="选课管理" name="list">
+            <course-table></course-table>
         </el-tab-pane>
     </el-tabs>
 </template>
 
 <script>
-    import infoForm from './Form.vue';
+    import courseTable from './Table.vue';
     export default {
         data() {
             return {
@@ -15,7 +15,7 @@
             }
         },
         components: {
-            infoForm,
+            courseTable,
         },
         methods: {
             handleClick(tab, event){

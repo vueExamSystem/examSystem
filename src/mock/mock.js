@@ -30,7 +30,7 @@ import {
     ClassObject,
     ClassList,
     RoleList,
-    CompetenceList,
+    CompetenceList, SelectCourseList,
 } from './data/backstage';
 
 let _Users = Users;
@@ -250,6 +250,10 @@ export default {
         //获取权限列表
         mock.onGet('/competence/list').reply(config => {
             return u.getMockList(config, CompetenceList);
+        });
+        //获取选课列表
+        mock.onGet('/selectCourse/list').reply(config => {
+            return u.getMockList(config, SelectCourseList);
         });
         //获取班级详情
         mock.onGet('/class/detail').reply(config => {

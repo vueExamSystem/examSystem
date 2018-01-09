@@ -72,6 +72,9 @@ export const getClassObject = params => { return axios.get(`${base}/class/detail
 // competence
 export const getCompetenceList = params => { return axios.get(`${base}/competence/list`, params ); };
 
+// 选课
+export const getSelectCourseList = params => { return axios.get(`${base}/selectCourse/list`, params ); };
+
 
 /*
 * 试卷 start

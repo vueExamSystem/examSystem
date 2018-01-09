@@ -69,7 +69,7 @@
 			}
 		},
 		methods: {
-            submitForm(formName) {
+            onSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         alert('submit!');

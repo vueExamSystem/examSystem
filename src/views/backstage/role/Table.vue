@@ -1,6 +1,6 @@
 <template>
     <div>
-        <section v-if="!detailId" id="roleTable">
+        <section v-if="detailId === ''" id="roleTable">
             <div class="panel">
                 <div class="content">
                     <!--列表-->
@@ -13,7 +13,7 @@
                         <el-table-column type="index" label="ID" hidden>
                         </el-table-column>
                         <el-table-column prop="role" label="角色" sortable>
-                            <template scope="scope">
+                            <template slot-scope="scope">
                                 <el-button type="text" @click="detailShow(scope.row.id)">{{scope.row.role}}</el-button>
                             </template>
                         </el-table-column>
@@ -31,7 +31,7 @@
             </div>
         </section>
         <section v-else>
-            <role-form id="detailId" @close="detailClose"></role-form>
+            <role-form :id="detailId" @close="detailClose"></role-form>
         </section>
     </div>
 
@@ -86,6 +86,10 @@
                     this.listLoading = false;
                     //NProgress.done();
                 });
+            },
+            detailShow(id) {
+                console.log('detailShow', id);
+                this.detailId = id;
             },
             detailClose() {
                 this.detailId = '';
