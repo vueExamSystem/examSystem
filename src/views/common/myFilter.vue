@@ -9,7 +9,7 @@
                         <li v-if="!row.noAll" class="checked" @click="toggleCheckCommon(row.field, true);" role="all"><span>全部</span></li>
                         <template v-for="item in row.children">
                             <li
-                                    @click="toggleCheckCommon(row.field, item.value, filters);"
+                                    @click="toggleCheckCommon(row.field, item.value);"
                                     role="item"
                                     :name="item.value"
                                     :key="item.value"
@@ -181,14 +181,13 @@
                 console.log('_this_.list', _this_.list[rowIndex])
                 _this_.$emit('callback', _this_.filters);
             },
-            toggleCheckCommon(field, value, fil) {
+            toggleCheckCommon(field, value) {
                 if (typeof value === 'boolean') {
                     this.$set(this.filters, field, '');
                 } else {
                     this.$set(this.filters, field, value);
                 }
                 console.log('toggleCheckCommon', this.filters);
-                console.log('filters', fil);
             },
             addEmit(eveName) {
                 this.$emit(eveName);
