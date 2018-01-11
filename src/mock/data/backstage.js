@@ -98,18 +98,28 @@ const ClassList = [
     {
         id: 1,
         name: '1班',
+        person: 40,
+        selectedNum: 30,
     },{
         id: 2,
         name: '2班',
+        person: 40,
+        selectedNum: 30,
     },{
         id: 3,
         name: '3班',
+        person: 40,
+        selectedNum: 30,
     },{
         id: 4,
         name: '4班',
+        person: 40,
+        selectedNum: 30,
     },{
         id: 5,
         name: '5班',
+        person: 40,
+        selectedNum: 30,
     },
 ];
 
@@ -140,7 +150,7 @@ const SelectCourseList = [
     {
         id: 0,
         name: '大学物理',
-        class: [
+        className: [
             '102班',
             '103班',
             '104班',
@@ -151,8 +161,8 @@ const SelectCourseList = [
         ],
     },{
         id: 1,
-        role: '大学数学',
-        class: [
+        name: '大学数学',
+        className: [
             '102班',
             '103班',
             '204班',
@@ -166,8 +176,8 @@ const SelectCourseList = [
         ],
     },{
         id: 2,
-        role: '大学语文',
-        class: [
+        name: '大学语文',
+        className: [
             '102班',
             '203班',
             '304班',

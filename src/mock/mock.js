@@ -30,7 +30,8 @@ import {
     ClassObject,
     ClassList,
     RoleList,
-    CompetenceList, SelectCourseList,
+    CompetenceList,
+    SelectCourseList,
 } from './data/backstage';
 
 let _Users = Users;
@@ -57,7 +58,7 @@ export default {
                     });
 
                     if (hasUser) {
-                        resolve([200, {code: 200, msg: '请求成功', data:user}]);
+                        resolve([200, {code: 200, msg: '请求成功', data: user}]);
                     } else {
                         resolve([200, {code: 500, msg: '账号或密码错误'}]);
                     }
@@ -282,15 +283,15 @@ export default {
             var params = JSON.parse(config.data);
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
-                    if(params.isNecessary){
-                        if(params.type === 'radio'){
+                    if (params.isNecessary) {
+                        if (params.type === 'radio') {
                             resolve([200, radioProblem]);
-                        }else if(params.type === 'check'){
+                        } else if (params.type === 'check') {
                             resolve([200, checkProblem]);
-                        }else if(params.type === 'judge'){
+                        } else if (params.type === 'judge') {
                             resolve([200, judgeProblem]);
                         }
-                    }else{
+                    } else {
                         resolve([200, optionProblem]);
                     }
                 }, 1000);

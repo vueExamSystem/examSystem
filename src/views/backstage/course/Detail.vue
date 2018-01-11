@@ -1,7 +1,7 @@
 <template>
     <div>
-        <section v-if="courseId === ''" id="courseTable">
-            <my-filter :list="filterList" @callback="search"></my-filter>
+        <section id="courseTable">
+            <my-filter :list="filterList" @callback="search" @backstageCourseAdd="backstageCourseAdd"></my-filter>
             <div class="panel">
                 <div class="title">
                     <el-input placeholder="请输入搜索关键词" v-model="searchkey">
@@ -10,7 +10,8 @@
 
                     <!--分页-->
                     <div class="pageArea">
-                        <Page :current="page" :total="total" :pageSize="pageSize" @page-change="handleCurrentChange"></Page>
+                        <Page :current="page" :total="total" :pageSize="pageSize"
+                              @page-change="handleCurrentChange"></Page>
                     </div>
 
                 </div>
@@ -25,35 +26,32 @@
                             style="width: 100%;">
                         <el-table-column type="index" label="ID">
                         </el-table-column>
-                        <el-table-column prop="name" label="课程" sortable>
+                        <el-table-column prop="name" label="班级" sortable>
                             <template scope="scope">
                                 <el-button type="text" @click="detailShow(scope.row.id)">{{scope.row.name}}</el-button>
                             </template>
                         </el-table-column>
-                        <el-table-column prop="className" label="班级名称" sortable :formatter="formatClass">
+                        <el-table-column prop="className" label="参加人数/总人数" sortable :formatter="formatNumber">
                         </el-table-column>
                         <el-table-column
                                 label="操作"
-                                width="100">
+                                width="200">
                             <template slot-scope="scope">
-                                <el-button type="primary" size="small">添加</el-button>
+                                <el-button type="primary" size="small">编辑</el-button>
+                                <el-button type="success" size="small">保存</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
                 </div>
             </div>
         </section>
-        <section v-else>
-            <course-detail :id="courseId" @close="detailClose"></course-detail>
-        </section>
     </div>
 </template>
 
 <script>
-    import {getSelectCourseList} from '../../../api/api';
+    import {getClassList} from '../../../api/api';
     import myFilter from '../../common/myFilter.vue'
     import Pagination from '../../common/Pagination.vue'
-    import courseDetail from './Detail.vue'
 
     export default {
         data() {
@@ -69,28 +67,12 @@
                 listLoading: true,
                 sels: [],//列表选中列
                 // 过滤器数据
-                filterList: [
-                    {
-                        title: '课程',
-                        field: 'project',
-                        children: [{
-                            value: 'physics',
-                            text: '大学物理'
-                        }, {
-                            value: 'mathematics',
-                            text: '高等数学'
-                        }, {
-                            value: 'english',
-                            text: '大学英语'
-                        }]
-                    }],
-                // 选择某个班级id
-                courseId: '',
+                filterList: [],
             }
         },
         methods: {
-            formatClass: function (row, column) {
-                return row.className.join('，');
+            formatNumber: function (row, column) {
+                return `${row.selectedNum}/${row.person}`;
             },
             handleSizeChange(val) {
                 console.log(val);
@@ -113,14 +95,12 @@
                 };
                 this.listLoading = true;
                 //NProgress.start();
-                getSelectCourseList(para).then((res) => {
+                getClassList(para).then((res) => {
                     this.list = res.data.list;
                     this.listLoading = false;
+                    this.filterList = this.getFilterList();
                     //NProgress.done();
                 });
-            },
-            changeCollapse(val) {
-                console.log('changeCollapse', val);
             },
             // 显示详情面板
             detailShow(id) {
@@ -130,14 +110,72 @@
             detailClose() {
                 this.courseId = '';
             },
+            backstageCourseAdd() {
+                console.log('backstageCourseAdd');
+            },
+            getFilterList() {
+                let res;
+                if (this.list.length === 0) {
+                    res = [];
+                } else {
+                    res = [
+                        {
+                            title: '年级',
+                            field: 'grade',
+                            children: [{
+                                value: '14',
+                                text: '14级'
+                            }, {
+                                value: '15',
+                                text: '15级'
+                            }, {
+                                value: '16',
+                                text: '16级'
+                            }]
+                        }, {
+                            title: '院系',
+                            field: 'department',
+                            children: [{
+                                value: '14',
+                                text: '计算机'
+                            }, {
+                                value: '15',
+                                text: '物电学院'
+                            }, {
+                                value: '16',
+                                text: '小学教育'
+                            }]
+                        }, {
+                            title: '班级',
+                            field: 'class',
+                            arr: [
+                                {
+                                    id: 0,
+                                    type: 'select',
+                                    data: this.list,
+                                }, {
+                                    id: 1,
+                                    type: 'button',
+                                    classType: 'primary',
+                                    text: '添加',
+                                    eventName: 'backstageCourseAdd',
+                                },
+                            ],
+                        }
+                    ];
+                    return res;
+                }
+
+            }
         },
         components: {
             'Page': Pagination,
             myFilter,
-            courseDetail,
         },
         computed: {
-
+            classArr() {
+                return this.list;
+            },
         },
         mounted() {
             this.getList();

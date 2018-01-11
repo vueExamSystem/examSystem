@@ -10,7 +10,7 @@
                 <span>选课管理</span>
             </router-link>
             <router-link to="/backstage/role">
-                <i class="fa fa-bars"></i>
+                <i class="iconfont icon-user"></i>
                 <span>角色管理</span>
             </router-link>
             <router-link to="/backstage/competence">
