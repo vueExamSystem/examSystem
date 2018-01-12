@@ -1,5 +1,7 @@
 <template>
-    <section class="filter-wrap">
+    <section
+            v-bind:class="[ !!noBottomBorder ? 'noBottom' : '', 'filter-wrap' ]"
+    >
         <ul class="filter-list">
             <template v-for="row in list">
                 <li class="filter-row" :field="row.field">
@@ -77,6 +79,7 @@
     const demoList = [{ // common
         title: '院系', // label
         field: 'department', // key
+        noAll: false, // 是否需要全部
         children: [{ // detail li
             value: '14', // key
             text: '计算机' // text
@@ -110,6 +113,9 @@
                 required: true,
                 type: Array
             },
+            noBottomBorder: {
+                required: false,
+            }
         },
         data() {
             return {
@@ -187,7 +193,9 @@
                 } else {
                     this.$set(this.filters, field, value);
                 }
+                this.$forceUpdate();
                 console.log('toggleCheckCommon', this.filters);
+                this.$emit('callback', this.filters);
             },
             addEmit(eveName) {
                 this.$emit(eveName);
@@ -208,13 +216,17 @@
         }
     }
 </script>
-<style scoped lang="scss">
+<style lang="scss">
     @import '~scss_vars';
 
     .filter-wrap {
         box-shadow: 0 2px 8px 0 rgba(181, 181, 205, 0.4);
         border-radius: 8px;
         padding: 20px 10px;
+
+        &.noBottom{
+            box-shadow: none;
+        }
         .filter-list {
             .filter-row {
                 font-size: 0;

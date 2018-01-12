@@ -75,6 +75,15 @@ export const getCompetenceList = params => { return axios.get(`${base}/competenc
 // 选课
 export const getSelectCourseList = params => { return axios.get(`${base}/selectCourse/list`, params ); };
 
+/*
+* 统计 start
+* */
+// 院系考试统计列表
+export const getDepExamStaList = params => { return axios.get(`${base}/department/exam/statistics/list`, params ); };
+
+// 院系成绩统计列表
+export const getDepScoreStaList = params => { return axios.get(`${base}/department/score/statistics/list`, params ); };
+
 
 /*
 * 试卷 start

@@ -193,13 +193,16 @@ form {
     padding-left: 12px;
   }
 }
-
+.filter-wrap{
+  margin-bottom: 20px;
+}
 /* 通用对panel */
 .panel {
   -webkit-border-radius: $radius-size;
   -moz-border-radius: $radius-size;
   border-radius: $radius-size;
   overflow: hidden;
+
   .title {
     height: 50px;
     background-color: $base-background;
@@ -208,12 +211,17 @@ form {
     box-shadow: 0 4px 4px 0 rgba(181, 181, 205, 0.50);
     padding: 0 10px;
 
+    &.samll{
+      height: 42px;
+      line-height: 42px;
+    }
+
     & > span:first-child {
       font-size: 18px;
       color: #3C5398;
       letter-spacing: 1.12px;
     }
-    .el-input {
+    &>.el-input {
       width: 280px;
       margin: 12px 30px 0 8px;
 
@@ -247,12 +255,18 @@ form {
       }
     }
   }
-  .content {
+  &>.content {
     min-height: 50px;
     border: 1px solid $base-border;
     border-top: 0;
     border-bottom-left-radius: $radius-size;
     border-bottom-right-radius: $radius-size;
+
+    &.chart{
+      height: 560px;
+      width: 100%;
+      text-align: center;
+    }
 
     & > form {
       min-width: 600px;
@@ -285,6 +299,16 @@ form {
         top: 1px;
       }
     }
+    .filter-wrap{
+      margin-bottom: 0;
+    }
+  }
+
+  &.noBottom{
+    &>.content{
+      border-bottom: 0;
+    }
+
   }
 }
 
@@ -394,7 +418,5 @@ form {
   }
   margin-bottom: 10px;
 }
-.filter-wrap{
-  margin-bottom: 20px;
-}
+
 	

@@ -26,6 +26,9 @@ import {
     ChartList,
 } from './data/setting';
 import {
+    DepExamStaList, DepScoreStaList,
+} from './data/statistics';
+import {
     DepartmentList,
     ClassObject,
     ClassList,
@@ -233,6 +236,17 @@ export default {
         //获取chart列表
         mock.onGet('/chart/list').reply(config => {
             return u.getMockList(config, ChartList);
+        });
+
+
+        /** 以下statistics **/
+        //获取院系考试统计列表
+        mock.onGet('/department/exam/statistics/list').reply(config => {
+            return u.getMockList(config, DepExamStaList);
+        });
+        //获取院系成绩统计列表
+        mock.onGet('/department/score/statistics/list').reply(config => {
+            return u.getMockList(config, DepScoreStaList);
         });
 
         /** 以下backstage **/

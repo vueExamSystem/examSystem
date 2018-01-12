@@ -63,4 +63,10 @@ $-color-text-placeholder: #c0c4cc !default;
   background: -o-linear-gradient(top, $col1, $col2);  /*Opera 11.10+*/
 }
 
+@mixin radius($size) {
+  -webkit-border-radius: $size;
+  -moz-border-radius: $size;
+  border-radius: $size;
+}
+
 
