@@ -3,7 +3,7 @@
         <my-filter :list="filterList" @callback="search"></my-filter>
         <div v-bind:class="[ showExamChart || showScoreChart ? 'noBottom' : '', 'panel' ]">
             <div class="title">
-                <span :model="getMainTitle"></span>
+                <span>{{getMainTitle}}</span>
             </div>
 
             <div class="content">
@@ -232,6 +232,20 @@
                         }, {
                             value: 'english',
                             text: '大学英语'
+                        }]
+                    }, {
+                        title: '班级',
+                        field: 'class',
+                        noAll: true,
+                        children: [{
+                            value: '1',
+                            text: '1班'
+                        }, {
+                            value: '2',
+                            text: '2班'
+                        }, {
+                            value: '4',
+                            text: '4班'
                         }]
                     },
                 ],

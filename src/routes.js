@@ -44,6 +44,8 @@ import ScoreHome from './views/score/Home.vue'
 /*统计*/
 import StatisticsHome from './views/statistics/Home.vue'
 import StatisticsDepartment from './views/statistics/department/Home.vue'
+import StatisticsClass from './views/statistics/class/Home.vue'
+import StatisticsStudent from './views/statistics/student/Home.vue'
 /*后台*/
 import BackstageHome from './views/backstage/Home.vue'
 import BackstageStudent from './views/backstage/student/Home.vue'
@@ -138,6 +140,8 @@ let routes = [
                 name: '统计',
                 children: [
                     { path: '/', component: StatisticsDepartment, name: '院系',},
+                    { path: 'class', component: StatisticsClass, name: '院系',},
+                    { path: 'student', component: StatisticsStudent, name: '院系',},
                 ]
             },
             {

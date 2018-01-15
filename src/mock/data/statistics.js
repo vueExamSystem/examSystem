@@ -18,7 +18,7 @@ for (let i = 0; i < 20; i++) {
 }
 
 
-for (let i = 0; i < 20; i++) {
+for (let i = 0; i < 3; i++) {
     DepScoreStaList.push(Mock.mock({
         id: i,
         course: '大学物理',

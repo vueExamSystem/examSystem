@@ -233,7 +233,41 @@
                             value: 'english',
                             text: '大学英语'
                         }]
-                    },
+                    }, {
+                        title: '班级',
+                        field: 'class',
+                        noAll: true,
+                        children: [{
+                            value: '1',
+                            text: '1班'
+                        }, {
+                            value: '2',
+                            text: '2班'
+                        }, {
+                            value: '4',
+                            text: '4班'
+                        }]
+                    }, {
+                        title: '学号',
+                        field: 'studentNo',
+                        arr: [ // 具体特殊项（目前加入单选，按钮，需要继续加）
+                            {
+                                id: 0,
+                                type: 'select', // 特殊项的类型 （button select等）
+                                data: [{
+                                    id: '1',
+                                    name: '211111001'
+                                }, {
+                                    id: '2',
+                                    name: '211111002'
+                                }, {
+                                    id: '3',
+                                    name: '211111003'
+                                }],
+                            }
+                        ],
+                        noAll: true,
+                    }
                 ],
                 filterListTable: [
                     {
