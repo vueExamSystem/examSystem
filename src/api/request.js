@@ -10,11 +10,46 @@ export default function createApi() {
             axios({
                 method: 'get',
                 url: url,
-                data: _.assign({
-                    token: token,
-                }, query),
+                header: {
+                    token,
+                },
+                data: query,
+                error: (res) => {
+
+                },
             });
         },
+
+        post(url, query) {
+
+            axios({
+                method: 'post',
+                url: url,
+                data:query,
+                header: {
+                    token: '',
+                },
+                error: (res) => {
+
+                },
+            });
+        },
+    };
+
+    function request(url, options) {
+        return Promise.race([
+            axios(url, options)
+                .then()
+                .then(),
+            new Promise(
+                (rosolve, reject) => {
+                    setTimeout(
+                        () => reject('请求超时'),
+                        60000,
+                    );
+                }
+            ),
+        ])
     }
 
 }

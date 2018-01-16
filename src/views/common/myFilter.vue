@@ -8,10 +8,14 @@
                     <label>{{row.title}}：</label>
                     <!--单选-->
                     <ul v-if="row.children && row.children.length > 0 && !row.multiple" class="filter-items">
-                        <li v-if="!row.noAll" class="checked" @click="toggleCheckCommon(row.field, true);" role="all"><span>全部</span></li>
+                        <li
+                                v-if="!row.noAll"
+                                v-bind:class="{ checked: !filters[row.field] }"
+                                @click="toggleCheckCommon(row.field, true)"
+                                role="all"><span>全部</span></li>
                         <template v-for="item in row.children">
                             <li
-                                    @click="toggleCheckCommon(row.field, item.value);"
+                                    @click="toggleCheckCommon(row.field, item.value)"
                                     role="item"
                                     :name="item.value"
                                     :key="item.value"
