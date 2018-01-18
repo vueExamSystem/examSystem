@@ -59,7 +59,7 @@ for (let i = 0; i < 86; i++) {
         subject: '大学物理',
         chapter: '基础物理',
         creator: 'admin',
-        same: '组01',
+        same: `组${i}`,
     }));
 }
 for (let i = 0; i < 20; i++) {
@@ -89,6 +89,89 @@ for (let i = 0; i < 86; i++) {
         creator: 'admin',
     }));
 }
+const QuestionFilter = [
+    {
+        title: '课程',
+        field: 'project',
+        children: [{
+            value: 'physics',
+            text: '大学物理'
+        }, {
+            value: 'mathematics',
+            text: '高等数学'
+        }, {
+            value: 'english',
+            text: '大学英语'
+        }]
+    }, {
+        title: '章节',
+        field: 'chapter',
+        children: [{
+            value: 'physics',
+            text: '基础物理'
+        }, {
+            value: 'mathOne',
+            text: '高等数学上'
+        }, {
+            value: 'mathTwo',
+            text: '高等数学下'
+        }, {
+            value: 'english',
+            text: '英语口语'
+        }]
+    }, {
+        title: '题型',
+        field: 'questionType',
+        children: [{
+            value: 'radio',
+            text: '单选'
+        }, {
+            value: 'multiple',
+            text: '多选'
+        }, {
+            value: 'judgment',
+            text: '判断'
+        }, {
+            value: 'fillIn',
+            text: '填空'
+        }, {
+            value: 'short',
+            text: '简答'
+        }, {
+            value: 'analysis',
+            text: '分析'
+        }, {
+            value: 'discussion',
+            text: '论述'
+        }]
+    }, {
+        title: '类别',
+        field: 'kind',
+        children: [{
+            value: 'exam',
+            text: '考试'
+        }, {
+            value: 'quiz',
+            text: '随堂测试'
+        }, {
+            value: 'exercises',
+            text: '练习题'
+        }]
+    }, {
+        title: '标签',
+        field: 'tip',
+        children: [{
+            value: 'sendPoints',
+            text: '送分题'
+        }, {
+            value: 'simple',
+            text: '简单题'
+        }, {
+            value: 'easyProblem',
+            text: '易错题'
+        }]
+    }
+];
 
 export {
     TypeList,
@@ -99,4 +182,5 @@ export {
     QuestionList,
     CourseList,
     TagList,
+    QuestionFilter,
 };

@@ -89,7 +89,10 @@
         computed: {
             getTotal() {
                 return this.total;
-            }
+            },
+            getPageNum() {
+                return
+            },
         },
         mounted() {
             this.pageNum = this.getPageNum();

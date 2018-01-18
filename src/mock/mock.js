@@ -11,6 +11,7 @@ import {
     QuestionList,
     CourseList,
     TagList,
+    QuestionFilter,
 } from './data/question';
 import {
     PaperList,
@@ -196,6 +197,10 @@ export default {
         //获取que列表
         mock.onGet('/question/list').reply(config => {
             return u.getMockList(config, QuestionList);
+        });
+
+        mock.onGet('/question/filter').reply(config => {
+            return u.getMockList(config, QuestionFilter);
         });
 
         //获取tag列表

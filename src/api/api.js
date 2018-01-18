@@ -1,7 +1,21 @@
 import axios from 'axios';
+import instance  from './instance';
 
 let base = '';
 
+import instance  from '../axios';
+
+export default {
+	//用户登录
+  userLogin(params){
+      return instance.post(`${base}/login`, params).then(res => res.data); 
+  },
+  // question
+  getQueList(params){
+      return instance.get(`${base}/question/list`, params).then(res => res.data); 
+  },
+}
+// 替换到上面
 export const requestLogin = params => { return axios.post(`${base}/login`, params).then(res => res.data); };
 
 export const getUserList = params => { return axios.get(`${base}/user/list`, { params: params }); };
@@ -25,7 +39,7 @@ export const testApi = params => { return axios.post(`${base}/test`, params ); }
 * 试题 start
 * */
 //
-export const getQueList = params => { return axios.get(`${base}/question/list`, params ); };
+// export const getQueList = params => { return axios.get(`${base}/question/list`, params ); };
 
 // 科目列表
 export const getSubjectList = params => { return axios.get(`${base}/subject/list`, params ); };
@@ -41,6 +55,9 @@ export const getChapterList = params => { return axios.get(`${base}/chapter/list
 
 // department
 export const getGroupList = params => { return axios.get(`${base}/group/list`, params ); };
+
+// filter
+export const getQuestionFilter = params => { return axios.get(`${base}/question/filter`, params ); };
 
 /*
 *  设置 start
