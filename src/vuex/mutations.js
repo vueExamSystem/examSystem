@@ -4,7 +4,7 @@
 //那么state.token就有值了,vue-router就不会拦截，则无需重新登录。（这个demo用的是这种）
 
 
-const mutations = {
+export const mutations = {
     LOGIN: (state, data) => {
         //更改token的值
         state.token = data;
@@ -16,5 +16,3 @@ const mutations = {
         window.sessionStorage.removeItem('token');
     },
 };
-
-export default mutations;

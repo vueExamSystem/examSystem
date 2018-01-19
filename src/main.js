@@ -26,17 +26,17 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  next()
+  next('/index')
   //获取store里面的token
-  let token = store.state.token;
-  if(token){
-    next();
-  }else{
-    next({
-      path: '/login',
-      query: { redirect: to.fullPath }  // 将刚刚要去的路由path（却无权限）作为参数，方便登录成功后直接跳转到该路由
-    });
-  }
+  // let token = store.state.token;
+  // if(token){
+  //   next();
+  // }else{
+  //   next({
+  //     path: '/login',
+  //     query: { redirect: to.fullPath }  // 将刚刚要去的路由path（却无权限）作为参数，方便登录成功后直接跳转到该路由
+  //   });
+  // }
 })
 
 new Vue({
