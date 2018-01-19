@@ -66,6 +66,9 @@ let routes = [
     {
         path: '/',
         component: HomePage,
+        meta:{ 
+            requiresAuth: true,
+        },
         children: [
             {
                 path: '/index',
@@ -76,7 +79,6 @@ let routes = [
             {
                 path: 'question',
                 component: QuestionHome,
-                name: '试题',
                 children: [
                     { path: '/', component: QuestionManger, name: '试题管理' },
                     { path: 'tag', component: QuestionTag, name: '标签管理' },
@@ -88,7 +90,6 @@ let routes = [
             {
                 path: 'paper',
                 component: PaperHome,
-                name: '试卷',
                 children: [
                     { path: '/', component: PaperDefault, name: '考试试卷',},
                     { path: 'quiz', component: PaperQuiz, name: '随堂测验' },
@@ -98,7 +99,6 @@ let routes = [
             {
                 path: 'preview',
                 component: PreviewHome,
-                name: '预习',
                 children: [
                     { path: '/', component: PreviewExample, name: '预习题',},
                     { path: 'doc', component: PreviewDoc, name: '预习资料' },
@@ -107,7 +107,6 @@ let routes = [
             {
                 path: 'test',
                 component: TestHome,
-                name: '测验',
                 children: [
                     { path: '/', component: TestInfo, name: '课堂测验',},
                     { path: 'publish', component: TestPublish, name: '发布测验' },
@@ -116,7 +115,6 @@ let routes = [
             {
                 path: 'exam',
                 component: ExamHome,
-                name: '考试',
                 children: [
                     { path: '/', component: ExamInfo, name: '考试',},
                     { path: 'publish', component: ExamPublish, name: '发布考试' },
@@ -137,7 +135,6 @@ let routes = [
             {
                 path: 'statistics',
                 component: StatisticsHome,
-                name: '统计',
                 children: [
                     { path: '/', component: StatisticsDepartment, name: '院系',},
                     { path: 'class', component: StatisticsClass, name: '院系',},
@@ -147,7 +144,6 @@ let routes = [
             {
                 path: 'backstage',
                 component: BackstageHome,
-                name: '后台',
                 children: [
                     { path: '/', component: BackstageStudent, name: '学生管理',},
                     { path: 'course', component: BackstageCourse, name: '选课管理' },
@@ -159,7 +155,6 @@ let routes = [
             {
                 path: 'setting',
                 component: SettingHome,
-                name: '设置',
                 children: [
                     { path: '/', component: SettingInfo, name: '个人信息',},
                     { path: 'log', component: SettingLog, name: '系统日志' },
@@ -169,67 +164,30 @@ let routes = [
             },
         ]
     },
-
     {
         path: '/login',
         component: Login,
         name: '',
         hidden: true
     },
-    {
-        path: '/404',
-        component: NotFound,
-        name: '',
-        hidden: true
-    },
-    { path: '/main', component: Main },
-    {
-        path: '/past',
-        component: Home,
-        name: '导航一',
-        iconCls: 'el-icon-message',//图标样式class
-        children: [
-            { path: '/main', component: Main, name: '主页', hidden: true },
-            { path: '/table', component: Table, name: 'Table' },
-            { path: '/form', component: Form, name: 'Form' },
-            { path: '/user', component: user, name: '列表' },
-        ]
-    },
-    {
-        path: '/past',
-        component: Home,
-        name: '导航二',
-        iconCls: 'fa fa-id-card-o',
-        children: [
-            { path: '/page4', component: Page4, name: '页面4' },
-            { path: '/page5', component: Page5, name: '页面5' }
-        ]
-    },
-    {
-        path: '/past',
-        component: Home,
-        name: '',
-        iconCls: 'fa fa-address-card',
-        leaf: true,//只有一个节点
-        children: [
-            { path: '/page6', component: Page6, name: '导航三' }
-        ]
-    },
-    {
-        path: '/past',
-        component: Home,
-        name: 'Charts',
-        iconCls: 'fa fa-bar-chart',
-        children: [
-            { path: '/echarts', component: echarts, name: 'echarts' }
-        ]
-    },
-    {
-        path: '/testApi',
-        component: testApi,
-        name: 'testApi',
-    },
-
+    // { path: '/main', component: Main },
+    // {
+    //     path: '/past',
+    //     component: Home,
+    //     name: '导航一',
+    //     iconCls: 'el-icon-message',//图标样式class
+    //     children: [
+    //         { path: '/main', component: Main, name: '主页', hidden: true },
+    //         { path: '/table', component: Table, name: 'Table' },
+    //         { path: '/form', component: Form, name: 'Form' },
+    //         { path: '/user', component: user, name: '列表' },
+    //     ]
+    // },
+    // {
+    //     path: '/testApi',
+    //     component: testApi,
+    //     name: 'testApi',
+    // },
     {
         path: '*',
         hidden: true,

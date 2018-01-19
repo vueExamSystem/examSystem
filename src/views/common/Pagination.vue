@@ -4,7 +4,7 @@
             第
             <span>{{currentPage}}</span>
             /
-            <span>{{pageNum}}</span>
+            <span>{{getPageNumCom}}</span>
             页
         </div>
         <ul>
@@ -90,8 +90,8 @@
             getTotal() {
                 return this.total;
             },
-            getPageNum() {
-                return
+            getPageNumCom() {
+                return this.getPageNum();
             },
         },
         mounted() {
