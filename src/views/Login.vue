@@ -53,6 +53,18 @@
                   type: 'error'
                 });
               } else {
+                this.$message({
+                  type: 'success',
+                  message: '登录成功',
+                })
+                let token = data.token;
+                this.$store.dispatch('UserLogin', token);
+                //如果用户手动输入"/"那么会跳转到这里来，即this.$route.query.redirect有参数
+                let redirectUrl = decodeURIComponent(this.$route.query.redirect || '/');
+                //跳转到指定的路由
+                this.$router.push({
+                    path: redirectUrl
+                });
                 sessionStorage.setItem('user', JSON.stringify(data));
                 this.$router.push({ path: '/index' });
               }

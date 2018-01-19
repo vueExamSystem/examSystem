@@ -1,5 +1,5 @@
 import axios from 'axios';
-// import instance  from './instance';
+import instance  from './instance';
 
 let base = '';
 
@@ -37,7 +37,7 @@ export const testApi = params => { return axios.post(`${base}/test`, params ); }
 * 试题 start
 * */
 //
-export const getQueList = params => { return axios.get(`${base}/question/list`, params ); };
+export const getQueList = params => { return instance.get(`${base}/question/list`, params ); };
 
 // 科目列表
 export const getSubjectList = params => { return axios.get(`${base}/subject/list`, params ); };
@@ -61,7 +61,7 @@ export const getQuestionFilter = params => { return axios.get(`${base}/question/
 *  设置 start
 * */
 // log
-export const getSetLogList = params => { return axios.get(`${base}/log/list`, params ); };
+export const getSetLogList = params => { return instance.get(`${base}/log/list`, params ); };
 
 // alert
 export const getSetAlertList = params => { return axios.get(`${base}/alert/list`, params ); };
