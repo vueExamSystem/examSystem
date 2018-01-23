@@ -77,6 +77,7 @@ export const asyncRouterMap  = [{
         {
             path: 'index',
             component: DashbordHome,
+            defaultPath: true,  
             name: '首页'
         },
         {

@@ -65,21 +65,20 @@ const actions = {
    	},
   	GenerateRoutes({ commit }, data) {
       const { routes } = data;
-      commit('Set_ApiRoutes',{routes});
+      commit('Set_ApiRoutes', { routes });
+      console.log('get routes is', routes);
      	return new Promise(resolve => {
-       		const accessedRouters = asyncRouterMap.filter(v => {
-       			if(v.path == '/'){
-       				v.children.filter(localRouteTree => {
-     						routes.filter(apiRouteTree => {
-     							return filterRoutesTree(apiRouteTree, localRouteTree);
-     						});
-       				});
-       			}
-       			return true;
-	       });
-	       	console.log('accessedRouters',accessedRouters)
-	        commit('SET_ROUTERS', accessedRouters);
-	        resolve();
+        const accessedRouters = _.cloneDeep(asyncRouterMap);
+        const index = _.findIndex(asyncRouterMap, { path: '/' });
+        if(index > -1) {
+          const accessChildren = asyncRouterMap[index].children.filter(item => {
+            return _.findIndex(routes, {path: item.path}) > -1 || item.defaultPath;
+          })
+          accessedRouters[index].children = accessChildren;
+        }
+       	console.log('accessedRouters',accessedRouters)
+        commit('SET_ROUTERS', accessedRouters);
+        resolve();
 	    })
    	}
 };
