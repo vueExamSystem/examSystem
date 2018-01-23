@@ -3,39 +3,11 @@
 		<el-header height="50px">
 			<div class="logo">EXAM</div>
 			<el-row id="nav-header">
-				<el-col :span="2" :offset="1">
-					<router-link to="/index">首页</router-link>
-				</el-col>
-				<el-col :span="2">
-					<router-link to="/question">试题</router-link>
-				</el-col>
-				<el-col :span="2">
-					<router-link to="/paper">试卷</router-link>
-				</el-col>
-				<el-col :span="2">
-					<router-link to="/preview">预习</router-link>
-				</el-col>
-				<el-col :span="2">
-					<router-link to="/test">测验</router-link>
-				</el-col>
-				<el-col :span="2">
-					<router-link to="/exam">考试</router-link>
-				</el-col>
-				<el-col :span="2">
-					<router-link to="/listen">监考</router-link>
-				</el-col>
-				<el-col :span="2">
-					<router-link to="/score">成绩</router-link>
-				</el-col>
-				<el-col :span="2">
-					<router-link to="/statistics">统计</router-link>
-				</el-col>
-				<el-col :span="2">
-					<router-link to="/backstage">后台</router-link>
-				</el-col>
-				<el-col :span="2">
-					<router-link to="/setting">设置</router-link>
-				</el-col>
+				<template v-for="item in routes">
+					<el-col :span="2" :offset="item.path === '/index' ? 1 : 0">
+						<router-link :to="item.path">{{item.name}}</router-link>
+					</el-col>
+				</template>
 			</el-row>
 		</el-header>
 		<el-main id="content">
@@ -45,14 +17,20 @@
 </template>
 
 <script>
+	import store from '../vuex/store';
+	import _ from 'lodash';
+
 	export default {
 		data() {
 			return {
+				routes: _.find(store.getters.addRouters, { path: '/' }).children,
 			}
 		},
-        components: {
+    components: {
 		},
 		methods: {
+		},
+		computed: {
 		},
 		mounted() {
 		}

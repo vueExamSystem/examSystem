@@ -82,7 +82,8 @@ export const asyncRouterMap  = [{
         },
         {
             path: 'question',
-            component: QuestionHome,
+            component: QuestionHome,  
+            name: '试题',
             redirect: '/question/question',
             children: [
                 { path: 'question', component: QuestionManger, name: '试题管理' },
@@ -94,7 +95,8 @@ export const asyncRouterMap  = [{
         },
         {
             path: 'paper',
-            component: PaperHome,
+            component: PaperHome,  
+            name: '试卷',
             redirect: '/paper/paper',
             children: [
                 { path: 'paper', component: PaperDefault, name: '考试试卷',},
@@ -104,7 +106,8 @@ export const asyncRouterMap  = [{
         },
         {
             path: 'preview',
-            component: PreviewHome,
+            component: PreviewHome,  
+            name: '预习',
             redirect: '/preview/list',
             children: [
                 { path: 'list', component: PreviewExample, name: '预习题',},
@@ -113,7 +116,8 @@ export const asyncRouterMap  = [{
         },
         {
             path: 'test',
-            component: TestHome,
+            component: TestHome,  
+            name: '测验',
             redirect: '/test/list',
             children: [
                 { path: 'list', component: TestInfo, name: '课堂测验',},
@@ -122,7 +126,8 @@ export const asyncRouterMap  = [{
         },
         {
             path: 'exam',
-            component: ExamHome,
+            component: ExamHome,  
+            name: '考试',
             redirect: '/exam/list',
             children: [
                 { path: 'list', component: ExamInfo, name: '考试',},
@@ -143,7 +148,8 @@ export const asyncRouterMap  = [{
         },
         {
             path: 'statistics',
-            component: StatisticsHome,
+            component: StatisticsHome,  
+            name: '统计',
             redirect: '/statistics/department',
             children: [
                 { path: 'department', component: StatisticsDepartment, name: '院系',},
@@ -153,7 +159,8 @@ export const asyncRouterMap  = [{
         },
         {
             path: 'backstage',
-            component: BackstageHome,
+            component: BackstageHome,  
+            name: '后台',
             redirect: '/backstage/student',
             children: [
                 { path: 'student', component: BackstageStudent, name: '学生管理',},
@@ -165,7 +172,8 @@ export const asyncRouterMap  = [{
         },
         {
             path: 'setting',
-            component: SettingHome,
+            component: SettingHome,  
+            name: '设置',
             redirect: '/setting/user',
             children: [
                 { path: 'user', component: SettingInfo, name: '个人信息',},
