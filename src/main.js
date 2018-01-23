@@ -29,15 +29,16 @@ router.beforeEach((to, from, next) => {
     if (to.path == '/login') {
         store.dispatch('LogOut');
         next();
-    } else {console.log('router',router);console.log('store.getters.token',store.getters);
+    } else {console.log('new router',router);
         if (store.getters.token) {
-            if (store.getters.roles.length === 0) { // 判断当前用户是否已拉取完 user_info 信息
+            if (store.getters.apiRoutes === null) { // 判断当前用户是否已拉取完 user_info 信息
                 store.dispatch('GetInfo').then(res => { // 拉取 info
                     const routes = res.data.routes;
                     store.dispatch('GenerateRoutes', { routes }).then(() => { // 生成可访问的路由表
                         console.log('store.getters.addRouters',store.getters.addRouters)
-                        router.addRoutes(store.getters.addRouters) // 动态添加可访问路由表
-                        next(); // hack 方法 确保 addRoutes 已完成
+                        router.addRoutes(store.getters.addRouters); // 动态添加可访问路由表
+                        console.log('new router',router);
+                        next(to) // hack 方法 确保 addRoutes 已完成
                     })
                 }).catch(err => {
                     console.log(err);
