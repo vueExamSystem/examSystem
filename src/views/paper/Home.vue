@@ -1,7 +1,7 @@
 <template>
     <el-container>
         <el-aside width="120px">
-            <router-link to="/paper">
+            <router-link to="/paper/paper">
                 <i class="iconfont icon-kaoshi-larger"></i>
                 <span>考试试卷</span>
             </router-link>

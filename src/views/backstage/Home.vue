@@ -1,7 +1,7 @@
 <template>
     <el-container>
         <el-aside width="120px">
-            <router-link to="/backstage">
+            <router-link to="/backstage/student">
                 <i class="iconfont icon-student-larger"></i>
                 <span>学生管理</span>
             </router-link>
