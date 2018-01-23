@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import {constantRouterMap,asyncRouterMap} from '../routes'
 import { getUserInfo } from '../api/api'
+import _ from 'lodash';
 Vue.use(Vuex)
 
 function filterRoutesTree(apiRoutes, localRoutes) {
@@ -69,9 +70,9 @@ const actions = {
        		const accessedRouters = asyncRouterMap.filter(v => {
        			if(v.path == '/'){
        				v.children.filter(localRouteTree => {
-   						routes.filter(apiRouteTree => {
-   							return filterRoutesTree(apiRouteTree, localRouteTree);
-   						});
+     						routes.filter(apiRouteTree => {
+     							return filterRoutesTree(apiRouteTree, localRouteTree);
+     						});
        				});
        			}
        			return true;
