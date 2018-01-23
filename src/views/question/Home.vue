@@ -1,7 +1,7 @@
 <template>
     <el-container>
         <el-aside width="120px">
-            <router-link to="/question">
+            <router-link to="/question/question">
                 <div>
                     <i class="iconfont icon-shiti-larger"></i>
                     <span slot="title">

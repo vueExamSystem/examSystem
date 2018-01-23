@@ -1,7 +1,7 @@
 <template>
     <el-container>
         <el-aside width="120px">
-            <router-link to="/exam">
+            <router-link to="/exam/list">
                 <i class="iconfont icon-kaoshi-larger"></i>
                 <span>考试</span>
             </router-link>

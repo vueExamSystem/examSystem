@@ -1,7 +1,7 @@
 <template>
     <el-container>
         <el-aside width="120px">
-            <router-link to="/setting">
+            <router-link to="/setting/user">
                 <i class="iconfont icon-user-larger"></i>
                 <span>个人信息</span>
             </router-link>
