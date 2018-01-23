@@ -9,7 +9,7 @@ import './styles/style.scss'
 import VueRouter from 'vue-router'
 import store from './vuex/store'
 import Vuex from 'vuex'
-import routers from './routes'
+import {constantRouterMap,asyncRouterMap} from './routes'
 import Mock from './mock'
 Mock.bootstrap();
 import 'font-awesome/css/font-awesome.min.css'
@@ -22,31 +22,37 @@ Vue.use(Vuex)
 
 const router = new VueRouter({
     mode: 'history',
-    routes: routers
+    routes: constantRouterMap
 })
 
 router.beforeEach((to, from, next) => {
-  //获取store里面的token
-  let token = store.state.token;
-  //判断要去的路由有没有requiresAuth
-  if(to.meta.requiresAuth){
-
-    if(token){
-      next();
-    }else{
-      next({
-        path: '/login',
-        query: { redirect: to.fullPath }  // 将刚刚要去的路由path（却无权限）作为参数，方便登录成功后直接跳转到该路由
-      });
+    if (to.path == '/login') {
+        store.dispatch('LogOut');
+        next();
+    } else {console.log('router',router);console.log('store.getters.token',store.getters);
+        if (store.getters.token) {
+            if (store.getters.roles.length === 0) { // 判断当前用户是否已拉取完 user_info 信息
+                store.dispatch('GetInfo').then(res => { // 拉取 info
+                    const routes = res.data.routes;
+                    store.dispatch('GenerateRoutes', { routes }).then(() => { // 生成可访问的路由表
+                        console.log('store.getters.addRouters',store.getters.addRouters)
+                        router.addRoutes(store.getters.addRouters) // 动态添加可访问路由表
+                        next(); // hack 方法 确保 addRoutes 已完成
+                    })
+                }).catch(err => {
+                    console.log(err);
+                });
+            } else {
+                next() //当有用户权限的时候，说明所有可访问路由已生成 如访问没权限的全面会自动进入 404 页面
+            }
+        }else{console.log('no token')
+            next({ path: '/login',query: { redirect: to.fullPath } }); //全部重定向到登录页
+        }
     }
-
-  }else{
-    next();//如果无需token,那么随它去吧
-  }
-})
+});
 
 new Vue({
-  router,
-  store,
-  render: h => h(App)
+    router,
+    store,
+    render: h => h(App)
 }).$mount('#app')

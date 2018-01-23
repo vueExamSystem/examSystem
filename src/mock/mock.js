@@ -1,4 +1,5 @@
 import axios from 'axios';
+import instance  from '../api/instance';
 import u from '../common/js/util';
 import MockAdapter from 'axios-mock-adapter';
 import {LoginUsers, Users} from './data/user';
@@ -45,10 +46,12 @@ export default {
      * mock bootstrap
      */
     bootstrap() {
-        let mock = new MockAdapter(axios);
+        
+        let noTokenMock = new MockAdapter(axios);
+        let mock = new MockAdapter(instance);
 
         //登录
-        mock.onPost('/login').reply(config => {
+        noTokenMock.onPost('/login').reply(config => {
             let {username, password} = JSON.parse(config.data);
             return new Promise((resolve, reject) => {
                 let user = null;
@@ -62,10 +65,57 @@ export default {
                     });
 
                     if (hasUser) {
-                        resolve([200, {code: 200, msg: '请求成功', data: user}]);
+                        resolve([200, {code: 200, msg: '请求成功', data:{token: new Date().getTime()}}]);
                     } else {
                         resolve([200, {code: 500, msg: '账号或密码错误'}]);
                     }
+                }, 1000);
+            });
+        });
+
+        //获取用户信息
+        mock.onPost('/user/info').reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: 0,
+                        msg: '请求成功',
+                        data: {
+                            roles: ['admin'],
+                            username: 'admin',
+                            routes:[
+                                {
+                                    path: 'index'
+                                },
+                                {
+                                    path: 'question',
+                                    children: [
+                                        { path: 'question'},
+                                        { path: 'tag'},
+                                        { path: 'course' },
+                                        { path: 'chapter'},
+                                        { path: 'same'}
+                                    ]
+                                },
+                                {
+                                    path: 'paper',
+                                    children: [
+                                        { path: 'paper'},
+                                        { path: 'quiz'},
+                                        { path: 'exercises' }
+                                    ]
+                                },
+                                {
+                                    path: 'statistics',
+                                    children: [
+                                        { path: 'department'},
+                                        { path: 'class'},
+                                        { path: 'student' }
+                                    ]
+                                }
+                            ]
+                        }
+                    }]);
                 }, 1000);
             });
         });
