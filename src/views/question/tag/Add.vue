@@ -3,13 +3,13 @@
 		<div class="title">
 			<span>添加标签</span>
 			<div class="pull-right">
-				<el-button type="success" @click="onSubmit('form')" class="el-button-shadow">保存</el-button>
-				<el-button type="danger" @click="resetForm('form')" class="el-button-shadow">取消</el-button>
+				<el-button type="success" @click="onSubmit('ruleForm')" class="el-button-shadow">保存</el-button>
+				<el-button type="danger" @click="resetForm('ruleForm')" class="el-button-shadow">取消</el-button>
 			</div>
 		</div>
 
 		<div class="content">
-			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" inline-message label-width="100px" class="demo-ruleForm">
 				<el-form-item label="标签名称" prop="name">
 					<el-input v-model="ruleForm.name"></el-input>
 				</el-form-item>
@@ -46,9 +46,10 @@
 			}
 		},
 		methods: {
-            submitForm(formName) {
+            onSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
+                    	console.log('form values', this.ruleForm);
                         alert('submit!');
                     } else {
                         console.log('error submit!!');

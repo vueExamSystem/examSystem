@@ -62,137 +62,135 @@ import SettingChart from './views/setting/chart/Home.vue'
 
 import testApi from './views/demo/Test.vue'
 
-let routes = [
-    {
-        path: '/',
-        component: HomePage,
-        meta:{ 
-            requiresAuth: true,
+export const constantRouterMap = [{
+    path: '/login',
+    component: Login,
+    name: '',
+    hidden: true
+}];
+
+export const asyncRouterMap  = [{
+    path: '/',
+    component: HomePage,
+    redirect: '/index',
+    children: [
+        {
+            path: 'index',
+            component: DashbordHome,
+            defaultPath: true,  
+            name: '首页'
         },
-        children: [
-            {
-                path: '/index',
-                component: DashbordHome,
-                name: '首页',
-                children: []
-            },
-            {
-                path: 'question',
-                component: QuestionHome,
-                children: [
-                    { path: '/', component: QuestionManger, name: '试题管理' },
-                    { path: 'tag', component: QuestionTag, name: '标签管理' },
-                    { path: 'course', component: QuestionCourse, name: '课程管理' },
-                    { path: 'chapter', component: QuestionChapter, name: '章节管理' },
-                    { path: 'same', component: QuestionSame, name: '相似题组' },
-                ]
-            },
-            {
-                path: 'paper',
-                component: PaperHome,
-                children: [
-                    { path: '/', component: PaperDefault, name: '考试试卷',},
-                    { path: 'quiz', component: PaperQuiz, name: '随堂测验' },
-                    { path: 'exercises', component: PaperExercises, name: '练习题' }
-                ]
-            },
-            {
-                path: 'preview',
-                component: PreviewHome,
-                children: [
-                    { path: '/', component: PreviewExample, name: '预习题',},
-                    { path: 'doc', component: PreviewDoc, name: '预习资料' },
-                ]
-            },
-            {
-                path: 'test',
-                component: TestHome,
-                children: [
-                    { path: '/', component: TestInfo, name: '课堂测验',},
-                    { path: 'publish', component: TestPublish, name: '发布测验' },
-                ]
-            },
-            {
-                path: 'exam',
-                component: ExamHome,
-                children: [
-                    { path: '/', component: ExamInfo, name: '考试',},
-                    { path: 'publish', component: ExamPublish, name: '发布考试' },
-                ]
-            },
-            {
-                path: 'listen',
-                component: ListenHome,
-                name: '监考',
-                children: []
-            },
-            {
-                path: 'score',
-                component: ScoreHome,
-                name: '成绩',
-                children: []
-            },
-            {
-                path: 'statistics',
-                component: StatisticsHome,
-                children: [
-                    { path: '/', component: StatisticsDepartment, name: '院系',},
-                    { path: 'class', component: StatisticsClass, name: '院系',},
-                    { path: 'student', component: StatisticsStudent, name: '院系',},
-                ]
-            },
-            {
-                path: 'backstage',
-                component: BackstageHome,
-                children: [
-                    { path: '/', component: BackstageStudent, name: '学生管理',},
-                    { path: 'course', component: BackstageCourse, name: '选课管理' },
-                    { path: 'role', component: BackstageRole, name: '角色管理' },
-                    { path: 'score', component: BackstageScore, name: '成绩管理' },
-                    { path: 'competence', component: BackstageCompetence, name: '权限管理' },
-                ]
-            },
-            {
-                path: 'setting',
-                component: SettingHome,
-                children: [
-                    { path: '/', component: SettingInfo, name: '个人信息',},
-                    { path: 'log', component: SettingLog, name: '系统日志' },
-                    { path: 'alert', component: SettingAlert, name: '考试异常' },
-                    { path: 'chart', component: SettingChart, name: '数据监控' },
-                ]
-            },
-        ]
-    },
+        {
+            path: 'question',
+            component: QuestionHome,  
+            name: '试题',
+            redirect: '/question/question',
+            children: [
+                { path: 'question', component: QuestionManger, name: '试题管理' },
+                { path: 'tag', component: QuestionTag, name: '标签管理' },
+                { path: 'course', component: QuestionCourse, name: '课程管理' },
+                { path: 'chapter', component: QuestionChapter, name: '章节管理' },
+                { path: 'same', component: QuestionSame, name: '相似题组' },
+            ]
+        },
+        {
+            path: 'paper',
+            component: PaperHome,  
+            name: '试卷',
+            redirect: '/paper/paper',
+            children: [
+                { path: 'paper', component: PaperDefault, name: '考试试卷',},
+                { path: 'quiz', component: PaperQuiz, name: '随堂测验' },
+                { path: 'exercises', component: PaperExercises, name: '练习题' }
+            ]
+        },
+        {
+            path: 'preview',
+            component: PreviewHome,  
+            name: '预习',
+            redirect: '/preview/list',
+            children: [
+                { path: 'list', component: PreviewExample, name: '预习题',},
+                { path: 'doc', component: PreviewDoc, name: '预习资料' },
+            ]
+        },
+        {
+            path: 'test',
+            component: TestHome,  
+            name: '测验',
+            redirect: '/test/list',
+            children: [
+                { path: 'list', component: TestInfo, name: '课堂测验',},
+                { path: 'publish', component: TestPublish, name: '发布测验' },
+            ]
+        },
+        {
+            path: 'exam',
+            component: ExamHome,  
+            name: '考试',
+            redirect: '/exam/list',
+            children: [
+                { path: 'list', component: ExamInfo, name: '考试',},
+                { path: 'publish', component: ExamPublish, name: '发布考试' },
+            ]
+        },
+        {
+            path: 'listen',
+            component: ListenHome,
+            name: '监考',
+            children: []
+        },
+        {
+            path: 'score',
+            component: ScoreHome,
+            name: '成绩',
+            children: []
+        },
+        {
+            path: 'statistics',
+            component: StatisticsHome,  
+            name: '统计',
+            redirect: '/statistics/department',
+            children: [
+                { path: 'department', component: StatisticsDepartment, name: '院系',},
+                { path: 'class', component: StatisticsClass, name: '班级',},
+                { path: 'student', component: StatisticsStudent, name: '学生',},
+            ]
+        },
+        {
+            path: 'backstage',
+            component: BackstageHome,  
+            name: '后台',
+            redirect: '/backstage/student',
+            children: [
+                { path: 'student', component: BackstageStudent, name: '学生管理',},
+                { path: 'course', component: BackstageCourse, name: '选课管理' },
+                { path: 'role', component: BackstageRole, name: '角色管理' },
+                { path: 'score', component: BackstageScore, name: '成绩管理' },
+                { path: 'competence', component: BackstageCompetence, name: '权限管理' },
+            ]
+        },
+        {
+            path: 'setting',
+            component: SettingHome,  
+            name: '设置',
+            redirect: '/setting/user',
+            children: [
+                { path: 'user', component: SettingInfo, name: '个人信息',},
+                { path: 'log', component: SettingLog, name: '系统日志' },
+                { path: 'alert', component: SettingAlert, name: '考试异常' },
+                { path: 'chart', component: SettingChart, name: '数据监控' },
+            ]
+        } 
+    ]},
     {
-        path: '/login',
-        component: Login,
-        name: '',
-        hidden: true
+        path: '/404',
+        component: NotFound,
+        name: '404'
     },
-    // { path: '/main', component: Main },
-    // {
-    //     path: '/past',
-    //     component: Home,
-    //     name: '导航一',
-    //     iconCls: 'el-icon-message',//图标样式class
-    //     children: [
-    //         { path: '/main', component: Main, name: '主页', hidden: true },
-    //         { path: '/table', component: Table, name: 'Table' },
-    //         { path: '/form', component: Form, name: 'Form' },
-    //         { path: '/user', component: user, name: '列表' },
-    //     ]
-    // },
-    // {
-    //     path: '/testApi',
-    //     component: testApi,
-    //     name: 'testApi',
-    // },
     {
         path: '*',
-        hidden: true,
         redirect: { path: '/404' }
-    }
-];
+    }];
 
-export default routes;
+

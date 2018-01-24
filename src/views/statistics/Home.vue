@@ -1,7 +1,7 @@
 <template>
     <el-container>
         <el-aside width="120px">
-            <router-link to="/statistics">
+            <router-link to="/statistics/department">
                 <i class="iconfont icon-department-larger"></i>
                 <span>院系统计</span>
             </router-link>

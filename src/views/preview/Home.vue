@@ -1,7 +1,7 @@
 <template>
     <el-container>
         <el-aside width="120px">
-            <router-link to="/preview">
+            <router-link to="/preview/list">
                 <i class="iconfont icon-pencil-larger"></i>
                 <span>预习题</span>
             </router-link>

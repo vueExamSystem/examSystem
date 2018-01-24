@@ -1,7 +1,7 @@
 <template>
     <el-container>
         <el-aside width="120px">
-            <router-link to="/test">
+            <router-link to="/test/list">
                 <i class="iconfont icon-ceyan-larger"></i>
                 <span>课堂测验</span>
             </router-link>
