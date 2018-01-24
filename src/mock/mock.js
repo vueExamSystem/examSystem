@@ -13,6 +13,7 @@ import {
     CourseList,
     TagList,
     QuestionFilter,
+    WeekExam,
 } from './data/question';
 import {
     PaperList,
@@ -241,7 +242,10 @@ export default {
             });
         });
 
-
+        //获取本周考试
+        mock.onGet('/weekExam/list').reply(config => {
+            return u.getMockList(config, WeekExam);
+        });
         /** 以下question **/
 
         //获取que列表

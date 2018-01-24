@@ -5,10 +5,10 @@
 
             <!--分页-->
             <div class="pageArea">
-                <Page current="1" total="23" pageSize="5" @page-change="handleCurrentChange"></Page>
+                <Page :current="page" :total="total" :pageSize="pageSize" @page-change="handleCurrentChange"></Page>
             </div>
 
-            <el-input class="mid" placeholder="请输入搜索关键词" v-model="searchkey">
+            <el-input class="mid" placeholder="请输入搜索关键词" v-model="searchkey" @click="searchTable">
                 <el-button slot="append" icon="el-icon-search"></el-button>
             </el-input>
 
@@ -18,21 +18,21 @@
         <div class="content">
             <!--列表-->
             <el-table
-                    :data="users" highlight-current-row
+                    :data="lists" highlight-current-row
                     v-loading="listLoading"
                     @selection-change="selsChange"
                     style="width: 100%;">
-                <el-table-column type="index">
+                <el-table-column type="index" label="ID">
                 </el-table-column>
-                <el-table-column prop="name" label="姓名" sortable>
+                <el-table-column prop="name" label="考试名称" sortable>
                 </el-table-column>
-                <el-table-column prop="sex" label="性别" :formatter="formatSex" sortable>
+                <el-table-column prop="time" label="考试时间" sortable>
                 </el-table-column>
-                <el-table-column prop="age" label="年龄" sortable>
+                <el-table-column prop="state" label="状态" :formatter="formatState" sortable>
                 </el-table-column>
-                <el-table-column prop="birth" label="生日" sortable>
+                <el-table-column prop="teacher" label="监考老师" sortable>
                 </el-table-column>
-                <el-table-column prop="addr" label="地址" min-width="180" sortable>
+                <el-table-column prop="examPerson" label="考试人员" min-width="180" sortable>
                 </el-table-column>
             </el-table>
         </div>
@@ -41,8 +41,7 @@
 
 <script>
     import util from '../../common/js/util'
-    //import NProgress from 'nprogress'
-    import { getUserListPage } from '../../api/api';
+    import { getWeekExam } from '../../api/api';
     import Pagination from '../common/Pagination.vue'
 
     export default {
@@ -52,7 +51,7 @@
                 filters: {
                     name: ''
                 },
-                users: [],
+                lists: [],
                 total: 0,
                 page: 1,
                 pageSize: 5,
@@ -62,32 +61,31 @@
             }
         },
         methods: {
-            //性别显示转换
-            formatSex: function (row, column) {
-                return row.sex == 1 ? '男' : row.sex == 0 ? '女' : '未知';
+            formatState: function (row, column) {
+                return row.sex == 1 ? '已结束' : row.sex == 0 ? '进行中' : '未知';
             },
-            handleSizeChange(val) {
+            searchTable() {
                 console.log(val);
             },
-            handleCurrentChange(val) {
-                this.page = val;
-                this.getUsers();
+            handleCurrentChange() {
+                this.getLists();
             },
             selsChange: function (sels) {
                 this.sels = sels;
             },
             //获取用户列表
-            getUsers() {
+            getLists() {
                 let para = {
                     page: this.page,
-                    name: this.filters.name,
-                    pageSize: this.pageSize
+                    pageSize: this.pageSize,
+                    searchkey: this.searchkey,
                 };
                 this.listLoading = true;
                 //NProgress.start();
-                getUserListPage(para).then((res) => {
+                getWeekExam(para).then((res) => {
+                    console.log(res.data);
                     this.total = res.data.total;
-                    this.users = res.data.users;
+                    this.lists = res.data.list;
                     this.listLoading = false;
                     //NProgress.done();
                 });
@@ -97,7 +95,7 @@
             'Page': Pagination
         },
         mounted() {
-            this.getUsers();
+            this.getLists();
         }
     }
 

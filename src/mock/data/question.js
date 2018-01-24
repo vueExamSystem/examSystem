@@ -23,6 +23,18 @@ const SubjectList = [];
 const QuestionList = [];
 const TagList = [];
 const CourseList = [];
+const WeekExam = [];
+
+for (let i = 0; i < 30; i++) {
+    WeekExam.push(Mock.mock({
+        id: i + 1,
+        name: '物理期中考试',
+        time: '2017/12/10 8:00-9:00',
+        state: i === 2 ? '0' : '1',
+        teacher: '张老师',
+        examPerson: '16级计算机3班',
+    }));
+}
 
 for (let i = 0; i < 3; i++) {
     TypeList.push(Mock.mock({
@@ -183,4 +195,5 @@ export {
     CourseList,
     TagList,
     QuestionFilter,
+    WeekExam,
 };
