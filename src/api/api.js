@@ -46,7 +46,10 @@ export const getQueList = params => { return instance.get(`${base}/question/list
 export const getSubjectList = params => { return instance.get(`${base}/subject/list`, params ); };
 
 // tag
-export const getTagList = params => { return instance.get(`${base}/tag/list`, params ); };
+export const getTagList = params => { return instance.get(`${base}/category/list`, params ); };
+
+export const saveTag = params => { return instance.post(`${base}/category/save`, Qs.stringify(params) ); };
+
 
 // course
 export const getCourseList = params => { return instance.get(`${base}/course/list`, params ); };

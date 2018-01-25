@@ -25,8 +25,6 @@
                     </el-table-column>
                     <el-table-column prop="name" label="标签名称" sortable>
                     </el-table-column>
-                    <el-table-column prop="desc" label="描述" sortable>
-                    </el-table-column>
                     <el-table-column prop="creator" label="创建人" sortable>
                     </el-table-column>
                 </el-table>
@@ -77,8 +75,8 @@
                 this.listLoading = true;
                 //NProgress.start();
                 getTagList(para).then((res) => {
-                    this.total = res.data.total;
-                    this.list = res.data.list;
+                    this.total = res.data.data.length;
+                    this.list = res.data.data;
                     this.listLoading = false;
                     //NProgress.done();
                 });

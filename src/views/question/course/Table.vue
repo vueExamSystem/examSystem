@@ -25,10 +25,12 @@
                     </el-table-column>
                     <el-table-column prop="name" label="课程名称" sortable>
                     </el-table-column>
-                    <el-table-column prop="subject" label="学科" sortable>
+                   <el-table-column prop="subject" label="学科" sortable>
+                                            <template slot-scope="scope">
+                        <span v-if="scope.row.subject">{{scope.row.subject.name}}</span>
+                      </template>   
                     </el-table-column>
-                    <el-table-column prop="grade" label="年级" sortable>
-                    </el-table-column>
+                    
                     <el-table-column prop="creator" label="创建人" sortable>
                     </el-table-column>
                     <el-table-column
@@ -87,8 +89,8 @@
                 this.listLoading = true;
                 //NProgress.start();
                 getCourseList(para).then((res) => {
-                    this.total = res.data.total;
-                    this.list = res.data.list;
+                    this.total = res.data.data.lenght;
+                    this.list = res.data.data;
                     this.listLoading = false;
                     //NProgress.done();
                 });
