@@ -36,11 +36,15 @@ export const testData = params => { return instance.get('http://api.github.com',
 // 测试api
 export const testApi = params => { return instance.post(`${base}/test`, params ); };
 
+// 本周考试
+export const getWeekExam = params => { return instance.get(`${base}/weekExam/list`, params ); };
+
 /*
 * 试题 start
 * */
 //
 export const getQueList = params => { return instance.get(`${base}/question/list`, params ); };
+
 
 // 科目列表
 export const getSubjectList = params => { return instance.get(`${base}/subject/list`, params ); };
