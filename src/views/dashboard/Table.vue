@@ -8,8 +8,8 @@
                 <Page :current="page" :total="total" :pageSize="pageSize" @page-change="handleCurrentChange"></Page>
             </div>
 
-            <el-input class="mid" placeholder="请输入搜索关键词" v-model="searchkey" @click="searchTable">
-                <el-button slot="append" icon="el-icon-search"></el-button>
+            <el-input class="mid" placeholder="请输入搜索关键词" v-model="searchkey">
+                <el-button slot="append" icon="el-icon-search" @click="searchTable"></el-button>
             </el-input>
 
 
@@ -19,8 +19,7 @@
             <!--列表-->
             <el-table
                     :data="lists" highlight-current-row
-                    v-loading="listLoading"
-                    @selection-change="selsChange"
+                    v-loading="listLoading"                    
                     style="width: 100%;">
                 <el-table-column type="index" label="ID">
                 </el-table-column>
@@ -32,7 +31,7 @@
                 </el-table-column>
                 <el-table-column prop="teacher" label="监考老师" sortable>
                 </el-table-column>
-                <el-table-column prop="examPerson" label="考试人员" min-width="180" sortable>
+                <el-table-column prop="examPerson" label="考试人员" sortable>
                 </el-table-column>
             </el-table>
         </div>
@@ -65,13 +64,11 @@
                 return row.sex == 1 ? '已结束' : row.sex == 0 ? '进行中' : '未知';
             },
             searchTable() {
-                console.log(val);
-            },
-            handleCurrentChange() {
                 this.getLists();
             },
-            selsChange: function (sels) {
-                this.sels = sels;
+            handleCurrentChange(val) {
+                console.log(val);
+                this.getLists();
             },
             //获取用户列表
             getLists() {

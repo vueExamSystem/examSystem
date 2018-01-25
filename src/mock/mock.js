@@ -86,10 +86,10 @@ export default {
                             username: 'admin',
                             routes:[
                                 {
-                                    path: '/index'
+                                    path: 'index'
                                 },
                                 {
-                                    path: '/question',
+                                    path: 'question',
                                     children: [
                                         { path: 'question'},
                                         { path: 'tag'},
@@ -99,7 +99,7 @@ export default {
                                     ]
                                 },
                                 {
-                                    path: '/paper',
+                                    path: 'paper',
                                     children: [
                                         { path: 'paper'},
                                         { path: 'quiz'},
@@ -107,7 +107,7 @@ export default {
                                     ]
                                 },
                                 {
-                                    path: '/statistics',
+                                    path: 'statistics',
                                     children: [
                                         { path: 'department'},
                                         { path: 'class'},

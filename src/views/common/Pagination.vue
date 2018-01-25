@@ -26,34 +26,34 @@
 
     export default {
         props: {
-            current: [Number, String], // 当前页
             total: [Number, String], // 总共多少条数据
             pageSize: [Number, String], // 每页数据数量
         },
         data() {
             return {
                 pageNum: 1,
+                current: 1,
             };
         },
         methods: {
             setFirstPage() {
-                if (this.current === 1 || this.current === '1') return;
+                if (this.current === 1) return;
                 this.current = 1;
                 this.bindPageChangeEve();
             },
             setPrePage() {
-                if (this.current === 1 || this.current === '1') return;
+                if (this.current === 1) return;
                 this.current = this.current - 1;
                 this.bindPageChangeEve();
             },
             setNextPage() {
-                if (_.parseInt(this.current) === _.parseInt(this.pageNum)) return;
+                if (this.current === _.parseInt(this.pageNum)) return;
                 this.current = _.parseInt(this.current) + 1;
                 this.bindPageChangeEve();
             },
             setLastPage() {
                 const allPage = this.pageNum;
-                if (_.parseInt(this.current) === allPage) return;
+                if (this.current === allPage) return;
                 this.current = allPage;
                 this.bindPageChangeEve();
             },
@@ -79,6 +79,7 @@
                 total === pageSize) {
                     num = 1;
                 }
+                console.log('num', num);
                 return num;
             },
             bindPageChangeEve() {
