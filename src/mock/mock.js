@@ -13,6 +13,7 @@ import {
     CourseList,
     TagList,
     QuestionFilter,
+    WeekExam,
 } from './data/question';
 import {
     PaperList,
@@ -241,7 +242,27 @@ export default {
             });
         });
 
+        //获取本周考试
+        mock.onGet('/weekExam/list').reply(config => {
+            return u.getMockList(config, WeekExam);
+        });
 
+        // /studentScore/chart
+        mock.onGet('/studentScore/chart').reply(config => {
+            const {para} = config.params;
+            console.log('/studentScore/chart para', para);
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {code: 200, msg: 'success', data: {
+                        name: ['班级一','班级二','班级三','班级四','班级五','班级六','班级七'],
+                        excellect: [8, 8, 8, 8, 8, 8, 8],
+                        good: [30, 30, 30, 30, 30, 30, 30],
+                        mid: [54, 54, 54, 54, 54, 54, 54],
+                        noPass: [8, 8, 8, 8, 8, 8, 8],
+                    }}]);
+                }, 2000);
+            });
+        });
         /** 以下question **/
 
         //获取que列表

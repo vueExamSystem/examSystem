@@ -75,9 +75,14 @@
                     <div class="panel charts">
                         <div class="title">
                             <span>学生成绩统计</span>
+                            <el-select v-model="courseId" class="pull-right" placeholder="请选择试题类型">
+                                <template v-for="item in courseArr">
+                                    <el-option :label="item.name" :value="item.id"></el-option>
+                                </template>
+                            </el-select>
                         </div>
                         <div class="content">
-                            <Echarts></Echarts>
+                            <Echarts :courseId="courseId"></Echarts>
                         </div>
                     </div>
                 </div>
@@ -89,9 +94,12 @@
 <script>
     import charts from './Echarts.vue';
     import table from './Table.vue';
+    import api from '../../api'
     export default {
         data() {
             return {
+                courseId: '',
+                courseArr: [],
             }
         },
         components: {
@@ -104,6 +112,9 @@
             },
         },
         mounted() {
+          api.getCourseList({}).then(res => {
+            this.courseArr = res.data;
+          });
         }
     }
 
