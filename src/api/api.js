@@ -1,5 +1,6 @@
 import axios from 'axios';
 import instance  from './instance';
+import qs from 'qs'
 
 let base = 'http://localhost:8081/api';
 
@@ -14,10 +15,10 @@ let base = 'http://localhost:8081/api';
 //   },
 // }
 // 替换到上面
-export const requestLogin = params => { return axios.post(`${base}/login/verify`, params).then(res => res.data); };
+export const requestLogin = params => { return axios.post(`${base}/login/verify`,qs.stringify(params)).then(res => res.data); };
 
 //用户信息
-export const getUserInfo = params => { return instance.post(`${base}/user/info`, params).then(res => res.data); };
+export const getUserInfo = params => { return instance.post(`${base}/user/info`, qs.stringify(params)).then(res => res.data); };
 
 export const getUserList = params => { return instance.get(`${base}/user/list`, { params: params }); };
 

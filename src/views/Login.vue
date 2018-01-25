@@ -47,7 +47,7 @@
             requestLogin(loginParams).then(res => {
               this.logining = false;
               let { msg, code, data } = res;
-              if (code !== 200) {
+              if (code !=0) {
                 this.$message({
                   message: msg,
                   type: 'error'
@@ -57,6 +57,7 @@
                   type: 'success',
                   message: '登录成功',
                 })
+                
                 let token = data.token;
                 this.$store.dispatch('SetToken', { token });
                 //如果用户手动输入"/"那么会跳转到这里来，即this.$route.query.redirect有参数
