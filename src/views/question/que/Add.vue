@@ -243,6 +243,7 @@
                 console.log(formName);
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
+                        console.log('add question', this.form);
                         alert('submit!');
                     } else {
                         console.log('error submit!!');

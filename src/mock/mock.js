@@ -249,8 +249,6 @@ export default {
 
         // /studentScore/chart
         mock.onGet('/studentScore/chart').reply(config => {
-            const {para} = config.params;
-            console.log('/studentScore/chart para', para);
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
                     resolve([200, {code: 200, msg: 'success', data: {
