@@ -47,7 +47,7 @@
             requestLogin(loginParams).then(res => {
               this.logining = false;
               let { msg, code, data } = res;
-              if (code !== 200) {
+              if (code !== 0) {
                 this.$message({
                   message: msg,
                   type: 'error'

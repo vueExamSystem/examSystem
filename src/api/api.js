@@ -3,7 +3,7 @@ import instance  from './instance';
 
 let base = '';
 
-export const requestLogin = params => { return axios.post(`${base}/login`, params).then(res => res.data); };
+export const requestLogin = params => { return axios.post(`${base}/login/verify`, params).then(res => res.data); };
 
 //用户信息
 export const getUserInfo = params => { return instance.post(`${base}/user/info`, params).then(res => res.data); };
