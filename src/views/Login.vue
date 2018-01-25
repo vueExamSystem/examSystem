@@ -44,7 +44,6 @@
           if (valid) {
             this.logining = true;
             var loginParams = { username: this.loginForm.account, password: this.loginForm.checkPass };
-            debugger;
             requestLogin(loginParams).then(res => {
               this.logining = false;
               let { msg, code, data } = res;

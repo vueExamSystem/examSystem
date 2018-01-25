@@ -5,7 +5,7 @@
 
             <!--分页-->
             <div class="pageArea">
-                <Page :current="page" :total="total" :pageSize="pageSize" @page-change="handleCurrentChange"></Page>
+                <Page :total="total" :pageSize="pageSize" @page-change="handleCurrentChange"></Page>
             </div>
 
             <el-input class="mid" placeholder="请输入搜索关键词" v-model="searchkey">
@@ -50,9 +50,9 @@
                 filters: {
                     name: ''
                 },
+                current: 1,
                 lists: [],
                 total: 0,
-                page: 1,
                 pageSize: 5,
                 listLoading: false,
                 sels: [],//列表选中列
@@ -67,13 +67,13 @@
                 this.getLists();
             },
             handleCurrentChange(val) {
-                console.log(val);
+                this.current = val;
                 this.getLists();
             },
             //获取用户列表
             getLists() {
                 let para = {
-                    page: this.page,
+                    page: this.current,
                     pageSize: this.pageSize,
                     searchkey: this.searchkey,
                 };

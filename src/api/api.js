@@ -3,17 +3,6 @@ import instance  from './instance';
 
 let base = '';
 
-// export default {
-// 	//用户登录
-//   userLogin(params){
-//       return instance.post(`${base}/login`, params).then(res => res.data); 
-//   },
-//   // question
-//   getQueList(params){
-//       return instance.post(`${base}/question/list`, params).then(res => res.data); 
-//   },
-// }
-// 替换到上面
 export const requestLogin = params => { return axios.post(`${base}/login`, params).then(res => res.data); };
 
 //用户信息
@@ -38,6 +27,9 @@ export const testApi = params => { return instance.post(`${base}/test`, params )
 
 // 本周考试
 export const getWeekExam = params => { return instance.get(`${base}/weekExam/list`, params ); };
+
+// 学生成绩统计
+export const getStudentSta = params => { return instance.get(`${base}/studentScore/chart`, params ); };
 
 /*
 * 试题 start

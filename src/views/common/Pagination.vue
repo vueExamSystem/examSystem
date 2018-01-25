@@ -79,7 +79,6 @@
                 total === pageSize) {
                     num = 1;
                 }
-                console.log('num', num);
                 return num;
             },
             bindPageChangeEve() {

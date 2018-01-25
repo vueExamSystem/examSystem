@@ -4,15 +4,29 @@
 
 <script>
     import echarts from 'echarts';
+    import { getStudentSta } from '../../api';
+
 
     export default {
+        props: {
+            courseId: '', // 总共多少条数据
+        },
         data() {
             return {
-                chart: null
+                chart: null,
+                dataParam: {},
             }
         },
         methods: {
             drawCharts() {
+                const para = {
+                    course: this.courseId,
+                };
+                getStudentSta(para).then(res => {
+                    console.log(res);
+                    this.dataParam = res.data;
+                });
+                const dataParam = this.dataParam;
                 this.chart = echarts.init(document.getElementById('chart'));
                 this.chart.setOption({
                     tooltip : {
@@ -35,7 +49,8 @@
                     xAxis : [
                         {
                             type : 'category',
-                            data : ['班级一','班级二','班级三','班级四','班级五','班级六','班级七']
+                            // data : ['班级一','班级二','班级三','班级四','班级五','班级六','班级七'],
+                            data : dataParam.name,
                         }
                     ],
                     yAxis : [
@@ -55,7 +70,8 @@
                                     formatter: '{c}'
                                 },
                             },
-                            data:[8, 8, 8, 8, 8, 8, 8]
+                            // data:[8, 8, 8, 8, 8, 8, 8]
+                            data: dataParam.excellect
                         },
                         {
                             name:'良好',
@@ -68,7 +84,8 @@
                                     formatter: '{c}'
                                 },
                             },
-                            data:[30, 30, 30, 30, 30, 30, 30]
+                            data: dataParam.good,
+                            // data:[30, 30, 30, 30, 30, 30, 30]
                         },
                         {
                             name:'中等',
@@ -81,7 +98,8 @@
                                     formatter: '{c}'
                                 },
                             },
-                            data:[54, 54, 54, 54, 54, 54, 54]
+                            // data:[54, 54, 54, 54, 54, 54, 54],
+                            data:dataParam.mid,
                         },
                         {
                             name:'不及格',
@@ -94,7 +112,8 @@
                                     formatter: '{c}'
                                 },
                             },
-                            data:[8, 8, 8, 8, 8, 8, 8]
+                            // data:[8, 8, 8, 8, 8, 8, 8],
+                            data:dataParam.noPass,
                         }
                     ],
                     color: [
