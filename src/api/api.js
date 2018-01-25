@@ -1,18 +1,18 @@
 import axios from 'axios';
 import instance  from './instance';
 
-let base = 'http://localhost:8080';
+let base = '';
 
-export default {
-	//用户登录
-  userLogin(params){
-      return instance.post(`${base}/login`, params).then(res => res.data); 
-  },
-  // question
-  getQueList(params){
-      return instance.post(`${base}/question/list`, params).then(res => res.data); 
-  },
-}
+// export default {
+// 	//用户登录
+//   userLogin(params){
+//       return instance.post(`${base}/login`, params).then(res => res.data); 
+//   },
+//   // question
+//   getQueList(params){
+//       return instance.post(`${base}/question/list`, params).then(res => res.data); 
+//   },
+// }
 // 替换到上面
 export const requestLogin = params => { return axios.post(`${base}/login`, params).then(res => res.data); };
 
