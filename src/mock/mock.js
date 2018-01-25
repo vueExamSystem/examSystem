@@ -52,7 +52,7 @@ export default {
         let mock = new MockAdapter(instance);
 
         //登录
-        noTokenMock.onPost('/login/verify').reply(config => {
+        noTokenMock.onPost('/login').reply(config => {
             let {username, password} = JSON.parse(config.data);
             return new Promise((resolve, reject) => {
                 let user = null;
@@ -66,7 +66,7 @@ export default {
                     });
 
                     if (hasUser) {
-                        resolve([200, {code: 0, msg: '请求成功', data:{token: new Date().getTime()}}]);
+                        resolve([200, {code: 200, msg: '请求成功', data:{token: new Date().getTime()}}]);
                     } else {
                         resolve([200, {code: 500, msg: '账号或密码错误'}]);
                     }
