@@ -1,15 +1,15 @@
 <template>
     <section>
-        <my-filter :list="filterList" @callback="search" v-loading="filterLoading"></my-filter>
+        <my-filter :list="filterList" @callback="searchFilter" v-loading="filterLoading"></my-filter>
         <div class="panel">
             <div class="title">
                 <el-input placeholder="请输入搜索关键词" v-model="searchkey">
-                    <el-button slot="append" icon="el-icon-search"></el-button>
+                    <el-button slot="append" icon="el-icon-search" @click="searchTable"></el-button>
                 </el-input>
 
                 <!--分页-->
                 <div class="pageArea">
-                    <Page :current="page" :total="total" :pageSize="pageSize" @page-change="handleCurrentChange"></Page>
+                    <Page :total="total" :pageSize="pageSize" @page-change="handleCurrentChange"></Page>
                 </div>
 
             </div>
@@ -20,7 +20,6 @@
                         :data="list"
                         highlight-current-row
                         v-loading="listLoading"
-                        @selection-change="selsChange"
                         style="width: 100%;">
                     <el-table-column type="index" label="ID" sortable>
                     </el-table-column>
@@ -60,7 +59,6 @@
                 page: 1,
                 pageSize: 10,
                 listLoading: false,
-                sels: [],//列表选中列
 
                 filterLoading: false,
                 filterList: [],
@@ -74,20 +72,24 @@
                 this.page = val;
                 this.getList();
             },
-            selsChange: function (sels) {
-                this.sels = sels;
+            searchFilter(obj) {
+                this.filters = obj;
+                this.getList();
             },
-            search() {},
+            searchTable() {
+                this.getList();
+            },
             //获取用户列表
             getList() {
                 let para = {
                     page: this.page,
-                    name: this.filters.name,
-                    pageSize: this.pageSize
+                    filters: this.filters,
+                    pageSize: this.pageSize,
+                    searchkey: this.searchkey,
                 };
+                console.log('question para', para);
                 this.listLoading = true;
                 getQueList(para).then((res) => {
-                    console.log('get question list', res);
                     this.total = res.data.total;
                     this.list = res.data.list;
                     this.listLoading = false;

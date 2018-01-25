@@ -31,7 +31,7 @@
         },
         data() {
             return {
-                pageNum: 1,
+                pageNum: 1, // 总共多少页
                 current: 1,
             };
         },
@@ -48,7 +48,7 @@
             },
             setNextPage() {
                 if (this.current === _.parseInt(this.pageNum)) return;
-                this.current = _.parseInt(this.current) + 1;
+                this.current = this.current + 1;
                 this.bindPageChangeEve();
             },
             setLastPage() {
@@ -102,6 +102,7 @@
                 total === pageSize) {
                     num = 1;
                 }
+                this.pageNum = num;
                 return num;
             },
         },
