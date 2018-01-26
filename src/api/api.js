@@ -49,7 +49,7 @@ export const getSubjectList = params => { return instance.get(`${base}/subject/l
 // tag
 export const getTagList = params => { return instance.get(`${base}/category/list`, params ); };
 
-export const saveTag = params => { return instance.post(`${base}/category/save`, Qs.stringify(params) ); };
+export const saveTag = params => { return instance.post(`${base}/category/save`, qs.stringify(params) ); };
 
 
 // course
