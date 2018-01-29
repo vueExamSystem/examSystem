@@ -21,7 +21,7 @@
                         v-loading="listLoading"
                         @selection-change="selsChange"
                         style="width: 100%;">
-                    <el-table-column type="index" label="ID" sortable>
+                    <el-table-column type="index" label="序号" sortable>
                     </el-table-column>
                     <el-table-column prop="name" label="课程名称" sortable>
                     </el-table-column>
@@ -61,7 +61,7 @@
                 list: [],
                 total: 0,
                 page: 1,
-                pageSize: 5,
+                pageSize: 10,
                 listLoading: false,
                 sels: [],//列表选中列
 
@@ -79,18 +79,19 @@
                 this.sels = sels;
             },
             search() {},
-            //获取用户列表
+            //获取课程列表
             getList() {
                 let para = {
-                    page: this.page,
-                    name: this.filters.name,
+                    pageNo: this.page,
+                    keyword: this.filters.name,
                     pageSize: this.pageSize
                 };
                 this.listLoading = true;
                 //NProgress.start();
                 getCourseList(para).then((res) => {
-                    this.total = res.data.data.lenght;
-                    this.list = res.data.data;
+                    res=res.data;
+                    this.total = res.data.totalCount;
+                    this.list = res.data.rows;
                     this.listLoading = false;
                     //NProgress.done();
                 });
