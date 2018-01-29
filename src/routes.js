@@ -39,6 +39,7 @@ import ExamInfo from './views/exam/info/Home.vue'
 import ExamPublish from './views/exam/publish/Home.vue'
 /*监考*/
 import ListenHome from './views/listen/Home.vue'
+import ListenList from './views/listen/List.vue'
 /*成绩*/
 import ScoreHome from './views/score/Home.vue'
 /*统计*/
@@ -99,9 +100,9 @@ export const asyncRouterMap  = [{
             name: '试卷',
             redirect: '/paper/paper',
             children: [
-                { path: '/paper/paper', component: PaperDefault, name: '考试试卷', icon:'iconfont icon-shiti-larger', defaultPath: true},
-                { path: '/paper/quiz', component: PaperQuiz, name: '随堂测验', icon:'iconfont icon-shiti-larger', },
-                { path: '/paper/exercises', component: PaperExercises, name: '练习题', icon:'iconfont icon-shiti-larger' }
+                { path: '/paper/paper', component: PaperDefault, name: '考试试卷', icon:'iconfont icon-kaoshi-larger', defaultPath: true},
+                { path: '/paper/quiz', component: PaperQuiz, name: '随堂测验', icon:'iconfont icon-ceyan-larger', },
+                { path: '/paper/exercises', component: PaperExercises, name: '练习题', icon:'iconfont icon-pencil-larger' }
             ]
         },
         {
@@ -110,8 +111,8 @@ export const asyncRouterMap  = [{
             name: '预习',
             redirect: '/preview/list',
             children: [
-                { path: '/preview/list', component: PreviewExample, name: '预习题', icon:'iconfont icon-shiti-larger', defaultPath: true},
-                { path: '/preview/doc', component: PreviewDoc, name: '预习资料', icon:'iconfont icon-shiti-larger' }
+                { path: '/preview/list', component: PreviewExample, name: '预习题', icon:'iconfont icon-pencil-larger', defaultPath: true},
+                { path: '/preview/doc', component: PreviewDoc, name: '预习资料', icon:'iconfont icon-book-larger' }
             ]
         },
         {
@@ -120,8 +121,8 @@ export const asyncRouterMap  = [{
             name: '测验',
             redirect: '/test/list',
             children: [
-                { path: '/test/list', component: TestInfo, name: '课堂测验', icon:'iconfont icon-shiti-larger', defaultPath: true},
-                { path: '/test/publish', component: TestPublish, name: '发布测验', icon:'iconfont icon-shiti-larger' }
+                { path: '/test/list', component: TestInfo, name: '课堂测验', icon:'iconfont icon-ceyan-larger', defaultPath: true},
+                { path: '/test/publish', component: TestPublish, name: '发布测验', icon:'iconfont icon-publish-larger' }
             ]
         },
         {
@@ -130,15 +131,18 @@ export const asyncRouterMap  = [{
             name: '考试',
             redirect: '/exam/list',
             children: [
-                { path: '/exam/list', component: ExamInfo, name: '考 试', icon:'iconfont icon-shiti-larger', defaultPath: true},
-                { path: '/exam/publish', component: ExamPublish, name: '发布考试', icon:'iconfont icon-shiti-larger' }
+                { path: '/exam/list', component: ExamInfo, name: '考 试', icon:'iconfont icon-kaoshi-larger', defaultPath: true},
+                { path: '/exam/publish', component: ExamPublish, name: '发布考试', icon:'iconfont icon-publish-larger' }
             ]
         },
         {
             path: '/listen',
             component: ListenHome,
             name: '监考',
-            children: []
+            redirect: '/listen/list',
+            children: [
+                { path: '/listen/list', component: ListenList, name: '考试监考', icon:'iconfont icon-kaoshi-larger', defaultPath: true}
+            ]
         },
         {
             path: '/score',
@@ -152,9 +156,9 @@ export const asyncRouterMap  = [{
             name: '统计',
             redirect: '/statistics/department',
             children: [
-                { path: '/statistics/department', component: StatisticsDepartment, name: '院系', icon:'iconfont icon-shiti-larger', defaultPath: true},
-                { path: '/statistics/class', component: StatisticsClass, name: '班级', icon:'iconfont icon-shiti-larger'},
-                { path: '/statistics/student', component: StatisticsStudent, name: '学生', icon:'iconfont icon-shiti-larger'}
+                { path: '/statistics/department', component: StatisticsDepartment, name: '院系统计', icon:'iconfont icon-department-larger', defaultPath: true},
+                { path: '/statistics/class', component: StatisticsClass, name: '班级统计', icon:'iconfont icon-class-larger'},
+                { path: '/statistics/student', component: StatisticsStudent, name: '学生统计', icon:'iconfont icon-student-larger'}
             ]
         },
         {
@@ -163,11 +167,11 @@ export const asyncRouterMap  = [{
             name: '后台',
             redirect: '/backstage/student',
             children: [
-                { path: '/backstage/student', component: BackstageStudent, name: '学生管理', icon:'iconfont icon-shiti-larger', defaultPath: true},
-                { path: '/backstage/course', component: BackstageCourse, name: '选课管理', icon:'iconfont icon-shiti-larger' },
-                { path: '/backstage/role', component: BackstageRole, name: '角色管理', icon:'iconfont icon-shiti-larger' },
-                { path: '/backstage/score', component: BackstageScore, name: '成绩管理', icon:'iconfont icon-shiti-larger' },
-                { path: '/backstage/competence', component: BackstageCompetence, name: '权限管理', icon:'iconfont icon-shiti-larger' }
+                { path: '/backstage/student', component: BackstageStudent, name: '学生管理', icon:'iconfont icon-student-larger', defaultPath: true},
+                { path: '/backstage/course', component: BackstageCourse, name: '选课管理', icon:'iconfont icon-kecheng-larger' },
+                { path: '/backstage/role', component: BackstageRole, name: '角色管理', icon:'iconfont icon-user-larger' },
+                { path: '/backstage/score', component: BackstageScore, name: '成绩管理', icon:'iconfont icon-score-larger' },
+                { path: '/backstage/competence', component: BackstageCompetence, name: '权限管理', icon:'iconfont icon-lock-larger' }
             ]
         },
         {
@@ -176,10 +180,10 @@ export const asyncRouterMap  = [{
             name: '设置',
             redirect: '/setting/user',
             children: [
-                { path: '/setting/user', component: SettingInfo, name: '个人信息', icon:'iconfont icon-shiti-larger', defaultPath: true},
-                { path: '/setting/log', component: SettingLog, name: '系统日志', icon:'iconfont icon-shiti-larger' },
-                { path: '/setting/alert', component: SettingAlert, name: '考试异常', icon:'iconfont icon-shiti-larger' },
-                { path: '/setting/chart', component: SettingChart, name: '数据监控', icon:'iconfont icon-shiti-larger' },
+                { path: '/setting/user', component: SettingInfo, name: '个人信息', icon:'iconfont icon-user-larger', defaultPath: true},
+                { path: '/setting/log', component: SettingLog, name: '系统日志', icon:'iconfont icon-log-larger' },
+                { path: '/setting/alert', component: SettingAlert, name: '考试异常', icon:'iconfont icon-alert-larger' },
+                { path: '/setting/chart', component: SettingChart, name: '数据监控', icon:'iconfont icon-chart-larger' },
             ]
         } 
     ]},

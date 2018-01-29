@@ -33,8 +33,8 @@
             },
             getRoutes(){
                var topMenu =  _.find(this.$store.getters.addRouters, { path: '/' }).children;
-               var questionSideMenus = _.find(topMenu,{path: '/question'}).children;
-               this.routes = questionSideMenus;
+               var sideMenus = _.find(topMenu,{path: '/question'}).children;
+               this.routes = sideMenus;
             }
         },
         mounted() {
