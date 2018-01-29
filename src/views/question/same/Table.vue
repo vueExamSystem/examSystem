@@ -42,10 +42,16 @@
                                     </el-table-column>
                                     <el-table-column prop="type" min-width="100">
                                     </el-table-column>
-                                    <el-table-column prop="subject" min-width="120">
-                                    </el-table-column>
-                                    <el-table-column prop="chapter" min-width="100">
-                                    </el-table-column>
+                                   <el-table-column prop="subject" label="学科" sortable>
+                                            <template slot-scope="scope">
+                        <span v-if="scope.row.subject">{{scope.row.subject.name}}</span>
+                      </template>   
+                    </el-table-column>
+                                 <el-table-column prop="section" label="所属章节" sortable>
+                                            <template slot-scope="scope">
+                        <span v-if="scope.row.section">{{scope.row.section.name}}</span>
+                      </template>   
+                    </el-table-column>
                                     <el-table-column width="100">
                                         <template scope="props">
                                             <i class="iconfont icon-remove-circle" @click="delQuestion(props.row.id)"></i>
@@ -60,13 +66,15 @@
                             label="组别名称"
                             prop="name">
                     </el-table-column>
-                    <el-table-column
-                            label="所属课程"
-                            prop="subject">
+                     <el-table-column prop="section" label="学科" sortable>
+                                            <template slot-scope="scope">
+                        <span v-if="scope.row.section">{{scope.row.section.name}}</span>
+                      </template>   
                     </el-table-column>
-                    <el-table-column
-                            label="所属章节"
-                            prop="chapter">
+                    <el-table-column prop="section" label="所属章节" sortable>
+                                            <template slot-scope="scope">
+                        <span v-if="scope.row.section">{{scope.row.section.name}}</span>
+                      </template>   
                     </el-table-column>
                     <el-table-column
                             label="操作"
@@ -82,7 +90,7 @@
 </template>
 
 <script>
-    import {getGroupList} from '../../../api/api';
+    import {getSameGroupList} from '../../../api/api';
     import myFilter from '../../common/myFilter.vue';
     import Pagination from '../../common/Pagination.vue';
     import _ from 'lodash';
@@ -153,9 +161,9 @@
                 };
                 this.listLoading = true;
                 //NProgress.start();
-                getGroupList(para).then((res) => {
-                    this.total = res.data.total;
-                    this.list = res.data.list;
+                getSameGroupList(para).then((res) => {
+                    this.total = res.data.lenght;
+                    this.list = res.data;
                     this.listLoading = false;
                     //NProgress.done();
                 });

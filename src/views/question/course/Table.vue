@@ -89,8 +89,8 @@
                 this.listLoading = true;
                 //NProgress.start();
                 getCourseList(para).then((res) => {
-                    this.total = res.data.data.lenght;
-                    this.list = res.data.data;
+                    this.total = res.data.lenght;
+                    this.list = res.data;
                     this.listLoading = false;
                     //NProgress.done();
                 });

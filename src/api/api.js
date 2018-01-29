@@ -3,6 +3,7 @@ import instance  from './instance';
 import qs from 'qs'
 
 let base = 'http://localhost:8081/api';
+//let base = 'api';
 
 // export default {
 // 	//用户登录
@@ -41,25 +42,29 @@ export const testApi = params => { return instance.post(`${base}/test`, params )
 * 试题 start
 * */
 //
-export const getQueList = params => { return instance.get(`${base}/question/list`, params ); };
+export const getQueList = params => { return instance.get(`${base}/question/list`, params ).then(res => res.data);};
 
 // 科目列表
-export const getSubjectList = params => { return instance.get(`${base}/subject/list`, params ); };
+export const getSubjectList = params => { return instance.get(`${base}/subject/list`, params ).then(res => res.data);};
 
 // tag
-export const getTagList = params => { return instance.get(`${base}/category/list`, params ); };
+export const getTagList = params => { return instance.get(`${base}/category/list`, params ).then(res => res.data);};
 
 export const saveTag = params => { return instance.post(`${base}/category/save`, qs.stringify(params) ); };
 
 
 // course
-export const getCourseList = params => { return instance.get(`${base}/course/list`, params ); };
+export const getCourseList = params => { return instance.get(`${base}/course/list`, params ).then(res => res.data);};
 
 // chapter
-export const getChapterList = params => { return instance.get(`${base}/chapter/list`, params ); };
+export const getChapterList = params => { return instance.get(`${base}/chapter/list`, params ).then(res => res.data);};
 
 // department
 export const getGroupList = params => { return instance.get(`${base}/group/list`, params ); };
+
+//same group
+
+export const getSameGroupList=params => { return instance.get(`${base}/same/list`, params ).then(res => res.data);};
 
 // filter
 export const getQuestionFilter = params => { return instance.get(`${base}/question/filter`, params ); };

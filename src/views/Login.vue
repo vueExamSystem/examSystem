@@ -69,7 +69,7 @@
                var Days = 30;
                 var exp = new Date();
                 exp.setTime(exp.getTime() + Days*24*60*60*1000);
-                document.cookie = "token" + "="+data.userId+"_"+ data.token + ";expires=" + exp.toGMTString();
+               // document.cookie = "token" + "="+data.userId+"_"+ data.token + ";expires=" + exp.toGMTString()+"; path=/";
                 sessionStorage.setItem('user', JSON.stringify(data));
                 this.$router.push({ path: '/index' });
               }

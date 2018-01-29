@@ -75,8 +75,8 @@
                 this.listLoading = true;
                 //NProgress.start();
                 getTagList(para).then((res) => {
-                    this.total = res.data.data.length;
-                    this.list = res.data.data;
+                    this.total = res.data.length;
+                    this.list = res.data;
                     this.listLoading = false;
                     //NProgress.done();
                 });
