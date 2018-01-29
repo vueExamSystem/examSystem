@@ -5,24 +5,6 @@ import { getUserInfo } from '../api/api'
 import _ from 'lodash';
 Vue.use(Vuex)
 
-function filterRoutesTree(apiRoutes, localRoutes) {
-	if(localRoutes.path == apiRoutes.path){
-		if(apiRoutes.children && apiRoutes.children.length>0){
-			localRoutes.children.filter((localChild)=>{
-				apiRoutes.children.filter((apiChild)=>{
-					if(localChild.path == apiChild.path){
-						return localChild;
-					}
-					return false;
-				});
-			});
-			return false;
-		}
-		return true;
-	}
-	return false;
-}
-
 const state = {
     token: window.sessionStorage.getItem('token') || '',
     routers: constantRouterMap,
@@ -72,8 +54,17 @@ const actions = {
         const index = _.findIndex(asyncRouterMap, { path: '/' });
         if(index > -1) {
           const accessChildren = asyncRouterMap[index].children.filter(item => {
-            return _.findIndex(routes, {path: item.path}) > -1 || item.defaultPath;
-          })
+            var topMenuIndex = _.findIndex(routes, {path: item.path});
+            if( topMenuIndex > -1){
+              if(item.children && item.children.length>0){
+                const accessSideMenu = item.children.filter(side => {
+                  return _.findIndex(routes[topMenuIndex].children, {path: side.path}) > -1 || side.defaultPath;
+                });
+                item.children = accessSideMenu;
+              }
+              return _.findIndex(routes, {path: item.path}) > -1 || item.defaultPath;
+            }
+          });
           accessedRouters[index].children = accessChildren;
         }
        	console.log('accessedRouters',accessedRouters)
