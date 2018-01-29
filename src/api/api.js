@@ -49,14 +49,15 @@ export const getSubjectList = params => { return instance.get(`${base}/subject/l
 
 // tag
 export const getTagList = params => {
-	return instance.get(`${base}/category/list`, params ); };
+	return instance.get(`${base}/category/list`, { params: params } ); };
 
 export const saveTag = params => { 
 	return instance.post(`${base}/category/save`, qs.stringify(params) ); };
 
 
 // course
-export const getCourseList = params => { return instance.get(`${base}/course/list`, params ); };
+export const getCourseList = params => { 
+	return instance.get(`${base}/course/list`, { params: params } ); };
 
 // chapter
 export const getChapterList = params => { return instance.get(`${base}/chapter/list`, params ); };
