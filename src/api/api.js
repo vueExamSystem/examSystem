@@ -2,8 +2,8 @@ import axios from 'axios';
 import instance  from './instance';
 import qs from 'qs'
 
+//let base = '';
 let base = 'http://localhost:8081/api';
-
 // export default {
 // 	//用户登录
 //   userLogin(params){
@@ -15,7 +15,8 @@ let base = 'http://localhost:8081/api';
 //   },
 // }
 // 替换到上面
-export const requestLogin = params => { return axios.post(`${base}/login/verify`,qs.stringify(params)).then(res => res.data); };
+export const requestLogin = params => { params=qs.stringify(params);
+	return instance.post(`${base}/login/verify`,params).then(res => res.data); };
 
 //用户信息
 export const getUserInfo = params => { return instance.post(`${base}/user/info`, qs.stringify(params)).then(res => res.data); };
@@ -47,9 +48,11 @@ export const getQueList = params => { return instance.get(`${base}/question/list
 export const getSubjectList = params => { return instance.get(`${base}/subject/list`, params ); };
 
 // tag
-export const getTagList = params => { return instance.get(`${base}/category/list`, params ); };
+export const getTagList = params => {
+	return instance.get(`${base}/category/list`, params ); };
 
-export const saveTag = params => { return instance.post(`${base}/category/save`, qs.stringify(params) ); };
+export const saveTag = params => { 
+	return instance.post(`${base}/category/save`, qs.stringify(params) ); };
 
 
 // course
