@@ -24,7 +24,7 @@ function filterRoutesTree(apiRoutes, localRoutes) {
 }
 
 const state = {
-    token: window.sessionStorage.getItem('token') || '',
+    token: window.localStorage.getItem('token') || '',//window.sessionStorage.getItem('token') || '',
     routers: constantRouterMap,
     roles: [],
     apiRoutes: null,
@@ -38,11 +38,11 @@ const getters = {
 };
 const mutations = {
   	SET_TOKEN(state,payload){
-     	  window.sessionStorage.setItem('token', payload.token);
-    	  state.token = payload.token;console.log('state.token',payload,state.token)
+     	  window.localStorage.setItem('token', payload.token);//window.sessionStorage.setItem('token', payload.token);
+    	  state.token = payload.token;//console.log('state.token',payload,state.token)
   	},
   	LOG_OUT(state){
-      	window.sessionStorage.removeItem('token');
+      	window.localStorage.removeItem('token');//window.sessionStorage.removeItem('token');
     	  state.token = '';
   	},
     Set_ApiRoutes(state,payload){
@@ -66,7 +66,7 @@ const actions = {
   	GenerateRoutes({ commit }, data) {
       const { routes } = data;
       commit('Set_ApiRoutes', { routes });
-      console.log('get routes is', routes);
+      //console.log('get routes is', routes);
      	return new Promise(resolve => {
         const accessedRouters = _.cloneDeep(asyncRouterMap);
         const index = _.findIndex(asyncRouterMap, { path: '/' });
@@ -76,7 +76,7 @@ const actions = {
           })
           accessedRouters[index].children = accessChildren;
         }
-       	console.log('accessedRouters',accessedRouters)
+       	//console.log('accessedRouters',accessedRouters)
         commit('SET_ROUTERS', accessedRouters);
         resolve();
 	    })
