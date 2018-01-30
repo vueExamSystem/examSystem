@@ -11,7 +11,7 @@
         <div class="el-input-myprepend"><i class="iconfont icon-lock-larger"></i></div>
       </el-form-item>
       <el-form-item style="margin-top:40px;">
-        <el-button type="primary" style="width:100%;" :loading="logining" @click.native.prevent="handleSubmit">登录</el-button>
+        <el-button type="primary" style="width:100%;" v-loading="logining" @click.native.prevent="handleSubmit">登录</el-button>
       </el-form-item>
     </el-form>
   </div>

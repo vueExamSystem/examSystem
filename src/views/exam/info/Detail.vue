@@ -7,7 +7,7 @@
 			</div>
 		</div>
 		<div class="content">
-			<my-filter :list="filterList" @callback="search" :loading="filterLoading"></my-filter>
+			<my-filter :list="filterList" @callback="search" v-loading="filterLoading"></my-filter>
 			<div class="paper-progress">
 				<table>
 					<tr>
@@ -32,7 +32,7 @@
 			</div>
 			<div class="panel inner-panel">
 				<div class="title">
-					<el-input placeholder="请输入搜索关键词" v-model="searchkey">
+					<el-input placeholder="请输入搜索关键词" v-model="keyword">
 	                    <el-button slot="append" icon="el-icon-search"></el-button>
 	                </el-input>
 	                <div class="pageArea">
@@ -105,7 +105,7 @@
 						text: '3班'
 					}]
 				}],
-				searchkey: '',
+				keyword: '',
 				currentPage: 1,
 				total: 4,
 				pageSize: 5,

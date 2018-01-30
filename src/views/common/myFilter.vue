@@ -78,6 +78,8 @@
 </template>
 <script>
     import $ from 'jquery';
+    import _ from 'lodash';
+    // import u from '../../common/js/util.js';
     // import Vue from 'vue';
 
     const demoList = [{ // common
@@ -131,23 +133,20 @@
         created() {
             // 初始化checked
             // 初始化filters
-            /*var _this_ = this;
-            for (var i = 0; i < _this_.list.length; i++) {
-                var row = _this_.list[i];
-                _this_.filters[row.field] = [];
-            }*/
+            const filter = {};
             this.list.forEach((item) => {
                 // 单选
                 if (!item.multiple) {
-                    this.filters[item.field] = item.noAll ?
+                    filter[item.field] = item.noAll ?
                         (item.children[0] ? item.children[0].value : '') : '';
                 }
                 // 多选
                 if (item.multiple) {
-                    this.filters[item.field] = [];
+                    filter[item.field] = [];
                 }
             });
-            console.log(this.filters);
+            this.filters = filter;
+            console.log('create', this.filters);
         },
         methods: {
             removeArrValue(arr, value) {//从数组中删除value
@@ -198,8 +197,7 @@
                     this.$set(this.filters, field, value);
                 }
                 this.$forceUpdate();
-                console.log('toggleCheckCommon', this.filters);
-                this.$emit('callback', this.filters);
+                this.$emit('callback', this.getFilterParam());
             },
             addEmit(eveName) {
                 this.$emit(eveName);
@@ -211,12 +209,22 @@
                 }
                 return str;
             },
+            getFilterParam() {
+                const res = {};
+//                const filter = this.filters;
+//                this.list.forEach(item => {
+//                    let value = filter[item.field];
+//                    if (value === undefined || value === '') value = -1;
+//                    res[item.field] = value;
+//                });
+                return res;
+            }
         },
         computed: {
 
         },
         mounted() {
-            this.$emit('callback', this.filters);
+            this.$emit('callback', this.getFilterParam());
         }
     }
 </script>

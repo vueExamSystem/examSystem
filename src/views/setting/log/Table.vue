@@ -2,7 +2,7 @@
     <section>
         <div class="panel">
             <div class="title">
-                <el-input placeholder="请输入搜索关键词" v-model="searchkey">
+                <el-input placeholder="请输入搜索关键词" v-model="keyword">
                     <el-button slot="append" icon="el-icon-search"></el-button>
                 </el-input>
 
@@ -41,7 +41,7 @@
     export default {
         data() {
             return {
-                searchkey: '',
+                keyword: '',
                 list: [],
                 total: 0,
                 page: 1,

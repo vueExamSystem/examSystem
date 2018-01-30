@@ -11,7 +11,7 @@
 			<my-filter :list="filterList" @callback="filterChange"></my-filter>
 			<div class="panel inner-panel">
 	            <div class="title">
-	                <el-input placeholder="请输入搜索关键词" v-model="searchkey">
+	                <el-input placeholder="请输入搜索关键词" v-model="keyword">
 	                    <el-button slot="append" icon="el-icon-search"></el-button>
 	                </el-input>
 	                <div class="pageArea">
@@ -246,7 +246,7 @@
 						chapter: '第一章'
 					}]
 				}],
-				searchkey: '',
+				keyword: '',
                 total: 10,
                 currentPage: 1,
                 pageSize:5,

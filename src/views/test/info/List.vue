@@ -1,10 +1,10 @@
 <template>
 	<div>
         <section v-show="!isShowDetail">
-    		<my-filter :list="filterList" @callback="search" :loading="filterLoading"></my-filter>
+    		<my-filter :list="filterList" @callback="search" v-loading="filterLoading"></my-filter>
             <div class="panel">
                 <div class="title">
-                    <el-input placeholder="请输入搜索关键词" v-model="searchkey">
+                    <el-input placeholder="请输入搜索关键词" v-model="keyword">
                         <el-button slot="append" icon="el-icon-search"></el-button>
                     </el-input>
                     <div class="pageArea">
@@ -52,7 +52,7 @@
         },
         data() {
             return {
-                searchkey:'',
+                keyword:'',
                 filterList:[{
                     title:'课程',
                     field:'project',

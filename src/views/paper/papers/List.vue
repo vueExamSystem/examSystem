@@ -4,7 +4,7 @@
     		<my-filter :list="filterList" @callback="filterCallback"></my-filter>
             <div class="panel">
                 <div class="title">
-                    <el-input placeholder="请输入搜索关键词" v-model="searchkey">
+                    <el-input placeholder="请输入搜索关键词" v-model="keyword">
                         <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
                     </el-input>
                     <div class="pageArea">
@@ -59,7 +59,7 @@
         },
         data() {
             return {
-                searchkey:'',
+                keyword:'',
                 papers: [],
                 total: 123,
                 currentPage: 1,
@@ -112,7 +112,7 @@
             search(){
                 this.listLoading = true;
                 var params = {
-                    searchkey: this.searchkey,
+                    keyword: this.keyword,
                     filters: this.filters,
                     current: this.currentPage,
                     pageSize: this.pageSize

@@ -1,9 +1,9 @@
 <template>
     <section>
-        <my-filter :list="filterList" @callback="search" :loading="filterLoading"></my-filter>
+        <my-filter :list="filterList" @callback="search" v-loading="filterLoading"></my-filter>
         <div class="panel">
             <div class="title">
-                <el-input placeholder="请输入搜索关键词" v-model="searchkey">
+                <el-input placeholder="请输入搜索关键词" v-model="keyword">
                     <el-button slot="append" icon="el-icon-search" @click="getLists"></el-button>
                 </el-input>
 
@@ -90,7 +90,7 @@
     export default {
         data() {
             return {
-                searchkey: '',
+                keyword: '',
                 filters: {
                     name: ''
                 },
@@ -143,11 +143,13 @@
             selsChange: function (sels) {
                 this.sels = sels;
             },
-            search() {
+            search(obj) {
+                this.filters = obj;
+                this.getList();
             },
             getList() {
                 let para = {
-                    page: this.page,
+                    pageNo: this.pageNo,
                     name: this.filters.name,
                     pageSize: this.pageSize
                 };
