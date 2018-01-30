@@ -42,9 +42,9 @@
                                     </el-table-column>
                                     <el-table-column prop="type" min-width="100">
                                     </el-table-column>
-                                   <el-table-column prop="subject" label="学科" sortable>
+                                   <el-table-column prop="course" label="课程" sortable>
                                             <template slot-scope="scope">
-                        <span v-if="scope.row.subject">{{scope.row.subject.name}}</span>
+                        <span v-if="scope.row.course">{{scope.row.course.name}}</span>
                       </template>   
                     </el-table-column>
                                  <el-table-column prop="section" label="所属章节" sortable>
@@ -66,12 +66,12 @@
                             label="组别名称"
                             prop="name">
                     </el-table-column>
-                     <el-table-column prop="section" label="学科" sortable>
+                     <el-table-column prop="course" label="课程" sortable>
                                             <template slot-scope="scope">
-                        <span v-if="scope.row.section">{{scope.row.section.name}}</span>
+                        <span v-if="scope.row.course">{{scope.row.course.name}}</span>
                       </template>   
                     </el-table-column>
-                    <el-table-column prop="section" label="所属章节" sortable>
+                    <el-table-column prop="section" label="所属章节111" sortable>
                                             <template slot-scope="scope">
                         <span v-if="scope.row.section">{{scope.row.section.name}}</span>
                       </template>   

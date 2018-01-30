@@ -48,6 +48,8 @@ export const testApi = params => { return instance.post(`${base}/test`, params )
 //
 export const getQueList = params => { return instance.get(`${base}/question/list`, params ).then(res => res.data);};
 
+export const saveQue = params => { return instance.post(`${base}/question/save`, qs.stringify(params) ); };
+
 // 科目列表
 export const getSubjectList = params => { return instance.get(`${base}/subject/list`, params ).then(res => res.data);};
 
@@ -55,8 +57,7 @@ export const getSubjectList = params => { return instance.get(`${base}/subject/l
 
 export const getTagList = params => { return instance.get(`${base}/category/list`, params ).then(res => res.data);};
 
-export const saveTag = params => { 
-	return instance.post(`${base}/category/save`, qs.stringify(params) ); };
+export const saveTag = params => { return instance.post(`${base}/category/save`, qs.stringify(params) ); };
 
 
 // course
@@ -73,7 +74,7 @@ export const getGroupList = params => { return instance.get(`${base}/group/list`
 export const getSameGroupList=params => { return instance.get(`${base}/same/list`, params ).then(res => res.data);};
 
 // filter
-export const getQuestionFilter = params => { return instance.get(`${base}/question/filter`, params ); };
+export const getQuestionFilter = params => { return instance.get(`${base}/question/filter`, params ).then(res => res.data);};
 
 /*
 *  设置 start
