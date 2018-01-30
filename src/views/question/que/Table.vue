@@ -25,7 +25,7 @@
                     </el-table-column>
                     <el-table-column prop="name" label="试题名称" sortable>
                     </el-table-column>
-                    <el-table-column prop="type" label="试题类型" sortable>
+                    <el-table-column prop="questionTypeId" label="试题类型" sortable>
                     </el-table-column>
                     <el-table-column prop="subject" label="所属课程" sortable>
                     </el-table-column>

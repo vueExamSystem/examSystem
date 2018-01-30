@@ -8,7 +8,7 @@
 
                 <!--分页-->
                 <div class="pageArea">
-                    <Page current="1" total="23" pageSize="5" @page-change="handleCurrentChange"></Page>
+                    <Page current="1" :total="total" :pageSize="pageSize" @page-change="handleCurrentChange"></Page>
                 </div>
 
             </div>
@@ -21,11 +21,9 @@
                         v-loading="listLoading"
                         @selection-change="selsChange"
                         style="width: 100%;">
-                    <el-table-column type="index" label="ID" sortable>
+                    <el-table-column type="index" label="序号" sortable>
                     </el-table-column>
                     <el-table-column prop="name" label="标签名称" sortable>
-                    </el-table-column>
-                    <el-table-column prop="desc" label="描述" sortable>
                     </el-table-column>
                     <el-table-column prop="creator" label="创建人" sortable>
                     </el-table-column>
@@ -49,7 +47,7 @@
                 list: [],
                 total: 0,
                 page: 1,
-                pageSize: 5,
+                pageSize: 10,
                 listLoading: false,
                 sels: [],//列表选中列
 
@@ -70,15 +68,16 @@
             //获取用户列表
             getList() {
                 let para = {
-                    page: this.page,
-                    name: this.filters.name,
+                    pageNo: this.page,
+                    keyword: this.filters.name,
                     pageSize: this.pageSize
                 };
                 this.listLoading = true;
                 //NProgress.start();
                 getTagList(para).then((res) => {
-                    this.total = res.data.total;
-                    this.list = res.data.list;
+                    res=res.data;
+                    this.total = res.data.totalCount;
+                    this.list = res.data.rows;
                     this.listLoading = false;
                     //NProgress.done();
                 });

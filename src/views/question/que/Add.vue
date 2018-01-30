@@ -36,7 +36,7 @@
 						</template>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="章节选择:" prop="chapter">
+				<el-form-item label="章节选择:" prop="section">
 					<el-select v-model="form.chapter" placeholder="请选择章节">
 						<template v-for="item in chapterArr">
 							<el-option :label="item.name" :value="item.id"></el-option>
@@ -124,6 +124,9 @@
 						</el-checkbox>
 					</el-checkbox-group>
 				</el-form-item>
+				<el-form-item label="分数:" prop="points">
+					<el-input v-model="form.points"></el-input>
+				</el-form-item>
 				<el-form-item label="来源:" prop="source">
 					<el-input v-model="form.source"></el-input>
 				</el-form-item>
@@ -151,8 +154,9 @@
 	import {
         getSubjectList,
 		getChapterList,
-        getGroupList,
+        getSameGroupList,
 	} from '../../../api/api';
+	import {saveQue} from '../../../api/api';
 	export default {
 		data() {
 			return {
@@ -243,8 +247,27 @@
                 console.log(formName);
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        console.log('add question', this.form);
-                        alert('submit!');
+                    	  var queParams = { name: this.form.content,questionTypeId:this.form.type,levelId:this.form.usage[0],subjectId:this.form.subject,sectionId:this.form.chapter,
+                    	  	similarId:this.form.department,content:this.form.content,titleImg:this.form.contentPic,choiceList:this.form.selectionAdd,choiceImgList:this.form.selectionPic,answer:this.form.correctOptionRadio,points:this.form.points,reference:this.form.source,examingPoint:this.form.testSites,keyword:this.form.keywords,analysis:this.form.analysis};
+		            saveQue(queParams).then(res => {
+		              this.logining = false;
+		              console.log(res);
+		              let { msg, code, data } = res.data;
+		              if (code != 0) {
+		                this.$message({
+		                  message: msg,
+		                  type: 'error'
+		                });
+		              } else {
+		                this.$message({
+		                  type: 'success',
+		                  message: '保存成功',
+		                })
+		                this.$router.push({ path: '/question/question' });
+
+		              }
+		            });
+                       
                     } else {
                         console.log('error submit!!');
                         return false;
@@ -265,7 +288,7 @@
                     this.chapterArr = res.data;
                     console.log(res);
                 });
-                getGroupList({}).then((res) => {
+                getSameGroupList({}).then((res) => {
                     this.departmentArr = res.data;
                     console.log(res);
                 });

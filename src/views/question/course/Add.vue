@@ -14,7 +14,7 @@
 					<el-input v-model="ruleForm.name"></el-input>
 				</el-form-item>
 				<el-form-item label="学科种类" prop="subject">
-					<el-input v-model="ruleForm.name"></el-input>
+					<el-input v-model="ruleForm.subject"></el-input>
 				</el-form-item>
 				<el-form-item label="课程描述" prop="desc">
 					<el-input

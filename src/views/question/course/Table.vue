@@ -25,10 +25,12 @@
                     </el-table-column>
                     <el-table-column prop="name" label="课程名称" sortable>
                     </el-table-column>
-                    <el-table-column prop="subject" label="学科" sortable>
+                   <el-table-column prop="subject" label="学科" sortable>
+                                            <template slot-scope="scope">
+                        <span v-if="scope.row.subject">{{scope.row.subject.name}}</span>
+                      </template>   
                     </el-table-column>
-                    <el-table-column prop="grade" label="年级" sortable>
-                    </el-table-column>
+                    
                     <el-table-column prop="creator" label="创建人" sortable>
                     </el-table-column>
                     <el-table-column
@@ -59,7 +61,7 @@
                 list: [],
                 total: 0,
                 page: 1,
-                pageSize: 5,
+                pageSize: 10,
                 listLoading: false,
                 sels: [],//列表选中列
 
@@ -80,15 +82,16 @@
             //获取用户列表
             getList() {
                 let para = {
-                    page: this.page,
-                    name: this.filters.name,
+                    pageNo: this.page,
+                    keyword: this.filters.name,
                     pageSize: this.pageSize
                 };
                 this.listLoading = true;
                 //NProgress.start();
                 getCourseList(para).then((res) => {
-                    this.total = res.data.total;
-                    this.list = res.data.list;
+                    res=res.data;
+                    this.total = res.data.totalCount;
+                    this.list = res.data.rows;
                     this.listLoading = false;
                     //NProgress.done();
                 });

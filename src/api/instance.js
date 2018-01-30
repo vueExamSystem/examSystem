@@ -8,16 +8,18 @@ axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
 
 //创建一个axios实例
 const instance = axios.create();
-instance.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
 
+instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 axios.interceptors.request.use = instance.interceptors.request.use;
+//instance.defaults.withCredentials=true;
 
 //request拦截器
 instance.interceptors.request.use(
     config => {
         //每次发送请求之前检测都vuex存有token,那么都要放在请求头发送给服务器
         if(store.state.token){
-            config.headers.Authorization = `token ${store.state.token}`;
+            config.headers.Authorization = `${store.state.token}`;
+            
         }
         return config;
     },
