@@ -9,7 +9,7 @@
             </div>
 
             <el-input class="mid" placeholder="请输入搜索关键词" v-model="searchkey">
-                <el-button slot="append" icon="el-icon-search" @click="searchTable"></el-button>
+                <el-button slot="append" icon="el-icon-search" @click="getList"></el-button>
             </el-input>
 
 
@@ -63,28 +63,23 @@
             formatState: function (row, column) {
                 return row.sex == 1 ? '已结束' : row.sex == 0 ? '进行中' : '未知';
             },
-            searchTable() {
-                this.getLists();
-            },
             handleCurrentChange(val) {
                 this.current = val;
-                this.getLists();
+                this.getList();
             },
             //获取用户列表
-            getLists() {
+            getList() {
                 let para = {
                     page: this.current,
                     pageSize: this.pageSize,
                     searchkey: this.searchkey,
                 };
                 this.listLoading = true;
-                //NProgress.start();
                 getWeekExam(para).then((res) => {
                     console.log(res.data);
                     this.total = res.data.total;
                     this.lists = res.data.list;
                     this.listLoading = false;
-                    //NProgress.done();
                 });
             },
         },
@@ -92,7 +87,7 @@
             'Page': Pagination
         },
         mounted() {
-            this.getLists();
+            this.getList();
         }
     }
 

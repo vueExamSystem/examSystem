@@ -102,6 +102,7 @@
                 total === pageSize) {
                     num = 1;
                 }
+                this.pageNum = num;
                 return num;
             },
         },

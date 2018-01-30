@@ -3,7 +3,7 @@
         <div class="panel">
             <div class="title">
                 <el-input placeholder="请输入搜索关键词" v-model="searchkey">
-                    <el-button slot="append" icon="el-icon-search"></el-button>
+                    <el-button slot="append" icon="el-icon-search" @click="getLists"></el-button>
                 </el-input>
 
                 <!--分页-->
