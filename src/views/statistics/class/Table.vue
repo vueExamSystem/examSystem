@@ -1,6 +1,6 @@
 <template>
     <section id="depStatistics">
-        <my-filter :list="filterList" @callback="search"></my-filter>
+        <my-filter :list="filterList" @callback="search" :loading="filterLoading"></my-filter>
         <div v-bind:class="[ showExamChart || showScoreChart ? 'noBottom' : '', 'panel' ]">
             <div class="title">
                 <span>{{getMainTitle}}</span>

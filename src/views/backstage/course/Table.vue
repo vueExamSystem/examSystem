@@ -1,7 +1,7 @@
 <template>
     <div>
         <section v-if="courseId === ''" id="courseTable">
-            <my-filter :list="filterList" @callback="search"></my-filter>
+            <my-filter :list="filterList" @callback="search" :loading="filterLoading"></my-filter>
             <div class="panel">
                 <div class="title">
                     <el-input placeholder="请输入搜索关键词" v-model="searchkey">

@@ -7,7 +7,7 @@
 			</div>
 		</div>
 		<div class="content">
-			<my-filter :list="filterList" @callback="search"></my-filter>
+			<my-filter :list="filterList" @callback="search" :loading="filterLoading"></my-filter>
 			<div class="paper-progress">
 				<table>
 					<tr>
