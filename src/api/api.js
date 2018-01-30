@@ -2,7 +2,7 @@ import axios from 'axios';
 import instance  from './instance';
 import qs from 'qs'
 
-//let base = '';
+//let base = 'api';
 let base = 'http://localhost:8081/api';
 // export default {
 // 	//用户登录
