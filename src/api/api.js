@@ -42,12 +42,12 @@ export const testApi = params => { return instance.post(`${base}/test`, params )
 * 试题 start
 * */
 //
-export const getQueList = params => { return instance.get(`${base}/question/list`, params ); };
+export const getQueList = params => { return instance.get(`${base}/question/list`, params ).then(res => res.data); };
 
 export const saveQue = params => { return instance.post(`${base}/question/save`, qs.stringify(params) ); };
 
 // 科目列表
-export const getSubjectList = params => { return instance.get(`${base}/subject/list`, params ); };
+export const getSubjectList = params => { return instance.get(`${base}/subject/list`, params ).then(res => res.data); };
 
 // tag
 export const getTagList = params => {
@@ -58,10 +58,10 @@ export const saveTag = params => { return instance.post(`${base}/category/save`,
 
 // course
 export const getCourseList = params => { 
-	return instance.get(`${base}/course/list`, { params: params } ); };
+	return instance.get(`${base}/course/list`, { params: params } ).then(res => res.data); };
 
 // chapter
-export const getChapterList = params => { return instance.get(`${base}/chapter/list`, params ); };
+export const getChapterList = params => { return instance.get(`${base}/chapter/list`, params ).then(res => res.data); };
 
 // department
 export const getGroupList = params => { return instance.get(`${base}/group/list`, params ); };

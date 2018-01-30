@@ -26,7 +26,7 @@
                     </el-table-column>
                     <el-table-column prop="name" label="试题名称" sortable>
                     </el-table-column>
-                    <el-table-column prop="type" label="试题类型" sortable>
+                    <el-table-column prop="questionTypeId" label="试题类型" sortable>
                     </el-table-column>
                     <el-table-column prop="subject" label="所属课程" sortable>
                     </el-table-column>
@@ -88,8 +88,8 @@
                 this.listLoading = true;
                 getQueList(para).then((res) => {
                     console.log('get question list', res);
-                    this.total = res.data.total;
-                    this.list = res.data.list;
+                    this.total = res.data.lenght;
+                    this.list = res.data;
                     this.listLoading = false;
                 });
             },
