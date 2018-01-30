@@ -1,10 +1,10 @@
 <template>
-    <div id="chart" style="width:100%;height: 100%"></div>
+    <div id="chart" v-loading="loading" style="width:100%;height: 100%"></div>
 </template>
 
 <script>
     import echarts from 'echarts';
-    import { getStudentSta } from '../../api';
+    import {getStudentSta} from '../../api/api';
 
 
     export default {
@@ -15,28 +15,35 @@
             return {
                 chart: null,
                 dataParam: {},
+                loading: false,
             }
         },
         methods: {
-            drawCharts() {
+            getChart() {
+                console.log('select course', this.courseId);
                 const para = {
                     course: this.courseId,
                 };
+                this.loading = true;
                 getStudentSta(para).then(res => {
-                    console.log(res);
-                    this.dataParam = res.data;
+                    this.dataParam = res.data.data;
+
+                    this.loading = false;
+                    this.drawCharts();
                 });
+            },
+            drawCharts() {
                 const dataParam = this.dataParam;
                 this.chart = echarts.init(document.getElementById('chart'));
                 this.chart.setOption({
-                    tooltip : {
+                    tooltip: {
                         trigger: 'axis',
-                        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-                            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                        axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                            type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
                         }
                     },
                     legend: {
-                        data:['优秀','良好','中等','不及格'],
+                        data: ['优秀', '良好', '中等', '不及格'],
                         itemWidth: 20,
                         borderRadius: 6,
                     },
@@ -46,22 +53,22 @@
                         bottom: '3%',
                         containLabel: true
                     },
-                    xAxis : [
+                    xAxis: [
                         {
-                            type : 'category',
+                            type: 'category',
                             // data : ['班级一','班级二','班级三','班级四','班级五','班级六','班级七'],
-                            data : dataParam.name,
+                            data: dataParam.name,
                         }
                     ],
-                    yAxis : [
+                    yAxis: [
                         {
-                            type : 'value'
+                            type: 'value'
                         }
                     ],
-                    series : [
+                    series: [
                         {
-                            name:'优秀',
-                            type:'bar',
+                            name: '优秀',
+                            type: 'bar',
                             stack: '搜索引擎',
                             label: {
                                 normal: {
@@ -74,8 +81,8 @@
                             data: dataParam.excellect
                         },
                         {
-                            name:'良好',
-                            type:'bar',
+                            name: '良好',
+                            type: 'bar',
                             stack: '搜索引擎',
                             label: {
                                 normal: {
@@ -88,8 +95,8 @@
                             // data:[30, 30, 30, 30, 30, 30, 30]
                         },
                         {
-                            name:'中等',
-                            type:'bar',
+                            name: '中等',
+                            type: 'bar',
                             stack: '搜索引擎',
                             label: {
                                 normal: {
@@ -99,11 +106,11 @@
                                 },
                             },
                             // data:[54, 54, 54, 54, 54, 54, 54],
-                            data:dataParam.mid,
+                            data: dataParam.mid,
                         },
                         {
-                            name:'不及格',
-                            type:'bar',
+                            name: '不及格',
+                            type: 'bar',
                             stack: '搜索引擎',
                             label: {
                                 normal: {
@@ -113,7 +120,7 @@
                                 },
                             },
                             // data:[8, 8, 8, 8, 8, 8, 8],
-                            data:dataParam.noPass,
+                            data: dataParam.noPass,
                         }
                     ],
                     color: [
@@ -123,10 +130,18 @@
                         '#87BFBC'
                     ]
                 });
+
+            },
+        },
+        computed: {
+            getCouserId() {
+                this.getChart();
+                console.log(this.courseId);
+                return this.courseId;
             },
         },
         mounted: function () {
-            this.drawCharts()
+            this.getChart();
         },
         updated: function () {
             this.drawCharts()

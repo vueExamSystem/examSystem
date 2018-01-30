@@ -1,14 +1,16 @@
 <template>
     <el-container>
         <el-aside width="120px">
-            <router-link to="/test/list">
-                <i class="iconfont icon-ceyan-larger"></i>
-                <span>课堂测验</span>
-            </router-link>
-            <router-link to="/test/publish">
-                <i class="iconfont icon-publish-larger"></i>
-                <span>发布测验</span>
-            </router-link>
+            <template v-for="item in routes">
+                <router-link :to="item.path">
+                    <div>
+                        <i :class="item.icon"></i>
+                        <span slot="title">
+                            {{item.name}}
+                        </span>
+                    </div>
+                </router-link>
+            </template>
         </el-aside>
         <el-main>
             <router-view></router-view>
@@ -20,13 +22,23 @@
     export default {
         data() {
             return {
+                routes: [],
             }
         },
         components: {
         },
         methods: {
+            init(){
+                this.getRoutes();
+            },
+            getRoutes(){
+               var topMenu =  _.find(this.$store.getters.addRouters, { path: '/' }).children;
+               var sideMenus = _.find(topMenu,{path: '/test'}).children;
+               this.routes = sideMenus;
+            }
         },
         mounted() {
+            this.init();
         }
     }
 

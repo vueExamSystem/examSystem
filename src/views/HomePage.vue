@@ -5,7 +5,7 @@
 			<el-row id="nav-header">
 				<template v-for="item in routes">
 					<el-col :span="2" :offset="item.path === '/index' ? 1 : 0" :key="item.path">
-						<router-link :to="`/${item.path}`">{{item.name}}</router-link>
+						<router-link :to="item.path">{{item.name}}</router-link>
 					</el-col>
 				</template>
 			</el-row>

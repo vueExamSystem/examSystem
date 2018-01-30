@@ -86,34 +86,82 @@ export default {
                             username: 'admin',
                             routes:[
                                 {
-                                    path: 'index'
+                                    path: '/index'
                                 },
                                 {
-                                    path: 'question',
+                                    path: '/question',
                                     children: [
-                                        { path: 'question'},
-                                        { path: 'tag'},
-                                        { path: 'course' },
-                                        { path: 'chapter'},
-                                        { path: 'same'}
+                                        { path: '/question/question'},
+                                        { path: '/question/tag'},
+                                        { path: '/question/course' },
+                                        { path: '/question/chapter'},
+                                        { path: '/question/same'}
                                     ]
                                 },
                                 {
-                                    path: 'paper',
+                                    path: '/paper',
                                     children: [
-                                        { path: 'paper'},
-                                        { path: 'quiz'},
-                                        { path: 'exercises' }
+                                        { path: '/paper/paper'},
+                                        { path: '/paper/quiz'},
+                                        { path: '/paper/exercises' }
                                     ]
                                 },
                                 {
-                                    path: 'statistics',
+                                    path: '/preview',
                                     children: [
-                                        { path: 'department'},
-                                        { path: 'class'},
-                                        { path: 'student' }
+                                        { path: '/preview/list'},
+                                        { path: '/preview/doc'},
                                     ]
-                                }
+                                },
+                                {
+                                    path: '/test',
+                                    children: [
+                                        { path: '/test/list'},
+                                        { path: '/test/publish'}
+                                    ]
+                                },
+                                {
+                                    path: '/exam',
+                                    children: [
+                                        { path: '/exam/list'},
+                                        { path: '/exam/publish'}
+                                    ]
+                                },
+                                {
+                                    path: '/listen',
+                                    children: []
+                                },
+                                {
+                                    path: '/score',
+                                    children: []
+                                },
+                                {
+                                    path: '/statistics',
+                                    children: [
+                                        { path: '/statistics/department'},
+                                        { path: '/statistics/class'},
+                                        { path: '/statistics/student' }
+                                    ]
+                                },
+                                {
+                                    path: '/backstage',
+                                    children: [
+                                        { path: '/backstage/student'},
+                                        { path: '/backstage/course'},
+                                        { path: '/backstage/role'},
+                                        { path: '/backstage/score'},
+                                        { path: '/backstage/competence'},
+                                    ]
+                                },
+                                {
+                                    path: '/setting',
+                                    children: [
+                                        { path: '/setting/user'},
+                                        { path: '/setting/log'},
+                                        { path: '/setting/alert'},
+                                        { path: '/setting/chart'}
+                                    ]
+                                } 
                             ]
                         }
                     }]);
@@ -249,8 +297,6 @@ export default {
 
         // /studentScore/chart
         mock.onGet('/studentScore/chart').reply(config => {
-            const {para} = config.params;
-            console.log('/studentScore/chart para', para);
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
                     resolve([200, {code: 200, msg: 'success', data: {

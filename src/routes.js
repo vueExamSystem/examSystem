@@ -39,6 +39,7 @@ import ExamInfo from './views/exam/info/Home.vue'
 import ExamPublish from './views/exam/publish/Home.vue'
 /*监考*/
 import ListenHome from './views/listen/Home.vue'
+import ListenList from './views/listen/List.vue'
 /*成绩*/
 import ScoreHome from './views/score/Home.vue'
 /*统计*/
@@ -75,111 +76,114 @@ export const asyncRouterMap  = [{
     redirect: '/index',
     children: [
         {
-            path: 'index',
+            path: '/index',
             component: DashbordHome,
             defaultPath: true,  
             name: '首页'
         },
         {
-            path: 'question',
+            path: '/question',
             component: QuestionHome,  
             name: '试题',
             redirect: '/question/question',
             children: [
-                { path: 'question', component: QuestionManger, name: '试题管理' },
-                { path: 'tag', component: QuestionTag, name: '标签管理' },
-                { path: 'course', component: QuestionCourse, name: '课程管理' },
-                { path: 'chapter', component: QuestionChapter, name: '章节管理' },
-                { path: 'same', component: QuestionSame, name: '相似题组' },
+                { path: '/question/question', component: QuestionManger, name: '试题管理',icon:'iconfont icon-shiti-larger', defaultPath: true},
+                { path: '/question/tag', component: QuestionTag, name: '标签管理',icon:'iconfont icon-tip-larger' },
+                { path: '/question/course', component: QuestionCourse, name: '课程管理',icon:'iconfont icon-kecheng-larger' },
+                { path: '/question/chapter', component: QuestionChapter, name: '章节管理',icon:'iconfont icon-chapter-larger' },
+                { path: '/question/same', component: QuestionSame, name: '相似题组',icon:'iconfont icon-xiangsitizu-larger' }
             ]
         },
         {
-            path: 'paper',
+            path: '/paper',
             component: PaperHome,  
             name: '试卷',
             redirect: '/paper/paper',
             children: [
-                { path: 'paper', component: PaperDefault, name: '考试试卷',},
-                { path: 'quiz', component: PaperQuiz, name: '随堂测验' },
-                { path: 'exercises', component: PaperExercises, name: '练习题' }
+                { path: '/paper/paper', component: PaperDefault, name: '考试试卷', icon:'iconfont icon-kaoshi-larger', defaultPath: true},
+                { path: '/paper/quiz', component: PaperQuiz, name: '随堂测验', icon:'iconfont icon-ceyan-larger', },
+                { path: '/paper/exercises', component: PaperExercises, name: '练习题', icon:'iconfont icon-pencil-larger' }
             ]
         },
         {
-            path: 'preview',
+            path: '/preview',
             component: PreviewHome,  
             name: '预习',
             redirect: '/preview/list',
             children: [
-                { path: 'list', component: PreviewExample, name: '预习题',},
-                { path: 'doc', component: PreviewDoc, name: '预习资料' },
+                { path: '/preview/list', component: PreviewExample, name: '预习题', icon:'iconfont icon-pencil-larger', defaultPath: true},
+                { path: '/preview/doc', component: PreviewDoc, name: '预习资料', icon:'iconfont icon-book-larger' }
             ]
         },
         {
-            path: 'test',
+            path: '/test',
             component: TestHome,  
             name: '测验',
             redirect: '/test/list',
             children: [
-                { path: 'list', component: TestInfo, name: '课堂测验',},
-                { path: 'publish', component: TestPublish, name: '发布测验' },
+                { path: '/test/list', component: TestInfo, name: '课堂测验', icon:'iconfont icon-ceyan-larger', defaultPath: true},
+                { path: '/test/publish', component: TestPublish, name: '发布测验', icon:'iconfont icon-publish-larger' }
             ]
         },
         {
-            path: 'exam',
+            path: '/exam',
             component: ExamHome,  
             name: '考试',
             redirect: '/exam/list',
             children: [
-                { path: 'list', component: ExamInfo, name: '考试',},
-                { path: 'publish', component: ExamPublish, name: '发布考试' },
+                { path: '/exam/list', component: ExamInfo, name: '考 试', icon:'iconfont icon-kaoshi-larger', defaultPath: true},
+                { path: '/exam/publish', component: ExamPublish, name: '发布考试', icon:'iconfont icon-publish-larger' }
             ]
         },
         {
-            path: 'listen',
+            path: '/listen',
             component: ListenHome,
             name: '监考',
-            children: []
+            redirect: '/listen/list',
+            children: [
+                { path: '/listen/list', component: ListenList, name: '考试监考', icon:'iconfont icon-kaoshi-larger', defaultPath: true}
+            ]
         },
         {
-            path: 'score',
+            path: '/score',
             component: ScoreHome,
             name: '成绩',
             children: []
         },
         {
-            path: 'statistics',
+            path: '/statistics',
             component: StatisticsHome,  
             name: '统计',
             redirect: '/statistics/department',
             children: [
-                { path: 'department', component: StatisticsDepartment, name: '院系',},
-                { path: 'class', component: StatisticsClass, name: '班级',},
-                { path: 'student', component: StatisticsStudent, name: '学生',},
+                { path: '/statistics/department', component: StatisticsDepartment, name: '院系统计', icon:'iconfont icon-department-larger', defaultPath: true},
+                { path: '/statistics/class', component: StatisticsClass, name: '班级统计', icon:'iconfont icon-class-larger'},
+                { path: '/statistics/student', component: StatisticsStudent, name: '学生统计', icon:'iconfont icon-student-larger'}
             ]
         },
         {
-            path: 'backstage',
+            path: '/backstage',
             component: BackstageHome,  
             name: '后台',
             redirect: '/backstage/student',
             children: [
-                { path: 'student', component: BackstageStudent, name: '学生管理',},
-                { path: 'course', component: BackstageCourse, name: '选课管理' },
-                { path: 'role', component: BackstageRole, name: '角色管理' },
-                { path: 'score', component: BackstageScore, name: '成绩管理' },
-                { path: 'competence', component: BackstageCompetence, name: '权限管理' },
+                { path: '/backstage/student', component: BackstageStudent, name: '学生管理', icon:'iconfont icon-student-larger', defaultPath: true},
+                { path: '/backstage/course', component: BackstageCourse, name: '选课管理', icon:'iconfont icon-kecheng-larger' },
+                { path: '/backstage/role', component: BackstageRole, name: '角色管理', icon:'iconfont icon-user-larger' },
+                { path: '/backstage/score', component: BackstageScore, name: '成绩管理', icon:'iconfont icon-score-larger' },
+                { path: '/backstage/competence', component: BackstageCompetence, name: '权限管理', icon:'iconfont icon-lock-larger' }
             ]
         },
         {
-            path: 'setting',
+            path: '/setting',
             component: SettingHome,  
             name: '设置',
             redirect: '/setting/user',
             children: [
-                { path: 'user', component: SettingInfo, name: '个人信息',},
-                { path: 'log', component: SettingLog, name: '系统日志' },
-                { path: 'alert', component: SettingAlert, name: '考试异常' },
-                { path: 'chart', component: SettingChart, name: '数据监控' },
+                { path: '/setting/user', component: SettingInfo, name: '个人信息', icon:'iconfont icon-user-larger', defaultPath: true},
+                { path: '/setting/log', component: SettingLog, name: '系统日志', icon:'iconfont icon-log-larger' },
+                { path: '/setting/alert', component: SettingAlert, name: '考试异常', icon:'iconfont icon-alert-larger' },
+                { path: '/setting/chart', component: SettingChart, name: '数据监控', icon:'iconfont icon-chart-larger' },
             ]
         } 
     ]},
