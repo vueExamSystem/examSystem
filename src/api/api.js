@@ -29,9 +29,9 @@ export const testData = params => { return instance.get('http://api.github.com',
 // 测试api
 export const testApi = params => { return instance.post(`${base}/test`, params ); };
 // 本周考试
-export const getWeekExam = params => { return instance.get(`${base}/weekExam/list`, params ); };
+export const getWeekExam = params => { return instance.get(`${base}/weekExam/list`, params ).then(res => res.data); };
 // 学生成绩统计
-export const getStudentSta = params => { return instance.get(`${base}/studentScore/chart`, params ); };
+export const getStudentSta = params => { return instance.get(`${base}/studentScore/chart`, params ).then(res => res.data); };
 
 /*
 * 试题 start
@@ -59,7 +59,7 @@ export const getCourseList = params => {
 export const getChapterList = params => { return instance.get(`${base}/chapter/list`, params ).then(res => res.data); };
 
 // department
-export const getGroupList = params => { return instance.get(`${base}/group/list`, params ); };
+export const getGroupList = params => { return instance.get(`${base}/group/list`, params ).then(res => res.data); };
 
 // filter
 export const getQuestionFilter = params => { return instance.get(`${base}/question/filter`, params ).then(res => res.data);};
@@ -68,50 +68,50 @@ export const getQuestionFilter = params => { return instance.get(`${base}/questi
 *  设置 start
 * */
 // log
-export const getSetLogList = params => { return instance.get(`${base}/log/list`, params ); };
+export const getSetLogList = params => { return instance.get(`${base}/log/list`, params ).then(res => res.data); };
 
 // alert
-export const getSetAlertList = params => { return instance.get(`${base}/alert/list`, params ); };
+export const getSetAlertList = params => { return instance.get(`${base}/alert/list`, params ).then(res => res.data); };
 
 // chart
-export const getSetChartList = params => { return instance.get(`${base}/chart/list`, params ); };
+export const getSetChartList = params => { return instance.get(`${base}/chart/list`, params ).then(res => res.data); };
 
 /*
 *  后台 start
 * */
 // department
-export const getSameGroupList = params => { return instance.get(`${base}/department/list`, params ); };
+export const getSameGroupList = params => { return instance.get(`${base}/department/list`, params ).then(res => res.data); };
 
 // class
-export const getClassList = params => { return instance.get(`${base}/class/list`, params ); };
+export const getClassList = params => { return instance.get(`${base}/class/list`, params ).then(res => res.data); };
 
 // role
-export const getRoleList = params => { return instance.get(`${base}/role/list`, params ); };
+export const getRoleList = params => { return instance.get(`${base}/role/list`, params ).then(res => res.data); };
 
 // class
-export const getClassObject = params => { return instance.get(`${base}/class/detail`, params ); };
+export const getClassObject = params => { return instance.get(`${base}/class/detail`, params ).then(res => res.data); };
 
 // competence
-export const getCompetenceList = params => { return instance.get(`${base}/competence/list`, params ); };
+export const getCompetenceList = params => { return instance.get(`${base}/competence/list`, params ).then(res => res.data); };
 
 // 选课
-export const getSelectCourseList = params => { return instance.get(`${base}/selectCourse/list`, params ); };
+export const getSelectCourseList = params => { return instance.get(`${base}/selectCourse/list`, params ).then(res => res.data); };
 
 /*
 * 统计 start
 * */
 // 院系考试统计列表
-export const getDepExamStaList = params => { return instance.get(`${base}/department/exam/statistics/list`, params ); };
+export const getDepExamStaList = params => { return instance.get(`${base}/department/exam/statistics/list`, params ).then(res => res.data); };
 
 // 院系成绩统计列表
-export const getDepScoreStaList = params => { return instance.get(`${base}/department/score/statistics/list`, params ); };
+export const getDepScoreStaList = params => { return instance.get(`${base}/department/score/statistics/list`, params ).then(res => res.data); };
 
 
 /*
 * 试卷 start
 * */
-export const getPaperList = params => { return instance.post(`${base}/paper/list`, params ); };
+export const getPaperList = params => { return instance.post(`${base}/paper/list`, params ).then(res => res.data); };
 //试卷详情
-export const getPaperDetail = params => { return instance.post(`${base}/paper/detail`, params ); };
+export const getPaperDetail = params => { return instance.post(`${base}/paper/detail`, params ).then(res => res.data); };
 //获取试卷题目详情
-export const getPaperProblem = params => { return instance.post(`${base}/paper/problem`, params ); };
+export const getPaperProblem = params => { return instance.post(`${base}/paper/problem`, params ).then(res => res.data); };
