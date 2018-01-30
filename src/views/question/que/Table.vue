@@ -82,15 +82,15 @@
                 console.log('question list para', para);
                 this.listLoading = true;
                 getQueList(para).then((res) => {
-                    this.totalCount = res.data.totalCount;
-                    this.rows = res.data.rows;
+                    this.totalCount = res.totalCount;
+                    this.rows = res.rows;
                     this.listLoading = false;
                 });
             },
             getFilter() {
                 this.filterLoading = true;
                 getQuestionFilter({}).then((res) => {
-                    this.filterList = res.data;
+                    this.filterList = res;
                     this.filterLoading = false;
                 });
             },

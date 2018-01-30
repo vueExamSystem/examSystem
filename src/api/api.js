@@ -80,7 +80,7 @@ export const getSetChartList = params => { return instance.get(`${base}/chart/li
 *  后台 start
 * */
 // department
-export const getDepartmentList = params => { return instance.get(`${base}/department/list`, params ); };
+export const getSameGroupList = params => { return instance.get(`${base}/department/list`, params ); };
 
 // class
 export const getClassList = params => { return instance.get(`${base}/class/list`, params ); };

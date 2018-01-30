@@ -90,7 +90,7 @@
 </template>
 
 <script>
-    import {getGroupList} from '../../../api/api';
+    import {getSameGroupList} from '../../../api/api';
     import myFilter from '../../common/myFilter.vue';
     import Pagination from '../../common/Pagination.vue';
     import _ from 'lodash';
