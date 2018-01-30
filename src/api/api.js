@@ -23,7 +23,7 @@ export const getUserInfo = params => { return instance.post(`${base}/user/info`,
 
 export const getUserList = params => { return instance.get(`${base}/user/list`, { params: params }); };
 
-export const getUserListPage = params => { return instance.get(`${base}/user/listpage`, { params: params }); };
+export const getUserListPage = params => { return instance.get(`${base}/user/listpage`, { params: params }).then(res => res.data); };
 
 export const removeUser = params => { return instance.get(`${base}/user/remove`, { params: params }); };
 
