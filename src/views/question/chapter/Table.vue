@@ -28,10 +28,7 @@
                     </el-table-column>
                     <el-table-column prop="desc" label="描述" sortable>
                     </el-table-column>
-                    <el-table-column prop="course" label="课程" sortable>
-                                            <template slot-scope="scope">
-                        <span v-if="scope.row.course">{{scope.row.course.name}}</span>
-                      </template>   
+                    <el-table-column prop="subject" label="所属学科" sortable>
                     </el-table-column>
                     <el-table-column prop="creator" label="创建人" sortable>
                     </el-table-column>
@@ -108,8 +105,8 @@
                 this.listLoading = true;
                 //NProgress.start();
                 getChapterList(para).then((res) => {
-                    this.total = res.data.lenght;
-                    this.list = res.data;
+                    this.total = res.data.total;
+                    this.list = res.data.list;
                     this.listLoading = false;
                     //NProgress.done();
                 });

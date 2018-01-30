@@ -8,7 +8,7 @@
 
                 <!--分页-->
                 <div class="pageArea">
-                    <Page current="1" total="23" pageSize="5" @page-change="handleCurrentChange"></Page>
+                    <Page current="1" :total="total" :pageSize="pageSize" @page-change="handleCurrentChange"></Page>
                 </div>
 
             </div>
@@ -47,7 +47,7 @@
                 list: [],
                 total: 0,
                 page: 1,
-                pageSize: 5,
+                pageSize: 10,
                 listLoading: false,
                 sels: [],//列表选中列
 
@@ -68,15 +68,16 @@
             //获取用户列表
             getList() {
                 let para = {
-                    page: this.page,
-                    name: this.filters.name,
+                    pageNo: this.page,
+                    keyword: this.filters.name,
                     pageSize: this.pageSize
                 };
                 this.listLoading = true;
                 //NProgress.start();
                 getTagList(para).then((res) => {
-                    this.total = res.data.length;
-                    this.list = res.data;
+                    res=res.data;
+                    this.total = res.data.totalCount;
+                    this.list = res.data.rows;
                     this.listLoading = false;
                     //NProgress.done();
                 });
