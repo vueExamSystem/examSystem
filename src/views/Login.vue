@@ -23,7 +23,7 @@
     data() {
       return {
         loginForm: {
-          account: 'admin',
+          account: 'admin1',
           checkPass: '123456'
         },
         rules: {
