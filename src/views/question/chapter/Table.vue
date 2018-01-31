@@ -49,7 +49,7 @@
 </template>
 
 <script>
-    import {getChapterList} from '../../../api/api';
+    import {getChapterList, getSameFilter} from '../../../api/api';
     import myFilter from '../../common/myFilter.vue'
     import Pagination from '../../common/Pagination.vue'
 
@@ -65,21 +65,7 @@
                 listLoading: false,
                 filterLoading: false,
 
-                filterList: [
-                    {
-                        title: '课程',
-                        field: 'project',
-                        children: [{
-                            value: 'physics',
-                            text: '大学物理'
-                        }, {
-                            value: 'mathematics',
-                            text: '高等数学'
-                        }, {
-                            value: 'english',
-                            text: '大学英语'
-                        }]
-                    }],
+                filterList: [],
             }
         },
         methods: {
@@ -99,11 +85,21 @@
                     keyword: this.keyword,
                     pageSize: this.pageSize,
                 };
-                this.listLoading = true;
+                if (!this.listLoading) this.listLoading = true;
                 getChapterList(para).then((res) => {
                     this.totalCount = res.totalCount;
                     this.rows = res.rows;
-                    this.listLoading = false;
+                    if (!this.filterLoading) this.listLoading = false
+                });
+            },
+            // 获取过滤器数据
+            getFilter() {
+                this.filterLoading = true;
+                this.listLoading = true;
+                getSameFilter({}).then((res) => {
+                    this.filterList = res;
+                    this.filterLoading = false;
+                    this.getList();
                 });
             },
         },
@@ -112,7 +108,7 @@
             myFilter,
         },
         mounted() {
-            this.getList();
+            this.getFilter();
         }
     }
 

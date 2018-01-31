@@ -82,7 +82,6 @@
             getDefaultData() {
                 getCourseList({}).then((res) => {
                     this.courseArr = res.data;
-                    console.log(res);
                 });
             },
 		},
