@@ -76,8 +76,8 @@
                 };
                 this.listLoading = true;
                 getWeekExam(para).then((res) => {
-                    this.totalCount = res.data.totalCount;
-                    this.rows = res.data.rows;
+                    this.totalCount = res.totalCount;
+                    this.rows = res.rows;
                     this.listLoading = false;
                 });
             },

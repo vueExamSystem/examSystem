@@ -10,12 +10,14 @@
                     <ul v-if="row.children && row.children.length > 0 && !row.multiple" class="filter-items">
                         <li
                                 v-if="!row.noAll"
-                                v-bind:class="{ checked: !filters[row.field] }"
-                                @click="toggleCheckCommon(row.field, true)"
-                                role="all"><span>全部</span></li>
+                                v-bind:class="{ checked: filters[row.field] === -1 || !filters[row.field] }"
+                                @click="toggleCheckCommon(row, true)"
+                                role="all">
+                            <span>全部</span>
+                        </li>
                         <template v-for="item in row.children">
                             <li
-                                    @click="toggleCheckCommon(row.field, item.value)"
+                                    @click="toggleCheckCommon(row, item)"
                                     role="item"
                                     :name="item.value"
                                     :key="item.value"
@@ -129,24 +131,14 @@
                 filters: {}
             }
         },
-        computed: {},
-        created() {
-            // 初始化checked
-            // 初始化filters
-            const filter = {};
-            this.list.forEach((item) => {
-                // 单选
-                if (!item.multiple) {
-                    filter[item.field] = item.noAll ?
-                        (item.children[0] ? item.children[0].value : '') : '';
-                }
-                // 多选
-                if (item.multiple) {
-                    filter[item.field] = [];
-                }
-            });
-            this.filters = filter;
-            console.log('create', this.filters);
+        watch:{
+            list: {
+                handler(curVal,oldVal){
+                    this.filters = this.getFilterParam();
+                    this.$emit('callback', this.filters);
+                },
+                deep:true
+            }
         },
         methods: {
             removeArrValue(arr, value) {//从数组中删除value
@@ -190,14 +182,14 @@
                 console.log('_this_.list', _this_.list[rowIndex])
                 _this_.$emit('callback', _this_.filters);
             },
-            toggleCheckCommon(field, value) {
-                if (typeof value === 'boolean') {
-                    this.$set(this.filters, field, '');
-                } else {
-                    this.$set(this.filters, field, value);
+            toggleCheckCommon(row, item) {
+                if(row.isLinkage) {
+                    this.$emit('linkage', row.field, item === true ? -1 : item.value);
                 }
+                this.filters[row.field] = item === true ? -1 : item.value;
                 this.$forceUpdate();
-                this.$emit('callback', this.getFilterParam());
+                this.filters = this.getFilterParam();
+                this.$emit('callback', this.filters);
             },
             addEmit(eveName) {
                 this.$emit(eveName);
@@ -211,12 +203,12 @@
             },
             getFilterParam() {
                 const res = {};
-//                const filter = this.filters;
-//                this.list.forEach(item => {
-//                    let value = filter[item.field];
-//                    if (value === undefined || value === '') value = -1;
-//                    res[item.field] = value;
-//                });
+                const filter = this.filters;
+                this.list.forEach(item => {
+                    let value = filter[item.field];
+                    if (value === undefined || value === '') value = -1;
+                    res[item.field] = value;
+                });
                 return res;
             }
         },
@@ -224,7 +216,8 @@
 
         },
         mounted() {
-            this.$emit('callback', this.getFilterParam());
+            this.filters = this.getFilterParam();
+            this.$emit('callback', this.filters);
         }
     }
 </script>

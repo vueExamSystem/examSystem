@@ -57,12 +57,16 @@ export const getCourseList = params => {
 
 // chapter
 export const getChapterList = params => { return instance.get(`${base}/chapter/list`, params ).then(res => res.data); };
+// section
+export const getSectionFilter = params => { return instance.get(`${base}/section/filter`, params ).then(res => res.data); };
 
 // department
 export const getGroupList = params => { return instance.get(`${base}/group/list`, params ).then(res => res.data); };
 
 // filter
 export const getQuestionFilter = params => { return instance.get(`${base}/question/filter`, params ).then(res => res.data);};
+// filter
+export const getSameFilter = params => { return instance.get(`${base}/same/filter`, params ).then(res => res.data);};
 
 /*
 *  设置 start

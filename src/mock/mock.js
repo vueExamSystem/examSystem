@@ -14,6 +14,8 @@ import {
     TagList,
     QuestionFilter,
     WeekExam,
+    SectionFilter,
+    SameFilter,
 } from './data/question';
 import {
     PaperList,
@@ -319,6 +321,14 @@ export default {
         mock.onGet('/question/filter').reply(config => {
             return u.getMockList(config, QuestionFilter);
         });
+        //获取章节列表
+        mock.onGet(`/same/filter`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, SameFilter]);
+                }, 2000);
+            });
+        });
 
         //获取tag列表
         mock.onGet('/category/list').reply(config => {
@@ -333,6 +343,15 @@ export default {
         //获取章节列表
         mock.onGet(`/chapter/list`).reply(config => {
             return u.getMockList(config, ChapterList);
+        });
+
+        //获取章节列表
+        mock.onGet(`/section/filter`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, SectionFilter]);
+                }, 2000);
+            });
         });
 
         //获取题组列表

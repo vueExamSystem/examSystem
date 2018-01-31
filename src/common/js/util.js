@@ -112,6 +112,14 @@ export default {
         }
 
     },
+    //filter default
+    getDefaultFilter: (list) => {
+        const res = {};
+        list.forEach(item => {
+            res[item.field] = -1;
+        });
+        return res;
+    },
     // 处理mock的数据
     getMockList: (config, list) => {
         const {pageNo, pageSize} = config;

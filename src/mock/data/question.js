@@ -104,7 +104,7 @@ for (let i = 0; i < 86; i++) {
 const QuestionFilter = [
     {
         title: '课程',
-        field: 'project',
+        field: 'course',
         children: [{
             value: 'physics',
             text: '大学物理'
@@ -114,22 +114,6 @@ const QuestionFilter = [
         }, {
             value: 'english',
             text: '大学英语'
-        }]
-    }, {
-        title: '章节',
-        field: 'chapter',
-        children: [{
-            value: 'physics',
-            text: '基础物理'
-        }, {
-            value: 'mathOne',
-            text: '高等数学上'
-        }, {
-            value: 'mathTwo',
-            text: '高等数学下'
-        }, {
-            value: 'english',
-            text: '英语口语'
         }]
     }, {
         title: '题型',
@@ -184,6 +168,34 @@ const QuestionFilter = [
         }]
     }
 ];
+const SectionFilter = {
+    "title": "章节",
+    "field": "section",
+    "children": [{
+        "courseid": 1,
+        "text": "刚体的转轴运动1111",
+        "value": 1
+    }, {
+        "courseid": 2,
+        "text": "刚体的转轴运动222",
+        "value": 2
+    }]
+};
+const SameFilter = [
+    {
+        title: '课程',
+        field: 'course',
+        children: [{
+            value: 'physics',
+            text: '大学物理'
+        }, {
+            value: 'mathematics',
+            text: '高等数学'
+        }, {
+            value: 'english',
+            text: '大学英语'
+        }]
+    }];
 
 export {
     TypeList,
@@ -196,4 +208,6 @@ export {
     TagList,
     QuestionFilter,
     WeekExam,
+    SectionFilter,
+    SameFilter,
 };
