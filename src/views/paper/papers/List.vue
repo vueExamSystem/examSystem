@@ -20,7 +20,7 @@
                                 <el-button type="text" @click="detailShow(scope.row.id)">{{scope.row.name}}</el-button>
                             </template>
                         </el-table-column>
-                        <el-table-column prop="time" label="时长(min)" min-width="100">
+                        <el-table-column prop="duration" label="时长(min)" min-width="100">
                         </el-table-column>
                         <el-table-column prop="project" label="所属课程" min-width="120">
                         </el-table-column>
@@ -89,20 +89,20 @@
                     title:'类别',
                     field:'category',
                     children:[{
-                        value:'random',
+                        value:'1',
                         text:'随机组卷'
                     },{
-                        value:'manual',
+                        value:'2',
                         text:'手动组卷'
                     }]
                 },{
                     title:'状态',
                     field:'status',
                     children:[{
-                        value:'doing',
+                        value:'0',
                         text:'未完成'
                     },{
-                        value:'done',
+                        value:'1',
                         text:'已完成'
                     }]
                 }]

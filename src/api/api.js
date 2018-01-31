@@ -66,6 +66,8 @@ export const getChapterList = params => { return instance.get(`${base}/chapter/l
 // department
 export const getGroupList = params => { return instance.get(`${base}/group/list`, params ); };
 
+export const getSameGroupList = params => { return instance.get(`${base}/same/list`, params ).then(res => res.data); };
+
 // filter
 export const getQuestionFilter = params => { return instance.get(`${base}/question/filter`, params ).then(res => res.data);};
 
@@ -115,8 +117,8 @@ export const getDepScoreStaList = params => { return instance.get(`${base}/depar
 /*
 * 试卷 start
 * */
-export const getPaperList = params => { return instance.post(`${base}/paper/list`, params ); };
-//试卷详情
+export const getPaperList = params => { return instance.post(`${base}/paper/list`, qs.stringify(params)  ).then(res => res.data);};
+
 export const getPaperDetail = params => { return instance.post(`${base}/paper/detail`, params ); };
 //获取试卷题目详情
 export const getPaperProblem = params => { return instance.post(`${base}/paper/problem`, params ); };

@@ -205,7 +205,7 @@
 				},
                 isInlineMessage: true,
 				// 上传文件的路径
-				uploadSource: 'https://jsonplaceholder.typicode.com/posts/',
+				uploadSource: 'http://localhost:8081/api/question/upload',
 				// 选项个数
 				selectNum: 2,
 				// 默认数据
