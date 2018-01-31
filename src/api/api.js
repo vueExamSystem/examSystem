@@ -2,12 +2,12 @@ import axios from 'axios';
 import instance  from './instance';
 import qs from 'qs'
 
-let base = '';
-// let base = 'http://localhost:8081/api';
+//let base = '';
+ let base = 'http://localhost:8081/api';
 
 // export const requestLogin = params => { params=qs.stringify(params);
 // 	return instance.post(`${base}/login/verify`,params).then(res => res.data); };
-export const requestLogin = params => { return axios.post(`${base}/login/verify`, params).then(res => res.data); };
+export const requestLogin = params => { return axios.post(`${base}/login/verify`,  qs.stringify(params)).then(res => res.data); };
 
 //用户信息
 export const getUserInfo = params => { return instance.post(`${base}/user/info`, qs.stringify(params)).then(res => res.data); };
@@ -56,13 +56,13 @@ export const getCourseList = params => {
 	return instance.get(`${base}/course/list`, params ).then(res => res.data); };
 
 // chapter
-<<<<<<< HEAD
+
 export const getChapterList = params => { return instance.get(`${base}/chapter/list`, { params: params } ).then(res => res.data); };
-=======
-export const getChapterList = params => { return instance.get(`${base}/chapter/list`, params ).then(res => res.data); };
+
+
 // section
 export const getSectionFilter = params => { return instance.get(`${base}/section/filter`, params ).then(res => res.data); };
->>>>>>> 457c312f6133aa238d0984f08125807b56ec4a22
+
 
 // department
 export const getGroupList = params => { return instance.get(`${base}/group/list`, params ).then(res => res.data); };
@@ -90,7 +90,7 @@ export const getSetChartList = params => { return instance.get(`${base}/chart/li
 *  后台 start
 * */
 // department
-export const getSameGroupList = params => { return instance.get(`${base}/department/list`, params ).then(res => res.data); };
+export const getDepartmentList = params => { return instance.get(`${base}/department/list`, params ).then(res => res.data); };
 
 // class
 export const getClassList = params => { return instance.get(`${base}/class/list`, params ).then(res => res.data); };
