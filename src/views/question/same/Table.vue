@@ -123,7 +123,7 @@
                 let para = {
                     pageNo: this.pageNo,
                     keyword: this.keyword,
-                    filter: this.filter,
+                    filter: JSON.stringify(this.filter),
                     pageSize: this.pageSize
                 };
                 if (!this.listLoading) this.listLoading = true;

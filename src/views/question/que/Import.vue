@@ -3,13 +3,13 @@
 		<div class="title">
 			<span>导入试题</span>
 			<div class="pull-right">
-				<el-button type="success" @click="onSubmit('form')" class="el-button-shadow">保存</el-button>
-				<el-button type="danger" @click="resetForm('form')" class="el-button-shadow">重置</el-button>
+				<el-button type="success" @click="onSubmit('ruleForm')" class="el-button-shadow">保存</el-button>
+				<el-button type="danger" @click="resetForm('ruleForm')" class="el-button-shadow">重置</el-button>
 			</div>
 		</div>
 
 		<div class="content">
-			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" :inline-message="isInlineMessage" label-width="100px" class="demo-ruleForm">
 				<el-form-item label="试题用途" prop="usage">
 					<el-select v-model="ruleForm.usage" multiple placeholder="请选择试题用途">
 						<el-option
@@ -82,12 +82,14 @@
                     name: '正规考试',
                 }],
                 courseArr: [],
+                isInlineMessage: true,
 			}
 		},
 		methods: {
-            submitForm(formName) {
+            onSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
+                        console.log(this.ruleForm);
                         alert('submit!');
                     } else {
                         console.log('error submit!!');
@@ -110,6 +112,7 @@
             },
             handlePreview(file) {
                 console.log(file);
+                console.log(this.ruleForm);
             },
             selectAddFunc() {
                 this.selectNum = this.selectNum + 1;
