@@ -321,7 +321,7 @@ export default {
         });
 
         //获取tag列表
-        mock.onGet('/tag/list').reply(config => {
+        mock.onGet('/category/list').reply(config => {
             return u.getMockList(config, TagList);
         });
 

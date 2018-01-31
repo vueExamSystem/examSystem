@@ -4,12 +4,12 @@
         <div class="panel">
             <div class="title">
                 <el-input placeholder="请输入搜索关键词" v-model="keyword">
-                    <el-button slot="append" icon="el-icon-search" @click="getLists"></el-button>
+                    <el-button slot="append" icon="el-icon-search" @click="getList"></el-button>
                 </el-input>
 
                 <!--分页-->
                 <div class="pageArea">
-                    <Page :current="page" :total="total" :pageSize="pageSize" @page-change="handleCurrentChange"></Page>
+                    <Page :pageNo="pageNo" :totalCount="totalCount" :pageSize="pageSize" @page-change="handleCurrentChange"></Page>
                 </div>
 
             </div>
@@ -17,11 +17,10 @@
             <div class="content">
                 <!--列表-->
                 <el-table
-                        :data="list"
+                        :data="rows"
                         class="el-table-expand"
                         highlight-current-row
                         v-loading="listLoading"
-                        @selection-change="selsChange"
                         style="width: 100%;">
                     <el-table-column type="index" label="ID" width="60">
                     </el-table-column>
@@ -99,16 +98,13 @@
         data() {
             return {
                 keyword: '',
-                filters: {
-                    name: ''
-                },
-                list: [],
-                total: 0,
-                page: 1,
+                filter: {},
+                rows: [],
+                totalCount: 0,
+                pageNo: 1,
                 pageSize: 5,
                 listLoading: false,
-                sels: [],//列表选中列
-
+                filterLoading: false,
 
                 filterList: [
                     {
@@ -141,15 +137,9 @@
             }
         },
         methods: {
-            handleSizeChange(val) {
-                console.log(val);
-            },
             handleCurrentChange(val) {
-                this.page = val;
+                this.pageNo = val;
                 this.getUsers();
-            },
-            selsChange: function (sels) {
-                this.sels = sels;
             },
             search(obj) {
                 this.filters = obj;
@@ -158,16 +148,15 @@
             getList() {
                 let para = {
                     pageNo: this.pageNo,
-                    name: this.filters.name,
+                    keyword: this.keyword,
+                    filter: this.filter,
                     pageSize: this.pageSize
                 };
                 this.listLoading = true;
-                //NProgress.start();
                 getSameGroupList(para).then((res) => {
-                    this.total = res.data.lenght;
-                    this.list = res.data;
+                    this.totalCount = res.totalCount;
+                    this.rows = res.rows;
                     this.listLoading = false;
-                    //NProgress.done();
                 });
             },
             delDepartment(id){
