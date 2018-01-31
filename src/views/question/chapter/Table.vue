@@ -95,7 +95,7 @@
             getList() {
                 let para = {
                     pageNo: this.pageNo,
-                    filter: this.filter,
+                    filter: JSON.stringify(this.filter),
                     keyword: this.keyword,
                     pageSize: this.pageSize,
                 };

@@ -77,7 +77,7 @@
                 if (_.isEmpty(this.filter)) return;
                 let para = {
                     pageNo: this.pageNo,
-                    filter: this.filter,
+                    filter: JSON.stringify(this.filter),
                     pageSize: this.pageSize,
                     keyword: this.keyword,
                 };
