@@ -26,7 +26,7 @@
                 };
                 this.loading = true;
                 getStudentSta(para).then(res => {
-                    this.dataParam = res.data.data;
+                    this.dataParam = res.data;
 
                     this.loading = false;
                     this.drawCharts();

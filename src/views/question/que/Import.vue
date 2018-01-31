@@ -101,8 +101,7 @@
 			// 获取初始数据
 			getDefaultData() {
                 getCourseList({}).then((res) => {
-                    this.courseArr = res.data;
-                    console.log(res);
+                    this.courseArr = res;
                 });
 			},
 			// 上传文件相关

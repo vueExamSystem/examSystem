@@ -5,11 +5,11 @@
 
             <!--分页-->
             <div class="pageArea">
-                <Page :total="total" :pageSize="pageSize" @page-change="handleCurrentChange"></Page>
+                <Page :totalCount="totalCount" :pageSize="pageSize" @page-change="handleCurrentChange"></Page>
             </div>
 
-            <el-input class="mid" placeholder="请输入搜索关键词" v-model="searchkey">
-                <el-button slot="append" icon="el-icon-search" @click="searchTable"></el-button>
+            <el-input class="mid" placeholder="请输入搜索关键词" v-model="keyword">
+                <el-button slot="append" icon="el-icon-search" @click="getList"></el-button>
             </el-input>
 
 
@@ -18,7 +18,7 @@
         <div class="content">
             <!--列表-->
             <el-table
-                    :data="lists" highlight-current-row
+                    :data="rows" highlight-current-row
                     v-loading="listLoading"                    
                     style="width: 100%;">
                 <el-table-column type="index" label="ID">
@@ -46,13 +46,13 @@
     export default {
         data() {
             return {
-                searchkey: '',
+                keyword: '',
                 filters: {
                     name: ''
                 },
-                current: 1,
-                lists: [],
-                total: 0,
+                pageNo: 1,
+                rows: [],
+                totalCount: 0,
                 pageSize: 5,
                 listLoading: false,
                 sels: [],//列表选中列
@@ -63,28 +63,22 @@
             formatState: function (row, column) {
                 return row.sex == 1 ? '已结束' : row.sex == 0 ? '进行中' : '未知';
             },
-            searchTable() {
-                this.getLists();
-            },
             handleCurrentChange(val) {
-                this.current = val;
-                this.getLists();
+                this.pageNo = val;
+                this.getList();
             },
             //获取用户列表
-            getLists() {
+            getList() {
                 let para = {
-                    page: this.current,
+                    pageNo: this.pageNo,
                     pageSize: this.pageSize,
-                    searchkey: this.searchkey,
+                    keyword: this.keyword,
                 };
                 this.listLoading = true;
-                //NProgress.start();
                 getWeekExam(para).then((res) => {
-                    console.log(res.data);
-                    this.total = res.data.total;
-                    this.lists = res.data.list;
+                    this.totalCount = res.totalCount;
+                    this.rows = res.rows;
                     this.listLoading = false;
-                    //NProgress.done();
                 });
             },
         },
@@ -92,7 +86,7 @@
             'Page': Pagination
         },
         mounted() {
-            this.getLists();
+            this.getList();
         }
     }
 

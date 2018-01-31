@@ -281,16 +281,13 @@
 			// 获取初始数据
 			getDefaultData() {
                 getSubjectList({}).then((res) => {
-                    this.subjectArr = res.data;
-                    console.log(res);
+                    this.subjectArr = res;
                 });
                 getChapterList({}).then((res) => {
-                    this.chapterArr = res.data;
-                    console.log(res);
+                    this.chapterArr = res;
                 });
                 getSameGroupList({}).then((res) => {
-                    this.departmentArr = res.data;
-                    console.log(res);
+                    this.departmentArr = res;
                 });
 			},
 			// 上传文件相关

@@ -2,7 +2,7 @@
     <section id="pagination" class="clearfix">
         <div class="page">
             第
-            <span>{{current}}</span>
+            <span>{{pageNo}}</span>
             /
             <span>{{getPageNumCom}}</span>
             页
@@ -11,7 +11,7 @@
             <li class="box first" @click="setFirstPage()"><i class="iconfont icon-step-backward"></i></li>
             <li class="box pre" @click="setPrePage()"><i class="iconfont icon-angle-left"></i></li>
             <li class="input">
-                <input id="inputVal" type="text" placeholder="页码" v-bind:value="current">
+                <input id="inputVal" type="text" placeholder="页码" v-bind:value="pageNo">
             </li>
             <li class="box next" @click="setNextPage()"><i class="iconfont icon-angle-right"></i></li>
             <li class="box last" @click="setLastPage()"><i class="iconfont icon-step-forward"></i></li>
@@ -26,82 +26,83 @@
 
     export default {
         props: {
-            total: [Number, String], // 总共多少条数据
+            totalCount: [Number, String], // 总共多少条数据
             pageSize: [Number, String], // 每页数据数量
         },
         data() {
             return {
                 pageNum: 1,
-                current: 1,
+                pageNo: 1,
             };
         },
         methods: {
             setFirstPage() {
-                if (this.current === 1) return;
-                this.current = 1;
+                if (this.pageNo === 1) return;
+                this.pageNo = 1;
                 this.bindPageChangeEve();
             },
             setPrePage() {
-                if (this.current === 1) return;
-                this.current = this.current - 1;
+                if (this.pageNo === 1) return;
+                this.pageNo = this.pageNo - 1;
                 this.bindPageChangeEve();
             },
             setNextPage() {
-                if (this.current === _.parseInt(this.pageNum)) return;
-                this.current = _.parseInt(this.current) + 1;
+                if (this.pageNo === _.parseInt(this.pageNum)) return;
+                this.pageNo = _.parseInt(this.pageNo) + 1;
                 this.bindPageChangeEve();
             },
             setLastPage() {
                 const allPage = this.pageNum;
-                if (this.current === allPage) return;
-                this.current = allPage;
+                if (this.pageNo === allPage) return;
+                this.pageNo = allPage;
                 this.bindPageChangeEve();
             },
             setInputPage() {
                 const val = _.parseInt($('#inputVal').val());
                 if (val === NaN) return;
                 if (val > this.pageNum || val < 1) return;
-                if (val === _.parseInt(this.current)) return;
+                if (val === _.parseInt(this.pageNo)) return;
                 if (_.floor(val) !== val) return;
-                this.current = val;
+                this.pageNo = val;
                 this.bindPageChangeEve();
             },
             getPageNum() {
                 let num = 1;
-                const total = _.parseInt(this.total);
+                const totalCount = _.parseInt(this.totalCount);
                 const pageSize = _.parseInt(this.pageSize);
-                if (total % pageSize > 0) {
-                    num = _.floor(total / pageSize) + 1;
+                if (totalCount % pageSize > 0) {
+                    num = _.floor(totalCount / pageSize) + 1;
                 } else {
-                    num = _.floor(total / pageSize);
+                    num = _.floor(totalCount / pageSize);
                 }
-                if (total / pageSize === 0 ||
-                total === pageSize) {
+                if (totalCount / pageSize === 0 ||
+                totalCount === pageSize) {
                     num = 1;
                 }
                 return num;
             },
             bindPageChangeEve() {
-                this.$emit('page-change', this.current);
+                this.$emit('page-change', this.pageNo);
             }
         },
         computed: {
-            getTotal() {
-                return this.total;
+            gettotalCount() {
+                return this.totalCount;
             },
             getPageNumCom() {
                 let num = 1;
-                const total = _.parseInt(this.total);
+                const totalCount = _.parseInt(this.totalCount);
                 const pageSize = _.parseInt(this.pageSize);
-                if (total % pageSize > 0) {
-                    num = _.floor(total / pageSize) + 1;
+                if (totalCount % pageSize > 0) {
+                    num = _.floor(totalCount / pageSize) + 1;
                 } else {
-                    num = _.floor(total / pageSize);
+                    num = _.floor(totalCount / pageSize);
                 }
-                if (total / pageSize === 0 ||
-                total === pageSize) {
+                if (totalCount / pageSize === 0 ||
+                totalCount === pageSize) {
                     num = 1;
                 }
+                this.pageNum = num;
                 return num;
             },
         },

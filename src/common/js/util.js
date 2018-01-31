@@ -112,22 +112,27 @@ export default {
         }
 
     },
+    //filter default
+    getDefaultFilter: (list) => {
+        const res = {};
+        list.forEach(item => {
+            res[item.field] = -1;
+        });
+        return res;
+    },
     // 处理mock的数据
     getMockList: (config, list) => {
-        const {page, name, pageSize} = config;
-        let mockList = list.filter(user => {
-            if (name && user.name.indexOf(name) == -1) return false;
-            return true;
-        });
+        const {pageNo, pageSize} = config;
+        let mockList = list;
         let total = mockList.length;
         const size = pageSize ? pageSize : 20;
-        mockList = mockList.filter((u, index) => index < size * page && index >= size * (page - 1));
+        mockList = mockList.filter((u, index) => index < size * pageNo && index >= size * (pageNo - 1));
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 resolve([200, pageSize ?
                     {
-                        total: total,
-                        list:  mockList,
+                        totalCount: total,
+                        rows:  mockList,
                     } : list]);
             }, 1000);
         });
