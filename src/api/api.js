@@ -53,11 +53,11 @@ export const saveTag = params => { return instance.post(`${base}/category/save`,
 
 // course
 export const getCourseList = params => { 
-	return instance.get(`${base}/course/list`, params ).then(res => res.data); };
+	return instance.get(`${base}/course/list`, { params: params } ).then(res => res.data); };
 
 // chapter
 
-export const getChapterList = params => { return instance.get(`${base}/chapter/list`, { params: params } ).then(res => res.data); };
+export const getChapterList = params => { return instance.post(`${base}/chapter/list`, qs.stringify(params)).then(res => res.data); };
 
 
 // section

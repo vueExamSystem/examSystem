@@ -79,6 +79,7 @@
                 };
                 this.listLoading = true;
                 getCourseList(para).then((res) => {
+                    res=res.data;
                     this.totalCount = res.totalCount;
                     this.rows = res.rows;
                     this.listLoading = false;

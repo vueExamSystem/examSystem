@@ -56,7 +56,7 @@
                 this.page = val;
                 this.getList();
             },
-            //获取用户列表
+            //获取tag列表
             getList() {
                 let para = {
                     pageNo: this.page,
@@ -65,6 +65,7 @@
                 };
                 this.listLoading = true;
                 getTagList(para).then((res) => {
+                    res=res.data;
                     this.totalCount = res.totalCount;
                     this.rows = res.rows;
                     this.listLoading = false;

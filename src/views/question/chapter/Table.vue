@@ -21,7 +21,7 @@
                         highlight-current-row
                         v-loading="listLoading"
                         style="width: 100%;">
-                    <el-table-column type="index" label="ID">
+                    <el-table-column type="index" label="序号">
                     </el-table-column>
                     <el-table-column prop="name" label="分类名称" sortable>
                     </el-table-column>
@@ -61,22 +61,22 @@
                 rows: [],
                 totalCount: 0,
                 pageNo: 1,
-                pageSize: 5,
+                pageSize: 10,
                 listLoading: false,
                 filterLoading: false,
 
                 filterList: [
                     {
                         title: '课程',
-                        field: 'project',
+                        field: 'courseid',
                         children: [{
-                            value: 'physics',
+                            value: '1',
                             text: '大学物理'
                         }, {
-                            value: 'mathematics',
+                            value: '2',
                             text: '高等数学'
                         }, {
-                            value: 'english',
+                            value: '3',
                             text: '大学英语'
                         }]
                     }],
@@ -95,12 +95,13 @@
             getList() {
                 let para = {
                     pageNo: this.pageNo,
-                    filter: this.filter,
+                    filter: JSON.stringify(this.filter),
                     keyword: this.keyword,
                     pageSize: this.pageSize,
                 };
                 this.listLoading = true;
                 getChapterList(para).then((res) => {
+                    res=res.data;
                     this.totalCount = res.totalCount;
                     this.rows = res.rows;
                     this.listLoading = false;
