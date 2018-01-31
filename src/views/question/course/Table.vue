@@ -21,7 +21,7 @@
                         v-loading="listLoading"
                         @selection-change="selsChange"
                         style="width: 100%;">
-                    <el-table-column type="index" label="ID" sortable>
+                    <el-table-column type="index" label="序号" sortable>
                     </el-table-column>
                     <el-table-column prop="name" label="课程名称" sortable>
                     </el-table-column>
@@ -88,8 +88,7 @@
                 };
                 this.listLoading = true;
                 //NProgress.start();
-                getCourseList(para).then((res) => {
-                    res=res.data;
+                getCourseList(para).then((res) => {                    
                     this.total = res.data.totalCount;
                     this.list = res.data.rows;
                     this.listLoading = false;

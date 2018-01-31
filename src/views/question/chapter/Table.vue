@@ -22,7 +22,7 @@
                         v-loading="listLoading"
                         @selection-change="selsChange"
                         style="width: 100%;">
-                    <el-table-column type="index" label="ID">
+                    <el-table-column type="index" label="序号">
                     </el-table-column>
                     <el-table-column prop="name" label="分类名称" sortable>
                     </el-table-column>
@@ -64,11 +64,9 @@
                 list: [],
                 total: 0,
                 page: 1,
-                pageSize: 5,
+                pageSize: 10,
                 listLoading: false,
                 sels: [],//列表选中列
-
-
                 filterList: [
                     {
                         title: '课程',
@@ -101,15 +99,15 @@
             //获取用户列表
             getList() {
                 let para = {
-                    page: this.page,
-                    name: this.filters.name,
+                    pageNo: this.page,
+                    keyword: this.filters.name,
                     pageSize: this.pageSize
                 };
                 this.listLoading = true;
                 //NProgress.start();
                 getChapterList(para).then((res) => {
-                    this.total = res.data.lenght;
-                    this.list = res.data;
+                    this.total = res.data.totalCount;
+                    this.list = res.data.rows;
                     this.listLoading = false;
                     //NProgress.done();
                 });

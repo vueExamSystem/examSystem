@@ -51,7 +51,7 @@ export const getSubjectList = params => { return instance.get(`${base}/subject/l
 
 // tag
 export const getTagList = params => {
-	return instance.get(`${base}/category/list`, { params: params } ); };
+	return instance.get(`${base}/category/list`, { params: params } ).then(res => res.data); };
 
 export const saveTag = params => { return instance.post(`${base}/category/save`, qs.stringify(params) ); };
 
@@ -61,7 +61,7 @@ export const getCourseList = params => {
 	return instance.get(`${base}/course/list`, { params: params } ).then(res => res.data); };
 
 // chapter
-export const getChapterList = params => { return instance.get(`${base}/chapter/list`, params ).then(res => res.data); };
+export const getChapterList = params => { return instance.get(`${base}/chapter/list`, { params: params } ).then(res => res.data); };
 
 // department
 export const getGroupList = params => { return instance.get(`${base}/group/list`, params ); };
