@@ -35,23 +35,56 @@
                     <el-table-column prop="creator" label="创建人" sortable>
                     </el-table-column>
                     <el-table-column
-                            fixed="right"
                             label="操作"
                             width="100">
                         <template slot-scope="scope">
-                            <el-button type="text" size="small">编辑</el-button>
+                            <el-button type="danger" size="small" @click="handleEdit(scope.row.id, scope.row)">编辑</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
             </div>
+
+            <!--编辑界面-->
+            <el-dialog title="编辑课程" :visible.sync="editFormVisible">
+                <el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
+                    <el-form-item label="所属课程" prop="course">
+                        <el-select v-model="editForm.course" placeholder="请选择所属课程">
+                            <template v-for="item in courseArr">
+                                <el-option
+                                        :label="item.name"
+                                        :value="item.id"
+                                        :key="item.id"
+                                >
+                                </el-option>
+                            </template>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="章节名称" prop="name">
+                        <el-input v-model="editForm.name"></el-input>
+                    </el-form-item>
+                    <el-form-item label="章节描述" prop="desc">
+                        <el-input
+                                type="textarea"
+                                :rows="3"
+                                placeholder="请输入内容"
+                                v-model="editForm.desc">
+                        </el-input>
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click.native="editFormVisible = false">取消</el-button>
+                    <el-button type="primary" @click.native="editSubmit" v-loading="editLoading">提交</el-button>
+                </div>
+            </el-dialog>
         </div>
     </section>
 </template>
 
 <script>
-    import {getChapterList, getSameFilter} from '../../../api/api';
+    import {getChapterList, getSameFilter,getCourseList, editCourse} from '../../../api/api';
     import myFilter from '../../common/myFilter.vue'
-    import Pagination from '../../common/Pagination.vue'
+    import Pagination from '../../common/Pagination.vue';
+    import _ from 'lodash';
 
     export default {
         data() {
@@ -66,9 +99,59 @@
                 filterLoading: false,
 
                 filterList: [],
+
+                editFormVisible: false,//编辑界面是否显示
+                editLoading: false,
+                editFormRules: {
+                    name: [
+                        { required: true, message: '请填写章节名称', trigger: 'blur' }
+                    ],
+                    desc: [
+                        { required: true, message: '请填写章节描述', trigger: 'blur' }
+                    ],
+                    course: [
+                        { required: true, message: '请选择所属课程', trigger: 'change' }
+                    ],
+                },
+                //编辑界面数据
+                editForm: {
+                    id: -1,
+                    name: '',
+                    desc: '',
+                    course: '',
+                },
+                courseArr: [],
             }
         },
         methods: {
+            //显示编辑界面
+            handleEdit: function (index, row) {
+                this.editFormVisible = true;
+                this.editForm = _.assign({}, row, { course: row.course.id });
+            },
+            //编辑
+            editSubmit: function () {
+                this.$refs.editForm.validate((valid) => {
+                    if (valid) {
+                        this.$confirm('确认提交吗？', '提示', {}).then(() => {
+                            this.editLoading = true;
+                            //NProgress.start();
+                            let para = _.assign({}, this.editForm);
+                            console.log(para);
+                            editCourse(para).then((res) => {
+                                this.editLoading = false;
+                                this.$message({
+                                    message: '提交成功',
+                                    type: 'success'
+                                });
+                                this.$refs['editForm'].resetFields();
+                                this.editFormVisible = false;
+                                this.getList();
+                            });
+                        });
+                    }
+                });
+            },
             handleCurrentChange(val) {
                 this.pageNo = val;
                 this.getUsers();
@@ -100,6 +183,9 @@
                     this.filterList = res;
                     this.filterLoading = false;
                     this.getList();
+                });
+                getCourseList({}).then((res) => {
+                    this.courseArr = res;
                 });
             },
         },

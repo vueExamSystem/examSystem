@@ -3,8 +3,8 @@
 		<div class="title">
 			<span>添加题组</span>
 			<div class="pull-right">
-				<el-button type="success" @click="onSubmit('form')" class="el-button-shadow">保存</el-button>
-				<el-button type="danger" @click="resetForm('form')" class="el-button-shadow">取消</el-button>
+				<el-button type="success" @click="onSubmit('ruleForm')" class="el-button-shadow">保存</el-button>
+				<el-button type="danger" @click="resetForm('ruleForm')" class="el-button-shadow">取消</el-button>
 			</div>
 		</div>
 
@@ -83,7 +83,7 @@
 			}
 		},
 		methods: {
-            submitForm(formName) {
+            onSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         alert('submit!');

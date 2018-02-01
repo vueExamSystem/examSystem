@@ -55,6 +55,9 @@ export const saveTag = params => { return instance.post(`${base}/category/save`,
 export const getCourseList = params => { 
 	return instance.get(`${base}/course/list`, params ).then(res => res.data); };
 
+export const editCourse = params => {
+	return instance.get(`${base}/course/edit`, params ).then(res => res.data); };
+
 // chapter
 export const getChapterList = params => { return instance.get(`${base}/chapter/list`, params ).then(res => res.data); };
 // section
@@ -67,6 +70,9 @@ export const getGroupList = params => { return instance.get(`${base}/group/list`
 export const getQuestionFilter = params => { return instance.get(`${base}/question/filter`, params ).then(res => res.data);};
 // filter
 export const getSameFilter = params => { return instance.get(`${base}/same/filter`, params ).then(res => res.data);};
+
+export const addDemo = params => {
+    return instance.get(`${base}/add`, params ).then(res => res.data); };
 
 /*
 *  设置 start

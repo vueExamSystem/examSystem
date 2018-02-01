@@ -292,6 +292,18 @@ export default {
             });
         });
 
+        //新增用户
+        mock.onGet('/add').reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: '0',
+                        msg: '新增成功'
+                    }]);
+                }, 500);
+            });
+        });
+
         //获取本周考试
         mock.onGet('/weekExam/list').reply(config => {
             return u.getMockList(config, WeekExam);
@@ -362,6 +374,18 @@ export default {
         //获取course列表
         mock.onGet(`/course/list`).reply(config => {
             return u.getMockList(config, CourseList);
+        });
+
+        //编辑course
+        mock.onGet('/course/edit').reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: 200,
+                        msg: '编辑成功'
+                    }]);
+                }, 500);
+            });
         });
 
         /** 以下setting **/

@@ -58,7 +58,10 @@ for (let i = 0; i < 3; i++) {
     ChapterList.push(Mock.mock({
         id: i,
         name: `章节_${i}`,
-        subject: '大学物理',
+        course: {
+            id: 1,
+            name: '大学物理1',
+        },
         creator: 'admin',
         desc: '描述',
     }));
@@ -92,7 +95,7 @@ for (let i = 0; i < 86; i++) {
         desc: '描述',
     }));
 }
-for (let i = 0; i < 86; i++) {
+for (let i = 0; i < 11; i++) {
     CourseList.push(Mock.mock({
         id: i,
         name: `课程${i}`,
