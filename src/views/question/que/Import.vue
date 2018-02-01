@@ -9,7 +9,10 @@
 		</div>
 
 		<div class="content">
-			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" :inline-message="isInlineMessage" label-width="100px" class="demo-ruleForm">
+			<el-form :model="ruleForm"
+					 v-loading="loading"
+					 :rules="rules" ref="ruleForm"
+					 :inline-message="isInlineMessage" label-width="100px" class="demo-ruleForm">
 				<el-form-item label="试题用途" prop="usage">
 					<el-select v-model="ruleForm.usage" multiple placeholder="请选择试题用途">
 						<el-option
@@ -50,7 +53,9 @@
 <script>
 	import {
         getCourseList,
+		addDemo,
 	} from '../../../api/api';
+	import _ from 'lodash';
 	export default {
 		data() {
 			return {
@@ -83,14 +88,35 @@
                 }],
                 courseArr: [],
                 isInlineMessage: true,
+                loading: false,
 			}
 		},
 		methods: {
             onSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        console.log(this.ruleForm);
-                        alert('submit!');
+                        this.$confirm('确认导入吗？', '提示', {}).then(() => {
+                            let para = _.assign({}, this.ruleForm);
+                            console.log(para);
+                            this.loading = true;
+                            addDemo(para).then((res) => {
+                                if (res.code !== '0') {
+                                    this.$message({
+                                        message: res.msg,
+                                        type: 'error'
+                                    });
+                                } else {
+                                    this.$message({
+                                        message: '提交成功',
+                                        type: 'success'
+                                    });
+                                    this.loading = false;
+                                    this.$refs['ruleForm'].resetFields();
+                                    this.$emit('toTable');
+                                }
+
+                            });
+                        });
                     } else {
                         console.log('error submit!!');
                         return false;
