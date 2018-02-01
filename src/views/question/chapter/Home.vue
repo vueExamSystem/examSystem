@@ -1,10 +1,10 @@
 <template>
     <el-tabs type="border-card" v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="试题章节" name="list">
-            <chapter-table></chapter-table>
+            <chapter-table ref="chapterTable"></chapter-table>
         </el-tab-pane>
         <el-tab-pane label="添加章节" name="add">
-            <chapter-add></chapter-add>
+            <chapter-add @toTable="toTable"></chapter-add>
         </el-tab-pane>
     </el-tabs>
 </template>
@@ -24,7 +24,10 @@
         },
         methods: {
             handleClick(tab, event){
-                console.log('tab',tab,event);
+            },
+            toTable() {
+                this.activeName = 'list';
+                this.$refs.chapterTable.getList();
             },
         },
         mounted() {

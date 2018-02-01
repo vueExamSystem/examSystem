@@ -98,7 +98,7 @@
                                     });
                                     this.loading = false;
                                     this.$refs['ruleForm'].resetFields();
-                                    $('#tab-list').click();
+                                    this.$emit('toTable');
 								}
 
                             });

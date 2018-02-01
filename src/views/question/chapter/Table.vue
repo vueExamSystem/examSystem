@@ -162,6 +162,7 @@
             },
             //获取用户列表
             getList() {
+                console.log('list refresh');
                 let para = {
                     pageNo: this.pageNo,
                     filter: JSON.stringify(this.filter),
