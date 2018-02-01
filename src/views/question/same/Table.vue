@@ -27,7 +27,7 @@
                     <el-table-column
                             type="expand"
                             prop="children">
-                        <template scope="scope">
+                        <template slot-scope="scope">
                             <div style="margin: -20px -50px;">
                                 <el-table class="el-inner-table" :data="scope.row.children" :show-header="false"
                                           highlight-current-row fit>
@@ -52,7 +52,7 @@
                       </template>   
                     </el-table-column>
                                     <el-table-column width="100">
-                                        <template scope="props">
+                                        <template slot-scope="props">
                                             <i class="iconfont icon-remove-circle" @click="delQuestion(props.row.id)"></i>
                                             <i class="iconfont icon-add-circle"></i>
                                         </template>
@@ -78,7 +78,7 @@
                     <el-table-column
                             label="操作"
                             width="100">
-                        <template scope="scope">
+                        <template slot-scope="scope">
                             <el-button type="danger" size="small" @click="delDepartment(scope.row.id)">删除</el-button>
                         </template>
                     </el-table-column>
