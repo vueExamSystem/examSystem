@@ -89,7 +89,7 @@
 
             <!--编辑界面-->
             <el-dialog title="添加试题" :visible.sync="addFormVisible" class="noPadding">
-                <add-que @toTable="toTable" :id="addId" ref="addForm"></add-que>
+                <add-que @toTable="toTable" :sameId="addId" ref="addForm"></add-que>
                 <div slot="footer" class="dialog-footer">
                     <el-button @click.native="addFormVisible = false">取消</el-button>
                     <el-button type="primary" @click="addFormSubmit">提交</el-button>
@@ -212,40 +212,44 @@
             },
             // 删除题组
             delDepartment(id) {
-                delDemo({
-                    id,
-                }).then(res => {
-                    if (res.code === '0') {
-                        this.$message({
-                            message: '删除成功',
-                            type: 'success'
-                        });
-                        this.getList();
-                    } else {
-                        this.$message({
-                            message: '删除失败',
-                            type: 'error'
-                        });
-                    }
+                this.$confirm('确认删除吗？', '提示', {}).then(() => {
+                    delDemo({
+                        id,
+                    }).then(res => {
+                        if (res.code === '0') {
+                            this.$message({
+                                message: '删除成功',
+                                type: 'success'
+                            });
+                            this.getList();
+                        } else {
+                            this.$message({
+                                message: '删除失败',
+                                type: 'error'
+                            });
+                        }
+                    });
                 });
             },
             // 删除试题
             delQuestion(id) {
-                delDemo({
-                    id,
-                }).then(res => {
-                    if (res.code === '0') {
-                        this.$message({
-                            message: '删除成功',
-                            type: 'success'
-                        });
-                        this.getList();
-                    } else {
-                        this.$message({
-                            message: '删除失败',
-                            type: 'error'
-                        });
-                    }
+                this.$confirm('确认删除吗？', '提示', {}).then(() => {
+                    delDemo({
+                        id,
+                    }).then(res => {
+                        if (res.code === '0') {
+                            this.$message({
+                                message: '删除成功',
+                                type: 'success'
+                            });
+                            this.getList();
+                        } else {
+                            this.$message({
+                                message: '删除失败',
+                                type: 'error'
+                            });
+                        }
+                    });
                 });
             },
             addDepartment(id) {

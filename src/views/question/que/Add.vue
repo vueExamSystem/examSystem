@@ -251,6 +251,8 @@
                 }],
                 correctManyArr: ['A', 'B'],
                 loading: false,
+
+                sameGroupId: this.sameId,
             }
         },
         methods: {
@@ -263,7 +265,7 @@
                             levelId: this.form.usage[0],
                             subjectId: this.form.subject,
                             sectionId: this.form.chapter,
-                            similarId: this.form.department || this.sameId,
+                            similarId: this.form.department || this.sameGroupId,
                             content: this.form.content,
                             titleImg: this.form.contentPic,
                             choiceList: this.form.selectionAdd,
@@ -398,7 +400,15 @@
                 return this.form.type === '2';
             },
             isNeedSame() {
-                return this.sameId;
+                console.log('sameId', this.sameGroupId);
+                return !this.sameGroupId;
+            },
+        },
+        watch:{
+            sameId: {
+                handler(curVal,oldVal){
+                    this.sameGroupId = curVal;
+                },
             },
         },
         mounted() {
