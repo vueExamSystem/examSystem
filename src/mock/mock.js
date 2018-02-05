@@ -292,8 +292,31 @@ export default {
             });
         });
 
-        //新增用户
+        //新增
         mock.onGet('/add').reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: '0',
+                        msg: '新增成功'
+                    }]);
+                }, 500);
+            });
+        });
+        //新增
+        mock.onGet('/add').reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: '0',
+                        msg: '新增成功'
+                    }]);
+                }, 500);
+            });
+        });
+
+        //新增
+        mock.onGet('/question/save').reply(config => {
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
                     resolve([200, {

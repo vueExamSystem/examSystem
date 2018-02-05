@@ -419,4 +419,21 @@ form {
   margin-bottom: 10px;
 }
 
+
+.noPadding{
+  .el-dialog {
+    .el-dialog__body{
+      padding: 0;
+      .panel{
+        &>.title{
+          display: none;
+        }
+        &>.content{
+          border: 0;
+        }
+      }
+    }
+  }
+}
+
 	

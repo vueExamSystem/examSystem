@@ -3,8 +3,8 @@
         <div class="title">
             <span>添加试题</span>
             <div class="pull-right">
-                <el-button type="success" @click="onSubmit('form')" class="el-button-shadow">保存</el-button>
-                <el-button type="danger" @click="resetForm('form')" class="el-button-shadow">取消</el-button>
+                <el-button type="success" @click="onSubmit()" class="el-button-shadow">保存</el-button>
+                <el-button type="danger" @click="resetForm()" class="el-button-shadow">取消</el-button>
             </div>
         </div>
 
@@ -46,7 +46,7 @@
                         </template>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="题组:" prop="department">
+                <el-form-item label="题组:" prop="department" v-if="isNeedSame">
                     <el-select v-model="form.department" placeholder="请选择题组">
                         <template v-for="item in departmentArr">
                             <el-option :label="item.name" :value="item.id"></el-option>
@@ -163,6 +163,11 @@
     import _ from 'lodash';
 
     export default {
+        props: {
+            sameId: {
+                required: false,
+            },
+        },
         data() {
             return {
                 form: {
@@ -249,8 +254,8 @@
             }
         },
         methods: {
-            onSubmit(formName) {
-                this.$refs[formName].validate((valid) => {
+            onSubmit() {
+                this.$refs['form'].validate((valid) => {
                     if (valid) {
                         var queParams = {
                             name: this.form.content,
@@ -258,7 +263,7 @@
                             levelId: this.form.usage[0],
                             subjectId: this.form.subject,
                             sectionId: this.form.chapter,
-                            similarId: this.form.department,
+                            similarId: this.form.department || this.sameId,
                             content: this.form.content,
                             titleImg: this.form.contentPic,
                             choiceList: this.form.selectionAdd,
@@ -284,40 +289,20 @@
                                         type: 'success'
                                     });
                                     this.loading = false;
-                                    this.$refs['ruleForm'].resetFields();
+                                    this.$refs['form'].resetFields();
                                     this.$emit('toTable');
                                 }
 
                             });
                         });
-                        /*saveQue(queParams).then(res => {
-                            this.logining = false;
-                            console.log(res);
-                            let {msg, code, data} = res.data;
-                            if (code != 0) {
-                                this.$message({
-                                    message: msg,
-                                    type: 'error'
-                                });
-                            } else {
-                                this.$message({
-                                    type: 'success',
-                                    message: '保存成功',
-                                })
-                                this.$router.push({path: '/question/question'});
-
-                            }
-                        });*/
 
                     } else {
-                        console.log('error submit!!');
                         return false;
                     }
                 });
             },
-            resetForm(formName) {
-                // this.$refs[formName].resetFields();
-                console.log('cancel');
+            resetForm() {
+                this.$refs['form'].resetFields();
             },
             // 获取初始数据
             getDefaultData() {
@@ -411,6 +396,9 @@
             },
             isJudgment() {
                 return this.form.type === '2';
+            },
+            isNeedSame() {
+                return this.sameId;
             },
         },
         mounted() {

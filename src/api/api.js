@@ -39,7 +39,8 @@ export const getStudentSta = params => { return instance.get(`${base}/studentSco
 //
 export const getQueList = params => { return instance.get(`${base}/question/list`, params ).then(res => res.data); };
 
-export const saveQue = params => { return instance.post(`${base}/question/save`, qs.stringify(params) ); };
+// export const saveQue = params => { return instance.post(`${base}/question/save`, qs.stringify(params) ); };
+export const saveQue = params => { return instance.get(`${base}/question/save`, qs.stringify(params) ); };
 
 // 科目列表
 export const getSubjectList = params => { return instance.get(`${base}/subject/list`, params ).then(res => res.data); };
@@ -76,6 +77,8 @@ export const getSameFilter = params => { return instance.get(`${base}/same/filte
 
 export const addDemo = params => {
     return instance.get(`${base}/add`, params ).then(res => res.data); };
+export const delDemo = params => {
+    return instance.get(`${base}/del`, params ).then(res => res.data); };
 
 /*
 *  设置 start

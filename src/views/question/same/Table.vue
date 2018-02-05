@@ -56,7 +56,6 @@
                                         <template slot-scope="props">
                                             <i class="iconfont icon-remove-circle"
                                                @click="delQuestion(props.row.id)"></i>
-                                            <i v-if="isNeedAddIcon(scope, props)" class="iconfont icon-add-circle"></i>
                                         </template>
                                     </el-table-column>
                                 </el-table>
@@ -79,22 +78,33 @@
                     </el-table-column>
                     <el-table-column
                             label="操作"
-                            width="100">
+                            width="200">
                         <template slot-scope="scope">
+                            <el-button type="primary" size="small" @click="addDepartment(scope.row.id)">添加</el-button>
                             <el-button type="danger" size="small" @click="delDepartment(scope.row.id)">删除</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
             </div>
+
+            <!--编辑界面-->
+            <el-dialog title="添加试题" :visible.sync="addFormVisible" class="noPadding">
+                <add-que @toTable="toTable" :id="addId" ref="addForm"></add-que>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click.native="addFormVisible = false">取消</el-button>
+                    <el-button type="primary" @click="addFormSubmit">提交</el-button>
+                </div>
+            </el-dialog>
         </div>
     </section>
 </template>
 
 <script>
     import u from '../../../common/js/util';
-    import {getSameList, getSameFilter, getSectionFilter} from '../../../api/api';
+    import {getSameList, getSameFilter, getSectionFilter, delDemo} from '../../../api/api';
     import myFilter from '../../common/myFilter.vue';
     import Pagination from '../../common/Pagination.vue';
+    import AddQue from '../que/Add.vue';
     import _ from 'lodash';
 
     export default {
@@ -110,9 +120,15 @@
                 filterLoading: false,
 
                 filterList: [],
+
+                addFormVisible: false,
+                addId: '',
             }
         },
         methods: {
+            toTable() {
+                this.getList();
+            },
             isNeedAddIcon(scope, props) {
                 let is = false;
                 if (scope && props) {
@@ -194,11 +210,50 @@
                     });
                 }
             },
+            // 删除题组
             delDepartment(id) {
-                console.log('del department id = ', id);
+                delDemo({
+                    id,
+                }).then(res => {
+                    if (res.code === '0') {
+                        this.$message({
+                            message: '删除成功',
+                            type: 'success'
+                        });
+                        this.getList();
+                    } else {
+                        this.$message({
+                            message: '删除失败',
+                            type: 'error'
+                        });
+                    }
+                });
             },
+            // 删除试题
             delQuestion(id) {
-                console.log('del question id = ', id);
+                delDemo({
+                    id,
+                }).then(res => {
+                    if (res.code === '0') {
+                        this.$message({
+                            message: '删除成功',
+                            type: 'success'
+                        });
+                        this.getList();
+                    } else {
+                        this.$message({
+                            message: '删除失败',
+                            type: 'error'
+                        });
+                    }
+                });
+            },
+            addDepartment(id) {
+                this.addId = id;
+                this.addFormVisible = true;
+            },
+            addFormSubmit() {
+                this.$refs.addForm.onSubmit();
             }
         },
         watch: {
@@ -227,18 +282,9 @@
         components: {
             'Page': Pagination,
             myFilter,
+            AddQue,
         },
         computed: {
-            isLastQuestion(props, scope) {
-                console.log(props);
-                console.log(scope);
-                debugger;
-                let flag = false;
-                if (_.parseInt(props.$index) === this.list[scope.$index].children.length) {
-                    flag = true;
-                }
-                return flag;
-            }
         },
         mounted() {
             this.getFilter();
