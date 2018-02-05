@@ -1,10 +1,10 @@
 <template>
     <el-tabs type="border-card" v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="题组列表" name="list">
-            <same-table></same-table>
+            <same-table ref="sameTable"></same-table>
         </el-tab-pane>
         <el-tab-pane label="添加题组" name="add">
-            <same-add></same-add>
+            <same-add @toTable="toTable"></same-add>
         </el-tab-pane>
     </el-tabs>
 </template>
@@ -25,6 +25,10 @@
         methods: {
             handleClick(tab, event){
                 console.log('tab',tab,event);
+            },
+            toTable() {
+                this.activeName = 'list';
+                this.$refs.sameTable.getList();
             },
         },
         mounted() {

@@ -39,7 +39,8 @@ export const getStudentSta = params => { return instance.get(`${base}/studentSco
 //
 export const getQueList = params => { return instance.get(`${base}/question/list`, params ).then(res => res.data); };
 
-export const saveQue = params => { return instance.post(`${base}/question/save`, qs.stringify(params) ); };
+// export const saveQue = params => { return instance.post(`${base}/question/save`, qs.stringify(params) ); };
+export const saveQue = params => { return instance.get(`${base}/question/save`, qs.stringify(params) ); };
 
 // 科目列表
 export const getSubjectList = params => { return instance.get(`${base}/subject/list`, params ).then(res => res.data); };
@@ -55,6 +56,9 @@ export const saveTag = params => { return instance.post(`${base}/category/save`,
 export const getCourseList = params => { 
 	return instance.get(`${base}/course/list`, { params: params } ).then(res => res.data); };
 
+export const editCourse = params => {
+	return instance.get(`${base}/course/edit`, params ).then(res => res.data); };
+
 // chapter
 
 export const getChapterList = params => { return instance.post(`${base}/chapter/list`, qs.stringify(params)).then(res => res.data); };
@@ -65,6 +69,9 @@ export const getSectionFilter = params => { return instance.get(`${base}/section
 
 
 // department
+export const getSameList = params => { return instance.get(`${base}/same/list`, params ).then(res => res.data); };
+
+// department
 export const getGroupList = params => { return instance.get(`${base}/group/list`, params ).then(res => res.data); };
 
 export const getSameGroupList = params => { return instance.get(`${base}/same/list`, params ).then(res => res.data); };
@@ -73,6 +80,11 @@ export const getSameGroupList = params => { return instance.get(`${base}/same/li
 export const getQuestionFilter = params => { return instance.get(`${base}/question/filter`, params ).then(res => res.data);};
 // filter
 export const getSameFilter = params => { return instance.get(`${base}/same/filter`, params ).then(res => res.data);};
+
+export const addDemo = params => {
+    return instance.get(`${base}/add`, params ).then(res => res.data); };
+export const delDemo = params => {
+    return instance.get(`${base}/del`, params ).then(res => res.data); };
 
 /*
 *  设置 start

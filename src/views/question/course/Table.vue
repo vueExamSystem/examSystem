@@ -43,7 +43,7 @@
             </div>
 
             <!--编辑界面-->
-            <el-dialog title="编辑" v-model="editFormVisible" :close-on-click-modal="false">
+            <el-dialog title="编辑章节" :visible.sync="editFormVisible">
                 <el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
                     <el-form-item label="课程名称" prop="name">
                         <el-input v-model="editForm.name"></el-input>
@@ -70,7 +70,7 @@
 </template>
 
 <script>
-    import {getCourseList} from '../../../api/api';
+    import {getCourseList, editCourse} from '../../../api/api';
     import Pagination from '../../common/Pagination.vue';
     import _ from 'lodash';
 
@@ -99,6 +99,7 @@
                 },
                 //编辑界面数据
                 editForm: {
+                    id: -1,
                     name: '',
                     desc: '',
                     subject: '',
@@ -119,17 +120,17 @@
                             this.editLoading = true;
                             //NProgress.start();
                             let para = _.assign({}, this.editForm);
-//                            editUser(para).then((res) => {
-//                                this.editLoading = false;
-//                                //NProgress.done();
-//                                this.$message({
-//                                    message: '提交成功',
-//                                    type: 'success'
-//                                });
-//                                this.$refs['editForm'].resetFields();
-//                                this.editFormVisible = false;
-//                                this.getUsers();
-//                            });
+                            console.log(para);
+                            editCourse(para).then((res) => {
+                                this.editLoading = false;
+                                this.$message({
+                                    message: '提交成功',
+                                    type: 'success'
+                                });
+                                this.$refs['editForm'].resetFields();
+                                this.editFormVisible = false;
+                                this.getList();
+                            });
                         });
                     }
                 });
