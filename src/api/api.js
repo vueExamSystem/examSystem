@@ -2,12 +2,12 @@ import axios from 'axios';
 import instance  from './instance';
 import qs from 'qs'
 
-let base = '';
-// let base = 'http://localhost:8081/api';
+//let base = '';
+ let base = 'http://localhost:8081/api';
 
 // export const requestLogin = params => { params=qs.stringify(params);
 // 	return instance.post(`${base}/login/verify`,params).then(res => res.data); };
-export const requestLogin = params => { return axios.post(`${base}/login/verify`, params).then(res => res.data); };
+export const requestLogin = params => { return axios.post(`${base}/login/verify`,  qs.stringify(params)).then(res => res.data); };
 
 //用户信息
 export const getUserInfo = params => { return instance.post(`${base}/user/info`, qs.stringify(params)).then(res => res.data); };
@@ -33,23 +33,27 @@ export const saveQue = params => { return instance.post(`${base}/question/save`,
 export const getSubjectList = params => { return instance.get(`${base}/subject/list`, params ).then(res => res.data); };
 
 // tag
-export const getTagList = params => {
-	return instance.get(`${base}/category/list`, params ).then(res => res.data); };
+export const getTagList = params => {return instance.get(`${base}/category/list`, { params: params } ).then(res => res.data); };
+
 
 export const saveTag = params => { return instance.post(`${base}/category/save`, qs.stringify(params) ); };
 
 
 // course
 export const getCourseList = params => { 
-	return instance.get(`${base}/course/list`, params ).then(res => res.data); };
+	return instance.get(`${base}/course/list`, { params: params } ).then(res => res.data); };
 
 export const editCourse = params => {
 	return instance.get(`${base}/course/edit`, params ).then(res => res.data); };
 
 // chapter
-export const getChapterList = params => { return instance.get(`${base}/chapter/list`, params ).then(res => res.data); };
+
+export const getChapterList = params => { return instance.post(`${base}/chapter/list`, qs.stringify(params)).then(res => res.data); };
+
+
 // section
 export const getSectionFilter = params => { return instance.get(`${base}/section/filter`, params ).then(res => res.data); };
+
 
 // department
 export const getSameList = params => { return instance.get(`${base}/same/list`, params ).then(res => res.data); };
@@ -61,6 +65,9 @@ export const getGroupList = params => { return instance.get(`${base}/group/list`
 * filter
 * */
 // question filter
+export const getSameGroupList = params => { return instance.get(`${base}/same/list`, params ).then(res => res.data); };
+
+// filter
 export const getQuestionFilter = params => { return instance.get(`${base}/question/filter`, params ).then(res => res.data);};
 // same filter
 export const getSameFilter = params => { return instance.get(`${base}/same/filter`, params ).then(res => res.data);};
@@ -87,7 +94,7 @@ export const getSetChartList = params => { return instance.get(`${base}/chart/li
 *  后台 start
 * */
 // department
-export const getSameGroupList = params => { return instance.get(`${base}/department/list`, params ).then(res => res.data); };
+export const getDepartmentList = params => { return instance.get(`${base}/department/list`, params ).then(res => res.data); };
 
 // class
 export const getClassList = params => { return instance.get(`${base}/class/list`, params ).then(res => res.data); };
@@ -117,7 +124,8 @@ export const getDepScoreStaList = params => { return instance.get(`${base}/depar
 /*
 * 试卷 start
 * */
-export const getPaperList = params => { return instance.post(`${base}/paper/list`, params ).then(res => res.data); };
+export const getPaperList = params => { return instance.post(`${base}/paper/list`, qs.stringify(params)  ).then(res => res.data);};
+
 //试卷详情
 export const getPaperDetail = params => { return instance.post(`${base}/paper/detail`, params ).then(res => res.data); };
 //获取试卷题目详情

@@ -21,7 +21,7 @@
                         highlight-current-row
                         v-loading="listLoading"
                         style="width: 100%;">
-                    <el-table-column type="index" label="ID">
+                    <el-table-column type="index" label="序号">
                     </el-table-column>
                     <el-table-column prop="name" label="分类名称" sortable>
                     </el-table-column>
@@ -94,10 +94,9 @@
                 rows: [],
                 totalCount: 0,
                 pageNo: 1,
-                pageSize: 5,
+                pageSize: 10,
                 listLoading: false,
                 filterLoading: false,
-
                 filterList: [],
 
                 editFormVisible: false,//编辑界面是否显示
@@ -171,6 +170,7 @@
                 };
                 if (!this.listLoading) this.listLoading = true;
                 getChapterList(para).then((res) => {
+                    res=res.data;
                     this.totalCount = res.totalCount;
                     this.rows = res.rows;
                     if (!this.filterLoading) this.listLoading = false
