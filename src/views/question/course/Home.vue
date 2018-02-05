@@ -1,10 +1,10 @@
 <template>
     <el-tabs type="border-card" v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="课程列表" name="list">
-            <course-table></course-table>
+            <course-table ref="courseTable"></course-table>
         </el-tab-pane>
         <el-tab-pane label="添加课程" name="add">
-            <course-add></course-add>
+            <course-add @toTable="toTable"></course-add>
         </el-tab-pane>
     </el-tabs>
 </template>
@@ -25,6 +25,10 @@
         methods: {
             handleClick(tab, event){
                 console.log('tab',tab,event);
+            },
+            toTable() {
+                this.activeName = 'list';
+                this.$refs.courseTable.getList();
             },
         },
         mounted() {

@@ -3,13 +3,15 @@
 		<div class="title">
 			<span>添加题组</span>
 			<div class="pull-right">
-				<el-button type="success" @click="onSubmit('form')" class="el-button-shadow">保存</el-button>
-				<el-button type="danger" @click="resetForm('form')" class="el-button-shadow">取消</el-button>
+				<el-button type="success" @click="onSubmit('ruleForm')" class="el-button-shadow">保存</el-button>
+				<el-button type="danger" @click="resetForm('ruleForm')" class="el-button-shadow">取消</el-button>
 			</div>
 		</div>
 
 		<div class="content">
-			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+			<el-form :model="ruleForm"
+					 v-loading="loading"
+					 :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
 				<el-form-item label="题组名称" prop="name">
 					<el-input v-model="ruleForm.name"></el-input>
 				</el-form-item>
@@ -54,7 +56,9 @@
     import {
         getCourseList,
 		getChapterList,
+		addDemo,
     } from '../../../api/api';
+    import _ from 'lodash';
 	export default {
 		data() {
 			return {
@@ -80,13 +84,35 @@
                 },
                 courseArr: [],
                 chapterArr: [],
+				loading: false,
 			}
 		},
 		methods: {
-            submitForm(formName) {
+            onSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        alert('submit!');
+                        this.$confirm('确认添加吗？', '提示', {}).then(() => {
+                            let para = _.assign({}, this.ruleForm);
+                            console.log(para);
+                            this.loading = true;
+                            addDemo(para).then((res) => {
+                                if (res.code !== '0') {
+                                    this.$message({
+                                        message: res.msg,
+                                        type: 'error'
+                                    });
+                                } else {
+                                    this.$message({
+                                        message: '提交成功',
+                                        type: 'success'
+                                    });
+                                    this.loading = false;
+                                    this.$refs['ruleForm'].resetFields();
+                                    this.$emit('toTable');
+                                }
+
+                            });
+                        });
                     } else {
                         console.log('error submit!!');
                         return false;

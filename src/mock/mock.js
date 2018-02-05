@@ -292,6 +292,41 @@ export default {
             });
         });
 
+        //新增
+        mock.onGet('/add').reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: '0',
+                        msg: '新增成功'
+                    }]);
+                }, 500);
+            });
+        });
+        //新增
+        mock.onGet('/del').reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: '0',
+                        msg: '删除成功'
+                    }]);
+                }, 500);
+            });
+        });
+
+        //新增
+        mock.onGet('/question/save').reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: '0',
+                        msg: '新增成功'
+                    }]);
+                }, 500);
+            });
+        });
+
         //获取本周考试
         mock.onGet('/weekExam/list').reply(config => {
             return u.getMockList(config, WeekExam);
@@ -355,13 +390,25 @@ export default {
         });
 
         //获取题组列表
-        mock.onGet(`/group/list`).reply(config => {
+        mock.onGet(`/same/list`).reply(config => {
             return u.getMockList(config, GroupList);
         });
 
         //获取course列表
         mock.onGet(`/course/list`).reply(config => {
             return u.getMockList(config, CourseList);
+        });
+
+        //编辑course
+        mock.onGet('/course/edit').reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: 200,
+                        msg: '编辑成功'
+                    }]);
+                }, 500);
+            });
         });
 
         /** 以下setting **/
