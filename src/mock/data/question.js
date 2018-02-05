@@ -71,6 +71,14 @@ for (let i = 0; i < 86; i++) {
         id: Mock.Random.id(),
         name: '万有引力',
         type: '单选',
+        course: {
+            id: 0,
+            name: '大学物理',
+        },
+        section: {
+            id: 1,
+            name: '基础物理',
+        },
         subject: '大学物理',
         chapter: '基础物理',
         creator: 'admin',
@@ -82,8 +90,14 @@ for (let i = 0; i < 20; i++) {
     GroupList.push(Mock.mock({
         id: i,
         name: `题组_${i}`,
-        subject: '大学物理',
-        chapter: '第一章',
+        course: {
+            id: 1,
+            name: '大学物理',
+        },
+        section: {
+            id: 1,
+            name: '第一章',
+        },
         children: arr,
     }));
 }

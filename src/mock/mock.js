@@ -367,7 +367,7 @@ export default {
         });
 
         //获取题组列表
-        mock.onGet(`/group/list`).reply(config => {
+        mock.onGet(`/same/list`).reply(config => {
             return u.getMockList(config, GroupList);
         });
 

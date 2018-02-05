@@ -64,6 +64,9 @@ export const getChapterList = params => { return instance.get(`${base}/chapter/l
 export const getSectionFilter = params => { return instance.get(`${base}/section/filter`, params ).then(res => res.data); };
 
 // department
+export const getSameList = params => { return instance.get(`${base}/same/list`, params ).then(res => res.data); };
+
+// department
 export const getGroupList = params => { return instance.get(`${base}/group/list`, params ).then(res => res.data); };
 
 // filter
