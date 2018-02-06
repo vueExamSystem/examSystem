@@ -24,7 +24,7 @@ export const getStudentSta = params => { return instance.get(`${base}/studentSco
 * 试题 question start
 * */
 //
-export const getQueList = params => { return instance.get(`${base}/question/list`, params ).then(res => res.data); };
+export const getQueList = params => { return instance.post(`${base}/question/list`, qs.stringify(params) ).then(res => res.data); };
 
 export const saveQue = params => { return instance.post(`${base}/question/save`, qs.stringify(params) ); };
 // export const saveQue = params => { return instance.get(`${base}/question/save`, qs.stringify(params) ); };
@@ -52,7 +52,7 @@ export const getChapterList = params => { return instance.post(`${base}/chapter/
 
 
 // section
-export const getSectionFilter = params => { return instance.get(`${base}/section/filter`, params ).then(res => res.data); };
+export const getSectionFilter = params => { return instance.post(`${base}/chapter/filter`, qs.stringify(params) ).then(res => res.data); };
 
 
 // department

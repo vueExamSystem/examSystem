@@ -93,7 +93,8 @@
                 this.filterLoading = true;
                 this.listLoading = true;
                 getQuestionFilter({}).then((res) => {
-                    this.filterList = res;
+                    console.log(res);
+                    this.filterList = res.data;
                     this.filterLoading = false;
                     // 过滤器数据增加联动判断字段
                     this.dealFilterList();
@@ -127,6 +128,7 @@
                         }
                     }).then(res => {
                         this.filterLoading = false;
+                        res=res.data;
                         const index = _.findIndex(ts.filterList, { field: res.field });
                         if (index > -1) {
                             ts.filterList[index] = res;
