@@ -22,9 +22,9 @@
 					<el-select v-model="ruleForm.course" placeholder="请选择所属课程">
 						<el-option
 								v-for="item in courseArr"
-								:label="item.name"
-								:value="item.id"
-								:key="item.id"
+								:label="item.text"
+								:value="item.value"
+								:key="item.value"
 						>
 						</el-option>
 					</el-select>
@@ -32,12 +32,12 @@
 				<el-form-item label="章节名称" prop="name">
 					<el-input v-model="ruleForm.name"></el-input>
 				</el-form-item>
-				<el-form-item label="章节描述" prop="desc">
+				<el-form-item label="章节描述" prop="remark">
 					<el-input
 							type="textarea"
 							:rows="3"
 							placeholder="请输入内容"
-							v-model="ruleForm.desc">
+							v-model="ruleForm.remark">
 					</el-input>
 				</el-form-item>
 			</el-form>
@@ -48,8 +48,8 @@
 
 <script>
     import {
-        getCourseList,
-        addDemo,
+        getCourseFilter,
+        addChapter,
     } from '../../../api/api';
     import _ from 'lodash';
     import $ from 'jquery';
@@ -58,14 +58,14 @@
 			return {
                 ruleForm: {
                     name: '',
-                    desc: '',
+                    remark: '',
                     course: '',
                 },
                 rules: {
                     name: [
                         { required: true, message: '请填写章节名称', trigger: 'blur' }
                     ],
-                    desc: [
+                    remark: [
                         { required: true, message: '请填写章节描述', trigger: 'blur' }
                     ],
                     course: [
@@ -82,11 +82,17 @@
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         this.$confirm('确认添加吗？', '提示', {}).then(() => {
-                            let para = _.assign({}, this.ruleForm);
-                            console.log(para);
+                            let para={
+                            'id': this.ruleForm.id,
+                            'course.id': this.ruleForm.course,
+                            'name': this.ruleForm.name,
+                            'remark': this.ruleForm.remark};
+
+                            //let para = _.assign({}, this.ruleForm);
+                            console.log('para',para);
                             this.loading = true;
-                            addDemo(para).then((res) => {
-                                if (res.code !== '0') {
+                            addChapter(para).then((res) => {
+                                if (res.code !== 0) {
                                     this.$message({
                                         message: res.msg,
                                         type: 'error'
@@ -114,8 +120,14 @@
             },
             // 获取初始数据
             getDefaultData() {
-                getCourseList({}).then((res) => {
+/*                getCourseList({}).then((res) => {
                     this.courseArr = res;
+                });*/
+                //课程数据
+                getCourseFilter({}).then((res) => {
+                    //console.log('res.data',res.data[0]);//要这么才能取得数据
+                    this.courseArr = res.data[0].children;
+    
                 });
             },
 		},
