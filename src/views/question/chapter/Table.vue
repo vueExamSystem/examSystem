@@ -25,7 +25,7 @@
                     </el-table-column>
                     <el-table-column prop="name" label="分类名称" sortable>
                     </el-table-column>
-                    <el-table-column prop="desc" label="描述" sortable>
+                    <el-table-column prop="remark" label="描述" sortable>
                     </el-table-column>
                     <el-table-column prop="course" label="课程" sortable>
                                             <template slot-scope="scope">
@@ -51,9 +51,9 @@
                         <el-select v-model="editForm.course" placeholder="请选择所属课程">
                             <template v-for="item in courseArr">
                                 <el-option
-                                        :label="item.name"
-                                        :value="item.id"
-                                        :key="item.id"
+                                        :label="item.text"
+                                        :value="item.value"
+                                        :key="item.value"
                                 >
                                 </el-option>
                             </template>
@@ -62,12 +62,12 @@
                     <el-form-item label="章节名称" prop="name">
                         <el-input v-model="editForm.name"></el-input>
                     </el-form-item>
-                    <el-form-item label="章节描述" prop="desc">
+                    <el-form-item label="章节描述" prop="remark">
                         <el-input
                                 type="textarea"
                                 :rows="3"
                                 placeholder="请输入内容"
-                                v-model="editForm.desc">
+                                v-model="editForm.remark">
                         </el-input>
                     </el-form-item>
                 </el-form>
@@ -81,7 +81,7 @@
 </template>
 
 <script>
-    import {getChapterList, getSameFilter,getCourseList, editCourse} from '../../../api/api';
+    import {getChapterList, getCourseFilter,getCourseList, editChapter} from '../../../api/api';
     import myFilter from '../../common/myFilter.vue'
     import Pagination from '../../common/Pagination.vue';
     import _ from 'lodash';
@@ -135,14 +135,25 @@
                         this.$confirm('确认提交吗？', '提示', {}).then(() => {
                             this.editLoading = true;
                             //NProgress.start();
-                            let para = _.assign({}, this.editForm);
-                            console.log(para);
-                            editCourse(para).then((res) => {
+                            var para = {
+                            'id': this.editForm.id,
+                            'course.id': this.editForm.course,
+                            'name': this.editForm.name,
+                            'remark': this.editForm.remark};
+                            editChapter(para).then((res) => {
                                 this.editLoading = false;
+                                //res.code
+                                if(res.code==0){
                                 this.$message({
                                     message: '提交成功',
                                     type: 'success'
-                                });
+                                });}
+                                else{
+                                    this.$message({
+                                        message: msg,
+                                        type: 'error'
+                                    });
+                                }
                                 this.$refs['editForm'].resetFields();
                                 this.editFormVisible = false;
                                 this.getList();
@@ -161,7 +172,7 @@
             },
             //获取用户列表
             getList() {
-                console.log('list refresh');
+                //console.log('list refresh');
                 let para = {
                     pageNo: this.pageNo,
                     filter: JSON.stringify(this.filter),
@@ -180,14 +191,17 @@
             getFilter() {
                 this.filterLoading = true;
                 this.listLoading = true;
-                getSameFilter({}).then((res) => {
-                    this.filterList = res;
+                //课程数据
+                getCourseFilter({}).then((res) => {
+                    this.filterList = res.data;
+                    //console.log('res.data',res.data[0]);//要这么才能取得数据
+                    this.courseArr = res.data[0].children;
                     this.filterLoading = false;
                     this.getList();
                 });
-                getCourseList({}).then((res) => {
+                /*getCourseList({}).then((res) => {
                     this.courseArr = res;
-                });
+                });*/
             },
         },
         components: {
