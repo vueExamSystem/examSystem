@@ -3,6 +3,7 @@ import instance  from './instance';
 import qs from 'qs'
 
 //let base = '';
+ let base = 'http://localhost:8081/api';
 
 // export const requestLogin = params => { params=qs.stringify(params);
 // 	return instance.post(`${base}/login/verify`,params).then(res => res.data); };
@@ -42,20 +43,14 @@ export const saveTag = params => { return instance.post(`${base}/category/save`,
 export const getCourseList = params => { 
 	return instance.get(`${base}/course/list`, { params: params } ).then(res => res.data); };
 
-//course filter
-export const getCourseFilter = params => { 
-	return instance.get(`${base}/course/filter`, { params: params } ).then(res => res.data); };
+export const editCourse = params => {
+	return instance.get(`${base}/course/edit`, params ).then(res => res.data); };
 
 // chapter
 
 export const getChapterList = params => { return instance.post(`${base}/chapter/list`, qs.stringify(params)).then(res => res.data); };
 
-export const editChapter = params => {
-	return instance.post(`${base}/chapter/edit`, qs.stringify(params) ).then(res => res.data); };
-	
-export const addChapter = params => {
-	return instance.post(`${base}/chapter/add`, qs.stringify(params) ).then(res => res.data); };
-	
+
 // section
 export const getSectionFilter = params => { return instance.post(`${base}/chapter/filter`, qs.stringify(params) ).then(res => res.data); };
 

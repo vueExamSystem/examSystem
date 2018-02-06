@@ -83,8 +83,9 @@
                 };
                 if (!this.listLoading) this.listLoading = true;
                 getQueList(para).then((res) => {
-                    this.totalCount = res.totalCount;
-                    this.rows = res.rows;
+                   
+                    this.totalCount = res.data.totalCount;
+                    this.rows = res.data.row;
                     if (!this.filterLoading) this.listLoading = false;
                 });
             },
@@ -123,9 +124,8 @@
                     }
                     this.filterLoading = true;
                     getSectionFilter({
-                        filter: {
-                            courseid: value,
-                        }
+
+                        filter:"{courseid: "+value+"}"
                     }).then(res => {
                         this.filterLoading = false;
                         res=res.data;
