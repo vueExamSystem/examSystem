@@ -130,7 +130,8 @@
                         const index = _.findIndex(ts.filterList, { field: res.field });
                         console.log('index', index);
                         if (index > -1) {
-                            ts.filterList[index] = res;
+                            // ts.filterList[index] = res;
+                            ts.filterList.splice(1, 1, res);
                         } else {
                             ts.filterList.splice(1, 0, res);
                         }

@@ -131,6 +131,30 @@ const QuestionFilter = [
         }, {
             value: '3',
             text: '大学英语'
+        }, {
+            value: '4',
+            text: '大发学英语'
+        }, {
+            value: '5',
+            text: '大学33英语'
+        }, {
+            value: '6',
+            text: '大学22英语'
+        }, {
+            value: '7',
+            text: '大学44英语'
+        }, {
+            value: '11',
+            text: '大学1英语'
+        }, {
+            value: '21',
+            text: '大学英语'
+        }, {
+            value: '23',
+            text: '大学33英语'
+        }, {
+            value: '24',
+            text: '大学英22语'
         }]
     }, {
         title: '题型',
