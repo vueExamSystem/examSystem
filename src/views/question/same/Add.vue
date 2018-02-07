@@ -19,7 +19,7 @@
 					<el-select v-model="ruleForm.course" multiple placeholder="请选择所属课程">
 						<el-option
 								v-for="item in courseArr"
-								:label="item.name"
+								:label="item.text"
 								:value="item.id"
 								:key="item.id"
 						>
@@ -30,7 +30,7 @@
 					<el-select v-model="ruleForm.chapter" multiple placeholder="请选择所属章节">
 						<el-option
 								v-for="item in chapterArr"
-								:label="item.name"
+								:label="item.text"
 								:value="item.id"
 								:key="item.id"
 						>
@@ -54,8 +54,8 @@
 
 <script>
     import {
-        getCourseList,
-		getChapterList,
+        getCourseFilter,
+		getSectionFilter,
 		addDemo,
     } from '../../../api/api';
     import _ from 'lodash';
@@ -124,13 +124,13 @@
             },
             // 获取初始数据
             getDefaultData() {
-                getCourseList({}).then((res) => {
-                    this.courseArr = res.data;
-                    console.log(res);
+                getCourseFilter({}).then((res) => {
+                    console.log('getCourseFilter',res);
+                    this.courseArr = res.data.children;
                 });
-                getChapterList({}).then((res) => {
-                    this.chapterArr = res.data;
-                    console.log(res);
+                getSectionFilter({}).then((res) => {
+                    console.log('getSectionFilter',res);
+                    this.chapterArr = res.data.children;
                 });
             },
 		},

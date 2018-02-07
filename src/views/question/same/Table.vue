@@ -115,7 +115,7 @@
                 rows: [],
                 totalCount: 0,
                 pageNo: 1,
-                pageSize: 5,
+                pageSize: 10,
                 listLoading: false,
                 filterLoading: false,
 
@@ -167,7 +167,8 @@
                 this.filterLoading = true;
                 this.listLoading = true;
                 getSameFilter({}).then((res) => {
-                    this.filterList = res;
+                    console.log('getSameFilter table',res);
+                    this.filterList = res.data;
                     this.filterLoading = false;
                     // 过滤器数据增加联动判断字段
                     this.dealFilterList();
@@ -196,10 +197,10 @@
                     }
                     this.filterLoading = true;
                     getSectionFilter({
-                        filter: {
-                            courseid: value,
-                        }
+                        filter:"{courseid: "+value+"}"
                     }).then(res => {
+                        console.log('getSectionFilter table',res);
+                        res=res.data;
                         this.filterLoading = false;
                         const index = _.findIndex(ts.filterList, {field: res.field});
                         if (index > -1) {

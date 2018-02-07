@@ -45,7 +45,7 @@
             </div>
 
             <!--编辑界面-->
-            <el-dialog title="编辑课程" :visible.sync="editFormVisible">
+            <el-dialog title="编辑章节" :visible.sync="editFormVisible">
                 <el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
                     <el-form-item label="所属课程" prop="course">
                         <el-select v-model="editForm.course" placeholder="请选择所属课程">
@@ -164,7 +164,7 @@
             },
             handleCurrentChange(val) {
                 this.pageNo = val;
-                this.getUsers();
+               this.getList();
             },
             search(obj) {
                 this.filter = obj;

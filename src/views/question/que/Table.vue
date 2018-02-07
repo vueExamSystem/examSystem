@@ -85,7 +85,7 @@
                 getQueList(para).then((res) => {
                    
                     this.totalCount = res.data.totalCount;
-                    this.rows = res.data.row;
+                    this.rows = res.data.rows;
                     if (!this.filterLoading) this.listLoading = false;
                 });
             },

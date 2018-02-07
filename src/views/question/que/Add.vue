@@ -156,7 +156,7 @@
 <script>
     import {
         getSubjectList,
-        getChapterList,
+        getSectionFilter,
         getSameGroupList,
     } from '../../../api/api';
     import {saveQue} from '../../../api/api';
@@ -311,8 +311,8 @@
                 getSubjectList({}).then((res) => {
                     this.subjectArr = res;
                 });
-                getChapterList({}).then((res) => {
-                    this.chapterArr = res;
+                getSectionFilter({}).then((res) => {
+                    this.chapterArr = res.data;
                 });
                 getSameGroupList({}).then((res) => {
                     this.departmentArr = res;
