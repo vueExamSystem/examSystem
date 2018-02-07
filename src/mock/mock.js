@@ -54,24 +54,25 @@ export default {
         let mock = new MockAdapter(instance);
 
         //登录
-        noTokenMock.onPost('/login/verify').reply(config => {
-            let {username, password} = JSON.parse(config.data);
+        noTokenMock.onGet('/login/verify').reply(config => {
+            // let {username, password} = JSON.parse(config.data);
             return new Promise((resolve, reject) => {
                 let user = null;
                 setTimeout(() => {
-                    let hasUser = LoginUsers.some(u => {
-                        if (u.username === username && u.password === password) {
-                            user = JSON.parse(JSON.stringify(u));
-                            user.password = undefined;
-                            return true;
-                        }
-                    });
-
-                    if (hasUser) {
-                        resolve([200, {code: 0, msg: '请求成功', data:{token: new Date().getTime()}}]);
-                    } else {
-                        resolve([200, {code: 500, msg: '账号或密码错误'}]);
-                    }
+                    // let hasUser = LoginUsers.some(u => {
+                    //     if (u.username === username && u.password === password) {
+                    //         user = JSON.parse(JSON.stringify(u));
+                    //         user.password = undefined;
+                    //         return true;
+                    //     }
+                    // });
+                    //
+                    // if (hasUser) {
+                    //     resolve([200, {code: 0, msg: '请求成功', data:{token: new Date().getTime()}}]);
+                    // } else {
+                    //     resolve([200, {code: 500, msg: '账号或密码错误'}]);
+                    // }
+                    resolve([200, {code: 0, msg: '请求成功', data:{token: new Date().getTime()}}]);
                 }, 1000);
             });
         });

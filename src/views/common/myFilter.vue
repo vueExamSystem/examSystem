@@ -134,6 +134,8 @@
         watch:{
             list: {
                 handler(curVal,oldVal){
+                    console.log('curVal', curVal);
+                    console.log('oldVal', oldVal);
                     this.filters = this.getFilterParam();
                     this.$emit('callback', this.filters);
                 },

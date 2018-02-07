@@ -203,10 +203,11 @@
                         this.filterLoading = false;
                         const index = _.findIndex(ts.filterList, {field: res.field});
                         if (index > -1) {
-                            ts.filterList[index] = res;
+                            this.filterList[index] = res;
                         } else {
                             ts.filterList.splice(1, 0, res);
                         }
+                        console.log('linkage filterList', this.filterList);
                     });
                 }
             },
