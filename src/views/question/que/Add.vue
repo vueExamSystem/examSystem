@@ -156,7 +156,11 @@
 <script>
     import {
         getSubjectList,
+
         getChapterAll,
+
+        getSectionFilter,
+
         getSameGroupList,
     } from '../../../api/api';
     import {saveQue} from '../../../api/api';
@@ -318,6 +322,7 @@
                     this.subjectArr = res.data;
                 });
                 getChapterAll({}).then((res) => {
+                getSectionFilter({}).then((res) => {
                     this.chapterArr = res.data;
                 });
                 getSameGroupList({}).then((res) => {

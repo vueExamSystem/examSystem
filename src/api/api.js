@@ -45,14 +45,24 @@ export const getCourseList = params => {
 
 export const editCourse = params => {
 	return instance.get(`${base}/course/edit`, params ).then(res => res.data); };
+//course filter
+export const getCourseFilter = params => { 
+    return instance.get(`${base}/course/filter`, { params: params } ).then(res => res.data); };
 
 // chapter
 
 export const getChapterList = params => { return instance.post(`${base}/chapter/list`, qs.stringify(params)).then(res => res.data); };
 
+
 export const getChapterAll = params => { return instance.post(`${base}/chapter/all`, qs.stringify(params)).then(res => res.data); };
 
 
+export const editChapter = params => {
+    return instance.post(`${base}/chapter/edit`, qs.stringify(params) ).then(res => res.data); };
+    
+export const addChapter = params => {
+    return instance.post(`${base}/chapter/add`, qs.stringify(params) ).then(res => res.data); };
+    
 // section
 export const getSectionFilter = params => { return instance.post(`${base}/chapter/filter`, qs.stringify(params) ).then(res => res.data); };
 
@@ -72,7 +82,7 @@ export const getSameGroupList = params => { return instance.get(`${base}/same/li
 // filter
 export const getQuestionFilter = params => { return instance.get(`${base}/question/filter`, params ).then(res => res.data);};
 // same filter
-export const getSameFilter = params => { return instance.get(`${base}/same/filter`, params ).then(res => res.data);};
+export const getSameFilter = params => { return instance.get(`${base}/same/filter`, { params: params } ).then(res => res.data);};
 
 // 删除，添加，编辑 demo api
 export const addDemo = params => {
