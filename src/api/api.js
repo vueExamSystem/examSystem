@@ -50,6 +50,8 @@ export const editCourse = params => {
 
 export const getChapterList = params => { return instance.post(`${base}/chapter/list`, qs.stringify(params)).then(res => res.data); };
 
+export const getChapterAll = params => { return instance.post(`${base}/chapter/all`, qs.stringify(params)).then(res => res.data); };
+
 
 // section
 export const getSectionFilter = params => { return instance.post(`${base}/chapter/filter`, qs.stringify(params) ).then(res => res.data); };

@@ -113,7 +113,7 @@
                 this.listLoading = true;
                 var params = {
                     keyword: this.keyword,
-                    filters: this.filters,
+                    filters: JSON.stringify(this.filter),
                     current: this.currentPage,
                     pageSize: this.pageSize
                 };

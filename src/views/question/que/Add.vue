@@ -156,7 +156,7 @@
 <script>
     import {
         getSubjectList,
-        getChapterList,
+        getChapterAll,
         getSameGroupList,
     } from '../../../api/api';
     import {saveQue} from '../../../api/api';
@@ -215,7 +215,7 @@
                 },
                 isInlineMessage: true,
                 // 上传文件的路径
-                uploadSource: 'https://jsonplaceholder.typicode.com/posts/',
+                uploadSource: 'http://localhost:8081/api/question/upload',
                 // 选项个数
                 selectNum: 2,
                 // 默认数据
@@ -259,18 +259,23 @@
             onSubmit() {
                 this.$refs['form'].validate((valid) => {
                     if (valid) {
+                         var str = "";  
+                        for (var i = 0; i < this.form.correctOptionMany.length; i++) {  
+                            str = str+","+this.form.correctOptionMany[i];  
+                        } 
                         var queParams = {
                             name: this.form.content,
                             questionTypeId: this.form.type,
                             levelId: this.form.usage[0],
-                            subjectId: this.form.subject,
-                            sectionId: this.form.chapter,
+                            "course.id": this.form.subject,
+                            "section.id": this.form.chapter,
                             similarId: this.form.department || this.sameGroupId,
                             content: this.form.content,
                             titleImg: this.form.contentPic,
                             choiceList: this.form.selectionAdd,
                             choiceImgList: this.form.selectionPic,
                             answer: this.form.correctOptionRadio,
+                            answers:str,
                             points: this.form.points,
                             reference: this.form.source,
                             examingPoint: this.form.testSites,
@@ -280,7 +285,8 @@
                         this.$confirm('确认添加吗？', '提示', {}).then(() => {
                             this.loading = true;
                             saveQue(queParams).then((res) => {
-                                if (res.code !== '0') {
+                                res=res.data;
+                                if (res.code != '0') {
                                     this.$message({
                                         message: res.msg,
                                         type: 'error'
@@ -309,13 +315,13 @@
             // 获取初始数据
             getDefaultData() {
                 getSubjectList({}).then((res) => {
-                    this.subjectArr = res;
+                    this.subjectArr = res.data;
                 });
-                getChapterList({}).then((res) => {
-                    this.chapterArr = res;
+                getChapterAll({}).then((res) => {
+                    this.chapterArr = res.data;
                 });
                 getSameGroupList({}).then((res) => {
-                    this.departmentArr = res;
+                    this.departmentArr = res.data;
                 });
             },
             // 上传文件相关
