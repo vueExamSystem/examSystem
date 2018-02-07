@@ -145,7 +145,7 @@
                 this.getUsers();
             },
             search(obj) {
-                this.filters = obj;
+                this.filter = obj;
                 this.getList();
             },
             getList() {
@@ -205,7 +205,7 @@
                         if (index > -1) {
                             this.filterList[index] = res;
                         } else {
-                            ts.filterList.splice(1, 0, res);
+                            ts.filterList[1] = res;
                         }
                         console.log('linkage filterList', this.filterList);
                     });

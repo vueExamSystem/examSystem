@@ -128,6 +128,7 @@
                     }).then(res => {
                         this.filterLoading = false;
                         const index = _.findIndex(ts.filterList, { field: res.field });
+                        console.log('index', index);
                         if (index > -1) {
                             ts.filterList[index] = res;
                         } else {

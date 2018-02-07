@@ -15,6 +15,7 @@ import {
     QuestionFilter,
     WeekExam,
     SectionFilter,
+    SectionFilter1,
     SameFilter,
 } from './data/question';
 import {
@@ -383,9 +384,10 @@ export default {
 
         //获取章节列表
         mock.onGet(`/section/filter`).reply(config => {
+            const course = config.filter.courseid;
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
-                    resolve([200, SectionFilter]);
+                    resolve([200, course === '1' ? SectionFilter : SectionFilter1]);
                 }, 2000);
             });
         });
