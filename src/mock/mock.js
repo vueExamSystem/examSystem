@@ -623,6 +623,40 @@ export default {
                 }, 2000);
             });
         });
+        //列表
+        mock.onGet(`/doc/list`).reply(config => {
+            return u.getMockList(config, [{
+                id: '1',
+                name:'物理期中考试',
+                project:'大学物理'
+            },{
+                id: '2',
+                name:'物理期中考试',
+                project:'大学物理'
+            },{
+                id: '3',
+                name:'物理期中考试',
+                project:'大学物理'
+            }]);
+        });
+
+        //filter
+        mock.onGet(`/doc/filter`).reply(config => {
+            return u.getMockList(config, [{
+                title:'课程',
+                field:'project',
+                children:[{
+                    value:'hysics',
+                    text:'大学物理'
+                },{
+                    value:'mathematics',
+                    text:'高等数学'
+                },{
+                    value:'english',
+                    text:'大学英语'
+                }]
+            }]);
+        });
 
         /** 以下setting **/
 
