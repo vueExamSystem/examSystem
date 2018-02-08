@@ -4,12 +4,11 @@
     >
         <ul class="filter-list">
             <template v-for="row in rows">
-                <li class="filter-row" :field="row.field">
+                <li class="filter-row clearfix" :field="row.field">
                     <label>{{row.title}}：</label>
                     <!--单选-->
                     <ul v-if="row.children && row.children.length > 0 && !row.multiple" class="filter-items">
                         <li
-                                class="clearfix"
                                 v-if="!row.noAll"
                                 v-bind:class="{ checked: filters[row.field] === -1 || !filters[row.field] }"
                                 @click="toggleCheckCommon(row, true)"

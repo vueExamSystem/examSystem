@@ -3,10 +3,10 @@ import instance  from './instance';
 import qs from 'qs'
 
 //let base = '';
- let base = 'http://localhost:8081/api';
+let base = 'http://127.0.0.1:8081/api';
 
-export const requestLogin = params => { return axios.get(`${base}/login/verify`,params).then(res => res.data); };
-// export const requestLogin = params => { return axios.post(`${base}/login/verify`,  qs.stringify(params)).then(res => res.data); };
+//export const requestLogin = params => { return axios.get(`${base}/login/verify`,params).then(res => res.data); };
+ export const requestLogin = params => { return axios.post(`${base}/login/verify`,  qs.stringify(params)).then(res => res.data); };
 
 //用户信息
 export const getUserInfo = params => { return instance.post(`${base}/user/info`, qs.stringify(params)).then(res => res.data); };
