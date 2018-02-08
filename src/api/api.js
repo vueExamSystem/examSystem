@@ -80,6 +80,20 @@ export const delDemo = params => {
     return instance.get(`${base}/del`, params ).then(res => res.data); };
 
 /*
+*  预习 start
+* */
+
+export const getExampleFilter = params => { return instance.get(`${base}/example/filter`, params ).then(res => res.data);};
+
+export const getExampleList = params => { return instance.get(`${base}/example/list`, params ).then(res => res.data);};
+
+export const getExampleDetailFilter = params => { return instance.get(`${base}/example/detail/filter`, params ).then(res => res.data);};
+
+export const getExampleDetailList = params => { return instance.get(`${base}/example/detail/list`, params ).then(res => res.data);};
+
+
+
+/*
 *  设置 start
 * */
 // log
