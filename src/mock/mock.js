@@ -359,6 +359,39 @@ export default {
             return u.getMockList(config, QuestionFilter);
         });
         //获取章节列表
+        mock.onGet(`/question/detail`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: 200,
+                        msg: '成功',
+                        data: {
+                            isNecessary: true,//必做題
+                            type:'radio',//題目類型
+                            title: '某物体在一足够大的光滑平面上向西运动，当它受到一个向南的恒定外力作用时，物体运动将是（）',
+                            answer:'A',
+                            options:[{
+                                flag:'A',
+                                text:'直线运动且是匀变速直线运动'
+                            },{
+                                flag:'B',
+                                text:'曲线运动但加速度方向不变、大小不变，是匀变速运动'
+                            },{
+                                flag:'C',
+                                text:'曲线运动但加速度方向改变、大小不变，是非匀变速曲线运动'
+                            },{
+                                flag:'D',
+                                text:'曲线运动，加速度大小和方向均改变，是非匀变速曲线运动'
+                            }],
+                            analysis:'光滑、摩擦力',
+                            keynote:'曲线运动，匀速运动',
+                            creator:'Admin',
+                        }
+                    }]);
+                }, 2000);
+            });
+        });
+        //获取章节列表
         mock.onGet(`/same/filter`).reply(config => {
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
@@ -476,7 +509,7 @@ export default {
             return u.getMockList(config, PaperList);
         });
         //获取试卷详情
-        mock.onPost(`/paper/detail`).reply(config => {
+        mock.onGet(`/paper/detail`).reply(config => {
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
                     resolve([200, PaperDetail]);
@@ -484,7 +517,7 @@ export default {
             });
         });
         //获取试卷题目详情
-        mock.onPost(`/paper/problem`).reply(config => {
+        mock.onGet(`/paper/problem`).reply(config => {
             var params = JSON.parse(config.data);
             return new Promise((resolve, reject) => {
                 setTimeout(() => {

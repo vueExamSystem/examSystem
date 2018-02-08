@@ -25,6 +25,8 @@ export const getStudentSta = params => { return instance.get(`${base}/studentSco
 //
 export const getQueList = params => { return instance.get(`${base}/question/list`, params ).then(res => res.data); };
 
+export const getQuestionDetail = params => { return instance.get(`${base}/question/detail`, params ).then(res => res.data); };
+
 export const saveQue = params => { return instance.post(`${base}/question/save`, qs.stringify(params) ); };
 // export const saveQue = params => { return instance.get(`${base}/question/save`, qs.stringify(params) ); };
 
