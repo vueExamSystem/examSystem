@@ -123,14 +123,38 @@ const QuestionFilter = [
         title: '课程',
         field: 'course',
         children: [{
-            value: 'physics',
+            value: '1',
             text: '大学物理'
         }, {
-            value: 'mathematics',
+            value: '2',
             text: '高等数学'
         }, {
-            value: 'english',
+            value: '3',
             text: '大学英语'
+        }, {
+            value: '4',
+            text: '大发学英语'
+        }, {
+            value: '5',
+            text: '大学33英语'
+        }, {
+            value: '6',
+            text: '大学22英语'
+        }, {
+            value: '7',
+            text: '大学44英语'
+        }, {
+            value: '11',
+            text: '大学1英语'
+        }, {
+            value: '21',
+            text: '大学英语'
+        }, {
+            value: '23',
+            text: '大学33英语'
+        }, {
+            value: '24',
+            text: '大学英22语'
         }]
     }, {
         title: '题型',
@@ -198,6 +222,19 @@ const SectionFilter = {
         "value": 2
     }]
 };
+const SectionFilter1 = {
+    "title": "章节",
+    "field": "section",
+    "children": [{
+        "courseid": 1,
+        "text": "hhhh",
+        "value": 1
+    }, {
+        "courseid": 2,
+        "text": "wwww",
+        "value": 2
+    }]
+};
 const SameFilter = [
     {
         title: '课程',
@@ -227,4 +264,5 @@ export {
     WeekExam,
     SectionFilter,
     SameFilter,
+    SectionFilter1,
 };

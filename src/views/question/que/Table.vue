@@ -1,49 +1,52 @@
 <template>
     <section>
-        <my-filter :list="filterList" @callback="search" v-loading="filterLoading" @linkage="linkage"></my-filter>
-        <div class="panel">
-            <div class="title">
-                <el-input placeholder="请输入搜索关键词" v-model="keyword">
-                    <el-button slot="append" icon="el-icon-search" @click="getList"></el-button>
-                </el-input>
+        <div v-if="!detailId">
+            <my-filter :list="filterList" @callback="search" v-loading="filterLoading" @linkage="linkage"></my-filter>
+            <div class="panel">
+                <div class="title">
+                    <el-input placeholder="请输入搜索关键词" v-model="keyword">
+                        <el-button slot="append" icon="el-icon-search" @click="getList"></el-button>
+                    </el-input>
 
-                <!--分页-->
-                <div class="pageArea">
-                    <Page :pageNo="pageNo" :totalCount="totalCount" :pageSize="pageSize" @page-change="handleCurrentChange"></Page>
+                    <!--分页-->
+                    <div class="pageArea">
+                        <Page :pageNo="pageNo" :totalCount="totalCount" :pageSize="pageSize" @page-change="handleCurrentChange"></Page>
+                    </div>
+
                 </div>
 
-            </div>
-
-            <div class="content">
-                <!--列表-->
-                <el-table
-                        :data="rows"
-                        highlight-current-row
-                        v-loading="listLoading"
-                        style="width: 100%;">
-                    <el-table-column type="index" label="ID" sortable>
-                    </el-table-column>
-                    <el-table-column prop="name" label="试题名称" sortable>
-                    </el-table-column>
-                    <el-table-column prop="questionTypeId" label="试题类型" sortable>
-                    </el-table-column>
-                    <el-table-column prop="course" label="所属课程" sortable>
-                                            <template slot-scope="scope">
-                        <span v-if="scope.row.course">{{scope.row.course.name}}</span>
-                      </template>   
-                    </el-table-column>
-                   <el-table-column prop="section" label="所属章节" sortable>
-                                            <template slot-scope="scope">
-                        <span v-if="scope.row.section">{{scope.row.section.name}}</span>
-                      </template>   
-                    </el-table-column>
-                    <el-table-column prop="creator" label="创建人" sortable>
-                    </el-table-column>
-                    <el-table-column prop="same" label="相似题组" sortable>
-                    </el-table-column>
-                </el-table>
+                <div class="content">
+                    <!--列表-->
+                    <el-table
+                            :data="rows"
+                            highlight-current-row
+                            v-loading="listLoading"
+                            style="width: 100%;">
+                        <el-table-column type="index" label="ID" sortable>
+                        </el-table-column>
+                        <el-table-column prop="name" label="试题名称" sortable>
+                            <template slot-scope="scope">
+                                <el-button type="text" @click="detailShow(scope.row.id)">{{scope.row.name}}</el-button>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="questionTypeId" label="试题类型" sortable>
+                        </el-table-column>
+                        <el-table-column prop="subject" label="所属课程" sortable>
+                        </el-table-column>
+                        <el-table-column prop="chapter" label="所属章节" sortable>
+                        </el-table-column>
+                        <el-table-column prop="creator" label="创建人" sortable>
+                        </el-table-column>
+                        <el-table-column prop="same" label="相似题组" sortable>
+                        </el-table-column>
+                    </el-table>
+                </div>
             </div>
         </div>
+
+        <section v-if="detailId">
+            <question-detail :id="detailId" @close="detailClose"></question-detail>
+        </section>
     </section>
 </template>
 
@@ -53,6 +56,7 @@
     import {getQueList, getQuestionFilter, getSectionFilter} from '../../../api/api';
     import myFilter from '../../common/myFilter.vue'
     import Pagination from '../../common/Pagination.vue'
+    import questionDetail from './Detail.vue'
 
     export default {
         data() {
@@ -67,6 +71,8 @@
 
                 filterLoading: false,
                 filterList: [],
+
+                detailId: '',
             }
         },
         methods: {
@@ -89,9 +95,8 @@
                 };
                 if (!this.listLoading) this.listLoading = true;
                 getQueList(para).then((res) => {
-                   
-                    this.totalCount = res.data.totalCount;
-                    this.rows = res.data.rows;
+                    this.totalCount = res.totalCount;
+                    this.rows = res.rows;
                     if (!this.filterLoading) this.listLoading = false;
                 });
             },
@@ -100,8 +105,7 @@
                 this.filterLoading = true;
                 this.listLoading = true;
                 getQuestionFilter({}).then((res) => {
-                    console.log(res);
-                    this.filterList = res.data;
+                    this.filterList = res;
                     this.filterLoading = false;
                     // 过滤器数据增加联动判断字段
                     this.dealFilterList();
@@ -130,20 +134,28 @@
                     }
                     this.filterLoading = true;
                     getSectionFilter({
-
-                        filter:"{courseid: "+value+"}"
+                        filter: {
+                            courseid: value,
+                        }
                     }).then(res => {
                         this.filterLoading = false;
-                        res=res.data;
                         const index = _.findIndex(ts.filterList, { field: res.field });
+                        console.log('index', index);
                         if (index > -1) {
-                            ts.filterList[index] = res;
+                            // ts.filterList[index] = res;
+                            ts.filterList.splice(1, 1, res);
                         } else {
                             ts.filterList.splice(1, 0, res);
                         }
                     });
                 }
             },
+            detailShow(id){
+                this.detailId = _.toString(id);
+            },
+            detailClose(){
+                this.detailId = '';
+            }
         },
         watch:{
             filterList: {
@@ -168,9 +180,15 @@
                 deep:true
             }
         },
+        computed: {
+            isShowDetail() {
+                return this.detailId;
+            },
+        },
         components: {
             'Page': Pagination,
             myFilter,
+            questionDetail,
         },
         mounted() {
             this.getFilter();

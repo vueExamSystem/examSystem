@@ -15,6 +15,7 @@ import {
     QuestionFilter,
     WeekExam,
     SectionFilter,
+    SectionFilter1,
     SameFilter,
 } from './data/question';
 import {
@@ -54,24 +55,25 @@ export default {
         let mock = new MockAdapter(instance);
 
         //登录
-        noTokenMock.onPost('/login/verify').reply(config => {
-            let {username, password} = JSON.parse(config.data);
+        noTokenMock.onGet('/login/verify').reply(config => {
+            // let {username, password} = JSON.parse(config.data);
             return new Promise((resolve, reject) => {
                 let user = null;
                 setTimeout(() => {
-                    let hasUser = LoginUsers.some(u => {
-                        if (u.username === username && u.password === password) {
-                            user = JSON.parse(JSON.stringify(u));
-                            user.password = undefined;
-                            return true;
-                        }
-                    });
-
-                    if (hasUser) {
-                        resolve([200, {code: 0, msg: '请求成功', data:{token: new Date().getTime()}}]);
-                    } else {
-                        resolve([200, {code: 500, msg: '账号或密码错误'}]);
-                    }
+                    // let hasUser = LoginUsers.some(u => {
+                    //     if (u.username === username && u.password === password) {
+                    //         user = JSON.parse(JSON.stringify(u));
+                    //         user.password = undefined;
+                    //         return true;
+                    //     }
+                    // });
+                    //
+                    // if (hasUser) {
+                    //     resolve([200, {code: 0, msg: '请求成功', data:{token: new Date().getTime()}}]);
+                    // } else {
+                    //     resolve([200, {code: 500, msg: '账号或密码错误'}]);
+                    // }
+                    resolve([200, {code: 0, msg: '请求成功', data:{token: new Date().getTime()}}]);
                 }, 1000);
             });
         });
@@ -357,6 +359,39 @@ export default {
             return u.getMockList(config, QuestionFilter);
         });
         //获取章节列表
+        mock.onGet(`/question/detail`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: 200,
+                        msg: '成功',
+                        data: {
+                            isNecessary: true,//必做題
+                            type:'radio',//題目類型
+                            title: '某物体在一足够大的光滑平面上向西运动，当它受到一个向南的恒定外力作用时，物体运动将是（）',
+                            answer:'A',
+                            options:[{
+                                flag:'A',
+                                text:'直线运动且是匀变速直线运动'
+                            },{
+                                flag:'B',
+                                text:'曲线运动但加速度方向不变、大小不变，是匀变速运动'
+                            },{
+                                flag:'C',
+                                text:'曲线运动但加速度方向改变、大小不变，是非匀变速曲线运动'
+                            },{
+                                flag:'D',
+                                text:'曲线运动，加速度大小和方向均改变，是非匀变速曲线运动'
+                            }],
+                            analysis:'光滑、摩擦力',
+                            keynote:'曲线运动，匀速运动',
+                            creator:'Admin',
+                        }
+                    }]);
+                }, 2000);
+            });
+        });
+        //获取章节列表
         mock.onGet(`/same/filter`).reply(config => {
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
@@ -382,9 +417,10 @@ export default {
 
         //获取章节列表
         mock.onGet(`/section/filter`).reply(config => {
+            const course = config.filter.courseid;
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
-                    resolve([200, SectionFilter]);
+                    resolve([200, course === '1' ? SectionFilter : SectionFilter1]);
                 }, 2000);
             });
         });
@@ -473,7 +509,7 @@ export default {
             return u.getMockList(config, PaperList);
         });
         //获取试卷详情
-        mock.onPost(`/paper/detail`).reply(config => {
+        mock.onGet(`/paper/detail`).reply(config => {
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
                     resolve([200, PaperDetail]);
@@ -481,7 +517,7 @@ export default {
             });
         });
         //获取试卷题目详情
-        mock.onPost(`/paper/problem`).reply(config => {
+        mock.onGet(`/paper/problem`).reply(config => {
             var params = JSON.parse(config.data);
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
