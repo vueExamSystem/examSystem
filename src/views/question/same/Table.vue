@@ -167,7 +167,6 @@
                 this.filterLoading = true;
                 this.listLoading = true;
                 getSameFilter({}).then((res) => {
-                    console.log('getSameFilter table',res);
                     this.filterList = res.data;
                     this.filterLoading = false;
                     // 过滤器数据增加联动判断字段
@@ -199,7 +198,6 @@
                     getSectionFilter({
                         filter:"{courseid: "+value+"}"
                     }).then(res => {
-                        console.log('getSectionFilter table',res);
                         res=res.data;
                         this.filterLoading = false;
                         const index = _.findIndex(ts.filterList, {field: res.field});

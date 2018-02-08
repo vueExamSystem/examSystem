@@ -95,6 +95,7 @@
                 };
                 if (!this.listLoading) this.listLoading = true;
                 getQueList(para).then((res) => {
+                    res=res.data;
                     this.totalCount = res.totalCount;
                     this.rows = res.rows;
                     if (!this.filterLoading) this.listLoading = false;
@@ -105,6 +106,7 @@
                 this.filterLoading = true;
                 this.listLoading = true;
                 getQuestionFilter({}).then((res) => {
+                    res=res.data;
                     this.filterList = res;
                     this.filterLoading = false;
                     // 过滤器数据增加联动判断字段
@@ -134,10 +136,9 @@
                     }
                     this.filterLoading = true;
                     getSectionFilter({
-                        filter: {
-                            courseid: value,
-                        }
+                        filter:"{courseid: "+value+"}"
                     }).then(res => {
+                        res=res.data;
                         this.filterLoading = false;
                         const index = _.findIndex(ts.filterList, { field: res.field });
                         console.log('index', index);
