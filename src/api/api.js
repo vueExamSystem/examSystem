@@ -2,8 +2,8 @@ import axios from 'axios';
 import instance  from './instance';
 import qs from 'qs'
 
-let base = '';
-// let base = 'http://localhost:8081/api';
+//let base = '';
+ let base = 'http://localhost:8081/api';
 
 export const requestLogin = params => { return axios.get(`${base}/login/verify`,params).then(res => res.data); };
 // export const requestLogin = params => { return axios.post(`${base}/login/verify`,  qs.stringify(params)).then(res => res.data); };
