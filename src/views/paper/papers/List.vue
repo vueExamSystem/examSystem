@@ -1,14 +1,16 @@
 <template>
     <div>
     	<section v-show="!isShowDetail">
-    		<my-filter :list="filterList" @callback="filterCallback"></my-filter>
+            <div v-loading="filterLoading" style="min-height:100px;">
+                <my-filter v-if="!filterLoading" :list="filterList" @callback="filterCallback"></my-filter>
+            </div>
             <div class="panel">
                 <div class="title">
                     <el-input placeholder="请输入搜索关键词" v-model="keyword">
                         <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
                     </el-input>
                     <div class="pageArea">
-                        <Page current="1" :total="total" :pageSize="pageSize" @page-change="pageChange"></Page>
+                        <Page :pageNo="pageNo" :totalCount="totalCount" :pageSize="pageSize" @page-change="pageChange"></Page>
                     </div>
                 </div>
                 <div class="content">
@@ -46,11 +48,12 @@
     </div>
 </template>
 <script>
-    import { getPaperList } from '../../../api/api';
+    import u from '../../../common/js/util';
+    import { getPaperFilter, getPaperList } from '../../../api/api';
 	import myFilter from '../../common/myFilter.vue'
     import Pagination from '../../common/Pagination.vue'
     import Detail from './Detail.vue'
-    console.log(Detail)
+    
     export default {
         components:{
         	myFilter,
@@ -61,74 +64,54 @@
             return {
                 keyword:'',
                 papers: [],
-                total: 123,
-                currentPage: 1,
+                totalCount: 0,
+                pageNo: 1,
                 pageSize:10,
                 listLoading: true,
-                filters:[],
+                filterLoading: true,
+                filter:[],
+                filterList: [],
                 isShowDetail: false,
                 detailPaperId: ''
             }
         },
-        computed:{
-            filterList(){
-                return [{
-                    title:'课程',
-                    field:'project',
-                    children:[{
-                        value:'hysics',
-                        text:'大学物理'
-                    },{
-                        value:'mathematics',
-                        text:'高等数学'
-                    },{
-                        value:'english',
-                        text:'大学英语'
-                    }]
-                },{
-                    title:'类别',
-                    field:'category',
-                    children:[{
-                        value:'1',
-                        text:'随机组卷'
-                    },{
-                        value:'2',
-                        text:'手动组卷'
-                    }]
-                },{
-                    title:'状态',
-                    field:'status',
-                    children:[{
-                        value:'0',
-                        text:'未完成'
-                    },{
-                        value:'1',
-                        text:'已完成'
-                    }]
-                }]
-            }
-        },
         methods: {
-            search(){
+            // 获取过滤器数据
+            getFilter() {
+                this.filterLoading = true;
                 this.listLoading = true;
-                var params = {
-                    keyword: this.keyword,
-                    filters: this.filters,
-                    current: this.currentPage,
-                    pageSize: this.pageSize
-                };
-                console.log('params',params)
-                getPaperList(params).then(res => {
-                    this.listLoading = false;
-                    this.papers = res.data;
+                getPaperFilter({}).then((res) => {
+                    this.filterList = res.data;console.log('getPaperFilter',res)
+                    this.filterLoading = false;
+                    // filter 对应key默认好 -1
+                    this.filter = u.getDefaultFilter(this.filterList);
                 });
             },
-            filterCallback(filters){
-                this.filters = filters;
-                this.search();
+            search(){
+                if(!this.filterLoading){console.log('search')
+                    this.listLoading = true;
+                    var params = {
+                        keyword: this.keyword,
+                        filter: JSON.stringify(this.filter),
+                        pageNo: this.pageNo,
+                        pageSize: this.pageSize
+                    };
+                    getPaperList(params).then(res => {
+                        this.papers = res.data.rows;
+                        this.totalCount = res.data.totalCount;
+                        this.listLoading = false;
+                    });
+                }
             },
-            pageChange(currentPage){
-                this.currentPage = currentPage;
+            filterCallback(filter){
+                if(!this.filterLoading){
+                    console.log('filterCallback')
+                    this.filter = filter;
+                    this.search();
+                }
+            },
+            pageChange(pageNo){
+                this.pageNo = pageNo;
                 this.search();
             },
             formatStatus(row, column){
@@ -153,7 +136,7 @@
            
         },
         mounted() {
-            
+            this.getFilter();
         }
     }
 </script>

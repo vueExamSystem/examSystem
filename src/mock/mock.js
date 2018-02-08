@@ -682,7 +682,64 @@ export default {
 
         /** 以下paper **/
         //获取试卷列表
+        mock.onGet(`/paper/filter`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: '0',
+                        data: [{
+                            title:'课程',
+                            field:'project',
+                            children:[{
+                                value:'hysics',
+                                text:'大学物理'
+                            },{
+                                value:'mathematics',
+                                text:'高等数学'
+                            },{
+                                value:'english',
+                                text:'大学英语'
+                            }]
+                        },{
+                            title:'类别',
+                            field:'category',
+                            children:[{
+                                value:'1',
+                                text:'随机组卷'
+                            },{
+                                value:'2',
+                                text:'手动组卷'
+                            }]
+                        },{
+                            title:'状态',
+                            field:'status',
+                            children:[{
+                                value:'0',
+                                text:'未完成'
+                            },{
+                                value:'1',
+                                text:'已完成'
+                            }]
+                        }],
+                        msg: "获取成功"
+                    }]);
+                },2000);
+            });
+        });
+        //获取试卷列表
         mock.onPost(`/paper/list`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: '0',
+                        data: {
+                            totalCount: 239,
+                            rows: PaperList
+                        },
+                        msg: "获取成功"
+                    }]);
+                },2000);
+            });
             return u.getMockList(config, PaperList);
         });
         //获取试卷详情
