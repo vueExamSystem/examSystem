@@ -91,6 +91,9 @@ export const getExampleDetailFilter = params => { return instance.get(`${base}/e
 
 export const getExampleDetailList = params => { return instance.get(`${base}/example/detail/list`, params ).then(res => res.data);};
 
+export const getDocFilter = params => { return instance.get(`${base}/doc/filter`, params ).then(res => res.data);};
+
+export const getDocList = params => { return instance.get(`${base}/doc/list`, params ).then(res => res.data);};
 
 
 /*

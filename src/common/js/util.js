@@ -152,7 +152,7 @@ export default {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 resolve([200, {
-                    code: 200,
+                    code: '0',
                     msg: '成功',
                     data: pageSize ?
                         {
