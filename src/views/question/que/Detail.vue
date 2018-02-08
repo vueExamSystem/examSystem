@@ -1,6 +1,6 @@
 <template>
-    <section>
-        <div class="panel" v-show="!isAddProblem">
+    <section id="queDetail">
+        <div class="panel">
             <div class="title">
 				<span>
 				试题预览（单选）
@@ -10,7 +10,7 @@
                 </div>
             </div>
             <div class="content">
-                <div class="el-question" v-loading="isRadioLoading">
+                <div class="el-question" v-loading="isLoading">
                     <div class="el-question-title">
                         <span>{{detail.title}}</span>
                     </div>
@@ -57,17 +57,20 @@
         data(){
             return {
                 detail: {},
+                isLoading: false,
             }
         },
         computed:{
         },
         methods:{
             getDetail() {
+                this.isLoading = true;
                 getQuestionDetail({
                     id: this.id,
                 }).then(res => {
                     console.log('detail', res);
-                    this.detail = res;
+                    this.detail = res.data;
+                    this.isLoading = false;
                 });
             },
             goBack() {
@@ -81,9 +84,11 @@
         }
     }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
     @import '~scss_vars';
-    .pageArea{
-        float: right;
+    #queDetail{
+        .content{
+            padding: 20px;
+        }
     }
 </style>
