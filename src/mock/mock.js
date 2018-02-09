@@ -624,6 +624,72 @@ export default {
             });
         });
         //列表
+        mock.onGet(`/example/add/info`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: 200,
+                        msg: '成功',
+                        data: {
+                            subject: [{
+                                id: '0',
+                                name: '大学物理',
+                            },{
+                                id: '1',
+                                name: '英语',
+                            },{
+                                id: '2',
+                                name: '体育',
+                            },],
+                            grade: [{
+                                id: '0',
+                                name: '14',
+                            },{
+                                id: '1',
+                                name: '15',
+                            }],
+                            department: [{
+                                id: '0',
+                                name: '计科',
+                            }, {
+                                id: '1',
+                                name: '物电',
+                            },],
+                            class: [{
+                                id: '0',
+                                name: '01班',
+                            },{
+                                id: '3',
+                                name: '06班',
+                            }],
+                        },
+                    }]);
+                }, 2000);
+            });
+        });
+        mock.onGet(`/doc/add/info`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: 200,
+                        msg: '成功',
+                        data: {
+                            course: [{
+                                id: '0',
+                                name: '大学物理',
+                            },{
+                                id: '1',
+                                name: '英语',
+                            },{
+                                id: '2',
+                                name: '体育',
+                            }]
+                        },
+                    }]);
+                }, 2000);
+            });
+        });
+        //列表
         mock.onGet(`/doc/list`).reply(config => {
             return u.getMockList(config, [{
                 id: '1',
@@ -657,6 +723,175 @@ export default {
                 }]
             }]);
         });
+
+        /** 以下test **/
+        mock.onGet(`/classTest/list`).reply(config => {
+            return u.getMockList(config, [{
+                id: '1',
+                name:'物理测试1',
+                paper:'物理期中试卷1',
+                testRange:'2018/01/01 8:00-8:20',
+                status:'进行中',
+                listener:'张老师',
+                testClass:'16级计算机3班',
+            },{
+                id: '2',
+                name:'物理测试2',
+                paper:'物理期中试卷2',
+                testRange:'2018/01/01 10:00-10:20',
+                status:'未开始',
+                listener:'张老师',
+                testClass:'16级计算机3班',
+            }]);
+        });
+        mock.onGet(`/classTest/filter`).reply(config => {
+            return u.getMockList(config, [{
+                title:'课程',
+                field:'project',
+                children:[{
+                    value:'hysics',
+                    text:'大学物理'
+                },{
+                    value:'mathematics',
+                    text:'高等数学'
+                },{
+                    value:'english',
+                    text:'大学英语'
+                }]
+            },{
+                title:'状态',
+                field:'status',
+                children:[{
+                    value:'0',
+                    text:'未开始'
+                },{
+                    value:'1',
+                    text:'进行中'
+                },{
+                    value:'2',
+                    text:'已结束'
+                }]
+            }]);
+        });
+        mock.onGet(`/classTest/detail/list`).reply(config => {
+            return u.getMockList(config, [{
+                studentNo: '01112307',
+                name: '叶子',
+                class: '16级计算机3班',
+                percentage: 70
+            },{
+                studentNo: '01112307',
+                name: '叶子',
+                class: '16级计算机3班',
+                percentage: 70
+            },{
+                studentNo: '01112307',
+                name: '叶子',
+                class: '16级计算机3班',
+                percentage: 70
+            },{
+                studentNo: '01112307',
+                name: '叶子',
+                class: '16级计算机3班',
+                percentage: 70
+            },{
+                studentNo: '01112307',
+                name: '叶子',
+                class: '16级计算机3班',
+                percentage: 70
+            },{
+                studentNo: '01112307',
+                name: '叶子',
+                class: '16级计算机3班',
+                percentage: 70
+            }]);
+        });
+        mock.onGet(`/classTest/detail/filter`).reply(config => {
+            return u.getMockList(config, [{
+                title: '院系',
+                field: 'department',
+                children: [{
+                    value: 'computer',
+                    text: '计算机'
+                },{
+                    value: 'accounting',
+                    text: '会计'
+                },{
+                    value: 'traffic',
+                    text: '交运'
+                },{
+                    value: 'park',
+                    text: '园林'
+                },{
+                    value: 'architecture ',
+                    text: '建筑与艺术'
+                }]
+            },{
+                title: '班级',
+                field: 'class',
+                children: [{
+                    value: '20170801',
+                    text: '1班'
+                },{
+                    value: '20170802',
+                    text: '2班'
+                },{
+                    value: '20170803',
+                    text: '3班'
+                }]
+            }]);
+        });
+        mock.onGet(`/publish/add/info`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: 200,
+                        msg: '成功',
+                        data: {
+                            test: [{
+                                id: '0',
+                                name: '物理测试卷1',
+                            },{
+                                id: '1',
+                                name: '物理测试卷2',
+                            },{
+                                id: '2',
+                                name: '物理测试卷3',
+                            }],
+                            grade: [{
+                                id: '0',
+                                name: '16级',
+                            },{
+                                id: '1',
+                                name: '14级',
+                            }],
+                            department: [{
+                                id: '0',
+                                name: '物理工程系',
+                            },{
+                                id: '1',
+                                name: '计算机工程系',
+                            }],
+                            class: [{
+                                id: '0',
+                                name: '1班',
+                            },{
+                                id: '1',
+                                name: '3班',
+                            }],
+                            listeners: [{
+                                id: '0',
+                                name: '张老师',
+                            },{
+                                id: '1',
+                                name: '李老师',
+                            }],
+                        },
+                    }]);
+                }, 2000);
+            });
+        });
+
 
         /** 以下setting **/
 

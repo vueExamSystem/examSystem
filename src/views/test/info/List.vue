@@ -1,19 +1,19 @@
 <template>
 	<div>
-        <section v-show="!isShowDetail">
+        <section v-show="!detailId">
     		<my-filter :list="filterList" @callback="search" v-loading="filterLoading"></my-filter>
             <div class="panel">
                 <div class="title">
                     <el-input placeholder="请输入搜索关键词" v-model="keyword">
-                        <el-button slot="append" icon="el-icon-search"></el-button>
+                        <el-button slot="append" icon="el-icon-search" @click="getList"></el-button>
                     </el-input>
                     <div class="pageArea">
-                        <Page :current="currentPage" :total="total" :pageSize="pageSize" @page-change="pageChange"></Page>
+                        <Page :pageNo="pageNo" :totalCount="totalCount" :pageSize="pageSize" @page-change="handleCurrentChange"></Page>
                     </div>
                     
                 </div>
                 <div class="content">
-                    <el-table :data="papers" highlight-current-row v-loading="listLoading" style="width: 100%;">
+                    <el-table :data="rows" highlight-current-row v-loading="listLoading" style="width: 100%;">
                         <el-table-column type="index" label="序号" width="100">
                         </el-table-column>
                         <el-table-column prop="name" label="考试名称" min-width="160">
@@ -35,14 +35,16 @@
                 </div>
             </div>
     	</section>
-        <section v-if="isShowDetail && testId">
-            <test-detail :id="testId" @close="detailClose"></test-detail>
+        <section v-if="detailId">
+            <test-detail :id="detailId" @close="detailClose"></test-detail>
         </section>
     </div>
 </template>
 <script>
 	import myFilter from '../../common/myFilter.vue'
-    import Pagination from '../../common/Pagination.vue'
+    import {getClassTestList, getClassTestFilter} from '../../../api/api';
+    import Pagination from '../../common/Pagination.vue';
+    import _ from 'lodash';
     import testDetail from './Detail.vue'
     export default {
         components:{
@@ -52,77 +54,63 @@
         },
         data() {
             return {
-                keyword:'',
-                filterList:[{
-                    title:'课程',
-                    field:'project',
-                    children:[{
-                        value:'hysics',
-                        text:'大学物理'
-                    },{
-                        value:'mathematics',
-                        text:'高等数学'
-                    },{
-                        value:'english',
-                        text:'大学英语'
-                    }]
-                },{
-                    title:'状态',
-                    field:'status',
-                    children:[{
-                        value:'0',
-                        text:'未开始'
-                    },{
-                        value:'1',
-                        text:'进行中'
-                    },{
-                        value:'2',
-                        text:'已结束'
-                    }]
-                }],
-                papers: [{
-                    id: '1',
-                    name:'物理测试1',
-                    paper:'物理期中试卷1',
-                    testRange:'2018/01/01 8:00-8:20',
-                    status:'进行中',
-                    listener:'张老师',
-                    testClass:'16级计算机3班',
-                },{
-                    id: '2',
-                    name:'物理测试2',
-                    paper:'物理期中试卷2',
-                    testRange:'2018/01/01 10:00-10:20',
-                    status:'未开始',
-                    listener:'张老师',
-                    testClass:'16级计算机3班',
-                }],
-                total: 10,
-                currentPage: 1,
-                pageSize:5,
+                filterList:[],
+                keyword: '',
+                filter: {},
+                rows: [],
+                totalCount: 0,
+                pageNo: 1,
+                pageSize: 10,
                 listLoading: false,
-                isShowDetail: false,
-                testId:''
+                filterLoading: false,
+
+                detailId: '',
             }
         },
         methods: {
-            search(value){
-                console.log('search',value);
+            detailShow(id) {
+                this.detailId = id;
             },
-            pageChange(){
-
+            detailClose() {
+                this.detailId = '';
             },
-            detailShow(id){
-                this.isShowDetail = true;
-                this.testId = id;
+            handleCurrentChange(val) {
+                this.pageNo = val;
+                this.getUsers();
             },
-            detailClose(){
-                this.isShowDetail = false;
-                this.testId = '';
-            }
+            search(obj) {
+                this.filter = obj;
+                this.getList();
+            },
+            //获取用户列表
+            getList() {
+                let para = {
+                    pageNo: this.pageNo,
+                    filter: JSON.stringify(this.filter),
+                    keyword: this.keyword,
+                    pageSize: this.pageSize,
+                };
+                if (!this.listLoading) this.listLoading = true;
+                getClassTestList(para).then((res) => {
+                    res = res.data;
+                    this.totalCount = res.totalCount;
+                    this.rows = res.rows;
+                    if (!this.filterLoading) this.listLoading = false
+                });
+            },
+            // 获取过滤器数据
+            getFilter() {
+                this.filterLoading = true;
+                this.listLoading = true;
+                getClassTestFilter({}).then((res) => {
+                    this.filterList = res.data;
+                    this.filterLoading = false;
+                    this.getList();
+                });
+            },
         },
         mounted() {
-
+            this.getFilter();
         }
     }
 </script>

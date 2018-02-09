@@ -91,10 +91,26 @@ export const getExampleDetailFilter = params => { return instance.get(`${base}/e
 
 export const getExampleDetailList = params => { return instance.get(`${base}/example/detail/list`, params ).then(res => res.data);};
 
+export const getExampleAddInfo = params => { return instance.get(`${base}/example/add/info`, params ).then(res => res.data);};
+
+export const getDocAddInfo = params => { return instance.get(`${base}/doc/add/info`, params ).then(res => res.data);};
+
 export const getDocFilter = params => { return instance.get(`${base}/doc/filter`, params ).then(res => res.data);};
 
 export const getDocList = params => { return instance.get(`${base}/doc/list`, params ).then(res => res.data);};
 
+/*
+*  测验 start
+* */
+export const getClassTestFilter = params => { return instance.get(`${base}/classTest/filter`, params ).then(res => res.data);};
+
+export const getClassTestList = params => { return instance.get(`${base}/classTest/list`, params ).then(res => res.data);};
+
+export const getClassTestDetailFilter = params => { return instance.get(`${base}/classTest/detail/filter`, params ).then(res => res.data);};
+
+export const getClassTestDetailList = params => { return instance.get(`${base}/classTest/detail/list`, params ).then(res => res.data);};
+
+export const getPublishAddInfo = params => { return instance.get(`${base}/publish/add/info`, params ).then(res => res.data);};
 
 /*
 *  设置 start

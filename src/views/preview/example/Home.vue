@@ -1,10 +1,10 @@
 <template>
     <el-tabs type="border-card" v-model="activeName">
-        <el-tab-pane label="习题列表" name="examplelist">
-            <List></List>
+        <el-tab-pane label="习题列表" name="list">
+            <List ref="table"></List>
         </el-tab-pane>
-        <el-tab-pane label="发布习题" name="exampleadd">
-            <add-form></add-form>
+        <el-tab-pane label="发布习题" name="add">
+            <add-form @toTable="toTable"></add-form>
         </el-tab-pane>
     </el-tabs>
 </template>
@@ -19,11 +19,14 @@
         },
         data() {
             return {
-                activeName:'examplelist',
+                activeName:'list',
             }
         },
         methods: {
-           
+            toTable() {
+                this.activeName = 'list';
+                this.$refs.table.getList();
+            },
         },
         mounted() {
 
