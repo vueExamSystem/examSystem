@@ -777,28 +777,48 @@ export default {
             return u.getMockList(config, PaperList);
         });
         //获取试卷详情
-        mock.onGet(`/paper/detail`).reply(config => {
+        mock.onPost(`/paper/detail`).reply(config => {
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
-                    resolve([200, PaperDetail]);
+                    resolve([200, {
+                        code: '0',
+                        msg: '获取成功',
+                        data:PaperDetail
+                    }]);
                 }, 1000);
             });
         });
         //获取试卷题目详情
-        mock.onGet(`/paper/problem`).reply(config => {
+        mock.onPost(`/paper/problem`).reply(config => {
             var params = JSON.parse(config.data);
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
                     if (params.isNecessary) {
-                        if (params.type === 'radio') {
-                            resolve([200, radioProblem]);
-                        } else if (params.type === 'check') {
-                            resolve([200, checkProblem]);
-                        } else if (params.type === 'judge') {
-                            resolve([200, judgeProblem]);
+                        if (params.type === 'radio') {//单选
+                            resolve([200, {
+                                code: '0',
+                                msg: '获取成功',
+                                data:radioProblem
+                            }]);
+                        } else if (params.type === 'check') {//多选
+                            resolve([200, {
+                                code: '0',
+                                msg: '获取成功',
+                                data:checkProblem
+                            }]);
+                        } else if (params.type === 'judge') {//判断
+                            resolve([200, {
+                                code: '0',
+                                msg: '获取成功',
+                                data:judgeProblem
+                            }]);
                         }
-                    } else {
-                        resolve([200, optionProblem]);
+                    } else {//选做
+                        resolve([200, {
+                            code: '0',
+                            msg: '获取成功',
+                            data:optionProblem
+                        }]);
                     }
                 }, 1000);
             });

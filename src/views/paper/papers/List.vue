@@ -19,7 +19,7 @@
                         </el-table-column>
                         <el-table-column prop="name" label="试卷名称" min-width="160">
                             <template scope="scope">
-                                <el-button type="text" @click="detailShow(scope.row.id)">{{scope.row.name}}</el-button>
+                                <el-button type="text" @click="detailShow(scope.row.id, scope.row.name)">{{scope.row.name}}</el-button>
                             </template>
                         </el-table-column>
                         <el-table-column prop="duration" label="时长(min)" min-width="100">
@@ -43,7 +43,7 @@
             </div>
         </section>
         <section v-if="isShowDetail && detailPaperId">
-            <paper-detail :id="detailPaperId" @close="detailClose"></paper-detail>
+            <paper-detail :id="detailPaperId" :name="detailPaperName" @close="detailClose"></paper-detail>
         </section>
     </div>
 </template>
@@ -72,7 +72,8 @@
                 filter:[],
                 filterList: [],
                 isShowDetail: false,
-                detailPaperId: ''
+                detailPaperId: '',
+                detailPaperName: ''
             }
         },
         methods: {
@@ -125,13 +126,15 @@
                     return '已删除'
                 }
             },
-            detailShow(id){
+            detailShow(id, name){
                 this.isShowDetail = true;
                 this.detailPaperId = id.toString();
+                this.detailPaperName = name;
             },
             detailClose(){
                 this.isShowDetail = false;
                 this.detailPaperId = '';
+                this.detailPaperName = '';
             }
            
         },
