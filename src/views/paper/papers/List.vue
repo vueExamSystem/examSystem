@@ -15,16 +15,19 @@
                     <el-table :data="papers" highlight-current-row v-loading="listLoading" style="width: 100%;">
                         <el-table-column type="index" label="序号" width="60">
                         </el-table-column>
-                        <el-table-column prop="name" label="试卷名称" min-width="160">
+                        <el-table-column prop="remark" label="试卷名称" min-width="160">
                             <template scope="scope">
-                                <el-button type="text" @click="detailShow(scope.row.id)">{{scope.row.name}}</el-button>
+                                <el-button type="text" @click="detailShow(scope.row.id)">{{scope.row.remark}}</el-button>
                             </template>
                         </el-table-column>
                         <el-table-column prop="duration" label="时长(min)" min-width="100">
                         </el-table-column>
-                        <el-table-column prop="project" label="所属课程" min-width="120">
-                        </el-table-column>
-                        <el-table-column prop="category" label="类别" min-width="100">
+                       <el-table-column prop="course" label="学科" sortable>
+                                            <template slot-scope="scope">
+                        <span v-if="scope.row.course">{{scope.row.course.name}}</span>
+                      </template>   
+                    </el-table-column>
+                        <el-table-column prop="paperType" label="类别" min-width="100">
                         </el-table-column>
                         <el-table-column prop="status" label="状态" min-width="100" :formatter="formatStatus">
                         </el-table-column>
@@ -120,7 +123,8 @@
                 console.log('params',params)
                 getPaperList(params).then(res => {
                     this.listLoading = false;
-                    this.papers = res.data;
+                    this.papers = res.data.rows;
+                     this.totalCount = res.data.totalCount;
                 });
             },
             filterCallback(filters){

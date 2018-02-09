@@ -180,6 +180,7 @@
 					if(isValid){
 						//to do
 						//save ...
+						
 						if(flag && flag == 'next'){
 							this.resetForm('form');
 							this.detailPaperId = '1';

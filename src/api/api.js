@@ -140,6 +140,6 @@ export const getDepScoreStaList = params => { return instance.get(`${base}/depar
 export const getPaperList = params => { return instance.post(`${base}/paper/list`, qs.stringify(params)  ).then(res => res.data);};
 
 //试卷详情
-export const getPaperDetail = params => { return instance.post(`${base}/paper/detail`, params ).then(res => res.data); };
+export const getPaperDetail = params => { return instance.post(`${base}/paper/detail`, qs.stringify(params)  ).then(res => res.data); };
 //获取试卷题目详情
-export const getPaperProblem = params => { return instance.post(`${base}/paper/problem`, params ).then(res => res.data); };
+export const getPaperProblem = params => { return instance.post(`${base}/paper/problem`, qs.stringify(params)  ).then(res => res.data); };
