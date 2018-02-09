@@ -951,33 +951,122 @@ export default {
 
         /** 以下paper **/
         //获取试卷列表
+        mock.onGet(`/paper/filter`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: '0',
+                        data: [{
+                            title:'课程',
+                            field:'project',
+                            children:[{
+                                value:'hysics',
+                                text:'大学物理'
+                            },{
+                                value:'mathematics',
+                                text:'高等数学'
+                            },{
+                                value:'english',
+                                text:'大学英语'
+                            }]
+                        },{
+                            title:'类别',
+                            field:'category',
+                            children:[{
+                                value:'1',
+                                text:'随机组卷'
+                            },{
+                                value:'2',
+                                text:'手动组卷'
+                            }]
+                        },{
+                            title:'状态',
+                            field:'status',
+                            children:[{
+                                value:'0',
+                                text:'未完成'
+                            },{
+                                value:'1',
+                                text:'已完成'
+                            }]
+                        }],
+                        msg: "获取成功"
+                    }]);
+                },2000);
+            });
+        });
+        //获取试卷列表
         mock.onPost(`/paper/list`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: '0',
+                        data: {
+                            totalCount: 239,
+                            rows: PaperList
+                        },
+                        msg: "获取成功"
+                    }]);
+                },2000);
+            });
             return u.getMockList(config, PaperList);
         });
         //获取试卷详情
-        mock.onGet(`/paper/detail`).reply(config => {
+        mock.onPost(`/paper/detail`).reply(config => {
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
-                    resolve([200, PaperDetail]);
+                    resolve([200, {
+                        code: '0',
+                        msg: '获取成功',
+                        data:PaperDetail
+                    }]);
                 }, 1000);
             });
         });
         //获取试卷题目详情
-        mock.onGet(`/paper/problem`).reply(config => {
+        mock.onPost(`/paper/problem`).reply(config => {
             var params = JSON.parse(config.data);
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
                     if (params.isNecessary) {
-                        if (params.type === 'radio') {
-                            resolve([200, radioProblem]);
-                        } else if (params.type === 'check') {
-                            resolve([200, checkProblem]);
-                        } else if (params.type === 'judge') {
-                            resolve([200, judgeProblem]);
+                        if (params.type === 'radio') {//单选
+                            resolve([200, {
+                                code: '0',
+                                msg: '获取成功',
+                                data:radioProblem
+                            }]);
+                        } else if (params.type === 'check') {//多选
+                            resolve([200, {
+                                code: '0',
+                                msg: '获取成功',
+                                data:checkProblem
+                            }]);
+                        } else if (params.type === 'judge') {//判断
+                            resolve([200, {
+                                code: '0',
+                                msg: '获取成功',
+                                data:judgeProblem
+                            }]);
                         }
-                    } else {
-                        resolve([200, optionProblem]);
+                    } else {//选做
+                        resolve([200, {
+                            code: '0',
+                            msg: '获取成功',
+                            data:optionProblem
+                        }]);
                     }
+                }, 1000);
+            });
+        });
+        //添加试卷
+        mock.onPost(`/paper/submit`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                            code: '0',
+                            msg: '提交成功',
+                            data: ''
+                        }]);
                 }, 1000);
             });
         });

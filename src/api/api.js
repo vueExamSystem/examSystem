@@ -158,9 +158,13 @@ export const getDepScoreStaList = params => { return instance.get(`${base}/depar
 /*
 * 试卷 start
 * */
+export const getPaperFilter = params => { return instance.get(`${base}/paper/filter`, params ).then(res => res.data);};
+
 export const getPaperList = params => { return instance.post(`${base}/paper/list`, qs.stringify(params)  ).then(res => res.data);};
 
 //试卷详情
 export const getPaperDetail = params => { return instance.post(`${base}/paper/detail`, params ).then(res => res.data); };
 //获取试卷题目详情
 export const getPaperProblem = params => { return instance.post(`${base}/paper/problem`, params ).then(res => res.data); };
+//添加试卷
+export const paperSubmit = params => { return instance.post(`${base}/paper/submit`, params ).then(res => res.data); };
