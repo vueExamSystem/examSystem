@@ -150,3 +150,5 @@ export const getPaperList = params => { return instance.post(`${base}/paper/list
 export const getPaperDetail = params => { return instance.post(`${base}/paper/detail`, params ).then(res => res.data); };
 //获取试卷题目详情
 export const getPaperProblem = params => { return instance.post(`${base}/paper/problem`, params ).then(res => res.data); };
+//添加试卷
+export const paperSubmit = params => { return instance.post(`${base}/paper/submit`, params ).then(res => res.data); };

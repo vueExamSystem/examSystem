@@ -8,7 +8,7 @@
 					<el-button type="danger" @click="resetForm('form')" class="el-button-shadow">重置</el-button>
 				</div>
 			</div>
-			<div class="content">
+			<div class="content" v-loading="isSubmitting">
 				<el-form id="paperForm" ref="form" :model="form" :rules="rules" label-width="110px" :inline-message="isInlineMessage" @submit.prevent="onSubmit">
 					<el-form-item label="试卷名称：" prop="name">
 						<el-input v-model="form.name"></el-input>
@@ -81,6 +81,7 @@
 </template>
 <script>
 	import Detail from './Detail.vue'
+	import { paperSubmit } from '../../../api/api';
 	export default {
 		components:{
 			Detail
@@ -97,21 +98,22 @@
 			return {
 				isInlineMessage: true,
 				isNext: false,
+				isSubmitting: false,
 				form: {
-					name: '',
-					subject: '',
-					mode: 'random',
-					time: '',
-					radiocount:'',
-					radioscore:'',
-					checkcount:'',
-					checkscore:'',
-					judgecount:'',
-					judgescore:'',
-					optional:'',
-					necessary:'',
-					choosescore:'',
-					total: '100'
+					name: '',//试卷名称
+					subject: '',//科目
+					mode: 'random',//组卷方式
+					time: '',//考试时间
+					radiocount:'',//单选题数
+					radioscore:'',//单选每题分数
+					checkcount:'',//多选题数
+					checkscore:'',//多选每题分数
+					judgecount:'',//判断分数
+					judgescore:'',//判断每题分数
+					optional:'',//选做题数
+					necessary:'',//选做必做题数
+					choosescore:'',//选做每题分数
+					total: 100//总分
 				},
 				detailPaperId:'',
 				rules:{
@@ -178,13 +180,65 @@
 			onSubmit(formName, flag) {
 				this.$refs[formName].validate((isValid) => {
 					if(isValid){
-						//to do
-						//save ...
-						if(flag && flag == 'next'){
-							this.resetForm('form');
-							this.detailPaperId = '1';
-							this.isNext = true;
+						//验证总分是否100分
+						if(this.isConfigRequired){
+							if(this.form.necessary>this.form.optional){
+								this.alerrError("选做题的需做数超过总题数!");
+								return false;
+							}
+							var sum = 0;
+							sum += this.form.radiocount * this.form.radioscore;
+							sum += this.form.checkcount * this.form.checkscore;
+							sum += this.form.judgecount * this.form.judgescore;
+							sum += this.form.choosescore * this.form.necessary;
+							if(sum != this.form.total){
+								this.alerrError("分数已配置:" + sum + "分; 总分:"+ this.form.total +"分;不一致!");
+								return false;
+							}
+						}else{
+							this.form.radiocount = '';
+							this.form.radioscore = '';
+							this.form.checkcount = '';
+							this.form.checkscore = '';
+							this.form.judgecount = '';
+							this.form.judgescore = '';
+							this.form.optional = '';
+							this.form.necessary = '';
+							this.form.choosescore = '';
 						}
+
+						//to do
+						var params = {
+							name: this.form.name,//试卷名称
+							subject: this.form.subject,//科目
+							mode: this.form.mode,//组卷方式
+							time: this.form.time,//考试时间
+							radiocount: this.form.radiocount,//单选题数
+							radioscore: this.form.radioscore,//单选每题分数
+							checkcount: this.form.checkcount,//多选题数
+							checkscore: this.form.checkscore,//多选每题分数
+							judgecount: this.form.judgecount,//判断分数
+							judgescore: this.form.judgescore,//判断每题分数
+							optional: this.form.optional,//选做题数
+							necessary: this.form.necessary,//选做必做题数
+							choosescore: this.form.choosescore,//选做每题分数
+							total: this.form.total//总分
+						};
+						//提交
+						this.isSubmitting = true;
+						paperSubmit(params).then( res => {
+							this.$message({
+			                    type: 'success',
+			                    message: '保存成功',
+			                });
+			                this.resetForm('form');
+			                this.isSubmitting = false;
+							if(flag && flag == 'next'){
+								this.detailPaperId = '1';
+								this.isNext = true;
+							}
+						});
+						
 					}else{
 						return false;
 					}

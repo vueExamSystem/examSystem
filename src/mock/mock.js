@@ -823,5 +823,17 @@ export default {
                 }, 1000);
             });
         });
+        //添加试卷
+        mock.onPost(`/paper/submit`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                            code: '0',
+                            msg: '提交成功',
+                            data: ''
+                        }]);
+                }, 1000);
+            });
+        });
     }
 };
