@@ -447,6 +447,217 @@ export default {
             });
         });
 
+        /**  以下预习 **/
+        //列表
+        mock.onGet(`/example/list`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: 200,
+                        msg: '成功',
+                        data: {
+                            totalCount: '3',
+                            rows: [{
+                                id: '1',
+                                name: '物理第一章预习',
+                                paperName: '物理第一章',
+                                endTime: '2017/12/10 8:00',
+                                previewClass: '16级计算机3班'
+                            },{
+                                id: '2',
+                                name: '物理第一章预习',
+                                paperName: '物理第一章',
+                                endTime: '2017/12/10 8:00',
+                                previewClass: '16级计算机3班'
+                            },{
+                                id: '3',
+                                name: '物理第一章预习',
+                                paperName: '物理第一章',
+                                endTime: '2017/12/10 8:00',
+                                previewClass: '16级计算机3班'
+                            }],
+                        },
+                    }]);
+                }, 2000);
+            });
+        });
+
+        //filter
+        mock.onGet(`/example/filter`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: 200,
+                        msg: '成功',
+                        data: [{
+                            title:'课程',
+                            field:'project',
+                            children:[{
+                                value:'hysics',
+                                text:'大学物理'
+                            },{
+                                value:'mathematics',
+                                text:'高等数学'
+                            },{
+                                value:'english',
+                                text:'大学英语'
+                            }]
+                        },{
+                            title:'年级',
+                            field:'grade',
+                            children:[{
+                                value:'2014',
+                                text:'14级'
+                            },{
+                                value:'2015',
+                                text:'15级'
+                            },{
+                                value:'2016',
+                                text:'16级'
+                            },{
+                                value:'2017',
+                                text:'17级'
+                            }]
+                        },{
+                            title:'状态',
+                            field:'status',
+                            children:[{
+                                value:'unfinished',
+                                text:'未结束'
+                            },{
+                                value:'finished',
+                                text:'已结束'
+                            }]
+                        }],
+                    }]);
+                }, 2000);
+            });
+        });
+        //列表
+        mock.onGet(`/example/detail/list`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: 200,
+                        msg: '成功',
+                        data: {
+                            totalCount: '3',
+                            rows: [{
+                                studentNo: '01112307',
+                                name: '叶子',
+                                class: '16级计算机3班',
+                                percentage: 70
+                            },{
+                                studentNo: '01112307',
+                                name: '叶子',
+                                class: '16级计算机3班',
+                                percentage: 70
+                            },{
+                                studentNo: '01112307',
+                                name: '叶子',
+                                class: '16级计算机3班',
+                                percentage: 70
+                            },{
+                                studentNo: '01112307',
+                                name: '叶子',
+                                class: '16级计算机3班',
+                                percentage: 70
+                            },{
+                                studentNo: '01112307',
+                                name: '叶子',
+                                class: '16级计算机3班',
+                                percentage: 70
+                            },{
+                                studentNo: '01112307',
+                                name: '叶子',
+                                class: '16级计算机3班',
+                                percentage: 70
+                            }],
+                        },
+                    }]);
+                }, 2000);
+            });
+        });
+
+        //filter
+        mock.onGet(`/example/detail/filter`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: 200,
+                        msg: '成功',
+                        data: [{
+                            title: '院系',
+                            field: 'department',
+                            children: [{
+                                value: 'computer',
+                                text: '计算机'
+                            },{
+                                value: 'accounting',
+                                text: '会计'
+                            },{
+                                value: 'traffic',
+                                text: '交运'
+                            },{
+                                value: 'park',
+                                text: '园林'
+                            },{
+                                value: 'architecture ',
+                                text: '建筑与艺术'
+                            }]
+                        },{
+                            title: '班级',
+                            field: 'class',
+                            children: [{
+                                value: '20170801',
+                                text: '1班'
+                            },{
+                                value: '20170802',
+                                text: '2班'
+                            },{
+                                value: '20170803',
+                                text: '3班'
+                            }]
+                        }],
+                    }]);
+                }, 2000);
+            });
+        });
+        //列表
+        mock.onGet(`/doc/list`).reply(config => {
+            return u.getMockList(config, [{
+                id: '1',
+                name:'物理期中考试',
+                project:'大学物理'
+            },{
+                id: '2',
+                name:'物理期中考试',
+                project:'大学物理'
+            },{
+                id: '3',
+                name:'物理期中考试',
+                project:'大学物理'
+            }]);
+        });
+
+        //filter
+        mock.onGet(`/doc/filter`).reply(config => {
+            return u.getMockList(config, [{
+                title:'课程',
+                field:'project',
+                children:[{
+                    value:'hysics',
+                    text:'大学物理'
+                },{
+                    value:'mathematics',
+                    text:'高等数学'
+                },{
+                    value:'english',
+                    text:'大学英语'
+                }]
+            }]);
+        });
+
         /** 以下setting **/
 
         //获取log列表
@@ -505,7 +716,64 @@ export default {
 
         /** 以下paper **/
         //获取试卷列表
+        mock.onGet(`/paper/filter`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: '0',
+                        data: [{
+                            title:'课程',
+                            field:'project',
+                            children:[{
+                                value:'hysics',
+                                text:'大学物理'
+                            },{
+                                value:'mathematics',
+                                text:'高等数学'
+                            },{
+                                value:'english',
+                                text:'大学英语'
+                            }]
+                        },{
+                            title:'类别',
+                            field:'category',
+                            children:[{
+                                value:'1',
+                                text:'随机组卷'
+                            },{
+                                value:'2',
+                                text:'手动组卷'
+                            }]
+                        },{
+                            title:'状态',
+                            field:'status',
+                            children:[{
+                                value:'0',
+                                text:'未完成'
+                            },{
+                                value:'1',
+                                text:'已完成'
+                            }]
+                        }],
+                        msg: "获取成功"
+                    }]);
+                },2000);
+            });
+        });
+        //获取试卷列表
         mock.onPost(`/paper/list`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: '0',
+                        data: {
+                            totalCount: 239,
+                            rows: PaperList
+                        },
+                        msg: "获取成功"
+                    }]);
+                },2000);
+            });
             return u.getMockList(config, PaperList);
         });
         //获取试卷详情
