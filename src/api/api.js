@@ -158,6 +158,8 @@ export const getPaperFilter = params => { return instance.get(`${base}/paper/fil
 
 export const getPaperList = params => { return instance.post(`${base}/paper/list`, qs.stringify(params)  ).then(res => res.data);};
 
+export const savePaper = params => { return instance.post(`${base}/paper/save`, qs.stringify(params)  ).then(res => res.data);};
+
 //试卷详情
 export const getPaperDetail = params => { return instance.post(`${base}/paper/detail`, qs.stringify(params)  ).then(res => res.data); };
 //获取试卷题目详情

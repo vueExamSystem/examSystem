@@ -15,9 +15,9 @@
 					</el-form-item>
 					<el-form-item label="选择科目：" prop="subject"> 
 						<el-select v-model="form.subject" placeholder="请选择科目">
-							<el-option label="大学物理" value="hysics"></el-option>
-							<el-option label="高等数学" value="mathematics"></el-option>
-							<el-option label="大学英语" value="english"></el-option>
+							<el-option label="大学物理" value="1"></el-option>
+							<el-option label="高等数学" value="2"></el-option>
+							<el-option label="大学英语" value="3"></el-option>
 						</el-select>
 					</el-form-item>
 					<el-form-item label="组卷方式：" prop="mode">
@@ -81,6 +81,7 @@
 </template>
 <script>
 	import Detail from './Detail.vue'
+	 import {savePaper} from '../../../api/api';
 	export default {
 		components:{
 			Detail
@@ -176,10 +177,46 @@
 		},
 		methods: {
 			onSubmit(formName, flag) {
-				this.$refs[formName].validate((isValid) => {
-					if(isValid){
-						//to do
-						//save ...
+				   this.$refs['form'].validate((valid) => {
+					if(valid){
+						var paperParams = {
+                            name: this.form.name,
+                            "course.id": this.form.subject,
+                            duration:this.form.time,
+                            radiocount: this.form.radiocount,
+                            radioscore: this.form.radioscore,
+                           checkcount: this.form.checkcount,
+                            checkscore: this.form.checkscore,
+                            judgecount: this.form.judgecount,
+                           judgescore: this.form.judgescore,
+                            optional: this.form.optional,
+                            necessary: this.form.necessary,
+                            choosescore: this.form.choosescore,
+                            total:this.form.total,
+                            mode: this.form.mode,
+                        };
+                        this.$confirm('确认添加吗？', '提示', {}).then(() => {
+                            this.loading = true;
+                            savePaper(paperParams).then((res) => {
+                                res=res.data;
+                                console.log(res);
+                                if (res.code != '0') {
+                                    this.$message({
+                                        message: "题目数量不足",
+                                        type: 'error'
+                                    });
+                                } else {
+                                    this.$message({
+                                        message: '提交成功',
+                                        type: 'success'
+                                    });
+                                    this.loading = false;
+                                    this.$refs['form'].resetFields();
+                                    this.$emit('toTable');
+                                }
+
+                            });
+                        });
 						
 						if(flag && flag == 'next'){
 							this.resetForm('form');

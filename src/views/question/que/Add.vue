@@ -285,7 +285,7 @@
                         this.$confirm('确认添加吗？', '提示', {}).then(() => {
                             this.loading = true;
                             saveQue(queParams).then((res) => {
-                                res=res.data;
+                                
                                 if (res.code != '0') {
                                     this.$message({
                                         message: res.msg,
