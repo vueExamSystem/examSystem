@@ -59,6 +59,8 @@ export const getSectionFilter = params => { return instance.get(`${base}/section
 // department
 export const getSameList = params => { return instance.get(`${base}/same/list`, params ).then(res => res.data); };
 
+export const getSameTreeList = params => { return instance.get(`${base}/same/tree`, params ).then(res => res.data); };
+
 // department
 export const getGroupList = params => { return instance.get(`${base}/group/list`, params ).then(res => res.data); };
 
