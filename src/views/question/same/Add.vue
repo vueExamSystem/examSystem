@@ -20,8 +20,8 @@
 						<el-option
 								v-for="item in courseArr"
 								:label="item.text"
-								:value="item.id"
-								:key="item.id"
+								:value="item.value"
+								:key="item.value"
 						>
 						</el-option>
 					</el-select>
@@ -31,8 +31,8 @@
 						<el-option
 								v-for="item in chapterArr"
 								:label="item.text"
-								:value="item.id"
-								:key="item.id"
+								:value="item.value"
+								:key="item.value"
 						>
 						</el-option>
 					</el-select>
@@ -126,7 +126,7 @@
             getDefaultData() {
                 getCourseFilter({}).then((res) => {
                     console.log('getCourseFilter',res);
-                    this.courseArr = res.data.children;
+                    this.courseArr = res.data[0].children;
                 });
                 getSectionFilter({}).then((res) => {
                     console.log('getSectionFilter',res);

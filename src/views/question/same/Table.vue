@@ -157,6 +157,7 @@
                 };
                 if (!this.listLoading) this.listLoading = true;
                 getSameList(para).then((res) => {
+                    res=res.data;
                     this.totalCount = res.totalCount;
                     this.rows = res.rows;
                     if (!this.filterLoading) this.listLoading = false;
