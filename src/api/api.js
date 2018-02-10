@@ -69,7 +69,7 @@ export const getSectionFilter = params => { return instance.post(`${base}/chapte
 
 
 // department
-export const getSameList = params => { return instance.get(`${base}/same/list`, params ).then(res => res.data); };
+export const getSameList = params => { return instance.post(`${base}/same/list`, qs.stringify(params) ).then(res => res.data); };
 
 export const getSameTreeList = params => { return instance.get(`${base}/same/tree`, params ).then(res => res.data); };
 
