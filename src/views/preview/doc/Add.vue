@@ -14,10 +14,10 @@
 						<el-input v-model="form.name"></el-input>
 					</el-form-item>
 					<el-form-item label="选择课程：" prop="course"> 
-						<el-select v-model="form.subject" placeholder="请选择课程">
-							<el-option label="大学物理" value="hysics"></el-option>
-							<el-option label="高等数学" value="mathematics"></el-option>
-							<el-option label="大学英语" value="english"></el-option>
+						<el-select v-model="form.course" placeholder="请选择课程">
+							<template v-for="item in defaultInfo.course">
+								<el-option :label="item.name" :value="item.id" :key="item.id"></el-option>
+							</template>
 						</el-select>
 					</el-form-item>
 					<el-form-item label="上传文件：" prop="upload" style="position:relative;">
@@ -45,6 +45,11 @@
 	</section>
 </template>
 <script>
+    import {
+        getDocAddInfo,
+        addDemo,
+    } from '../../../api/api';
+    import _ from 'lodash';
 	export default {
 		data() {
 			var integerPattern = '^\\d+$';//>=0整数正则
@@ -72,7 +77,11 @@
                     content: [
                         { required: true, message: 'I am not a textarea!', trigger: 'blur' }
                     ]
-				}
+				},
+				loading: false,
+                defaultInfo: {
+                    course: [],
+                },
 			}
 		},
 		computed:{
@@ -82,11 +91,27 @@
 			onSubmit(formName, flag) {
 				this.$refs[formName].validate((isValid) => {
 					if(isValid){
-						//to do
-						//save ...
-						if(flag && flag == 'next'){
-							this.isNext = true;
-						}
+                        this.$confirm('确认添加吗？', '提示', {}).then(() => {
+                            let para = _.assign({}, this.form);
+                            this.loading = true;
+                            addDemo(para).then((res) => {
+                                if (res.code !== '0') {
+                                    this.$message({
+                                        message: res.msg,
+                                        type: 'error'
+                                    });
+                                } else {
+                                    this.$message({
+                                        message: '提交成功',
+                                        type: 'success'
+                                    });
+                                    this.loading = false;
+                                    this.$refs['form'].resetFields();
+                                    this.$emit('toTable');
+                                }
+
+                            });
+                        });
 					}else{
 						return false;
 					}
@@ -107,8 +132,17 @@
             },
             handlePreview(file, type) {
                 console.log(file, type);
-            }
-		}
+            },
+            getDefaultData() {
+                getDocAddInfo({}).then(res => {
+                    this.defaultInfo = res.data;
+                    this.$forceUpdate();
+                });
+            },
+		},
+        mounted() {
+            this.getDefaultData();
+        }
 	}
 </script>
 <style scoped lang="scss">

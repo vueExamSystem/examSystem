@@ -89,7 +89,15 @@
 
             <!--编辑界面-->
             <el-dialog title="添加试题" :visible.sync="addFormVisible" class="noPadding">
-                <add-que @toTable="toTable" :sameId="addId" ref="addForm"></add-que>
+                <el-tree
+                        :data="addRows"
+                        :props="defaultProps"
+                        show-checkbox
+                        node-key="id"
+                        v-loading="treeLoading"
+                        default-expand-all
+                        :expand-on-click-node="false">
+                </el-tree>
                 <div slot="footer" class="dialog-footer">
                     <el-button @click.native="addFormVisible = false">取消</el-button>
                     <el-button type="primary" @click="addFormSubmit">提交</el-button>
@@ -101,7 +109,7 @@
 
 <script>
     import u from '../../../common/js/util';
-    import {getSameList, getSameFilter, getSectionFilter, delDemo} from '../../../api/api';
+    import {getSameList, getSameFilter, getSectionFilter, delDemo, getSameTreeList} from '../../../api/api';
     import myFilter from '../../common/myFilter.vue';
     import Pagination from '../../common/Pagination.vue';
     import AddQue from '../que/Add.vue';
@@ -123,6 +131,12 @@
 
                 addFormVisible: false,
                 addId: '',
+                treeLoading: false,
+                addRows: [],
+                defaultProps: {
+                    children: 'children',
+                    label: 'label',
+                }
             }
         },
         methods: {
@@ -257,10 +271,30 @@
             addDepartment(id) {
                 this.addId = id;
                 this.addFormVisible = true;
+                this.treeLoading = true;
+                getSameTreeList({
+                    courseid: id,
+                }).then(res => {
+                    this.addRows = res.data;
+                    this.treeLoading = false;
+                });
             },
             addFormSubmit() {
-                this.$refs.addForm.onSubmit();
-            }
+                // this.$refs.addForm.onSubmit();
+            },
+            append(data) {
+                const newChild = { id: id++, label: 'testtest', children: [] };
+                if (!data.children) {
+                    this.$set(data, 'children', []);
+                }
+                data.children.push(newChild);
+            },
+            remove(node, data) {
+                const parent = node.parent;
+                const children = parent.data.children || parent.data;
+                const index = children.findIndex(d => d.id === data.id);
+                children.splice(index, 1);
+            },
         },
         watch: {
             filterList: {

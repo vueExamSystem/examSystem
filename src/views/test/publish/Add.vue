@@ -9,39 +9,44 @@
 				</div>
 			</div>
 			<div class="content">
-				<el-form ref="form" :model="form" :rules="rules" label-width="110px" :inline-message="isInlineMessage" @submit.prevent="onSubmit">
+				<el-form ref="form" :model="form" :rules="rules" v-loading="loading"
+						 label-width="110px" :inline-message="isInlineMessage" @submit.prevent="onSubmit">
 					<el-form-item label="考试名称：" prop="name">
 						<el-input v-model="form.name"></el-input>
 					</el-form-item>
 					<el-form-item label="选择测验：" prop="test"> 
 						<el-select v-model="form.test" placeholder="请选择测验">
-							<el-option label="物理测试卷1" value="1"></el-option>
-							<el-option label="物理测试卷2" value="2"></el-option>
-							<el-option label="物理测试卷2" value="3"></el-option>
+							<template v-for="item in defaultInfo.test">
+								<el-option :label="item.name" :value="item.id" :key="item.id"></el-option>
+							</template>
 						</el-select>
 					</el-form-item>
 					<el-form-item label="测试年级：" prop="grade">
 						<el-select v-model="form.grade" placeholder="请选择测试年级">
-							<el-option label="16级" value="16"></el-option>
-							<el-option label="15级" value="15"></el-option>
+							<template v-for="item in defaultInfo.grade">
+								<el-option :label="item.name" :value="item.id" :key="item.id"></el-option>
+							</template>
 						</el-select>
 					</el-form-item>
 					<el-form-item label="测试院系：" prop="department">
 						<el-select v-model="form.department" placeholder="请选择测试院系">
-							<el-option label="物理工程系" value="wuli"></el-option>
-							<el-option label="计算机工程系" value="jisuanji"></el-option>
+							<template v-for="item in defaultInfo.department">
+								<el-option :label="item.name" :value="item.id" :key="item.id"></el-option>
+							</template>
 						</el-select>
 					</el-form-item>
 					<el-form-item label="测试班级：" prop="class">
 						<el-select v-model="form.class" placeholder="请选择测试班级">
-							<el-option label="1班" value="1"></el-option>
-							<el-option label="2班" value="2"></el-option>
+							<template v-for="item in defaultInfo.class">
+								<el-option :label="item.name" :value="item.id" :key="item.id"></el-option>
+							</template>
 						</el-select>
 					</el-form-item>
 					<el-form-item label="监考老师：" prop="listeners">
 						<el-select v-model="form.listeners" placeholder="请选择监考老师">
-							<el-option label="张老师" value="zhang"></el-option>
-							<el-option label="李老师" value="li"></el-option>
+							<template v-for="item in defaultInfo.listeners">
+								<el-option :label="item.name" :value="item.id" :key="item.id"></el-option>
+							</template>
 						</el-select>
 					</el-form-item>
 					<el-form-item label="开始时间：" prop="begintime">
@@ -56,6 +61,11 @@
 	</section>
 </template>
 <script>
+    import {
+        getPublishAddInfo,
+        addDemo,
+    } from '../../../api/api';
+    import _ from 'lodash';
 	export default {
 		data() {
 			return {
@@ -90,28 +100,64 @@
 					listeners:{required:true, message: '请选择监考老师', trigger:'change'},
 					begintime:{required:true, message: '请选择开始时间', trigger:'change'},
 					endtime:{required:true, message: '请选择结束时间', trigger:'change'}
-				}
+				},
+                loading: false,
+                defaultInfo: {
+                    test: [],
+                    listeners: [],
+                    grade: [],
+                    department: [],
+                    class: [],
+                },
 			}
 		},
 		computed:{
 			
 		},
 		methods: {
-			onSubmit(formName, flag) {
-				this.$refs[formName].validate((isValid) => {
-					if(isValid){
-						//to do
-						//save ...
-						
-					}else{
-						return false;
-					}
-				});
-			},
-			resetForm(formName){
-				this.$refs[formName].resetFields();
-			},
-		}
+            onSubmit(formName, flag) {
+                this.$refs[formName].validate((isValid) => {
+                    if (isValid) {
+                        this.$confirm('确认发布吗？', '提示', {}).then(() => {
+                            let para = _.assign({}, this.form);
+                            this.loading = true;
+                            addDemo(para).then((res) => {
+                                if (res.code !== '0') {
+                                    this.$message({
+                                        message: res.msg,
+                                        type: 'error'
+                                    });
+                                } else {
+                                    this.$message({
+                                        message: '提交成功',
+                                        type: 'success'
+                                    });
+                                    this.loading = false;
+                                    this.$refs['form'].resetFields();
+                                    // this.$emit('toTable');
+                                }
+
+                            });
+                        });
+                    } else {
+                        return false;
+                    }
+                });
+            },
+            resetForm(formName) {
+                this.$refs[formName].resetFields();
+            },
+            getDefaultData() {
+                getPublishAddInfo({}).then(res => {
+                    this.defaultInfo = res.data;
+                    console.log(res);
+                    this.$forceUpdate();
+                });
+            },
+        },
+        mounted() {
+            this.getDefaultData();
+        }
 	}
 </script>
 <style scoped lang="scss">
