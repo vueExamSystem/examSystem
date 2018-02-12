@@ -29,6 +29,9 @@ body{
 .clearfix {
    zoom: 1;
 }
+.text-center{
+	text-align: center;
+}
 input{
 	outline: none;
 }

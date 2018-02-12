@@ -7,15 +7,15 @@
 				<el-button type="danger" @click="goBack" class="el-button-shadow">取消</el-button>
 			</div>
 		</div>
-		<div class="content">
-			<my-filter :list="filterList" @callback="filterChange"></my-filter>
-			<div class="panel inner-panel">
+		<div class="content" v-loading="!isInited" style="min-height:300px;">
+			<my-filter v-show="isInited" v-if="isFilterInited" :list="filterList" @callback="filterCallback"></my-filter>
+			<div class="panel inner-panel" v-if="isInited">
 	            <div class="title">
-	                <el-input placeholder="请输入搜索关键词" v-model="keyword">
-	                    <el-button slot="append" icon="el-icon-search"></el-button>
+	                <el-input placeholder="请输入搜索关键词" v-model="keyword" @change="searchClick">
+	                    <el-button slot="append" icon="el-icon-search" @click="searchClick"></el-button>
 	                </el-input>
 	                <div class="pageArea">
-	                    <Page :current="currentPage" :total="total" :pageSize="pageSize" @page-change="pageChange"></Page>
+	                    <Page v-if="!isNewPage" :pageNo="pageNo" :totalCount="totalCount" :pageSize="pageSize" @page-change="pageChange"></Page>
 	                </div>
 	                
 	            </div>
@@ -79,9 +79,14 @@
 </template>
 <script>
 	import myFilter from '../../common/myFilter.vue'
-	import Pagination from '../../common/Pagination.vue'
+	import Pagination from '../../common/Pagination.vue' 
+	import { getProblemFilter, getProblemList } from '../../../api/api';
+	import u from '../../../common/js/util';
 	export default{
 		props:{
+			id:{//试卷id
+				required: true
+			},
 			flag:{
 				required: true
 			}
@@ -95,164 +100,18 @@
 		},
 		data(){
 			return {
-				filterList:[{
-					title: '分类',
-					field: 'category',
-					children:[{
-						value: 'wuli',
-						text: '基础物理'
-					},{
-						value: 'shuxue1',
-						text: '高等数学上'
-					},{
-						value: 'shuxue2',
-						text: '高等数学下'
-					},{
-						value: 'yingyu',
-						text: '英语口语'
-					}]
-				},{
-					title: '标签',
-					field: 'label',
-					children:[{
-						value: 'easy',
-						text: '送分题'
-					},{
-						value: 'simple',
-						text: '简单题'
-					},{
-						value: 'trap',
-						text: '易错题'
-					}]
-				}],
-				questionList:[{
-					name: '万有引力',
-					category: '单选',
-					project: '大学物理',
-					chapter: '第一章',
-					questionGroup: '组别01',
-                	innerRadio: '11',
-					children:[{
-						id: '11',
-						name: '万有引力',
-						category: '单选',
-						project: '大学物理',
-						chapter: '第一章'
-					},{
-						id: '12',
-						name: '万有引力',
-						category: '单选',
-						project: '大学物理',
-						chapter: '第一章'
-					}]
-				},{
-					name: '万有引力',
-					category: '单选',
-					project: '大学物理',
-					chapter: '第一章',
-					questionGroup: '组别02',
-                	innerRadio: '21',
-					children:[{
-						id: '21',
-						name: '万有引力',
-						category: '单选',
-						project: '大学物理',
-						chapter: '第一章'
-					},{
-						id: '22',
-						name: '万有引力',
-						category: '单选',
-						project: '大学物理',
-						chapter: '第一章'
-					}]
-				},{
-					name: '万有引力',
-					category: '单选',
-					project: '大学物理',
-					chapter: '第一章',
-					questionGroup: '组别03',
-                	innerRadio: '31',
-					children:[{
-						id: '31',
-						name: '万有引力',
-						category: '单选',
-						project: '大学物理',
-						chapter: '第一章'
-					},{
-						id: '32',
-						name: '万有引力',
-						category: '单选',
-						project: '大学物理',
-						chapter: '第一章'
-					}]
-				},{
-					name: '万有引力',
-					category: '单选',
-					project: '大学物理',
-					chapter: '第一章',
-					questionGroup: '组别04',
-                	innerRadio: '41',
-					children:[{
-						id: '41',
-						name: '万有引力',
-						category: '单选',
-						project: '大学物理',
-						chapter: '第一章'
-					},{
-						id: '42',
-						name: '万有引力',
-						category: '单选',
-						project: '大学物理',
-						chapter: '第一章'
-					}]
-				},{
-					name: '万有引力',
-					category: '单选',
-					project: '大学物理',
-					chapter: '第一章',
-					questionGroup: '组别05',
-                	innerRadio: '51',
-					children:[{
-						id: '51',
-						name: '万有引力',
-						category: '单选',
-						project: '大学物理',
-						chapter: '第一章'
-					},{
-						id: '52',
-						name: '万有引力',
-						category: '单选',
-						project: '大学物理',
-						chapter: '第一章'
-					}]
-				},{
-					name: '万有引力',
-					category: '单选',
-					project: '大学物理',
-					chapter: '第一章',
-					questionGroup: '组别06',
-                	innerRadio: '61',
-					children:[{
-						id: '61',
-						name: '万有引力',
-						category: '单选',
-						project: '大学物理',
-						chapter: '第一章'
-					},{
-						id: '6',
-						name: '万有引力',
-						category: '单选',
-						project: '大学物理',
-						chapter: '第一章'
-					}]
-				}],
+				isInited: false,
+				isFilterInited: false,
+				filter:[],
+				filterList: [],
+				questionList: [],
 				keyword: '',
-                total: 10,
-                currentPage: 1,
+				isNewPage: true,//是否新分页
+                totalCount: 10,
+                pageNo: 1,
                 pageSize:5,
                 listLoading: false,
-                isShowInnerHeader: false,
-                innerRadio: '11'
+                isShowInnerHeader: false
 			}
 		},
 		computed:{
@@ -268,23 +127,61 @@
 			},
 		},
 		methods:{
-
-			goBack(){
-				this.$emit('back');
-			},
-			filterChange(filterArr){
-				
-			},
-			pageChange(current){
-
-			},
+            // 获取过滤器数据
+            getFilter() {
+                this.isInited = false;
+                this.listLoading = true;
+                getProblemFilter({}).then((res) => {
+                    this.filterList = res.data;
+                    // filter 对应key默认好 -1
+                    this.filter = u.getDefaultFilter(this.filterList);
+                    this.isFilterInited = true;
+                });
+            },
+            search(){
+                this.listLoading = true;
+                var params = {
+                    keyword: this.keyword,
+                    filter: JSON.stringify(this.filter),
+                    pageNo: this.pageNo,
+                    pageSize: this.pageSize
+                };
+                getProblemList(params).then(res => {
+                    this.questionList = res.data.rows;
+                    this.totalCount = res.data.totalCount;
+                    this.isNewPage = false;
+                    this.listLoading = false;
+                    this.isInited = true;
+                });
+            },
+            searchClick(){
+            	this.isNewPage = true;
+                this.pageNo = 1;
+                this.search();
+            },
+            filterCallback(filter){
+                this.filter = filter;
+                this.isNewPage = true;
+                this.pageNo = 1;
+                this.search();
+            },
+            pageChange(pageNo){
+                this.pageNo = pageNo;
+                this.search();
+            },
 			setRowClass({rowIndex}){
 				if(rowIndex%2 == 0){
 					return 'el-row-odd';
 				}else{
 					return 'el-row-even';
 				}
+			},
+			goBack(){
+				this.$emit('back');
 			}
+		},
+		mounted(){
+			this.getFilter();
 		}
 	}
 </script>
