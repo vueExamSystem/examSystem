@@ -170,3 +170,5 @@ export const getPaperDetail = params => { return instance.post(`${base}/paper/de
 export const getPaperProblem = params => { return instance.post(`${base}/paper/problem`, params ).then(res => res.data); };
 //添加试卷
 export const paperSubmit = params => { return instance.post(`${base}/paper/submit`, params ).then(res => res.data); };
+//编辑试卷
+export const eidtPaper = params => { return instance.post(`${base}/paper/edit`, params ).then(res => res.data); };
