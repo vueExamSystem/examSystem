@@ -21,6 +21,8 @@ import {
 import {
     PaperList,
     PaperDetail,
+    ProblemList,
+    AnalysisList,
     radioProblem,
     checkProblem,
     judgeProblem,
@@ -1028,50 +1030,21 @@ export default {
             });
             return u.getMockList(config, PaperList);
         });
-        //获取试卷详情
-        mock.onPost(`/paper/detail`).reply(config => {
+        //获取试卷题目列表
+        mock.onPost(`/paper/problem/list`).reply(config => {
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
                     resolve([200, {
                         code: '0',
                         msg: '获取成功',
-                        data:PaperDetail
-                    }]);
-                }, 1000);
-            });
-        });
-        //获取试卷题目详情
-        mock.onPost(`/paper/problem`).reply(config => {
-            var params = JSON.parse(config.data);
-            return new Promise((resolve, reject) => {
-                setTimeout(() => {
-                    if (params.isNecessary) {
-                        if (params.type === 'radio') {//单选
-                            resolve([200, {
-                                code: '0',
-                                msg: '获取成功',
-                                data:radioProblem
-                            }]);
-                        } else if (params.type === 'check') {//多选
-                            resolve([200, {
-                                code: '0',
-                                msg: '获取成功',
-                                data:checkProblem
-                            }]);
-                        } else if (params.type === 'judge') {//判断
-                            resolve([200, {
-                                code: '0',
-                                msg: '获取成功',
-                                data:judgeProblem
-                            }]);
+                        data: {
+                            detail:{
+                                status: '0',
+                                name: '1111111'
+                            },
+                            list: AnalysisList
                         }
-                    } else {//选做
-                        resolve([200, {
-                            code: '0',
-                            msg: '获取成功',
-                            data:optionProblem
-                        }]);
-                    }
+                    }]);
                 }, 1000);
             });
         });

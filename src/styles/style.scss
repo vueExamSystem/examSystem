@@ -385,6 +385,15 @@ form {
 }
 
 .el-question {
+  &.is-event-able{
+    padding-right: 50px;
+    position: relative;
+    .el-question-btn{
+      position: absolute;
+      top: 4px;
+      right: 0;
+    }
+  }
   .el-question-title {
     font-size: 16px;
     color: #000000;

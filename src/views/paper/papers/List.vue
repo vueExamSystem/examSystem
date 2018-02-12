@@ -17,7 +17,7 @@
                         </el-table-column>
                         <el-table-column prop="name" label="试卷名称" min-width="160">
                             <template scope="scope">
-                                <el-button type="text" @click="detailShow(scope.row.id, scope.row.name)">{{scope.row.name}}</el-button>
+                                <el-button type="text" @click="detailShow(scope.row)">{{scope.row.name}}</el-button>
                             </template>
                         </el-table-column>
                         <el-table-column prop="time" label="时长(min)" min-width="100">
@@ -171,10 +171,10 @@
                     return '已删除'
                 }
             },
-            detailShow(id, name){
+            detailShow(row){
                 this.isShowDetail = true;
-                this.detailPaperId = id.toString();
-                this.detailPaperName = name;
+                this.detailPaperId = row.id;
+                this.detailPaperName = row.name;
             },
             detailClose(){
                 this.isShowDetail = false;
