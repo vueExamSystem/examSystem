@@ -296,7 +296,18 @@
 				}
 			},
 			isEditAble(){
-				return this.detail.status === '0'
+				var isEditAble = true;
+
+				//当前用户与创建人一致
+				//试卷状态未启用
+				//试卷组卷模型为手动
+
+				var userName = this.$store.getters.userName;
+
+				if(this.detail.creator != userName || this.detail.status != '0' || this.detail.mode != 'manual'){
+					isEditAble = false;
+				}
+				return isEditAble;
 			},
 			totalSet(){//已有分值
 				var sum = 0;
@@ -313,6 +324,7 @@
 		},
 		methods:{
 			init(){
+				this.isDrawPage = false;
 				var param = {
 					id: this.id
 				};

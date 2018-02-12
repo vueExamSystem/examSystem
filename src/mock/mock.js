@@ -89,7 +89,7 @@ export default {
                         msg: '请求成功',
                         data: {
                             roles: ['admin'],
-                            username: 'admin',
+                            userName: 'admin',
                             routes:[
                                 {
                                     path: '/index'
@@ -1040,6 +1040,8 @@ export default {
                         data: {
                             detail:{
                                 status: '0',
+                                creator: 'admin',
+                                mode: 'manual',
                                 name: '1111111'
                             },
                             list: AnalysisList

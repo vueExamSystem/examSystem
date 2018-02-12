@@ -7,6 +7,7 @@ Vue.use(Vuex)
 
 const state = {
     token: window.localStorage.getItem('token') || '',//window.sessionStorage.getItem('token') || '',
+    userName: '',
     routers: constantRouterMap,
     roles: [],
     apiRoutes: null,
@@ -14,6 +15,7 @@ const state = {
 };
 const getters = {
   	token: state => state.token,
+    userName: state => state.userName,
     roles: state => state.roles,
     apiRoutes: state => state.apiRoutes,
     addRouters: state => state.addRouters
@@ -23,6 +25,9 @@ const mutations = {
      	  window.localStorage.setItem('token', payload.token);//window.sessionStorage.setItem('token', payload.token);
     	  state.token = payload.token;//console.log('state.token',payload,state.token)
   	},
+    SET_USER(state,payload){
+        state.userName = payload.userName;
+    },
   	LOG_OUT(state){
       	window.localStorage.removeItem('token');//window.sessionStorage.removeItem('token');
     	  state.token = '';
@@ -39,6 +44,9 @@ const actions = {
   	SetToken({commit},payload){
       	commit('SET_TOKEN',payload)
   	},
+    SetUser({commit},payload){
+      commit('SET_USER',payload)
+    },
   	LogOut({commit},payload){
       	commit('LOG_OUT',payload)
   	},
