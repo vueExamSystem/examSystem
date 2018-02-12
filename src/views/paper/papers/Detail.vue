@@ -199,7 +199,7 @@
 				</el-collapse>
 			</div>
 		</div>
-		<add-problem :flag="addType" v-if="isEditAble && isAddProblem" @back="addProblemBack"></add-problem>
+		<add-problem :flag="addType" :id="id" v-if="isEditAble && isAddProblem" @back="addProblemBack"></add-problem>
 	</section>
 </template>
 <script>

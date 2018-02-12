@@ -1062,6 +1062,182 @@ export default {
                 }, 1000);
             });
         });
+        //获取试卷题目过滤器
+        mock.onPost(`/paper/problem/filter`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: '0',
+                        msg: '获取成功',
+                        data: [{
+                            title: '分类',
+                            field: 'category',
+                            children:[{
+                                value: 'wuli',
+                                text: '基础物理'
+                            },{
+                                value: 'shuxue1',
+                                text: '高等数学上'
+                            },{
+                                value: 'shuxue2',
+                                text: '高等数学下'
+                            },{
+                                value: 'yingyu',
+                                text: '英语口语'
+                            }]
+                        },{
+                            title: '标签',
+                            field: 'label',
+                            children:[{
+                                value: 'easy',
+                                text: '送分题'
+                            },{
+                                value: 'simple',
+                                text: '简单题'
+                            },{
+                                value: 'trap',
+                                text: '易错题'
+                            }]
+                        }]
+                    }]);
+                }, 1000);
+            });
+        });
+        //获取试卷题目过滤器
+        mock.onPost(`/paper/problem/question`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200,{
+                        code: '0',
+                        msg: '获取成功',
+                        data: {
+                            totalCount: 231,
+                            rows:[{
+                                name: '万有引力',
+                                category: '单选',
+                                project: '大学物理',
+                                chapter: '第一章',
+                                questionGroup: '组别01',
+                                innerRadio: '11',
+                                children:[{
+                                    id: '11',
+                                    name: '万有引力',
+                                    category: '单选',
+                                    project: '大学物理',
+                                    chapter: '第一章'
+                                },{
+                                    id: '12',
+                                    name: '万有引力',
+                                    category: '单选',
+                                    project: '大学物理',
+                                    chapter: '第一章'
+                                }]
+                            },{
+                                name: '万有引力',
+                                category: '单选',
+                                project: '大学物理',
+                                chapter: '第一章',
+                                questionGroup: '组别02',
+                                innerRadio: '21',
+                                children:[{
+                                    id: '21',
+                                    name: '万有引力',
+                                    category: '单选',
+                                    project: '大学物理',
+                                    chapter: '第一章'
+                                },{
+                                    id: '22',
+                                    name: '万有引力',
+                                    category: '单选',
+                                    project: '大学物理',
+                                    chapter: '第一章'
+                                }]
+                            },{
+                                name: '万有引力',
+                                category: '单选',
+                                project: '大学物理',
+                                chapter: '第一章',
+                                questionGroup: '组别03',
+                                innerRadio: '31',
+                                children:[{
+                                    id: '31',
+                                    name: '万有引力',
+                                    category: '单选',
+                                    project: '大学物理',
+                                    chapter: '第一章'
+                                },{
+                                    id: '32',
+                                    name: '万有引力',
+                                    category: '单选',
+                                    project: '大学物理',
+                                    chapter: '第一章'
+                                }]
+                            },{
+                                name: '万有引力',
+                                category: '单选',
+                                project: '大学物理',
+                                chapter: '第一章',
+                                questionGroup: '组别04',
+                                innerRadio: '41',
+                                children:[{
+                                    id: '41',
+                                    name: '万有引力',
+                                    category: '单选',
+                                    project: '大学物理',
+                                    chapter: '第一章'
+                                },{
+                                    id: '42',
+                                    name: '万有引力',
+                                    category: '单选',
+                                    project: '大学物理',
+                                    chapter: '第一章'
+                                }]
+                            },{
+                                name: '万有引力',
+                                category: '单选',
+                                project: '大学物理',
+                                chapter: '第一章',
+                                questionGroup: '组别05',
+                                innerRadio: '51',
+                                children:[{
+                                    id: '51',
+                                    name: '万有引力',
+                                    category: '单选',
+                                    project: '大学物理',
+                                    chapter: '第一章'
+                                },{
+                                    id: '52',
+                                    name: '万有引力',
+                                    category: '单选',
+                                    project: '大学物理',
+                                    chapter: '第一章'
+                                }]
+                            },{
+                                name: '万有引力',
+                                category: '单选',
+                                project: '大学物理',
+                                chapter: '第一章',
+                                questionGroup: '组别06',
+                                innerRadio: '61',
+                                children:[{
+                                    id: '61',
+                                    name: '万有引力',
+                                    category: '单选',
+                                    project: '大学物理',
+                                    chapter: '第一章'
+                                },{
+                                    id: '6',
+                                    name: '万有引力',
+                                    category: '单选',
+                                    project: '大学物理',
+                                    chapter: '第一章'
+                                }]
+                            }]
+                        }
+                    }]);
+                }, 1000);
+            });
+        });
         //添加试卷
         mock.onPost(`/paper/submit`).reply(config => {
             return new Promise((resolve, reject) => {

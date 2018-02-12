@@ -169,6 +169,11 @@ export const getPaperProblemList = params => { return instance.post(`${base}/pap
 //删除试卷题目
 export const removePaperProblem = params => { return instance.post(`${base}/paper/problem/remove`, params ).then(res => res.data); };
 
+//获取试卷题目过滤器
+export const getProblemFilter = params => { return instance.post(`${base}/paper/problem/filter`, params ).then(res => res.data); };
+//获取试卷试题列表
+export const getProblemList = params => { return instance.post(`${base}/paper/problem/question`, params ).then(res => res.data); };
+
 //添加试卷
 export const paperSubmit = params => { return instance.post(`${base}/paper/submit`, params ).then(res => res.data); };
 //编辑试卷
