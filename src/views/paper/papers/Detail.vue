@@ -49,12 +49,12 @@
 									</div>
 									<el-button type="danger" class="el-question-btn" @click="removeProblem(radioProblem.id, 'radio')">删除</el-button>
 								</div>
-								<div class="pageArea" v-if="isDrawPage && radioIndexes.length>1">
-									<Page pageNo="1" :totalCount="radioIndexes.length" pageSize="1" @page-change="radioPageChange"></Page>
+								<div class="pageArea" v-if="isDrawPage && !isRadioNewPage && radioIndexes.length>1">
+									<Page :pageNo="radioCurrent + 1" :totalCount="radioIndexes.length" pageSize="1" @page-change="radioPageChange"></Page>
 								</div>
 							</template>
 							<template v-else>
-								<span>“单选题”还没有添加任何题目</span>
+								<div class="text-center">“单选题”还没有添加任何题目</div>
 							</template>
 						</div>
 					</el-collapse-item>
@@ -94,12 +94,12 @@
 									</div>
 									<el-button type="danger" class="el-question-btn" @click="removeProblem(checkProblem.id, 'check')">删除</el-button>
 								</div>
-								<div class="pageArea" v-if="isDrawPage && checkIndexes.length>1">
-									<Page pageNo="1" :totalCount="checkIndexes.length" pageSize="1" @page-change="checkPageChange"></Page>
+								<div class="pageArea" v-if="isDrawPage && !isCheckNewPage && checkIndexes.length>1">
+									<Page :pageNo="checkCurrent + 1" :totalCount="checkIndexes.length" pageSize="1" @page-change="checkPageChange"></Page>
 								</div>
 							</template>
 							<template v-else>
-								<span>“多选题”还没有添加任何题目</span>
+								<div class="text-center">“多选题”还没有添加任何题目</div>
 							</template>
 						</div>
 					</el-collapse-item>
@@ -139,12 +139,12 @@
 									</div>
 									<el-button type="danger" class="el-question-btn" @click="removeProblem(judgeProblem.id, 'judge')">删除</el-button>
 								</div>
-								<div class="pageArea" v-if="isDrawPage && judgeIndexes.length>1">
-									<Page pageNo="1" :totalCount="judgeIndexes.length" pageSize="1" @page-change="judgePageChange"></Page>
+								<div class="pageArea" v-if="isDrawPage && !isJudgeNewPage && judgeIndexes.length>1">
+									<Page :pageNo="judgeCurrent + 1" :totalCount="judgeIndexes.length" pageSize="1" @page-change="judgePageChange"></Page>
 								</div>
 							</template>
 							<template v-else>
-								<span>“判断题”还没有添加任何题目</span>
+								<div class="text-center">“判断题”还没有添加任何题目</div>
 							</template>
 						</div>
 					</el-collapse-item>
@@ -187,12 +187,12 @@
 									</div>
 									<el-button type="danger" class="el-question-btn" @click="removeProblem(optionProblem.id, 'option')">删除</el-button>
 								</div>
-								<div class="pageArea" v-if="isDrawPage && optionIndexes.length>1">
-									<Page pageNo="1" :totalCount="optionIndexes.length" pageSize="1" @page-change="optionPageChange"></Page>
+								<div class="pageArea" v-if="isDrawPage && !isOptionNewPage && optionIndexes.length>1">
+									<Page :pageNo="optionCurrent + 1" :totalCount="optionIndexes.length" pageSize="1" @page-change="optionPageChange"></Page>
 								</div>
 							</template>
 							<template v-else>
-								<span>“选做题”还没有添加任何题目</span>
+								<div class="text-center">“选做题”还没有添加任何题目</div>
 							</template>
 						</div>
 					</el-collapse-item>
@@ -241,18 +241,22 @@
 				radioLoading: false,
 				radioIndexes: [],//单选对应的索引列表
 				radioCurrent: 0,//当前单选对应索引序号
+				isRadioNewPage: false,//为了刷新分页
 
 				checkLoading: false,
 				checkIndexes: [],//多选对应的索引列表
 				checkCurrent: 0,//当前多选对应索引序号
+				isCheckNewPage: false,//为了刷新分页
 
 				judgeLoading: false,
 				judgeIndexes: [],//判断对应的索引列表
 				judgeCurrent: 0,//当前判断对应索引序号
+				isJudgeNewPage: false,//为了刷新分页
 
 				optionLoading: false,
 				optionIndexes: [],//选做对应的索引列表
 				optionCurrent: 0,//当前选做对应索引序号
+				isOptionNewPage: false,//为了刷新分页
 
 				isAddProblem: false,
 				addType: 'radio'
@@ -320,6 +324,10 @@
 				});
 			},
 			arrange(){//按类型整理题目
+				this.radioIndexes = [];
+				this.checkIndexes = [];
+				this.judgeIndexes = [];
+				this.optionIndexes = [];
 				for(var i=0;i<this.allList.length;i++){
 					var item = this.allList[i];
 					if(item.isNecessary === true){
@@ -338,13 +346,58 @@
 
 			},
 			removeProblem(id, blockType){
+				switch(blockType){
+					case 'radio': 
+						this.radioLoading = true;
+						this.isRadioNewPage = true;
+						break;
+					case 'check': 
+						this.checkLoading = true;
+						this.isCheckNewPage = true;
+						break;
+					case 'judge': 
+						this.judgeLoading = true;
+						this.isJudgeNewPage = true;
+						break;
+					case 'option': 
+						this.optionLoading = true;
+						this.isOptionNewPage = true;
+						break;
+					default: break;
+				};
+				var index = _.findIndex(this.allList,{id:id});
+				//to do
 				var params = {
 					paperId: this.id,//试卷id
 					problemId: id//题目id
 				};
-				console.log('params',params)
 				removePaperProblem(params).then(res => {
 					if(res.code == '0'){
+						this.allList.splice(index, 1);
+						this.arrange();
+		                switch(blockType){
+							case 'radio': 
+								this.radioCurrent = 0;
+								this.isRadioNewPage = false;
+								this.radioLoading = false;
+								break;
+							case 'check': 
+								this.checkCurrent = 0;
+								this.isCheckNewPage = false;
+								this.checkLoading = false;
+								break;
+							case 'judge': 
+								this.judgeCurrent = 0;
+								this.isJudgeNewPage = false;
+								this.judgeLoading = false;
+								break;
+							case 'option': 
+								this.optionCurrent = 0;
+								this.isOptionNewPage = false;
+								this.optionLoading = false;
+								break;
+							default: break;
+						};
 						this.$message({
 		                    message: '删除成功',
 		                    type: 'success'
