@@ -1048,6 +1048,18 @@ export default {
                 }, 1000);
             });
         });
+        //删除试卷题目
+        mock.onPost(`/paper/problem/remove`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: '0',
+                        msg: '删除成功',
+                        data: '删除成功'
+                    }]);
+                }, 1000);
+            });
+        });
         //添加试卷
         mock.onPost(`/paper/submit`).reply(config => {
             return new Promise((resolve, reject) => {

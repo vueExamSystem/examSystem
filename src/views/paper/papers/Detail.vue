@@ -18,39 +18,44 @@
 							<span>单选题（共<span>{{radioIndexes.length}}</span>题 &nbsp; 每题<span>{{config.radioscore}}</span>分）</span>
 							<el-button v-if="isEditAble" type="primary" @click.stop="addProblem('radio')">添加试题</el-button>
 						</template>
-						<div>
-							<div class="el-question" :class="{'is-event-able': isEditAble}">
-								<div class="el-question-title">
-									<span>{{radioCurrent + 1}}. {{radioProblem.title}}</span>
+						<div v-loading="radioLoading">
+							<template v-if="radioIndexes.length>0">
+								<div class="el-question" :class="{'is-event-able': isEditAble}">
+									<div class="el-question-title">
+										<span>{{radioCurrent + 1}}. {{radioProblem.title}}</span>
+									</div>
+									<div class="el-question-options mask">
+										<el-radio-group v-model="radioProblem.answer">
+										<el-radio v-for="option in radioProblem.options" :label="option.flag">{{option.flag}}. {{option.text}}</el-radio>
+									</el-radio-group>
+									</div>
+									<div class="el-question-info">
+										<div class="el-info">
+											<div class="el-label el-label-light-green">正确答案</div>
+											<div class="el-info-content">{{radioProblem.answer}}</div>
+										</div>
+										<div class="el-info">
+											<div class="el-label el-label-blue">解析</div>
+											<div class="el-info-content">{{radioProblem.analysis}}</div>
+										</div>
+										<div class="el-info">
+											<div class="el-label el-label-green">考点</div>
+											<div class="el-info-content">{{radioProblem.keynote}}</div>
+										</div>
+										<div class="el-info">
+											<div class="el-label el-label-purple">添加人</div>
+											<div class="el-info-content">{{radioProblem.creator}}</div>
+										</div>
+									</div>
+									<el-button type="danger" class="el-question-btn" @click="removeProblem(radioProblem.id, 'radio')">删除</el-button>
 								</div>
-								<div class="el-question-options mask">
-									<el-radio-group v-model="radioProblem.answer">
-									<el-radio v-for="option in radioProblem.options" :label="option.flag">{{option.flag}}. {{option.text}}</el-radio>
-								</el-radio-group>
+								<div class="pageArea" v-if="isDrawPage && radioIndexes.length>1">
+									<Page pageNo="1" :totalCount="radioIndexes.length" pageSize="1" @page-change="radioPageChange"></Page>
 								</div>
-								<div class="el-question-info">
-									<div class="el-info">
-										<div class="el-label el-label-light-green">正确答案</div>
-										<div class="el-info-content">{{radioProblem.answer}}</div>
-									</div>
-									<div class="el-info">
-										<div class="el-label el-label-blue">解析</div>
-										<div class="el-info-content">{{radioProblem.analysis}}</div>
-									</div>
-									<div class="el-info">
-										<div class="el-label el-label-green">考点</div>
-										<div class="el-info-content">{{radioProblem.keynote}}</div>
-									</div>
-									<div class="el-info">
-										<div class="el-label el-label-purple">添加人</div>
-										<div class="el-info-content">{{radioProblem.creator}}</div>
-									</div>
-								</div>
-								<el-button type="danger" class="el-question-btn" @click="removeProblem(radioProblem.id)">删除</el-button>
-							</div>
-							<div class="pageArea">
-								<Page v-if="isDrawPage" pageNo="1" :totalCount="radioIndexes.length" pageSize="1" @page-change="radioPageChange"></Page>
-							</div>
+							</template>
+							<template v-else>
+								<span>“单选题”还没有添加任何题目</span>
+							</template>
 						</div>
 					</el-collapse-item>
 					<el-collapse-item>
@@ -58,39 +63,44 @@
 							<span>多选题（共<span>{{checkIndexes.length}}</span>题 &nbsp; 每题<span>{{config.checkscore}}</span>分）</span>
 							<el-button v-if="isEditAble" type="primary" @click.stop="addProblem('check')">添加试题</el-button>
 						</template>
-						<div>
-							<div class="el-question" :class="{'is-event-able': isEditAble}">
-								<div class="el-question-title">
-									<span>{{checkCurrent + 1}}. {{checkProblem.title}}</span>
+						<div v-loading="checkLoading">
+							<template v-if="checkIndexes.length>0">
+								<div class="el-question" :class="{'is-event-able': isEditAble}">
+									<div class="el-question-title">
+										<span>{{checkCurrent + 1}}. {{checkProblem.title}}</span>
+									</div>
+									<div class="el-question-options mask">
+										<el-checkbox-group v-model="checkProblem.answer">
+											<el-checkbox v-for="option in checkProblem.options" :label="option.flag">{{option.flag}}. {{option.text}}</el-checkbox>
+										</el-checkbox-group>
+									</div>
+									<div class="el-question-info">
+										<div class="el-info">
+											<div class="el-label el-label-light-green">正确答案</div>
+											<div class="el-info-content">{{checkProblem.answer?checkProblem.answer.toString():''}}</div>
+										</div>
+										<div class="el-info">
+											<div class="el-label el-label-blue">解析</div>
+											<div class="el-info-content">{{checkProblem.analysis}}</div>
+										</div>
+										<div class="el-info">
+											<div class="el-label el-label-green">考点</div>
+											<div class="el-info-content">{{checkProblem.keynote}}</div>
+										</div>
+										<div class="el-info">
+											<div class="el-label el-label-purple">添加人</div>
+											<div class="el-info-content">{{checkProblem.creator}}</div>
+										</div>
+									</div>
+									<el-button type="danger" class="el-question-btn" @click="removeProblem(checkProblem.id, 'check')">删除</el-button>
 								</div>
-								<div class="el-question-options mask">
-									<el-checkbox-group v-model="checkProblem.answer">
-										<el-checkbox v-for="option in checkProblem.options" :label="option.flag">{{option.flag}}. {{option.text}}</el-checkbox>
-									</el-checkbox-group>
+								<div class="pageArea" v-if="isDrawPage && checkIndexes.length>1">
+									<Page pageNo="1" :totalCount="checkIndexes.length" pageSize="1" @page-change="checkPageChange"></Page>
 								</div>
-								<div class="el-question-info">
-									<div class="el-info">
-										<div class="el-label el-label-light-green">正确答案</div>
-										<div class="el-info-content">{{checkProblem.answer?checkProblem.answer.toString():''}}</div>
-									</div>
-									<div class="el-info">
-										<div class="el-label el-label-blue">解析</div>
-										<div class="el-info-content">{{checkProblem.analysis}}</div>
-									</div>
-									<div class="el-info">
-										<div class="el-label el-label-green">考点</div>
-										<div class="el-info-content">{{checkProblem.keynote}}</div>
-									</div>
-									<div class="el-info">
-										<div class="el-label el-label-purple">添加人</div>
-										<div class="el-info-content">{{checkProblem.creator}}</div>
-									</div>
-								</div>
-								<el-button type="danger" class="el-question-btn" @click="removeProblem(checkProblem.id)">删除</el-button>
-							</div>
-							<div class="pageArea">
-								<Page v-if="isDrawPage" pageNo="1" :totalCount="checkIndexes.length" pageSize="1" @page-change="checkPageChange"></Page>
-							</div>
+							</template>
+							<template v-else>
+								<span>“多选题”还没有添加任何题目</span>
+							</template>
 						</div>
 					</el-collapse-item>
 					<el-collapse-item>
@@ -98,39 +108,44 @@
 							<span>判断题（共<span>{{judgeIndexes.length}}</span>题 &nbsp; 每题<span>{{config.judgescore}}</span>分）</span>
 							<el-button v-if="isEditAble" type="primary" @click.stop="addProblem('judge')">添加试题</el-button>
 						</template>
-						<div>
-							<div class="el-question" :class="{'is-event-able': isEditAble}">
-								<div class="el-question-title">
-									<span>{{judgeCurrent + 1}}. {{judgeProblem.title}}</span>
+						<div v-loading="judgeLoading">
+							<template v-if="judgeIndexes.length>0">
+								<div class="el-question" :class="{'is-event-able': isEditAble}">
+									<div class="el-question-title">
+										<span>{{judgeCurrent + 1}}. {{judgeProblem.title}}</span>
+									</div>
+									<div class="el-question-options mask">
+										<el-radio-group v-model="judgeProblem.answer">
+											<el-radio v-for="option in judgeProblem.options" :label="option.flag">{{option.flag}}. {{option.text}}</el-radio>
+										</el-radio-group>
+									</div>
+									<div class="el-question-info">
+										<div class="el-info">
+											<div class="el-label el-label-light-green">正确答案</div>
+											<div class="el-info-content">{{judgeProblem.answer}}</div>
+										</div>
+										<div class="el-info">
+											<div class="el-label el-label-blue">解析</div>
+											<div class="el-info-content">{{judgeProblem.analysis}}</div>
+										</div>
+										<div class="el-info">
+											<div class="el-label el-label-green">考点</div>
+											<div class="el-info-content">{{judgeProblem.keynote}}</div>
+										</div>
+										<div class="el-info">
+											<div class="el-label el-label-purple">添加人</div>
+											<div class="el-info-content">{{judgeProblem.creator}}</div>
+										</div>
+									</div>
+									<el-button type="danger" class="el-question-btn" @click="removeProblem(judgeProblem.id, 'judge')">删除</el-button>
 								</div>
-								<div class="el-question-options mask">
-									<el-radio-group v-model="judgeProblem.answer">
-										<el-radio v-for="option in judgeProblem.options" :label="option.flag">{{option.flag}}. {{option.text}}</el-radio>
-									</el-radio-group>
+								<div class="pageArea" v-if="isDrawPage && judgeIndexes.length>1">
+									<Page pageNo="1" :totalCount="judgeIndexes.length" pageSize="1" @page-change="judgePageChange"></Page>
 								</div>
-								<div class="el-question-info">
-									<div class="el-info">
-										<div class="el-label el-label-light-green">正确答案</div>
-										<div class="el-info-content">{{judgeProblem.answer}}</div>
-									</div>
-									<div class="el-info">
-										<div class="el-label el-label-blue">解析</div>
-										<div class="el-info-content">{{judgeProblem.analysis}}</div>
-									</div>
-									<div class="el-info">
-										<div class="el-label el-label-green">考点</div>
-										<div class="el-info-content">{{judgeProblem.keynote}}</div>
-									</div>
-									<div class="el-info">
-										<div class="el-label el-label-purple">添加人</div>
-										<div class="el-info-content">{{judgeProblem.creator}}</div>
-									</div>
-								</div>
-								<el-button type="danger" class="el-question-btn" @click="removeProblem(judgeProblem.id)">删除</el-button>
-							</div>
-							<div class="pageArea">
-								<Page v-if="isDrawPage" pageNo="1" :totalCount="judgeIndexes.length" pageSize="1" @page-change="judgePageChange"></Page>
-							</div>
+							</template>
+							<template v-else>
+								<span>“判断题”还没有添加任何题目</span>
+							</template>
 						</div>
 					</el-collapse-item>
 					<el-collapse-item>
@@ -138,42 +153,47 @@
 							<span>选做题（共<span>{{optionIndexes.length}}</span>题 &nbsp; 选{{config.necessary}}题 &nbsp; 每题<span>{{config.choosescore}}</span>分）</span>
 							<el-button v-if="isEditAble" type="primary" @click.stop="addProblem('option')">添加试题</el-button>
 						</template>
-						<div>
-							<div class="el-question" :class="{'is-event-able': isEditAble}">
-								<div class="el-question-title">
-									<span>{{optionCurrent + 1}}. {{optionProblem.title}}</span>
+						<div v-loading="optionLoading">
+							<template v-if="optionIndexes.length>0">
+								<div class="el-question" :class="{'is-event-able': isEditAble}">
+									<div class="el-question-title">
+										<span>{{optionCurrent + 1}}. {{optionProblem.title}}</span>
+									</div>
+									<div class="el-question-options mask">
+										<el-checkbox-group v-if="optionProblem.type=='check'" v-model="optionProblem.answer">
+											<el-checkbox v-for="option in optionProblem.options" :label="option.flag">{{option.flag}}. {{option.text}}</el-checkbox>
+										</el-checkbox-group>
+										<el-radio-group v-else v-model="optionProblem.answer">
+											<el-radio v-for="option in optionProblem.options" :label="option.flag">{{option.flag}}. {{option.text}}}</el-radio>
+										</el-radio-group>
+									</div>
+									<div class="el-question-info">
+										<div class="el-info">
+											<div class="el-label el-label-light-green">正确答案</div>
+											<div class="el-info-content">{{optionProblem.answer?optionProblem.answer.toString():''}}</div>
+										</div>
+										<div class="el-info">
+											<div class="el-label el-label-blue">解析</div>
+											<div class="el-info-content">{{optionProblem.analysis}}</div>
+										</div>
+										<div class="el-info">
+											<div class="el-label el-label-green">考点</div>
+											<div class="el-info-content">{{optionProblem.keynote}}</div>
+										</div>
+										<div class="el-info">
+											<div class="el-label el-label-purple">添加人</div>
+											<div class="el-info-content">{{optionProblem.creator}}</div>
+										</div>
+									</div>
+									<el-button type="danger" class="el-question-btn" @click="removeProblem(optionProblem.id, 'option')">删除</el-button>
 								</div>
-								<div class="el-question-options mask">
-									<el-checkbox-group v-if="optionProblem.type=='check'" v-model="optionProblem.answer">
-										<el-checkbox v-for="option in optionProblem.options" :label="option.flag">{{option.flag}}. {{option.text}}</el-checkbox>
-									</el-checkbox-group>
-									<el-radio-group v-else v-model="optionProblem.answer">
-										<el-radio v-for="option in optionProblem.options" :label="option.flag">{{option.flag}}. {{option.text}}}</el-radio>
-									</el-radio-group>
+								<div class="pageArea" v-if="isDrawPage && optionIndexes.length>1">
+									<Page pageNo="1" :totalCount="optionIndexes.length" pageSize="1" @page-change="optionPageChange"></Page>
 								</div>
-								<div class="el-question-info">
-									<div class="el-info">
-										<div class="el-label el-label-light-green">正确答案</div>
-										<div class="el-info-content">{{optionProblem.answer?optionProblem.answer.toString():''}}</div>
-									</div>
-									<div class="el-info">
-										<div class="el-label el-label-blue">解析</div>
-										<div class="el-info-content">{{optionProblem.analysis}}</div>
-									</div>
-									<div class="el-info">
-										<div class="el-label el-label-green">考点</div>
-										<div class="el-info-content">{{optionProblem.keynote}}</div>
-									</div>
-									<div class="el-info">
-										<div class="el-label el-label-purple">添加人</div>
-										<div class="el-info-content">{{optionProblem.creator}}</div>
-									</div>
-								</div>
-								<el-button type="danger" class="el-question-btn" @click="removeProblem(optionProblem.id)">删除</el-button>
-							</div>
-							<div class="pageArea">
-								<Page v-if="isDrawPage" pageNo="1" :totalCount="optionIndexes.length" pageSize="1" @page-change="optionPageChange"></Page>
-							</div>
+							</template>
+							<template v-else>
+								<span>“选做题”还没有添加任何题目</span>
+							</template>
 						</div>
 					</el-collapse-item>
 				</el-collapse>
@@ -183,7 +203,7 @@
 	</section>
 </template>
 <script>
-	import { getPaperProblemList, getPaperProblem } from '../../../api/api';
+	import { getPaperProblemList, removePaperProblem } from '../../../api/api';
 	import Page from '../../common/Pagination.vue'
 	import addProblem from './AddProblem.vue'
 	export default{
@@ -204,13 +224,13 @@
 				isDrawPage: false,
 				detail: {},
 				config:{//默认配置
-					radiocount: 10,//单选题数
+					// radiocount: 10,//单选题数
 					radioscore: 5,//单选每题分数
-					checkcount: 5,//多选题数
+					// checkcount: 5,//多选题数
 					checkscore: 5,//多选每题分数
-					judgecount: 5,//判断分数
+					// judgecount: 5,//判断分数
 					judgescore: 2,//判断每题分数
-					optional: 5,//选做题数
+					// optional: 5,//选做题数
 					necessary: 3,//选做必做题数
 					choosescore: 5,//选做每题分数
 					total: 100//总分
@@ -218,15 +238,19 @@
 
 				allList: [],//试卷题目列表
 
+				radioLoading: false,
 				radioIndexes: [],//单选对应的索引列表
 				radioCurrent: 0,//当前单选对应索引序号
 
+				checkLoading: false,
 				checkIndexes: [],//多选对应的索引列表
 				checkCurrent: 0,//当前多选对应索引序号
 
+				judgeLoading: false,
 				judgeIndexes: [],//判断对应的索引列表
 				judgeCurrent: 0,//当前判断对应索引序号
 
+				optionLoading: false,
 				optionIndexes: [],//选做对应的索引列表
 				optionCurrent: 0,//当前选做对应索引序号
 
@@ -313,8 +337,20 @@
 			onSave(){
 
 			},
-			removeProblem(id){
-				console.log('problem',id)
+			removeProblem(id, blockType){
+				var params = {
+					paperId: this.id,//试卷id
+					problemId: id//题目id
+				};
+				console.log('params',params)
+				removePaperProblem(params).then(res => {
+					if(res.code == '0'){
+						this.$message({
+		                    message: '删除成功',
+		                    type: 'success'
+		                });
+					}
+				});
 			},
 			goBack(){
 				this.$emit('close');
@@ -325,18 +361,6 @@
 			addProblem(type){//添加试题
 				this.isAddProblem = true;
 				this.addType = type;
-			},
-			getProblemDetail(isNecessary,type,pageNo,callback){//获取试卷题目内容
-				var param = {
-					id: this.id,//试卷id,
-					isNecessary:isNecessary,//是否必做题
-					type:type,//题目类型
-					pageNo:pageNo,//第几题
-					pageSize:1,//题目个数
-				};
-				getPaperProblem(param).then(res => {
-					callback(res.data);
-				});
 			},
 			radioPageChange(pageNo){//单选题题数变更
 				this.radioCurrent = pageNo - 1;
