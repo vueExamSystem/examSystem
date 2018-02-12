@@ -1,16 +1,14 @@
 <template>
-    <div>
+    <div v-loading="!isInited" style="min-height:300px;">
     	<section v-show="!isShowDetail">
-            <div v-loading="filterLoading" style="min-height:100px;">
-                <my-filter v-if="!filterLoading" :list="filterList" @callback="filterCallback"></my-filter>
-            </div>
-            <div class="panel">
+            <my-filter v-show="isInited" v-if="isFilterInited" :list="filterList" @callback="filterCallback"></my-filter>
+            <div class="panel" v-if="isInited">
                 <div class="title">
                     <el-input placeholder="请输入搜索关键词" v-model="keyword">
                         <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
                     </el-input>
                     <div class="pageArea">
-                        <Page :pageNo="pageNo" :totalCount="totalCount" :pageSize="pageSize" @page-change="pageChange"></Page>
+                        <Page v-if="!isNewPage" :pageNo="pageNo" :totalCount="totalCount" :pageSize="pageSize" @page-change="pageChange"></Page>
                     </div>
                 </div>
                 <div class="content">
@@ -67,8 +65,10 @@
                 totalCount: 0,
                 pageNo: 1,
                 pageSize:10,
+                isInited: false,//是否初始化好
+                isFilterInited: false,//过滤器是否初始化好
+                isNewPage: true,//是否新分页
                 listLoading: true,
-                filterLoading: true,
                 filter:[],
                 filterList: [],
                 isShowDetail: false,
@@ -79,37 +79,36 @@
         methods: {
             // 获取过滤器数据
             getFilter() {
-                this.filterLoading = true;
+                this.isInited = false;
                 this.listLoading = true;
                 getPaperFilter({}).then((res) => {
-                    this.filterList = res.data;console.log('getPaperFilter',res)
-                    this.filterLoading = false;
+                    this.filterList = res.data;
                     // filter 对应key默认好 -1
                     this.filter = u.getDefaultFilter(this.filterList);
+                    this.isFilterInited = true;
                 });
             },
             search(){
-                if(!this.filterLoading){console.log('search')
-                    this.listLoading = true;
-                    var params = {
-                        keyword: this.keyword,
-                        filter: JSON.stringify(this.filter),
-                        pageNo: this.pageNo,
-                        pageSize: this.pageSize
-                    };
-                    getPaperList(params).then(res => {
-                        this.papers = res.data.rows;
-                        this.totalCount = res.data.totalCount;
-                        this.listLoading = false;
-                    });
-                }
+                this.listLoading = true;
+                var params = {
+                    keyword: this.keyword,
+                    filter: JSON.stringify(this.filter),
+                    pageNo: this.pageNo,
+                    pageSize: this.pageSize
+                };
+                getPaperList(params).then(res => {
+                    this.papers = res.data.rows;
+                    this.totalCount = res.data.totalCount;
+                    this.isNewPage = false;
+                    this.listLoading = false;
+                    this.isInited = true;
+                });
             },
             filterCallback(filter){
-                if(!this.filterLoading){
-                    console.log('filterCallback')
-                    this.filter = filter;
-                    this.search();
-                }
+                this.filter = filter;
+                this.isNewPage = true;
+                this.pageNo = 1;
+                this.search();
             },
             pageChange(pageNo){
                 this.pageNo = pageNo;
