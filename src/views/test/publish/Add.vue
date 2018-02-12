@@ -14,7 +14,7 @@
 					<el-form-item label="考试名称：" prop="name">
 						<el-input v-model="form.name"></el-input>
 					</el-form-item>
-					<el-form-item label="选择测验：" prop="test"> 
+					<el-form-item label="选择测验：" prop="test">
 						<el-select v-model="form.test" placeholder="请选择测验">
 							<template v-for="item in defaultInfo.test">
 								<el-option :label="item.name" :value="item.id" :key="item.id"></el-option>

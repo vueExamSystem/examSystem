@@ -7,7 +7,7 @@
 			</div>
 		</div>
 		<div class="content">
-			<my-filter :list="filterList" @callback="search" v-loading="filterLoading"></my-filter>
+			<my-filter v-if="filterList.length > 0" :list="filterList" @callback="search" v-loading="filterLoading"></my-filter>
 			<div class="paper-progress">
 				<table>
 					<tr>

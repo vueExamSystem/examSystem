@@ -7,7 +7,7 @@
 			</div>
 		</div>
 		<div class="content">
-			<my-filter :list="filterList" @callback="search" v-loading="filterLoading"></my-filter>
+			<my-filter v-if="filterList.length > 0" :list="filterList" @callback="search" v-loading="filterLoading"></my-filter>
 			<div class="paper-progress">
 				<table>
 					<tr>
@@ -33,14 +33,14 @@
 			<div class="panel inner-panel">
 				<div class="title">
 					<el-input placeholder="请输入搜索关键词" v-model="keyword">
-	                    <el-button slot="append" icon="el-icon-search"></el-button>
-	                </el-input>
-	                <div class="pageArea">
-	                    <Page :current="currentPage" :total="total" :pageSize="pageSize" @page-change="pageChange"></Page>
-	                </div>
+						<el-button slot="append" icon="el-icon-search" @click="getList"></el-button>
+					</el-input>
+					<div class="pageArea">
+						<Page :pageNo="pageNo" :totalCount="totalCount" :pageSize="pageSize" @page-change="handleCurrentChange"></Page>
+					</div>
 				</div>
 				<div class="content">
-					<el-table :data="previewList" highlight-current-row v-loading="listLoading" fit>
+					<el-table :data="rows" highlight-current-row v-loading="listLoading" fit>
 	                    <el-table-column type="index" label="序号" width="60">
 	                    </el-table-column>
 	                    <el-table-column prop="studentNo" label="学号" min-width="120"></el-table-column>
@@ -59,7 +59,9 @@
 </template>
 <script>
 	import myFilter from '../../common/myFilter.vue'
-	import Pagination from '../../common/Pagination.vue'
+    import {getClassTestDetailList, getClassTestDetailFilter} from '../../../api/api';
+    import Pagination from '../../common/Pagination.vue';
+    import _ from 'lodash';
 	export default{
 		props:{
 			id:{
@@ -72,88 +74,59 @@
 		},
 		data(){
 			return {
-				filterList:[{
-					title: '院系',
-					field: 'department',
-					children: [{
-						value: 'computer',
-						text: '计算机'
-					},{
-						value: 'accounting',
-						text: '会计'
-					},{
-						value: 'traffic',
-						text: '交运'
-					},{
-						value: 'park',
-						text: '园林'
-					},{
-						value: 'architecture ',
-						text: '建筑与艺术'
-					}]
-				},{
-					title: '班级',
-					field: 'class',
-					children: [{
-						value: '20170801',
-						text: '1班'
-					},{
-						value: '20170802',
-						text: '2班'
-					},{
-						value: '20170803',
-						text: '3班'
-					}]
-				}],
-				keyword: '',
-				currentPage: 1,
-				total: 4,
-				pageSize: 5,
-				previewList:[{
-					studentNo: '01112307',
-					name: '叶子',
-					class: '16级计算机3班',
-					percentage: 70
-				},{
-					studentNo: '01112307',
-					name: '叶子',
-					class: '16级计算机3班',
-					percentage: 70
-				},{
-					studentNo: '01112307',
-					name: '叶子',
-					class: '16级计算机3班',
-					percentage: 70
-				},{
-					studentNo: '01112307',
-					name: '叶子',
-					class: '16级计算机3班',
-					percentage: 70
-				},{
-					studentNo: '01112307',
-					name: '叶子',
-					class: '16级计算机3班',
-					percentage: 70
-				},{
-					studentNo: '01112307',
-					name: '叶子',
-					class: '16级计算机3班',
-					percentage: 70
-				}],
+                keyword: '',
+                filter: {},
+                rows: [],
+                totalCount: 0,
+                pageNo: 1,
+                pageSize: 10,
                 listLoading: false,
+                filterLoading: false,
+                filterList: [],
 			}
 		},
-		methods:{
-			search(filterArr){
-
-			},
-			pageChange(){
-
-			},
-			close(){
-				this.$emit('close');
-			},
-		}
+        methods:{
+            close() {
+                this.$emit('close');
+            },
+            handleCurrentChange(val) {
+                this.pageNo = val;
+                this.getUsers();
+            },
+            search(obj) {
+                this.filter = obj;
+                this.getList();
+            },
+            //获取用户列表
+            getList() {
+                let para = {
+                    pageNo: this.pageNo,
+                    filter: JSON.stringify(this.filter),
+                    keyword: this.keyword,
+                    pageSize: this.pageSize,
+                };
+                if (!this.listLoading) this.listLoading = true;
+                getClassTestDetailList(para).then((res) => {
+                    res=res.data;
+                    this.totalCount = res.totalCount;
+                    this.rows = res.rows;
+                    if (!this.filterLoading) this.listLoading = false
+                });
+            },
+            // 获取过滤器数据
+            getFilter() {
+                this.filterLoading = true;
+                this.listLoading = true;
+                getClassTestDetailFilter({}).then((res) => {
+                    this.filterList = res.data;
+                    this.filterLoading = false;
+                    this.getList();
+                });
+            },
+        },
+        mounted() {
+            this.getFilter();
+        }
 	}
 </script>
 <style lang="scss" scoped="">

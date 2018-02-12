@@ -746,19 +746,28 @@ export default {
             return u.getMockList(config, [{
                 id: '1',
                 name:'物理测试1',
-                paper:'物理期中试卷1',
+                paper: {
+                    id: 2,
+                    name: '物理期中试卷1',
+                },
                 testRange:'2018/01/01 8:00-8:20',
                 status:'进行中',
-                listener:'张老师',
-                testClass:'16级计算机3班',
-            },{
-                id: '2',
-                name:'物理测试2',
-                paper:'物理期中试卷2',
-                testRange:'2018/01/01 10:00-10:20',
-                status:'未开始',
-                listener:'张老师',
-                testClass:'16级计算机3班',
+                grade: {
+                    id: 5,
+                    name: '18级',
+                },
+                department: {
+                    id: 2,
+                    name: '物理',
+                },
+                listener:{
+                    id: 3,
+                    name: '张老师',
+                },
+                testClass:{
+                    id: 7,
+                    name: '16级计算机3班',
+                },
             }]);
         });
         mock.onGet(`/classTest/filter`).reply(config => {

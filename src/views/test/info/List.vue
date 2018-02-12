@@ -1,7 +1,7 @@
 <template>
 	<div>
-        <section v-show="!detailId">
-    		<my-filter :list="filterList" @callback="search" v-loading="filterLoading"></my-filter>
+        <section v-show="!detailId" v-loading="allLoading">
+    		<my-filter v-if="filterList.length > 0" :list="filterList" @callback="search" v-loading="filterLoading"></my-filter>
             <div class="panel">
                 <div class="title">
                     <el-input placeholder="请输入搜索关键词" v-model="keyword">
@@ -63,6 +63,7 @@
                 pageSize: 10,
                 listLoading: false,
                 filterLoading: false,
+                allLoading: false,
 
                 detailId: '',
             }
@@ -90,21 +91,21 @@
                     keyword: this.keyword,
                     pageSize: this.pageSize,
                 };
-                if (!this.listLoading) this.listLoading = true;
+                if (!this.allLoading) this.listLoading = true;
                 getClassTestList(para).then((res) => {
                     res = res.data;
                     this.totalCount = res.totalCount;
                     this.rows = res.rows;
-                    if (!this.filterLoading) this.listLoading = false
+
+                    if (!this.allLoading) this.listLoading = false;
+                    if (this.allLoading) this.allLoading = false;
                 });
             },
             // 获取过滤器数据
             getFilter() {
-                this.filterLoading = true;
-                this.listLoading = true;
+                this.allLoading = true;
                 getClassTestFilter({}).then((res) => {
                     this.filterList = res.data;
-                    this.filterLoading = false;
                     this.getList();
                 });
             },
