@@ -180,5 +180,8 @@ export const addPaperProblem = params => { return instance.post(`${base}/paper/p
 
 //添加试卷
 export const paperSubmit = params => { return instance.post(`${base}/paper/submit`, params ).then(res => res.data); };
+
 //编辑试卷
 export const eidtPaper = params => { return instance.post(`${base}/paper/edit`, params ).then(res => res.data); };
+//删除试卷
+export const removePaper = params => { return instance.post(`${base}/paper/remove`, params ).then(res => res.data); };

@@ -1020,7 +1020,7 @@ export default {
                         }],
                         msg: "获取成功"
                     }]);
-                },2000);
+                },1000);
             });
         });
         //获取试卷列表
@@ -1035,7 +1035,7 @@ export default {
                         },
                         msg: "获取成功"
                     }]);
-                },2000);
+                },1000);
             });
             return u.getMockList(config, PaperList);
         });
@@ -1290,6 +1290,18 @@ export default {
                     resolve([200, {
                             code: '0',
                             msg: '提交成功',
+                            data: ''
+                        }]);
+                }, 1000);
+            });
+        });
+        //删除试卷
+        mock.onPost(`/paper/remove`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                            code: '0',
+                            msg: '删除成功',
                             data: ''
                         }]);
                 }, 1000);

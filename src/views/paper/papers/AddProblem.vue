@@ -173,7 +173,7 @@
                 this.pageNo = pageNo;
                 this.search();
             },
-            addSave(){//添加选中
+            addSave(){//添加选中(添加后试卷从初始化设为未启用？)
             	if(this.multipleSelection.length>0){
             		this.submitLoading = true;
 	            	var idArr = _.map(this.multipleSelection, (item)=>{

@@ -29,7 +29,7 @@ for (let i = 0; i < 10; i++) {
         name:'物理期中考试',
         time:'60',
         project:'大学物理',
-        category:'随机',
+        category:i%2==0?'1':'2',
         status: i%3,
         creator:'admin'
     }));

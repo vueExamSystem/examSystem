@@ -24,16 +24,21 @@
                         </el-table-column>
                         <el-table-column prop="project" label="所属课程" min-width="120">
                         </el-table-column>
-                        <el-table-column prop="category" label="类别" min-width="100">
+                        <el-table-column prop="category" label="类别" min-width="100" :formatter="formatCategory">
                         </el-table-column>
-                        <el-table-column prop="status" label="状态" min-width="100" :formatter="formatStatus">
+                        <el-table-column prop="status" label="状态" min-width="100">
+                            <template scope="scope">
+                                <span class="text-warning" v-if="scope.row.status == '1'">未启用</span>
+                                <span class="text-success" v-else-if="scope.row.status == '2'">启用中</span>
+                                <span v-else>初始化</span>
+                            </template>
                         </el-table-column>
                         <el-table-column prop="creator" label="创建人" min-width="100">
                         </el-table-column>
                         <el-table-column label="操作" width="150">
                             <template scope="scope">
-                                <el-button type="primary" @click="showEdit(scope.$index, scope.row)" :disabled="scope.row.status!='0'">编辑</el-button>
-                                <el-button type="danger" @click="handleDel(scope.$index, scope.row)" :disabled="scope.row.status!='0'">删除</el-button>
+                                <el-button type="primary" @click="showEdit(scope.$index, scope.row)" :disabled="!isRowEditable(scope.row)">编辑</el-button>
+                                <el-button type="danger" @click="handleDel(scope.$index, scope.row)" :disabled="!isRowRemoveable(scope.row)">删除</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -74,7 +79,7 @@
 </template>
 <script>
     import u from '../../../common/js/util';
-    import { getSubjectList, getPaperFilter, getPaperList, eidtPaper } from '../../../api/api';
+    import { getSubjectList, getPaperFilter, getPaperList, eidtPaper, removePaper } from '../../../api/api';
 	import myFilter from '../../common/myFilter.vue'
     import Pagination from '../../common/Pagination.vue'
     import Detail from './Detail.vue'
@@ -125,6 +130,11 @@
                 isShowDetail: false,
                 detailPaperId: '',
                 detailPaperName: ''
+            }
+        },
+        computed:{
+            userName(){
+                return this.$store.getters.userName;
             }
         },
         methods: {
@@ -178,15 +188,23 @@
                 this.pageNo = pageNo;
                 this.search();
             },
-            formatStatus(row, column){
-                if(row.status == '0'){
-                    return '未开始';
-                }else if(row.status == '1'){
-                    return '考试中'
-                }else if(row.status == '2'){
-                    return '已完成'
+            // formatStatus(row, column){
+            //     // 0：初始化
+            //     // 1：未启用
+            //     // 2: 启用
+            //     if(row.status == '1'){//没有数据关联
+            //         return '未启用';
+            //     } else if(row.status == '2'){//有试题关联
+            //         return '启用中';
+            //     } else {
+            //         return '初始化';
+            //     }
+            // },
+            formatCategory(row, column){
+                if(row.category == '1'){
+                    return '随机组卷';
                 }else{
-                    return '已删除'
+                    return '手动组卷';
                 }
             },
             detailShow(row){
@@ -205,7 +223,7 @@
                 }
             },
             //显示编辑界面
-            showEdit: function (index, row) {
+            showEdit(index, row) {//编辑
                 this.editFormVisible = true;
                 this.editForm.id = row.id;
                 this.editForm.name = row.name;
@@ -214,6 +232,53 @@
             },
             hideEdit(){
                 this.editFormVisible = false;
+            },
+            handleDel(index, row){//删除试卷
+                this.$confirm('确定删除该试卷吗？','提示',{
+                    confirmButtonText: '确定删除'
+                }).then(res => {
+                    this.listLoading = true;
+                    var params = {
+                        paperId: row.id//试卷id
+                    };
+                    removePaper(params).then(res => {
+                        if(res.code == '0'){
+                            this.$message({
+                                type: 'success',
+                                message: '删除成功'
+                            });
+                            this.isNewPage = true;
+                            this.pageNo = 1;
+                            this.search();
+                        }else{
+                            this.$message({
+                                type: 'error',
+                                message: res.msg
+                            });
+                        }
+                    });
+                }).catch(res => {});
+            },
+            //行是否可编辑
+            isRowEditable(row){
+                var isEditAble = true;
+                //当前用户与创建人一致
+                //试卷初始化或未启用状态
+                if(row.creator != this.userName || (row.status != '0' && row.status != '1')){
+                    isEditAble = false;
+                }
+                return isEditAble;
+            },
+            //行是否可删除
+            isRowRemoveable(row){
+                //当前用户与创建人一致
+                //试卷为初始化状态
+                //试卷组卷模型为手动
+                var isAble = true;
+                if(row.creator != this.userName || row.status != '0' || row.category != '2'){
+                    isAble = false;
+                }
+                return isAble;
             },
             //编辑
             editSubmit: function () {
