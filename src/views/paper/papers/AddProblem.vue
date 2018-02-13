@@ -3,7 +3,7 @@
 		<div class="title">
 			<span>添加{{typeText}}</span>
 			<div class="pull-right">
-				<el-button type="primary" class="el-button-shadow">添加选中</el-button>
+				<el-button type="primary" class="el-button-shadow" @click="addSave">添加选中</el-button>
 				<el-button type="danger" @click="goBack" class="el-button-shadow">取消</el-button>
 			</div>
 		</div>
@@ -19,18 +19,18 @@
 	                </div>
 	                
 	            </div>
-	            <div class="content">
-	                <el-table :data="questionList" class="el-table-expand" highlight-current-row v-loading="listLoading" fit :row-class-name="setRowClass">
+	            <div class="content" v-loading="submitLoading">
+	                <el-table :data="questionList" class="el-table-expand" highlight-current-row v-loading="listLoading" fit :row-class-name="setRowClass" @selection-change="handleSelectionChange">
 	                    <el-table-column type="selection" width="60">
 	                    </el-table-column>
 	                    <el-table-column type="index" label="序号" width="60">
 	                    </el-table-column>
 	                    <el-table-column prop="name" label="试题名称" min-width="160">
 	                        <template scope="scope">
-	                            <router-link to="/">{{scope.row.name}}</router-link>
+	                            <span class="text-primary">{{scope.row.name}}</span>
 	                        </template>
 	                    </el-table-column>
-	                    <el-table-column prop="category" label="试题类型" min-width="100">
+	                    <el-table-column prop="category" label="试题类型" min-width="100" :formatter="formatType">
 	                    </el-table-column>
 	                    <el-table-column prop="project" label="所属课程" min-width="120">
 	                    </el-table-column>
@@ -52,7 +52,7 @@
 					                    </el-table-column>
 					                    <el-table-column prop="name" min-width="160">
 					                        <template scope="scope">
-					                            <router-link to="/">{{scope.row.name}}</router-link>
+					                        	<span class="text-primary">{{scope.row.name}}</span>
 					                        </template>
 					                    </el-table-column>
 					                    <el-table-column prop="category" min-width="100">
@@ -80,7 +80,7 @@
 <script>
 	import myFilter from '../../common/myFilter.vue'
 	import Pagination from '../../common/Pagination.vue' 
-	import { getProblemFilter, getProblemList } from '../../../api/api';
+	import { getProblemFilter, getProblemList, addPaperProblem } from '../../../api/api';
 	import u from '../../../common/js/util';
 	export default{
 		props:{
@@ -101,16 +101,19 @@
 		data(){
 			return {
 				isInited: false,
+				isHasSubmitted: false,//是否添加新试题过
 				isFilterInited: false,
 				filter:[],
 				filterList: [],
 				questionList: [],
+				multipleSelection:[],//表格已选
 				keyword: '',
 				isNewPage: true,//是否新分页
                 totalCount: 10,
                 pageNo: 1,
                 pageSize:5,
-                listLoading: false,
+                listLoading: false,//表格加载
+                submitLoading: false,//提交加载
                 isShowInnerHeader: false
 			}
 		},
@@ -169,6 +172,37 @@
                 this.pageNo = pageNo;
                 this.search();
             },
+            addSave(){//添加选中
+            	if(this.multipleSelection.length>0){
+            		this.submitLoading = true;
+	            	var idArr = _.map(this.multipleSelection, (item)=>{
+	            		return item.innerRadio;
+	            	});
+	            	var params = {
+	            		paperId: this.id,
+	            		type: this.flag,//试题类型
+	            		ids: idArr
+	            	};
+	            	//to do
+	            	addPaperProblem(params).then(res => {
+	            		this.submitLoading = true;
+            			this.isHasSubmitted = true;
+		            	this.$message({
+		            		type: 'success',
+		            		message: '试题添加成功'
+		            	});
+		            	this.goBack();
+	            	});
+	            }else{
+	            	this.$message({
+	            		type: 'error',
+	            		message: '您还未选择试题'
+	            	});
+	            }
+            },
+            handleSelectionChange(val){//表格多选变更
+            	this.multipleSelection = val;
+            },
 			setRowClass({rowIndex}){
 				if(rowIndex%2 == 0){
 					return 'el-row-odd';
@@ -176,8 +210,19 @@
 					return 'el-row-even';
 				}
 			},
+            formatType(row, column){//试题类型
+                if(row.category == '0'){
+                    return '单选';
+                }else if(row.category == '1'){
+                    return '多选'
+                }else if(row.category == '2'){
+                    return '判断'
+                }else{
+                    return '^_^后端修改formatType'
+                }
+            },
 			goBack(){
-				this.$emit('back');
+				this.$emit('back', {refresh:this.isHasSubmitted});
 			}
 		},
 		mounted(){

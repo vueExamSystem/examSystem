@@ -173,6 +173,8 @@ export const removePaperProblem = params => { return instance.post(`${base}/pape
 export const getProblemFilter = params => { return instance.post(`${base}/paper/problem/filter`, params ).then(res => res.data); };
 //获取试卷试题列表
 export const getProblemList = params => { return instance.post(`${base}/paper/problem/question`, params ).then(res => res.data); };
+//试卷添加试题
+export const addPaperProblem = params => { return instance.post(`${base}/paper/problem/add`, params ).then(res => res.data); };
 
 //添加试卷
 export const paperSubmit = params => { return instance.post(`${base}/paper/submit`, params ).then(res => res.data); };

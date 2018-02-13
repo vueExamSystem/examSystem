@@ -420,8 +420,11 @@
 			goBack(){
 				this.$emit('close');
 			},
-			addProblemBack(){//取消添加试题
+			addProblemBack({refresh}){//取消添加试题
 				this.isAddProblem = false;
+				if(refresh){
+					this.init();
+				}
 			},
 			addProblem(type){//添加试题
 				this.isAddProblem = true;
