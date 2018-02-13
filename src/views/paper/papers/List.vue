@@ -132,6 +132,7 @@
                     // filter 对应key默认好 -1
                     this.filter = u.getDefaultFilter(this.filterList);
                     this.isFilterInited = true;
+                    this.search();
                 });
             },
             search(){
