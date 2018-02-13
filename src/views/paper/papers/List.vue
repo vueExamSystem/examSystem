@@ -4,8 +4,8 @@
             <my-filter v-show="isInited" v-if="isFilterInited" :list="filterList" @callback="filterCallback"></my-filter>
             <div class="panel" v-if="isInited">
                 <div class="title">
-                    <el-input placeholder="请输入搜索关键词" v-model="keyword">
-                        <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
+                    <el-input placeholder="请输入搜索关键词" v-model="keyword" @change="searchClick">
+                        <el-button slot="append" icon="el-icon-search" @click="searchClick"></el-button>
                     </el-input>
                     <div class="pageArea">
                         <Page v-if="!isNewPage" :pageNo="pageNo" :totalCount="totalCount" :pageSize="pageSize" @page-change="pageChange"></Page>
@@ -150,6 +150,11 @@
                     this.listLoading = false;
                     this.isInited = true;
                 });
+            },
+            searchClick(){
+                this.isNewPage = true;
+                this.pageNo = 1;
+                this.search();
             },
             filterCallback(filter){
                 this.filter = filter;
