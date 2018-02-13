@@ -1247,6 +1247,18 @@ export default {
                 }, 1000);
             });
         });
+        //试卷添加试题
+        mock.onPost(`/paper/problem/add`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                            code: '0',
+                            msg: '添加成功',
+                            data: ''
+                        }]);
+                }, 1000);
+            });
+        });
         //添加试卷
         mock.onPost(`/paper/submit`).reply(config => {
             return new Promise((resolve, reject) => {
