@@ -39,9 +39,12 @@ import ExamInfo from './views/exam/info/Home.vue'
 import ExamPublish from './views/exam/publish/Home.vue'
 /*监考*/
 import ListenHome from './views/listen/Home.vue'
-import ListenList from './views/listen/List.vue'
+import ListenList from './views/listen/lis/Home.vue'
+import ListenError from './views/listen/error/Home.vue'
 /*成绩*/
 import ScoreHome from './views/score/Home.vue'
+import ScoreStudent from './views/score/student/Home.vue'
+import ScoreSet from './views/score/set/Home.vue'
 /*统计*/
 import StatisticsHome from './views/statistics/Home.vue'
 import StatisticsDepartment from './views/statistics/department/Home.vue'
@@ -141,14 +144,19 @@ export const asyncRouterMap  = [{
             name: '监考',
             redirect: '/listen/list',
             children: [
-                { path: '/listen/list', component: ListenList, name: '考试监考', icon:'iconfont icon-kaoshi-larger', defaultPath: true}
+                { path: '/listen/list', component: ListenList, name: '考试监考', icon:'iconfont icon-kaoshi-larger', defaultPath: true},
+                { path: '/listen/error', component: ListenError, name: '监考异常', icon:'iconfont icon-kaoshi-larger', defaultPath: true}
             ]
         },
         {
             path: '/score',
             component: ScoreHome,
             name: '成绩',
-            children: []
+            redirect: '/score/list',
+            children: [
+                { path: '/score/list', component: ScoreStudent, name: '考试监考', icon:'iconfont icon-kaoshi-larger', defaultPath: true},
+                { path: '/score/set', component: ScoreSet, name: '监考异常', icon:'iconfont icon-kaoshi-larger', defaultPath: true}
+            ]
         },
         {
             path: '/statistics',

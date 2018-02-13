@@ -5,7 +5,7 @@
                 <i class="iconfont icon-score-larger"></i>
                 <span>学生成绩</span>
             </router-link>
-            <router-link to="/score/setting">
+            <router-link to="/score/set">
                 <i class="iconfont icon-setting-larger"></i>
                 <span>成绩设置</span>
             </router-link>

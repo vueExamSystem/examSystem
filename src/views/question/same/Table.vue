@@ -1,6 +1,6 @@
 <template>
-    <section>
-        <my-filter :list="filterList" @callback="search" v-loading="filterLoading" @linkage="linkage"></my-filter>
+    <section v-loading="filterLoading">
+        <my-filter v-if="filterList.length > 0" :list="filterList" @callback="search" @linkage="linkage"></my-filter>
         <div class="panel">
             <div class="title">
                 <el-input placeholder="请输入搜索关键词" v-model="keyword">
@@ -88,8 +88,10 @@
             </div>
 
             <!--编辑界面-->
-            <el-dialog title="添加试题" :visible.sync="addFormVisible" class="noPadding">
+            <el-dialog title="添加相似题组" :visible.sync="addFormVisible">
                 <el-tree
+                        ref="tree"
+                        highlight-current
                         :data="addRows"
                         :props="defaultProps"
                         show-checkbox
@@ -100,7 +102,7 @@
                 </el-tree>
                 <div slot="footer" class="dialog-footer">
                     <el-button @click.native="addFormVisible = false">取消</el-button>
-                    <el-button type="primary" @click="addFormSubmit">提交</el-button>
+                    <el-button type="primary" @click="getCheckedNodes">提交</el-button>
                 </div>
             </el-dialog>
         </div>
@@ -126,6 +128,7 @@
                 pageSize: 5,
                 listLoading: false,
                 filterLoading: false,
+                allLoading: false,
 
                 filterList: [],
 
@@ -140,6 +143,17 @@
             }
         },
         methods: {
+            getCheckedNodes() {
+                const checkArr = this.$refs.tree.getCheckedNodes();
+                const para = checkArr.filter(item => { return !item.children });
+                // 弹出框选择的题目
+                console.log(para);
+                // 题组id
+                console.log(this.addId);
+                // 去掉弹框放请求成功里面
+                // this.addFormVisible = false;
+                // todo请求
+            },
             toTable() {
                 this.getList();
             },
@@ -329,6 +343,7 @@
         computed: {
         },
         mounted() {
+            this.allLoading = true;
             this.getFilter();
         }
     }

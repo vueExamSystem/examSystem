@@ -434,16 +434,16 @@ export default {
         mock.onGet(`/same/tree`).reply(config => {
             return u.getMockList(config, [{
                 id: 1,
-                label: '一级 1',
+                label: '课程 1',
                 children: [{
                     id: 4,
-                    label: '二级 1-1',
+                    label: '章节 1',
                     children: [{
                         id: 9,
-                        label: '三级 1-1-1'
+                        label: '题目 1'
                     }, {
                         id: 10,
-                        label: '三级 1-1-2'
+                        label: '题目 2'
                     }]
                 }]
             }]);
