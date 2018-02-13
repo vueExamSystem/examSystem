@@ -150,6 +150,8 @@
                 console.log(para);
                 // 题组id
                 console.log(this.addId);
+                // 去掉弹框放请求成功里面
+                // this.addFormVisible = false;
                 // todo请求
             },
             toTable() {
