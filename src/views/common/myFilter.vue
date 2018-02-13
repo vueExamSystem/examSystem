@@ -135,7 +135,6 @@
         watch:{
             list: {
                 handler(curVal,oldVal){
-                    console.log('curVal', curVal);
                     this.filters = this.getFilterParam();
                     this.$emit('callback', this.filters);
                     this.rows = curVal;
@@ -220,7 +219,7 @@
         },
         mounted() {
             this.filters = this.getFilterParam();
-            this.$emit('callback', this.filters);
+            // this.$emit('callback', this.filters);
         }
     }
 </script>
