@@ -47,9 +47,12 @@
                         </el-form-item>
                         <el-form-item label="所属课程" prop="project"> 
                             <el-select v-model="editForm.project" placeholder="请选择科目">
-                                <el-option label="大学物理" value="hysics"></el-option>
-                                <el-option label="高等数学" value="mathematics"></el-option>
-                                <el-option label="大学英语" value="english"></el-option>
+                                <el-option :loading="subjectLoading" 
+                                  v-for="item in subjectOptions"
+                                  :key="item.id"
+                                  :label="item.name"
+                                  :value="item.id">
+                                </el-option>
                             </el-select>
                         </el-form-item>
                         <el-form-item label="考试时长" prop="time">
@@ -71,7 +74,7 @@
 </template>
 <script>
     import u from '../../../common/js/util';
-    import { getPaperFilter, getPaperList, eidtPaper } from '../../../api/api';
+    import { getSubjectList, getPaperFilter, getPaperList, eidtPaper } from '../../../api/api';
 	import myFilter from '../../common/myFilter.vue'
     import Pagination from '../../common/Pagination.vue'
     import Detail from './Detail.vue'
@@ -117,6 +120,8 @@
                     time: '',
                     project: ''
                 },
+                subjectLoading: true,
+                subjectOptions: [],//科目组
                 isShowDetail: false,
                 detailPaperId: '',
                 detailPaperName: ''
@@ -133,6 +138,13 @@
                     this.filter = u.getDefaultFilter(this.filterList);
                     this.isFilterInited = true;
                     this.search();
+                });
+            },
+            getSubjectOptions(){//获取科目组
+                this.subjectLoading = true;
+                getSubjectList({}).then(res => {
+                    this.subjectOptions = res.data;
+                    this.subjectLoading = false;
                 });
             },
             search(){
@@ -227,6 +239,7 @@
         },
         mounted() {
             this.getFilter();
+            this.getSubjectOptions();
         }
     }
 </script>
