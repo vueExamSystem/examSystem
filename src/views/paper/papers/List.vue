@@ -177,10 +177,15 @@
                 this.detailPaperId = row.id;
                 this.detailPaperName = row.name;
             },
-            detailClose(){
+            detailClose({refresh}){//取消试卷详情查看
                 this.isShowDetail = false;
                 this.detailPaperId = '';
                 this.detailPaperName = '';
+                if(refresh){
+                    this.isNewPage = true;
+                    this.pageNo = 1;
+                    this.search();
+                }
             },
             //显示编辑界面
             showEdit: function (index, row) {

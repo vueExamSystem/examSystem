@@ -1071,6 +1071,18 @@ export default {
                 }, 1000);
             });
         });
+        //更新试卷状态
+        mock.onPost(`/paper/update/status`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: '0',
+                        msg: '更新成功',
+                        data: '更新成功'
+                    }]);
+                }, 1000);
+            });
+        });
         //获取试卷题目过滤器
         mock.onPost(`/paper/problem/filter`).reply(config => {
             return new Promise((resolve, reject) => {
