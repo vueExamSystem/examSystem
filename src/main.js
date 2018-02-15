@@ -33,6 +33,7 @@ router.beforeEach((to, from, next) => {
         if (store.getters.token) {
             if (store.getters.apiRoutes === null) { // 判断当前用户是否已拉取完 user_info 信息
                 store.dispatch('GetInfo').then(res => { // 拉取 info
+                    store.dispatch('SetUser',{userName: res.data.userName});//保存username
                     const routes = res.data.routes;
                     store.dispatch('GenerateRoutes', { routes }).then(() => { // 生成可访问的路由表
                         router.addRoutes(store.getters.addRouters); // 动态添加可访问路由表

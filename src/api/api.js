@@ -182,6 +182,25 @@ export const savePaper = params => { return instance.post(`${base}/paper/save`, 
 export const getPaperDetail = params => { return instance.post(`${base}/paper/detail`, qs.stringify(params)  ).then(res => res.data); };
 //获取试卷题目详情
 export const getPaperProblem = params => { return instance.post(`${base}/paper/problem`, qs.stringify(params)  ).then(res => res.data); };
+
+//获取试卷题目列表
+export const getPaperProblemList = params => { return instance.post(`${base}/paper/problem/list`, params ).then(res => res.data); };
+//删除试卷题目
+export const removePaperProblem = params => { return instance.post(`${base}/paper/problem/remove`, params ).then(res => res.data); };
+//更新试卷状态
+export const updatePaperStatus = params => { return instance.post(`${base}/paper/update/status`, params ).then(res => res.data); };
+
+//获取试卷题目过滤器
+export const getProblemFilter = params => { return instance.post(`${base}/paper/problem/filter`, params ).then(res => res.data); };
+//获取试卷试题列表
+export const getProblemList = params => { return instance.post(`${base}/paper/problem/question`, params ).then(res => res.data); };
+//试卷添加试题
+export const addPaperProblem = params => { return instance.post(`${base}/paper/problem/add`, params ).then(res => res.data); };
+
 //添加试卷
 export const paperSubmit = params => { return instance.post(`${base}/paper/submit`, params ).then(res => res.data); };
 
+//编辑试卷
+export const eidtPaper = params => { return instance.post(`${base}/paper/edit`, params ).then(res => res.data); };
+//删除试卷
+export const removePaper = params => { return instance.post(`${base}/paper/remove`, params ).then(res => res.data); };

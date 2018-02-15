@@ -3,34 +3,34 @@
 		<div class="title">
 			<span>添加{{typeText}}</span>
 			<div class="pull-right">
-				<el-button type="primary" class="el-button-shadow">添加选中</el-button>
+				<el-button type="primary" class="el-button-shadow" @click="addSave">添加选中</el-button>
 				<el-button type="danger" @click="goBack" class="el-button-shadow">取消</el-button>
 			</div>
 		</div>
-		<div class="content">
-			<my-filter :list="filterList" @callback="filterChange"></my-filter>
-			<div class="panel inner-panel">
+		<div class="content" v-loading="!isInited" style="min-height:300px;">
+			<my-filter v-show="isInited" v-if="isFilterInited" :list="filterList" @callback="filterCallback"></my-filter>
+			<div class="panel inner-panel" v-if="isInited">
 	            <div class="title">
-	                <el-input placeholder="请输入搜索关键词" v-model="keyword">
-	                    <el-button slot="append" icon="el-icon-search"></el-button>
+	                <el-input placeholder="请输入搜索关键词" v-model="keyword" @change="searchClick">
+	                    <el-button slot="append" icon="el-icon-search" @click="searchClick"></el-button>
 	                </el-input>
 	                <div class="pageArea">
-	                    <Page :current="currentPage" :total="total" :pageSize="pageSize" @page-change="pageChange"></Page>
+	                    <Page v-if="!isNewPage" :pageNo="pageNo" :totalCount="totalCount" :pageSize="pageSize" @page-change="pageChange"></Page>
 	                </div>
 	                
 	            </div>
-	            <div class="content">
-	                <el-table :data="questionList" class="el-table-expand" highlight-current-row v-loading="listLoading" fit :row-class-name="setRowClass">
+	            <div class="content" v-loading="submitLoading">
+	                <el-table :data="questionList" class="el-table-expand" highlight-current-row v-loading="listLoading" fit :row-class-name="setRowClass" @selection-change="handleSelectionChange">
 	                    <el-table-column type="selection" width="60">
 	                    </el-table-column>
 	                    <el-table-column type="index" label="序号" width="60">
 	                    </el-table-column>
 	                    <el-table-column prop="name" label="试题名称" min-width="160">
 	                        <template scope="scope">
-	                            <router-link to="/">{{scope.row.name}}</router-link>
+	                            <span class="text-primary">{{scope.row.name}}</span>
 	                        </template>
 	                    </el-table-column>
-	                    <el-table-column prop="category" label="试题类型" min-width="100">
+	                    <el-table-column prop="category" label="试题类型" min-width="100" :formatter="formatType">
 	                    </el-table-column>
 	                    <el-table-column prop="project" label="所属课程" min-width="120">
 	                    </el-table-column>
@@ -52,7 +52,7 @@
 					                    </el-table-column>
 					                    <el-table-column prop="name" min-width="160">
 					                        <template scope="scope">
-					                            <router-link to="/">{{scope.row.name}}</router-link>
+					                        	<span class="text-primary">{{scope.row.name}}</span>
 					                        </template>
 					                    </el-table-column>
 					                    <el-table-column prop="category" min-width="100">
@@ -79,9 +79,14 @@
 </template>
 <script>
 	import myFilter from '../../common/myFilter.vue'
-	import Pagination from '../../common/Pagination.vue'
+	import Pagination from '../../common/Pagination.vue' 
+	import { getProblemFilter, getProblemList, addPaperProblem } from '../../../api/api';
+	import u from '../../../common/js/util';
 	export default{
 		props:{
+			id:{//试卷id
+				required: true
+			},
 			flag:{
 				required: true
 			}
@@ -95,164 +100,21 @@
 		},
 		data(){
 			return {
-				filterList:[{
-					title: '分类',
-					field: 'category',
-					children:[{
-						value: 'wuli',
-						text: '基础物理'
-					},{
-						value: 'shuxue1',
-						text: '高等数学上'
-					},{
-						value: 'shuxue2',
-						text: '高等数学下'
-					},{
-						value: 'yingyu',
-						text: '英语口语'
-					}]
-				},{
-					title: '标签',
-					field: 'label',
-					children:[{
-						value: 'easy',
-						text: '送分题'
-					},{
-						value: 'simple',
-						text: '简单题'
-					},{
-						value: 'trap',
-						text: '易错题'
-					}]
-				}],
-				questionList:[{
-					name: '万有引力',
-					category: '单选',
-					project: '大学物理',
-					chapter: '第一章',
-					questionGroup: '组别01',
-                	innerRadio: '11',
-					children:[{
-						id: '11',
-						name: '万有引力',
-						category: '单选',
-						project: '大学物理',
-						chapter: '第一章'
-					},{
-						id: '12',
-						name: '万有引力',
-						category: '单选',
-						project: '大学物理',
-						chapter: '第一章'
-					}]
-				},{
-					name: '万有引力',
-					category: '单选',
-					project: '大学物理',
-					chapter: '第一章',
-					questionGroup: '组别02',
-                	innerRadio: '21',
-					children:[{
-						id: '21',
-						name: '万有引力',
-						category: '单选',
-						project: '大学物理',
-						chapter: '第一章'
-					},{
-						id: '22',
-						name: '万有引力',
-						category: '单选',
-						project: '大学物理',
-						chapter: '第一章'
-					}]
-				},{
-					name: '万有引力',
-					category: '单选',
-					project: '大学物理',
-					chapter: '第一章',
-					questionGroup: '组别03',
-                	innerRadio: '31',
-					children:[{
-						id: '31',
-						name: '万有引力',
-						category: '单选',
-						project: '大学物理',
-						chapter: '第一章'
-					},{
-						id: '32',
-						name: '万有引力',
-						category: '单选',
-						project: '大学物理',
-						chapter: '第一章'
-					}]
-				},{
-					name: '万有引力',
-					category: '单选',
-					project: '大学物理',
-					chapter: '第一章',
-					questionGroup: '组别04',
-                	innerRadio: '41',
-					children:[{
-						id: '41',
-						name: '万有引力',
-						category: '单选',
-						project: '大学物理',
-						chapter: '第一章'
-					},{
-						id: '42',
-						name: '万有引力',
-						category: '单选',
-						project: '大学物理',
-						chapter: '第一章'
-					}]
-				},{
-					name: '万有引力',
-					category: '单选',
-					project: '大学物理',
-					chapter: '第一章',
-					questionGroup: '组别05',
-                	innerRadio: '51',
-					children:[{
-						id: '51',
-						name: '万有引力',
-						category: '单选',
-						project: '大学物理',
-						chapter: '第一章'
-					},{
-						id: '52',
-						name: '万有引力',
-						category: '单选',
-						project: '大学物理',
-						chapter: '第一章'
-					}]
-				},{
-					name: '万有引力',
-					category: '单选',
-					project: '大学物理',
-					chapter: '第一章',
-					questionGroup: '组别06',
-                	innerRadio: '61',
-					children:[{
-						id: '61',
-						name: '万有引力',
-						category: '单选',
-						project: '大学物理',
-						chapter: '第一章'
-					},{
-						id: '6',
-						name: '万有引力',
-						category: '单选',
-						project: '大学物理',
-						chapter: '第一章'
-					}]
-				}],
+				isInited: false,
+				isHasSubmitted: false,//是否添加新试题过
+				isFilterInited: false,
+				filter:[],
+				filterList: [],
+				questionList: [],
+				multipleSelection:[],//表格已选
 				keyword: '',
-                total: 10,
-                currentPage: 1,
+				isNewPage: true,//是否新分页
+                totalCount: 10,
+                pageNo: 1,
                 pageSize:5,
-                listLoading: false,
-                isShowInnerHeader: false,
-                innerRadio: '11'
+                listLoading: false,//表格加载
+                submitLoading: false,//提交加载
+                isShowInnerHeader: false
 			}
 		},
 		computed:{
@@ -268,23 +130,109 @@
 			},
 		},
 		methods:{
-
-			goBack(){
-				this.$emit('back');
-			},
-			filterChange(filterArr){
-				
-			},
-			pageChange(current){
-
-			},
+            // 获取过滤器数据
+            getFilter() {
+                this.isInited = false;
+                this.listLoading = true;
+                getProblemFilter({}).then((res) => {
+                    this.filterList = res.data;
+                    // filter 对应key默认好 -1
+                    this.filter = u.getDefaultFilter(this.filterList);
+                    this.isFilterInited = true;
+                    this.search();
+                });
+            },
+            search(){//数据不包含已存在试卷上的试题
+                this.listLoading = true;
+                var params = {
+                    keyword: this.keyword,
+                    filter: JSON.stringify(this.filter),
+                    pageNo: this.pageNo,
+                    pageSize: this.pageSize
+                };
+                getProblemList(params).then(res => {
+                    this.questionList = res.data.rows;
+                    this.totalCount = res.data.totalCount;
+                    this.isNewPage = false;
+                    this.listLoading = false;
+                    this.isInited = true;
+                });
+            },
+            searchClick(){
+            	this.isNewPage = true;
+                this.pageNo = 1;
+                this.search();
+            },
+            filterCallback(filter){
+                this.filter = filter;
+                this.isNewPage = true;
+                this.pageNo = 1;
+                this.search();
+            },
+            pageChange(pageNo){
+                this.pageNo = pageNo;
+                this.search();
+            },
+            addSave(){//添加选中(添加后试卷从初始化设为未启用？)
+            	if(this.multipleSelection.length>0){
+            		this.submitLoading = true;
+	            	var idArr = _.map(this.multipleSelection, (item)=>{
+	            		return item.innerRadio;
+	            	});
+	            	var params = {
+	            		paperId: this.id,
+	            		type: this.flag,//试题类型
+	            		ids: idArr
+	            	};
+	            	//to do
+	            	addPaperProblem(params).then(res => {
+	            		this.submitLoading = false;
+            			this.isHasSubmitted = true;
+		            	this.$confirm('试题添加成功,是否继续添加试题？', '提示', {
+		            		confirmButtonText:'继续添加'
+		            	}).then(res => {
+		            	//数据不包含已存在试卷上的试题
+		            		this.isNewPage = true;
+			                this.pageNo = 1;
+			                this.search();
+                        }).catch(res=>{
+                        	this.goBack();
+                        });
+	            	});
+	            }else{
+	            	this.$message({
+	            		type: 'error',
+	            		message: '您还未选择试题'
+	            	});
+	            }
+            },
+            handleSelectionChange(val){//表格多选变更
+            	this.multipleSelection = val;
+            },
 			setRowClass({rowIndex}){
 				if(rowIndex%2 == 0){
 					return 'el-row-odd';
 				}else{
 					return 'el-row-even';
 				}
+			},
+            formatType(row, column){//试题类型
+                if(row.category == '0'){
+                    return '单选';
+                }else if(row.category == '1'){
+                    return '多选'
+                }else if(row.category == '2'){
+                    return '判断'
+                }else{
+                    return '^_^后端修改formatType'
+                }
+            },
+			goBack(){
+				this.$emit('back', {refresh:this.isHasSubmitted});
 			}
+		},
+		mounted(){
+			this.getFilter();
 		}
 	}
 </script>

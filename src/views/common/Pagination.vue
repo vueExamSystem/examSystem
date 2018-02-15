@@ -2,7 +2,7 @@
     <section id="pagination" class="clearfix">
         <div class="page">
             第
-            <span>{{pageNo}}</span>
+            <span>{{pageNoParam}}</span>
             /
             <span>{{getPageNumCom}}</span>
             页
@@ -11,7 +11,7 @@
             <li class="box first" @click="setFirstPage()"><i class="iconfont icon-step-backward"></i></li>
             <li class="box pre" @click="setPrePage()"><i class="iconfont icon-angle-left"></i></li>
             <li class="input">
-                <input id="inputVal" type="text" placeholder="页码" v-bind:value="pageNo">
+                <input id="inputVal" type="text" placeholder="页码" v-bind:value="pageNoParam">
             </li>
             <li class="box next" @click="setNextPage()"><i class="iconfont icon-angle-right"></i></li>
             <li class="box last" @click="setLastPage()"><i class="iconfont icon-step-forward"></i></li>
@@ -26,44 +26,48 @@
 
     export default {
         props: {
+            pageNo: {
+                require: false,
+                default: 1,
+            },
             totalCount: [Number, String], // 总共多少条数据
             pageSize: [Number, String], // 每页数据数量
         },
         data() {
             return {
                 pageNum: 1,
-                pageNo: 1,
+                pageNoParam: _.parseInt(this.pageNo),
             };
         },
         methods: {
             setFirstPage() {
-                if (this.pageNo === 1) return;
-                this.pageNo = 1;
+                if (this.pageNoParam === 1) return;
+                this.pageNoParam = 1;
                 this.bindPageChangeEve();
             },
             setPrePage() {
-                if (this.pageNo === 1) return;
-                this.pageNo = this.pageNo - 1;
+                if (this.pageNoParam === 1) return;
+                this.pageNoParam = this.pageNoParam - 1;
                 this.bindPageChangeEve();
             },
             setNextPage() {
-                if (this.pageNo === _.parseInt(this.pageNum)) return;
-                this.pageNo = _.parseInt(this.pageNo) + 1;
+                if (this.pageNoParam === _.parseInt(this.pageNum)) return;
+                this.pageNoParam = _.parseInt(this.pageNoParam) + 1;
                 this.bindPageChangeEve();
             },
             setLastPage() {
                 const allPage = this.pageNum;
-                if (this.pageNo === allPage) return;
-                this.pageNo = allPage;
+                if (this.pageNoParam === allPage) return;
+                this.pageNoParam = allPage;
                 this.bindPageChangeEve();
             },
             setInputPage() {
                 const val = _.parseInt($('#inputVal').val());
                 if (val === NaN) return;
                 if (val > this.pageNum || val < 1) return;
-                if (val === _.parseInt(this.pageNo)) return;
+                if (val === _.parseInt(this.pageNoParam)) return;
                 if (_.floor(val) !== val) return;
-                this.pageNo = val;
+                this.pageNoParam = val;
                 this.bindPageChangeEve();
             },
             getPageNum() {
@@ -82,7 +86,14 @@
                 return num;
             },
             bindPageChangeEve() {
-                this.$emit('page-change', this.pageNo);
+                this.$emit('page-change', this.pageNoParam);
+            }
+        },
+        watch:{
+            pageNo: {
+                handler(curVal,oldVal){
+                    this.pageNoParam = _.parseInt(curVal);
+                },
             }
         },
         computed: {

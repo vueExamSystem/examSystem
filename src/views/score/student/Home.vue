@@ -1,20 +1,20 @@
 <template>
     <el-tabs type="border-card" v-model="activeName">
-        <el-tab-pane label="发布测验" name="publishform">
-            <add-form></add-form>
+        <el-tab-pane label="学生成绩" name="infolist">
+            <List></List>
         </el-tab-pane>
     </el-tabs>
 </template>
 
 <script>
-    import addForm from './Add.vue'
+    import List from './List.vue'
     export default {
         components:{
-            addForm
+            List
         },
         data() {
             return {
-                activeName:'publishform',
+                activeName:'infolist',
             }
         },
         methods: {
