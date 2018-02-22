@@ -23,7 +23,7 @@
                         highlight-current-row
                         v-loading="listLoading"
                         style="width: 100%;">
-                    <el-table-column type="index" label="ID" width="60">
+                    <el-table-column type="index" label="序号" width="60">
                     </el-table-column>
                     <el-table-column
                             type="expand"
@@ -32,30 +32,30 @@
                             <div style="margin: -20px -50px;">
                                 <el-table class="el-inner-table" :data="scope.row.children" :show-header="false"
                                           highlight-current-row fit>
-                                    <el-table-column prop="index" width="60">
-                                        <template></template>
+                                    <el-table-column type="index" width="60">
+                                       <!--  <template></template> -->
                                     </el-table-column>
-                                    <el-table-column prop="name" min-width="160">
-                                        <template slot-scope="props">
+                                    <el-table-column prop="questionName">
+                                        <!-- <template slot-scope="props">
                                             <router-link to="/">{{props.row.name}}</router-link>
-                                        </template>
+                                        </template> -->
                                     </el-table-column>
-                                    <el-table-column prop="type" min-width="100">
+                                    <el-table-column prop="questionType">
                                     </el-table-column>
-                                    <el-table-column prop="course" label="课程" sortable>
-                                        <template slot-scope="scope">
+                                    <el-table-column prop="course" label="所属课程">
+                                        <!-- <template slot-scope="scope">
                                             <span v-if="scope.row.course">{{scope.row.course.name}}</span>
-                                        </template>
+                                        </template> -->
                                     </el-table-column>
-                                    <el-table-column prop="section" label="所属章节" sortable>
-                                        <template slot-scope="scope">
+                                    <el-table-column prop="section" label="所属章节" min-width="120">
+                                     <!--    <template slot-scope="scope">
                                             <span v-if="scope.row.section">{{scope.row.section.name}}</span>
-                                        </template>
+                                        </template> -->
                                     </el-table-column>
                                     <el-table-column width="100">
                                         <template slot-scope="props">
                                             <i class="iconfont icon-remove-circle"
-                                               @click="delQuestion(props.row.id)"></i>
+                                               @click="delQuestion(props.row.questionId)"></i>
                                         </template>
                                     </el-table-column>
                                 </el-table>
@@ -66,15 +66,19 @@
                             label="组别名称"
                             prop="name">
                     </el-table-column>
+                     <el-table-column
+                            label="题型类别"
+                            prop="questionType" width="100">
+                    </el-table-column>
                     <el-table-column prop="course" label="课程" sortable>
-                        <template slot-scope="scope">
+                       <!--  <template slot-scope="scope">
                             <span v-if="scope.row.course">{{scope.row.course.name}}</span>
-                        </template>
+                        </template> -->
                     </el-table-column>
                     <el-table-column prop="section" label="所属章节" sortable>
-                        <template slot-scope="scope">
+                    <!--     <template slot-scope="scope">
                             <span v-if="scope.row.section">{{scope.row.section.name}}</span>
-                        </template>
+                        </template> -->
                     </el-table-column>
                     <el-table-column
                             label="操作"

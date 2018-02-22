@@ -15,8 +15,19 @@
 				<el-form-item label="题组名称" prop="name">
 					<el-input v-model="ruleForm.name"></el-input>
 				</el-form-item>
+                <el-form-item label="试题类型" prop="qustionType">
+                    <el-select v-model="ruleForm.qustionType" placeholder="请选择试题类型">
+                        <el-option
+                                v-for="item in qustionTypeArr"
+                                :label="item.text"
+                                :value="item.value"
+                                :key="item.value"
+                        >
+                        </el-option>
+                    </el-select>
+                </el-form-item>
 				<el-form-item label="所属课程" prop="course">
-					<el-select v-model="ruleForm.course" multiple placeholder="请选择所属课程">
+					<el-select v-model="ruleForm.course" placeholder="请选择所属课程">
 						<el-option
 								v-for="item in courseArr"
 								:label="item.text"
@@ -27,7 +38,7 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item label="所属章节" prop="chapter">
-					<el-select v-model="ruleForm.chapter" multiple placeholder="请选择所属章节">
+					<el-select v-model="ruleForm.chapter" placeholder="请选择所属章节">
 						<el-option
 								v-for="item in chapterArr"
 								:label="item.text"
@@ -56,6 +67,7 @@
     import {
         getCourseFilter,
 		getSectionFilter,
+        getSameFilter,
 		addDemo,
     } from '../../../api/api';
     import _ from 'lodash';
@@ -67,6 +79,7 @@
                     desc: '',
 					chapter: '',
                     course: '',
+                    qustionType:''
                 },
                 rules: {
                     name: [
@@ -75,6 +88,9 @@
                     desc: [
                         { required: true, message: '请填写题组描述', trigger: 'blur' }
                     ],
+                    qustionType: [
+                        { required: true, message: '请选择试题类型', trigger: 'change' }
+                    ],
                     course: [
                         { required: true, message: '请选择所属课程', trigger: 'change' }
                     ],
@@ -82,6 +98,8 @@
                         { required: true, message: '请选择所属章节', trigger: 'change' }
                     ],
                 },
+
+                qustionTypeArr:[],
                 courseArr: [],
                 chapterArr: [],
 				loading: false,
@@ -96,7 +114,7 @@
                             console.log(para);
                             this.loading = true;
                             addDemo(para).then((res) => {
-                                if (res.code !== '0') {
+                                if (res.code !== 0) {
                                     this.$message({
                                         message: res.msg,
                                         type: 'error'
@@ -125,12 +143,15 @@
             // 获取初始数据
             getDefaultData() {
                 getCourseFilter({}).then((res) => {
-                    console.log('getCourseFilter',res);
+                    //console.log('getCourseFilter',res);
                     this.courseArr = res.data[0].children;
                 });
                 getSectionFilter({}).then((res) => {
                     console.log('getSectionFilter',res);
                     this.chapterArr = res.data.children;
+                });
+               getSameFilter({}).then((res) => {
+                    this.courseArr = res.data[0].children;
                 });
             },
 		},

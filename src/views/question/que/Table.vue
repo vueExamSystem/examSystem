@@ -29,16 +29,22 @@
                                 <el-button type="text" @click="detailShow(scope.row.id)">{{scope.row.name}}</el-button>
                             </template>
                         </el-table-column>
-                        <el-table-column prop="questionTypeId" label="试题类型" sortable>
+                        <el-table-column prop="questionType" label="试题类型" sortable>
                         </el-table-column>
-                        <el-table-column prop="subject" label="所属课程" sortable>
+                        <el-table-column prop="course" label="所属课程" sortable>
+                            <template slot-scope="scope">
+                                <span v-if="scope.row.course">{{scope.row.course.name}}</span>
+                            </template> 
                         </el-table-column>
-                        <el-table-column prop="chapter" label="所属章节" sortable>
+                        <el-table-column prop="section" label="所属章节" sortable>
+                            <template slot-scope="scope">
+                                <span v-if="scope.row.section">{{scope.row.section.name}}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="similarName" label="相似题组" sortable>
                         </el-table-column>
                         <el-table-column prop="creator" label="创建人" sortable>
-                        </el-table-column>
-                        <el-table-column prop="same" label="相似题组" sortable>
-                        </el-table-column>
+                        </el-table-column>                   
                     </el-table>
                 </div>
             </div>
