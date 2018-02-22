@@ -65,8 +65,6 @@
 
 <script>
     import {
-        getCourseFilter,
-		getSectionFilter,
         getSameFilter,
 		addDemo,
     } from '../../../api/api';
@@ -142,16 +140,12 @@
             },
             // 获取初始数据
             getDefaultData() {
-                getCourseFilter({}).then((res) => {
-                    //console.log('getCourseFilter',res);
-                    this.courseArr = res.data[0].children;
-                });
-                getSectionFilter({}).then((res) => {
-                    console.log('getSectionFilter',res);
-                    this.chapterArr = res.data.children;
-                });
                getSameFilter({}).then((res) => {
+                    console.log('getSameFilter',res);
                     this.courseArr = res.data[0].children;
+                    //todo所有章节数据 value text courseid为课程筛选id
+                    this.chapterArr=res.data[1].children;
+                    this.qustionTypeArr=res.data[2].children;
                 });
             },
 		},
