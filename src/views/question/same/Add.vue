@@ -54,7 +54,7 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item label="题组描述" prop="desc">
-					<el-button type="primary" icon="iconfont icon-plus">添加试题</el-button>
+					<el-button type="primary" icon="iconfont icon-plus" @chick="addQuestion">添加试题</el-button>
 					<el-input
 							type="textarea"
 							:rows="3"
@@ -159,6 +159,10 @@
             changeCourse(val) {
                 this.chapterArr = this.chapterAllArr.filter(item => { return item.courseid === val });
                 this.ruleForm.chapter = '';
+			},
+			// 添加试题事件
+            addQuestion() {
+                console.log();
 			},
 		},
         computed: {
