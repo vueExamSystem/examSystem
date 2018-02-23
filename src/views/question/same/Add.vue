@@ -28,7 +28,11 @@
                     </el-select>
                 </el-form-item>
 				<el-form-item label="所属课程" prop="course">
-					<el-select v-model="ruleForm.course" placeholder="请选择所属课程">
+					<el-select
+							v-model="ruleForm.course"
+							placeholder="请选择所属课程"
+							@change="changeCourse"
+					>
 						<el-option
 								v-for="item in courseArr"
 								:label="item.text"
@@ -101,6 +105,7 @@
                 qustionTypeArr:[],
                 courseArr: [],
                 chapterArr: [],
+                chapterAllArr: [],
 				loading: false,
                 isInlineMessage: true,
 			}
@@ -147,9 +152,14 @@
                     this.courseArr = res.data[0].children;
                     //todo所有章节数据 value text courseid为课程筛选id
                     this.chapterArr=res.data[1].children;
+                    this.chapterAllArr = res.data[1].children;
                     this.qustionTypeArr=res.data[2].children;
                 });
             },
+            changeCourse(val) {
+                this.chapterArr = this.chapterAllArr.filter(item => { return item.courseid === val });
+                this.ruleForm.chapter = '';
+			},
 		},
         computed: {
 		},
