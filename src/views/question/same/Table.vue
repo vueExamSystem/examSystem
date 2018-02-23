@@ -115,7 +115,15 @@
 
 <script>
     import u from '../../../common/js/util';
-    import {getSameList, getSameFilter, getSectionFilter, removeSameQuestion,removeSameGroup,getSameTreeList} from '../../../api/api';
+    import {
+        getSameList,
+        getSameFilter,
+        getSectionFilter,
+        removeSameQuestion,
+        removeSameGroup,
+        getSameTreeList,
+        addSameGroup,
+    } from '../../../api/api';
     import myFilter from '../../common/myFilter.vue';
     import Pagination from '../../common/Pagination.vue';
     import AddQue from '../que/Add.vue';
@@ -150,13 +158,30 @@
             getCheckedNodes() {
                 const checkArr = this.$refs.tree.getCheckedNodes();
                 const para = checkArr.filter(item => { return !item.children });
+
                 // 弹出框选择的题目
                 console.log(para);
                 // 题组id
                 console.log(this.addId);
-                // 去掉弹框放请求成功里面
-                // this.addFormVisible = false;
-                // todo请求
+                // 去掉弹框放请求成功里
+                // 请求
+                this.$confirm('确认添加相似题组吗？', '提示', {}).then(() => {
+                    addSameGroup(para).then(res => {
+                        if (res.code === '0') {
+                            this.$message({
+                                message: '添加成功',
+                                type: 'success'
+                            });
+                            this.addFormVisible = false;
+                            this.getList();
+                        } else {
+                            this.$message({
+                                message: '添加失败',
+                                type: 'error'
+                            });
+                        }
+                    });
+                });
             },
             toTable() {
                 this.getList();
@@ -300,7 +325,7 @@
                 this.addFormVisible = true;
                 this.treeLoading = true;
                 getSameTreeList(para).then(res => {
-                    this.addRows = res.data;
+                    this.addRows = [res.data];
                     this.treeLoading = false;
                 });
             },
