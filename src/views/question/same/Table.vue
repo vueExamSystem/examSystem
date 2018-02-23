@@ -27,6 +27,7 @@
                     </el-table-column>
                     <el-table-column
                             type="expand"
+                            width="10"
                             prop="children">
                         <template slot-scope="scope">
                             <div style="margin: -20px -50px;">
@@ -35,7 +36,7 @@
                                     <el-table-column type="index" width="60">
                                        <!--  <template></template> -->
                                     </el-table-column>
-                                    <el-table-column prop="questionName">
+                                    <el-table-column prop="questionName" width="310">
                                         <!-- <template slot-scope="props">
                                             <router-link to="/">{{props.row.name}}</router-link>
                                         </template> -->
@@ -47,12 +48,12 @@
                                             <span v-if="scope.row.course">{{scope.row.course.name}}</span>
                                         </template> -->
                                     </el-table-column>
-                                    <el-table-column prop="section" label="所属章节" min-width="120">
+                                    <el-table-column prop="section" label="所属章节" width="200">
                                      <!--    <template slot-scope="scope">
                                             <span v-if="scope.row.section">{{scope.row.section.name}}</span>
                                         </template> -->
                                     </el-table-column>
-                                    <el-table-column width="100">
+                                    <el-table-column width="200">
                                         <template slot-scope="props">
                                             <i class="iconfont icon-remove-circle"
                                                @click="delQuestion(props.row.questionId)"></i>
@@ -64,6 +65,7 @@
                     </el-table-column>
                     <el-table-column
                             label="组别名称"
+                            width="300"
                             prop="name">
                     </el-table-column>
                      <el-table-column
@@ -75,7 +77,7 @@
                             <span v-if="scope.row.course">{{scope.row.course.name}}</span>
                         </template> -->
                     </el-table-column>
-                    <el-table-column prop="section" label="所属章节" sortable>
+                    <el-table-column prop="section" label="所属章节" sortable width="200">
                     <!--     <template slot-scope="scope">
                             <span v-if="scope.row.section">{{scope.row.section.name}}</span>
                         </template> -->

@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ded44d1b-31ca-4019-bb9f-513cd69c457b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/views/question/same/Add.vue" afterPath="$PROJECT_DIR$/src/views/question/same/Add.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/views/question/same/Table.vue" afterPath="$PROJECT_DIR$/src/views/question/same/Table.vue" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -71,22 +71,22 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Table.vue" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Table.vue" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/views/question/same/Table.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="196">
-              <caret line="159" column="80" lean-forward="false" selection-start-line="159" selection-start-column="37" selection-end-line="159" selection-end-column="80" />
+            <state relative-caret-position="604">
+              <caret line="83" column="38" lean-forward="true" selection-start-line="83" selection-start-column="38" selection-end-line="83" selection-end-column="38" />
               <folding>
-                <element signature="e#5894#5934#0" expanded="true" />
+                <element signature="e#5993#6033#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Add.vue" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Add.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/views/question/same/Add.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="332">
+            <state relative-caret-position="568">
               <caret line="162" column="21" lean-forward="false" selection-start-line="162" selection-start-column="21" selection-end-line="162" selection-end-column="21" />
               <folding />
             </state>
@@ -144,8 +144,8 @@
         <option value="$PROJECT_DIR$/src/views/Test.vue" />
         <option value="$PROJECT_DIR$/src/main.js" />
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/src/views/question/same/Table.vue" />
         <option value="$PROJECT_DIR$/src/views/question/same/Add.vue" />
+        <option value="$PROJECT_DIR$/src/views/question/same/Table.vue" />
       </list>
     </option>
   </component>
@@ -334,12 +334,12 @@
       <option name="presentableId" value="Default" />
       <updated>1513560802257</updated>
       <workItem from="1513560803807" duration="11139000" />
-      <workItem from="1519370240099" duration="3251000" />
+      <workItem from="1519370240099" duration="4156000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="14424000" />
+    <option name="totallyTimeSpent" value="15329000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -682,21 +682,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/question/same/Table.vue">
+    <entry file="file://$PROJECT_DIR$/src/views/question/same/Add.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="159" column="80" lean-forward="false" selection-start-line="159" selection-start-column="37" selection-end-line="159" selection-end-column="80" />
-          <folding>
-            <element signature="e#5894#5934#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="568">
+          <caret line="162" column="21" lean-forward="false" selection-start-line="162" selection-start-column="21" selection-end-line="162" selection-end-column="21" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/question/same/Add.vue">
+    <entry file="file://$PROJECT_DIR$/src/views/question/same/Table.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="332">
-          <caret line="162" column="21" lean-forward="false" selection-start-line="162" selection-start-column="21" selection-end-line="162" selection-end-column="21" />
-          <folding />
+        <state relative-caret-position="604">
+          <caret line="83" column="38" lean-forward="true" selection-start-line="83" selection-start-column="38" selection-end-line="83" selection-end-column="38" />
+          <folding>
+            <element signature="e#5993#6033#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
