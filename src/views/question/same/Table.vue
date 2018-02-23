@@ -177,7 +177,7 @@
                 this.getList();
             },
             search(obj) {
-                this.filter = obj;
+                this.filter = obj;this.pageNo = 1;
                 this.pageNo = 1;
                 this.getList();
             },

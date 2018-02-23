@@ -87,7 +87,7 @@
                 this.getList();
             },
             search(obj) {
-                this.filter = obj;
+                this.filter = obj;this.pageNo = 1;
                 this.getList();
             },
             //获取用户列表

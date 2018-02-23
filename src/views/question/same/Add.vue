@@ -11,6 +11,7 @@
 		<div class="content">
 			<el-form :model="ruleForm"
 					 v-loading="loading"
+					 :inline-message="isInlineMessage"
 					 :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
 				<el-form-item label="题组名称" prop="name">
 					<el-input v-model="ruleForm.name"></el-input>
@@ -101,6 +102,7 @@
                 courseArr: [],
                 chapterArr: [],
 				loading: false,
+                isInlineMessage: true,
 			}
 		},
 		methods: {
