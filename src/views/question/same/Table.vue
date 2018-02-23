@@ -84,8 +84,8 @@
                             label="操作"
                             width="200">
                         <template slot-scope="scope">
-                            <el-button type="primary" size="small" @click="addDepartment(scope.row.id)">添加</el-button>
-                            <el-button type="danger" size="small" @click="delDepartment(scope.row.id)">删除</el-button>
+                            <el-button type="primary" size="small" @click="addGroup(scope.row)">添加</el-button>
+                            <el-button type="danger" size="small" @click="delGroup(scope.row.id)">删除</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -115,7 +115,7 @@
 
 <script>
     import u from '../../../common/js/util';
-    import {getSameList, getSameFilter, getSectionFilter, delDemo, getSameTreeList} from '../../../api/api';
+    import {getSameList, getSameFilter, getSectionFilter, removeSameQuestion,removeSameGroup,getSameTreeList} from '../../../api/api';
     import myFilter from '../../common/myFilter.vue';
     import Pagination from '../../common/Pagination.vue';
     import AddQue from '../que/Add.vue';
@@ -191,6 +191,7 @@
                 if (!this.listLoading) this.listLoading = true;
                 getSameList(para).then((res) => {
                     res=res.data;
+                    console.log('getSameList',res);
                     this.totalCount = res.totalCount;
                     this.rows = res.rows;
                     if (!this.filterLoading) this.listLoading = false;
@@ -246,12 +247,11 @@
                 }
             },
             // 删除题组
-            delDepartment(id) {
-                this.$confirm('确认删除吗？', '提示', {}).then(() => {
-                    delDemo({
-                        id,
-                    }).then(res => {
-                        if (res.code === '0') {
+            delGroup(id) {
+                this.$confirm('确认删除相似题组吗？', '提示', {}).then(() => {
+                    var para = {'groupid': id,};
+                    removeSameGroup(para).then(res => {
+                        if (res.code === 0) {
                             this.$message({
                                 message: '删除成功',
                                 type: 'success'
@@ -268,11 +268,10 @@
             },
             // 删除试题
             delQuestion(id) {
-                this.$confirm('确认删除吗？', '提示', {}).then(() => {
-                    delDemo({
-                        id,
-                    }).then(res => {
-                        if (res.code === '0') {
+                this.$confirm('确认从相似题组移除试题吗？', '提示', {}).then(() => {
+                    var para = {'questionid': id,};
+                    removeSameQuestion(para).then(res => {
+                        if (res.code === 0) {
                             this.$message({
                                 message: '删除成功',
                                 type: 'success'
@@ -287,13 +286,20 @@
                     });
                 });
             },
-            addDepartment(id) {
-                this.addId = id;
+            addGroup(row) {
+                //this.addId = id;
+                console.log('addGroup',row);
+                var para={
+                    'groupId':row.id,
+                    'courseId':row.courseId,
+                    'course':row.course,
+                    'sectionId':row.sectionId,
+                    'section':row.section,
+                    'questionTypeId':row.questionTypeId
+                };
                 this.addFormVisible = true;
                 this.treeLoading = true;
-                getSameTreeList({
-                    courseid: id,
-                }).then(res => {
+                getSameTreeList(para).then(res => {
                     this.addRows = res.data;
                     this.treeLoading = false;
                 });

@@ -71,8 +71,6 @@ export const getSectionFilter = params => { return instance.post(`${base}/chapte
 // department
 export const getSameList = params => { return instance.post(`${base}/same/list`, qs.stringify(params) ).then(res => res.data); };
 
-export const getSameTreeList = params => { return instance.get(`${base}/same/tree`, params ).then(res => res.data); };
-
 // department
 export const getGroupList = params => { return instance.get(`${base}/group/list`, params ).then(res => res.data); };
 
@@ -86,6 +84,15 @@ export const getSameGroupList = params => { return instance.get(`${base}/same/li
 export const getQuestionFilter = params => { return instance.get(`${base}/question/filter`, params ).then(res => res.data);};
 // same filter
 export const getSameFilter = params => { return instance.get(`${base}/same/filter`, { params: params } ).then(res => res.data);};
+
+//remove 相似题组中试题
+export const removeSameGroup= params => { return instance.get(`${base}/same/removeSameGroup`, { params: params } ).then(res => res.data);};
+
+//remove 相似题组
+export const removeSameQuestion= params => { return instance.get(`${base}/same/removeQuestion`, { params: params } ).then(res => res.data);};
+
+//获取试题树
+export const getSameTreeList = params => { return instance.post(`${base}/same/tree`, qs.stringify(params) ).then(res => res.data); };
 
 // 删除，添加，编辑 demo api
 export const addDemo = params => {
