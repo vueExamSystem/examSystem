@@ -15,9 +15,12 @@
 					</el-form-item>
 					<el-form-item label="选择科目：" prop="subject"> 
 						<el-select v-model="form.subject" placeholder="请选择科目">
-							<el-option label="大学物理" value="hysics"></el-option>
-							<el-option label="高等数学" value="mathematics"></el-option>
-							<el-option label="大学英语" value="english"></el-option>
+						    <el-option :loading="subjectLoading" 
+						      v-for="item in subjectOptions"
+						      :key="item.id"
+						      :label="item.name"
+						      :value="item.id">
+						    </el-option>
 						</el-select>
 					</el-form-item>
 					<el-form-item label="组卷方式：" prop="mode">
@@ -81,7 +84,7 @@
 </template>
 <script>
 	import Detail from './Detail.vue'
-	import { paperSubmit } from '../../../api/api';
+	import { getSubjectList, paperSubmit } from '../../../api/api';
 	export default {
 		components:{
 			Detail
@@ -99,6 +102,8 @@
 				isInlineMessage: true,
 				isNext: false,
 				isSubmitting: false,
+				subjectLoading: true,//科目加载
+				subjectOptions: [], //科目选项组
 				form: {
 					name: '',//试卷名称
 					subject: '',//科目
@@ -177,6 +182,16 @@
 			}
 		},
 		methods: {
+			init(){
+				this.getSubjectOptions();
+			},
+			getSubjectOptions(){//获取科目组
+				this.subjectLoading = true;
+				getSubjectList({}).then(res => {
+					this.subjectOptions = res.data;
+					this.subjectLoading = false;
+				});
+			},
 			onSubmit(formName, flag) {
 				this.$refs[formName].validate((isValid) => {
 					if(isValid){
@@ -250,6 +265,9 @@
 			detailBack(){
 				this.isNext = false;
 			}
+		},
+		mounted(){
+			this.init();
 		}
 	}
 </script>

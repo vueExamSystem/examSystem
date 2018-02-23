@@ -168,6 +168,8 @@ export const getPaperList = params => { return instance.post(`${base}/paper/list
 export const getPaperProblemList = params => { return instance.post(`${base}/paper/problem/list`, params ).then(res => res.data); };
 //删除试卷题目
 export const removePaperProblem = params => { return instance.post(`${base}/paper/problem/remove`, params ).then(res => res.data); };
+//更新试卷状态
+export const updatePaperStatus = params => { return instance.post(`${base}/paper/update/status`, params ).then(res => res.data); };
 
 //获取试卷题目过滤器
 export const getProblemFilter = params => { return instance.post(`${base}/paper/problem/filter`, params ).then(res => res.data); };
@@ -178,5 +180,8 @@ export const addPaperProblem = params => { return instance.post(`${base}/paper/p
 
 //添加试卷
 export const paperSubmit = params => { return instance.post(`${base}/paper/submit`, params ).then(res => res.data); };
+
 //编辑试卷
 export const eidtPaper = params => { return instance.post(`${base}/paper/edit`, params ).then(res => res.data); };
+//删除试卷
+export const removePaper = params => { return instance.post(`${base}/paper/remove`, params ).then(res => res.data); };

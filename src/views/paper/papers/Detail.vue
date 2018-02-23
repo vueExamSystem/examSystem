@@ -1,5 +1,5 @@
 <template>
-	<section style="min-height:200px;">
+	<section style="min-height:200px;" v-loading="saveLoading">
 		<div class="panel" v-show="!isAddProblem">
 			<div class="title">
 				<span>
@@ -203,7 +203,7 @@
 	</section>
 </template>
 <script>
-	import { getPaperProblemList, removePaperProblem } from '../../../api/api';
+	import { getPaperProblemList, updatePaperStatus, removePaperProblem } from '../../../api/api';
 	import Page from '../../common/Pagination.vue'
 	import addProblem from './AddProblem.vue'
 	export default{
@@ -258,6 +258,8 @@
 				optionCurrent: 0,//当前选做对应索引序号
 				isOptionNewPage: false,//为了刷新分页
 
+				saveLoading: false,//保存加载mask
+				isSaveSubmitted: false,//是否保存过
 				isAddProblem: false,
 				addType: 'radio'
 			}
@@ -354,8 +356,37 @@
 					}
 				}
 			},
-			onSave(){
-
+			onSave(){//试卷保存
+				//前端100分判断(后端判定100分)
+				if(this.totalSet == this.config.total){
+					this.saveLoading = true;
+					//to do
+					var params = {
+						paperId: this.id,
+						// status: '??'
+					};
+					updatePaperStatus(params).then(res => {
+						this.saveLoading = false;
+						if(res.code == '0'){
+							this.isSaveSubmitted = true;
+							this.$message({
+								type: 'success',
+								message: '试卷更新成功'
+							});
+							this.goBack();
+						}else{//其他原因
+							this.$message({
+								type: 'error',
+								message: res.msg
+							});
+						}
+					});
+				}else{
+					this.$message({
+						type: 'error',
+						message: '当前已有分值：' + this.totalSet + '分；总分：'+ this.config.total + '分；不一致！'
+					});
+				}
 			},
 			removeProblem(id, blockType){
 				switch(blockType){
@@ -418,7 +449,7 @@
 				});
 			},
 			goBack(){
-				this.$emit('close');
+				this.$emit('close', {refresh:this.isSaveSubmitted});
 			},
 			addProblemBack({refresh}){//取消添加试题
 				this.isAddProblem = false;

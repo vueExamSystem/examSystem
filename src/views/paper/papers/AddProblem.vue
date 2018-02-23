@@ -139,9 +139,10 @@
                     // filter 对应key默认好 -1
                     this.filter = u.getDefaultFilter(this.filterList);
                     this.isFilterInited = true;
+                    this.search();
                 });
             },
-            search(){
+            search(){//数据不包含已存在试卷上的试题
                 this.listLoading = true;
                 var params = {
                     keyword: this.keyword,
@@ -172,7 +173,7 @@
                 this.pageNo = pageNo;
                 this.search();
             },
-            addSave(){//添加选中
+            addSave(){//添加选中(添加后试卷从初始化设为未启用？)
             	if(this.multipleSelection.length>0){
             		this.submitLoading = true;
 	            	var idArr = _.map(this.multipleSelection, (item)=>{
@@ -185,13 +186,18 @@
 	            	};
 	            	//to do
 	            	addPaperProblem(params).then(res => {
-	            		this.submitLoading = true;
+	            		this.submitLoading = false;
             			this.isHasSubmitted = true;
-		            	this.$message({
-		            		type: 'success',
-		            		message: '试题添加成功'
-		            	});
-		            	this.goBack();
+		            	this.$confirm('试题添加成功,是否继续添加试题？', '提示', {
+		            		confirmButtonText:'继续添加'
+		            	}).then(res => {
+		            	//数据不包含已存在试卷上的试题
+		            		this.isNewPage = true;
+			                this.pageNo = 1;
+			                this.search();
+                        }).catch(res=>{
+                        	this.goBack();
+                        });
 	            	});
 	            }else{
 	            	this.$message({
