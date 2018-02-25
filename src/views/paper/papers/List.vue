@@ -20,7 +20,7 @@
                                 <el-button type="text" @click="detailShow(scope.row)">{{scope.row.remark}}</el-button>
                             </template>
                         </el-table-column>
-                        <el-table-column prop="time" label="时长(min)" min-width="100">
+                        <el-table-column prop="duration" label="时长(min)" min-width="100">
                         </el-table-column>
                         <el-table-column prop="project" label="所属课程" min-width="120">
                         </el-table-column>
@@ -47,8 +47,8 @@
                 <!--编辑界面-->
                 <el-dialog title="编辑试卷" :visible.sync="editFormVisible">
                     <el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm" :inline-message="isInlineMessage" v-loading="editLoading">
-                        <el-form-item label="试卷名称" prop="name">
-                            <el-input v-model="editForm.name"></el-input>
+                        <el-form-item label="试卷名称" prop="remark">
+                            <el-input v-model="editForm.remark"></el-input>
                         </el-form-item>
                         <el-form-item label="所属课程" prop="project"> 
                             <el-select v-model="editForm.project" placeholder="请选择科目">
@@ -60,8 +60,8 @@
                                 </el-option>
                             </el-select>
                         </el-form-item>
-                        <el-form-item label="考试时长" prop="time">
-                            <el-input v-model="editForm.time"></el-input>
+                        <el-form-item label="考试时长" prop="duration">
+                            <el-input v-model="editForm.duration"></el-input>
                             <span class="text-primary" style="margin-left:12px;">*单位分钟</span>
                         </el-form-item>
                     </el-form>
@@ -108,10 +108,10 @@
                 editLoading: false,
                 isInlineMessage: true,
                 editFormRules: {
-                    name: [
+                    remark: [
                         { required: true, message: '请填写试卷名称', trigger: 'blur' }
                     ],
-                    time: [
+                    duration: [
                         {required: true, message: '请输入时长', trigger:'change'},
                         {pattern: '^\\d+$', message: '请输入整数', trigger:'change'}
                     ],
@@ -122,8 +122,8 @@
                 //编辑界面数据
                 editForm: {
                     id: -1,
-                    name: '',
-                    time: '',
+                    remark: '',
+                    duration: '',
                     project: ''
                 },
                 subjectLoading: true,
@@ -208,10 +208,10 @@
                     return '手动组卷';
                 }
             },
-            detailShow(row){
+            detailShow(row){console.log('row',row)
                 this.isShowDetail = true;
                 this.detailPaperId = row.id;
-                this.detailPaperName = row.name;
+                this.detailPaperName = row.remark;
             },
             detailClose({refresh}){//取消试卷详情查看
                 this.isShowDetail = false;
@@ -227,8 +227,8 @@
             showEdit(index, row) {//编辑
                 this.editFormVisible = true;
                 this.editForm.id = row.id;
-                this.editForm.name = row.name;
-                this.editForm.time = row.time;
+                this.editForm.remark = row.remark;
+                this.editForm.duration = row.duration;
                 this.editForm.project = row.project;
             },
             hideEdit(){
