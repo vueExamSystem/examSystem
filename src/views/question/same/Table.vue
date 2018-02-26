@@ -41,7 +41,7 @@
                                             <router-link to="/">{{props.row.name}}</router-link>
                                         </template> -->
                                     </el-table-column>
-                                    <el-table-column prop="questionType">
+                                    <el-table-column prop="questionType" width="100">
                                     </el-table-column>
                                     <el-table-column prop="course" label="所属课程">
                                         <!-- <template slot-scope="scope">

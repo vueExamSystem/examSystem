@@ -191,7 +191,9 @@
                 this.filters[row.field] = item === true ? -1 : item.value;
                 this.$forceUpdate();
                 this.filters = this.getFilterParam();
-                this.$emit('callback', this.filters);
+                if(!row.isLinkage) {
+                    this.$emit('callback', this.filters);
+                }
             },
             addEmit(eveName) {
                 this.$emit(eveName);
