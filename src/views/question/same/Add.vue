@@ -54,7 +54,15 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item label="题组描述" prop="desc">
-					<el-button type="primary" icon="iconfont icon-plus" @chick="addQuestion">添加试题</el-button>
+					<el-button type="primary" icon="iconfont icon-plus" @click="addQuestion()">添加试题</el-button>
+					<el-tag
+							v-for="tag in addListValue"
+							:key="tag.id"
+							closable
+							@close="tagClose(tag.id)">
+							type="info">
+						{{tag.label}}
+					</el-tag>
 					<el-input
 							type="textarea"
 							:rows="3"
@@ -64,6 +72,26 @@
 				</el-form-item>
 			</el-form>
 		</div>
+
+		<!--编辑界面-->
+		<el-dialog title="添加题组" :visible.sync="addFormVisible">
+			<el-tree
+					ref="tree"
+					highlight-current
+					:data="addRows"
+					:props="defaultProps"
+					show-checkbox
+					node-key="id"
+					v-loading="treeLoading"
+					default-expand-all
+					:default-checked-keys="addListValue"
+					:expand-on-click-node="false">
+			</el-tree>
+			<div slot="footer" class="dialog-footer">
+				<el-button @click.native="addFormVisible = false">取消</el-button>
+				<el-button type="primary" @click="getCheckedNodes">提交</el-button>
+			</div>
+		</el-dialog>
 	</section>
 
 </template>
@@ -72,6 +100,7 @@
     import {
         getSameFilter,
 		addDemo,
+        getSameTreeList,
     } from '../../../api/api';
     import _ from 'lodash';
 	export default {
@@ -108,9 +137,36 @@
                 chapterAllArr: [],
 				loading: false,
                 isInlineMessage: true,
+
+                addFormVisible: false,
+                treeLoading: false,
+                addRows: [],
+                defaultProps: {
+                    children: 'children',
+                    label: 'label',
+                },
+				addList: [{
+                    id: 9,
+                    label: '题目 1'
+                }],
+                addListValue: [],
 			}
 		},
 		methods: {
+            getCheckedNodes() {
+                const checkArr = this.$refs.tree.getCheckedNodes();
+                let para = checkArr.filter(item => { return !item.children });
+                // para = para.map(item => item.id);
+                // 弹出框选择的题目
+                console.log(para);
+                this.$confirm('确认添加相似题组吗？', '提示', {}).then(() => {
+                    this.addList = para;
+                    this.addListValue = this.addList.map(item => item.id);
+                });
+            },
+            tagClose(id) {
+                console.log('del que id', id);
+			},
             onSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
@@ -162,7 +218,12 @@
 			},
 			// 添加试题事件
             addQuestion() {
-                console.log();
+                this.addFormVisible = true;
+                this.treeLoading = true;
+                getSameTreeList({}).then(res => {
+                    this.addRows = [res.data];
+                    this.treeLoading = false;
+                });
 			},
 		},
         computed: {
