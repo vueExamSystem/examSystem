@@ -159,8 +159,8 @@
         methods: {
             getCheckedNodes() {
                 const checkArr = this.$refs.tree.getCheckedNodes();
-                const para = checkArr.filter(item => { return !item.children });
-
+                let para = checkArr.filter(item => { return !item.children });
+                para = para.map(item => item.id);
                 // 弹出框选择的题目
                 console.log(para);
                 // 题组id
