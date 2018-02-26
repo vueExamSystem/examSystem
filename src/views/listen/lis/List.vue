@@ -21,15 +21,14 @@
                                 <el-button type="text" @click="detailShow(scope.row.id)">{{scope.row.name}}</el-button>
                             </template>
                         </el-table-column>
-                        <el-table-column prop="paper" label="选择试卷" min-width="160">
-                        </el-table-column>
-                        <el-table-column prop="testRange" label="测验时间" min-width="120">
-                        </el-table-column>
-                        <el-table-column prop="status" label="状态" min-width="100">
+                        <el-table-column prop="endTime" label="剩余时间" min-width="120">
+                        <template scope="scope">
+                            <span>{{remainTime(scope.row.endTime)}}</span>
+                        </template>
                         </el-table-column>
                         <el-table-column prop="listener" label="监测老师" min-width="100">
                         </el-table-column>
-                        <el-table-column prop="testClass" label="测试人员" min-width="120">
+                        <el-table-column prop="exammer" label="考试人员" min-width="120">
                         </el-table-column>
                     </el-table>
                 </div>
@@ -42,7 +41,7 @@
 </template>
 <script>
     import myFilter from '../../common/myFilter.vue'
-    import {getClassTestList, getClassTestFilter} from '../../../api/api';
+    import {getListenFilter, getListenList} from '../../../api/api';
     import Pagination from '../../common/Pagination.vue';
     import _ from 'lodash';
     import testDetail from './Detail.vue'
@@ -66,6 +65,11 @@
                 allLoading: false,
 
                 detailId: '',
+
+                fullPath: '',
+                nowDate: new Date(),
+                minuteTimeClock: '',
+                secondTimeClock: ''
             }
         },
         methods: {
@@ -85,6 +89,8 @@
             },
             //获取用户列表
             getList() {
+                this.clearMinuteClock();
+                this.clearSecondClock();
                 let para = {
                     pageNo: this.pageNo,
                     filter: JSON.stringify(this.filter),
@@ -92,10 +98,14 @@
                     pageSize: this.pageSize,
                 };
                 if (!this.allLoading) this.listLoading = true;
-                getClassTestList(para).then((res) => {
+                getListenList(para).then((res) => {
                     res = res.data;
                     this.totalCount = res.totalCount;
                     this.rows = res.rows;
+
+                    //重启计时器
+                    this.minuteTimeClockRun();
+                    this.secondTimeClockRun();
 
                     if (!this.allLoading) this.listLoading = false;
                     if (this.allLoading) this.allLoading = false;
@@ -104,14 +114,84 @@
             // 获取过滤器数据
             getFilter() {
                 this.allLoading = true;
-                getClassTestFilter({}).then((res) => {
+                getListenFilter({}).then((res) => {
                     this.filterList = res.data;
                     this.getList();
                 });
             },
+            dateParse(dateString){
+                return new Date(dateString);
+            },
+            getRemainSeconds(dateString){//获取剩余总秒数
+                var thisD = this.dateParse(dateString);
+                var totalSeconds = (thisD.getTime() - this.nowDate.getTime());
+                return totalSeconds;
+            },
+            remainTime(dateString, isDynamic){//倒计时
+                var totalSeconds = this.getRemainSeconds(dateString);//剩余总秒数
+                if(totalSeconds <= 0){
+                    return '考试结束';
+                }else{
+                    var hourStr = '0';
+                    var minuteStr = '0';
+                    var secondStr = '0';
+                    var minuteSeconds = 1000 * 60;//一分钟毫秒数
+                    var hourSeconds = minuteSeconds * 60;//一小时毫秒数
+                    var remainHours = Math.floor(totalSeconds / hourSeconds);//对应剩余小时
+                    var remainMinutes = Math.floor(totalSeconds % hourSeconds / minuteSeconds);//对应剩余分钟
+                    var remainSeconds = Math.floor(totalSeconds % hourSeconds % minuteSeconds / 1000);//对应剩余秒
+                    if(remainHours < 10){//剩余小时小于10小时
+                        hourStr += remainHours;
+                    }else{
+                        hourStr = remainHours + '';
+                    }
+                    if(remainMinutes < 10){//剩余分钟小于10分钟
+                        minuteStr += remainMinutes;
+                    }else{
+                        minuteStr = remainMinutes + '';
+                    }
+                    if(remainSeconds < 10){//剩余秒小于10秒
+                        secondStr += remainSeconds;
+                    }else{
+                        secondStr = remainSeconds + '';
+                    }
+                    return hourStr + ':' + minuteStr + ':' + secondStr;
+                }
+            },
+            minuteTimeClockRun(){//每分钟刷新表格
+                this.minuteTimeClock = setInterval(()=>{
+                    if(this.$route.fullPath != this.fullPath){
+                        this.clearMinuteClock();
+                    }else{
+                        this.getList();
+                    }
+                }, 60000);
+            },
+            secondTimeClockRun(){//每秒刷新剩余时间一次
+                this.secondTimeClock = setInterval(()=>{
+                    if(this.$route.fullPath != this.fullPath){
+                        this.clearSecondClock();
+                    }else{
+                        this.nowDate = new Date();
+                    }
+                }, 1000);
+            },
+            clearMinuteClock(){
+                if(this.minuteTimeClock){
+                    clearInterval(this.minuteTimeClock);
+                }
+            },
+            clearSecondClock(){
+                if(this.secondTimeClock){
+                    clearInterval(this.secondTimeClock);
+                }
+            }
         },
         mounted() {
+            this.fullPath = this.$route.fullPath;
             this.getFilter();
+            this.minuteTimeClockRun();
+            this.secondTimeClockRun();
         }
     }
 </script>

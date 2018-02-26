@@ -1307,5 +1307,90 @@ export default {
                 }, 1000);
             });
         });
+
+
+        //监考filter
+        mock.onGet(`/listen/filter`).reply(config => {
+            return u.getMockList(config, [{
+                title:'课程',
+                field:'project',
+                children:[{
+                    value:'hysics',
+                    text:'大学物理'
+                },{
+                    value:'mathematics',
+                    text:'高等数学'
+                },{
+                    value:'english',
+                    text:'大学英语'
+                }]
+            },{
+                title:'年级',
+                field:'grade',
+                children:[{
+                    value:'2014',
+                    text:'14级'
+                },{
+                    value:'2015',
+                    text:'15级'
+                },{
+                    value:'2016',
+                    text:'16级'
+                },{
+                    value:'2017',
+                    text:'17级'
+                }]
+            }]);
+        });
+        mock.onPost(`/listen/list`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: '0',
+                        msg: '成功',
+                        data: {
+                            totalCount: Math.floor(Math.random() * 1000),
+                            rows: [{
+                                id: 1,
+                                name: '物理期中考试1',
+                                endTime: '2018/02/26 16:27',
+                                listener: '张老师',
+                                exammer: '16级计算机3班,4班' 
+                            },{
+                                id: 2,
+                                name: '物理期中考试3',
+                                endTime: '2018/02/26 17:15',
+                                listener: '张老师',
+                                exammer: '16级计算机3班,4班' 
+                            },{
+                                id: 3,
+                                name: '物理期中考试3',
+                                endTime: '2018/02/26 17:10',
+                                listener: '张老师',
+                                exammer: '16级计算机3班,4班' 
+                            },{
+                                id: 4,
+                                name: '物理期中考试4',
+                                endTime: '2018/02/27 16:16',
+                                listener: '张老师',
+                                exammer: '16级计算机3班,4班' 
+                            },{
+                                id: 5,
+                                name: '物理期中考试5',
+                                endTime: '2018/02/28 15:00',
+                                listener: '张老师',
+                                exammer: '16级计算机3班,4班' 
+                            },{
+                                id: 6,
+                                name: '物理期中考试6',
+                                endTime: '2018/03/01 17:00',
+                                listener: '张老师',
+                                exammer: '16级计算机3班,4班' 
+                            }],
+                        }
+                    }]);
+                }, 1000);
+            });
+        });
     }
 };
