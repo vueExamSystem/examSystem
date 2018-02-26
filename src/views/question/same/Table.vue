@@ -27,6 +27,7 @@
                     </el-table-column>
                     <el-table-column
                             type="expand"
+                            width="10"
                             prop="children">
                         <template slot-scope="scope">
                             <div style="margin: -20px -50px;">
@@ -35,24 +36,24 @@
                                     <el-table-column type="index" width="60">
                                        <!--  <template></template> -->
                                     </el-table-column>
-                                    <el-table-column prop="questionName">
+                                    <el-table-column prop="questionName" width="310">
                                         <!-- <template slot-scope="props">
                                             <router-link to="/">{{props.row.name}}</router-link>
                                         </template> -->
                                     </el-table-column>
-                                    <el-table-column prop="questionType">
+                                    <el-table-column prop="questionType" width="100">
                                     </el-table-column>
                                     <el-table-column prop="course" label="所属课程">
                                         <!-- <template slot-scope="scope">
                                             <span v-if="scope.row.course">{{scope.row.course.name}}</span>
                                         </template> -->
                                     </el-table-column>
-                                    <el-table-column prop="section" label="所属章节" min-width="120">
+                                    <el-table-column prop="section" label="所属章节" width="200">
                                      <!--    <template slot-scope="scope">
                                             <span v-if="scope.row.section">{{scope.row.section.name}}</span>
                                         </template> -->
                                     </el-table-column>
-                                    <el-table-column width="100">
+                                    <el-table-column width="200">
                                         <template slot-scope="props">
                                             <i class="iconfont icon-remove-circle"
                                                @click="delQuestion(props.row.questionId)"></i>
@@ -64,6 +65,7 @@
                     </el-table-column>
                     <el-table-column
                             label="组别名称"
+                            width="300"
                             prop="name">
                     </el-table-column>
                      <el-table-column
@@ -75,7 +77,7 @@
                             <span v-if="scope.row.course">{{scope.row.course.name}}</span>
                         </template> -->
                     </el-table-column>
-                    <el-table-column prop="section" label="所属章节" sortable>
+                    <el-table-column prop="section" label="所属章节" sortable width="200">
                     <!--     <template slot-scope="scope">
                             <span v-if="scope.row.section">{{scope.row.section.name}}</span>
                         </template> -->
@@ -122,7 +124,7 @@
         removeSameQuestion,
         removeSameGroup,
         getSameTreeList,
-        addSameGroup,
+        addQuestionToGroup,
     } from '../../../api/api';
     import myFilter from '../../common/myFilter.vue';
     import Pagination from '../../common/Pagination.vue';
@@ -157,17 +159,22 @@
         methods: {
             getCheckedNodes() {
                 const checkArr = this.$refs.tree.getCheckedNodes();
-                const para = checkArr.filter(item => { return !item.children });
-
+                let para = checkArr.filter(item => { return !item.children });
+                para = para.map(item => item.id);
                 // 弹出框选择的题目
-                console.log(para);
+                //console.log('ids',para);
                 // 题组id
-                console.log(this.addId);
+                //console.log(this.addId);
                 // 去掉弹框放请求成功里
+                para=JSON.stringify(para);
+                //console.log('ids',para);
+                para={  'groupid': this.addId,
+                        'ids': para,};
+                
                 // 请求
                 this.$confirm('确认添加相似题组吗？', '提示', {}).then(() => {
-                    addSameGroup(para).then(res => {
-                        if (res.code === '0') {
+                    addQuestionToGroup(para).then(res => {
+                        if (res.code === 0) {
                             this.$message({
                                 message: '添加成功',
                                 type: 'success'
@@ -312,8 +319,7 @@
                 });
             },
             addGroup(row) {
-                //this.addId = id;
-                console.log('addGroup',row);
+                this.addId = row.id;//选中题组id
                 var para={
                     'groupId':row.id,
                     'courseId':row.courseId,
