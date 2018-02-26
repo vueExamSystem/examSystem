@@ -124,7 +124,7 @@
         removeSameQuestion,
         removeSameGroup,
         getSameTreeList,
-        addSameGroup,
+        addQuestionToGroup,
     } from '../../../api/api';
     import myFilter from '../../common/myFilter.vue';
     import Pagination from '../../common/Pagination.vue';
@@ -162,14 +162,19 @@
                 let para = checkArr.filter(item => { return !item.children });
                 para = para.map(item => item.id);
                 // 弹出框选择的题目
-                console.log(para);
+                //console.log('ids',para);
                 // 题组id
-                console.log(this.addId);
+                //console.log(this.addId);
                 // 去掉弹框放请求成功里
+                para=JSON.stringify(para);
+                //console.log('ids',para);
+                para={  'groupid': this.addId,
+                        'ids': para,};
+                
                 // 请求
                 this.$confirm('确认添加相似题组吗？', '提示', {}).then(() => {
-                    addSameGroup(para).then(res => {
-                        if (res.code === '0') {
+                    addQuestionToGroup(para).then(res => {
+                        if (res.code === 0) {
                             this.$message({
                                 message: '添加成功',
                                 type: 'success'
@@ -314,8 +319,7 @@
                 });
             },
             addGroup(row) {
-                //this.addId = id;
-                console.log('addGroup',row);
+                this.addId = row.id;//选中题组id
                 var para={
                     'groupId':row.id,
                     'courseId':row.courseId,

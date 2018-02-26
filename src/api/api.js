@@ -94,6 +94,9 @@ export const removeSameQuestion= params => { return instance.get(`${base}/same/r
 //获取试题树
 export const getSameTreeList = params => { return instance.post(`${base}/same/tree`, qs.stringify(params) ).then(res => res.data); };
 
+//向相似题组添加试题
+export const addQuestionToGroup = params => { return instance.post(`${base}/same/addQuestion`, qs.stringify(params) ).then(res => res.data); };
+
 // 删除，添加，编辑 demo api
 export const addDemo = params => {
     return instance.get(`${base}/add`, params ).then(res => res.data); };
@@ -211,3 +214,12 @@ export const paperSubmit = params => { return instance.post(`${base}/paper/submi
 export const eidtPaper = params => { return instance.post(`${base}/paper/edit`, params ).then(res => res.data); };
 //删除试卷
 export const removePaper = params => { return instance.post(`${base}/paper/remove`, params ).then(res => res.data); };
+
+
+/* 
+*	监考 start
+*/
+// 监考过滤数据
+export const getListenFilter = params => { return instance.get(`${base}/listen/filter`, params ).then(res => res.data);};
+//监考列表
+export const getListenList = params => { return instance.post(`${base}/listen/list`, params ).then(res => res.data);};
