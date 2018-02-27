@@ -18,7 +18,7 @@
                         </el-table-column>
                         <el-table-column prop="name" label="考试名称" min-width="160">
                             <template scope="scope">
-                                <el-button type="text" @click="detailShow(scope.row.id)">{{scope.row.name}}</el-button>
+                                <el-button type="text" @click="detailShow(scope.row)">{{scope.row.name}}</el-button>
                             </template>
                         </el-table-column>
                         <el-table-column prop="endTime" label="剩余时间" min-width="120">
@@ -35,7 +35,7 @@
             </div>
         </section>
         <section v-if="detailId">
-            <test-detail :id="detailId" @close="detailClose"></test-detail>
+            <test-detail :id="detailId" :name="detailName" :endtime="detailEndTime" @close="detailClose"></test-detail>
         </section>
     </div>
 </template>
@@ -65,6 +65,8 @@
                 allLoading: false,
 
                 detailId: '',
+                detailName: '',
+                detailEndTime: '',
 
                 fullPath: '',
                 nowDate: new Date(),
@@ -73,11 +75,15 @@
             }
         },
         methods: {
-            detailShow(id) {
-                this.detailId = id;
+            detailShow(row) {
+                this.detailId = row.id;
+                this.detailName = row.name;
+                this.detailEndTime = row.endTime;
             },
             detailClose() {
                 this.detailId = '';
+                this.detaiName = '';
+                this.detailEndTime = '';
             },
             handleCurrentChange(val) {
                 this.pageNo = val;
