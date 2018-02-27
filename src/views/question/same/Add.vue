@@ -1,5 +1,5 @@
 <template>
-	<section class="panel" id="queForm">
+	<section class="panel" id="sameAddForm">
 		<div class="title">
 			<span>添加题组</span>
 			<div class="pull-right">
@@ -16,10 +16,10 @@
 				<el-form-item label="题组名称" prop="name">
 					<el-input v-model="ruleForm.name"></el-input>
 				</el-form-item>
-                <el-form-item label="试题类型" prop="qustionType">
-                    <el-select v-model="ruleForm.qustionType" placeholder="请选择试题类型">
+                <el-form-item label="试题类型" prop="questionType">
+                    <el-select v-model="ruleForm.questionType" placeholder="请选择试题类型">
                         <el-option
-                                v-for="item in qustionTypeArr"
+                                v-for="item in questionTypeArr"
                                 :label="item.text"
                                 :value="item.value"
                                 :key="item.value"
@@ -53,20 +53,24 @@
 						</el-option>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="题组描述" prop="desc">
+				<el-form-item label="选择试题" prop="ids">
 					<el-button type="primary" icon="iconfont icon-plus" @click="addQuestion()">添加试题</el-button>
-					<el-tag
-							v-for="tag in addListValue"
-							:key="tag.id"
-							closable
-							@close="tagClose(tag.id)">
-							type="info">
-						{{tag.label}}
-					</el-tag>
+					<div class="tagArea" v-model="ruleForm.ids" >
+						<el-tag
+								v-for="tag in ruleForm.ids"
+								:key="tag.id"
+								closable
+								@close="tagClose(tag.id)"
+								type="info">
+							{{tag.label}}
+						</el-tag>
+					</div>
+				</el-form-item>
+				<el-form-item label="题组描述" prop="desc">
 					<el-input
 							type="textarea"
 							:rows="3"
-							placeholder="请输入内容"
+							placeholder="请输入题组描述"
 							v-model="ruleForm.desc">
 					</el-input>
 				</el-form-item>
@@ -99,8 +103,8 @@
 <script>
     import {
         getSameFilter,
-		addDemo,
-        getSameTreeList,
+		addSame,
+        selectQuestions,
     } from '../../../api/api';
     import _ from 'lodash';
 	export default {
@@ -111,16 +115,17 @@
                     desc: '',
 					chapter: '',
                     course: '',
-                    qustionType:''
+                    questionType:'',
+					ids: [],
                 },
                 rules: {
                     name: [
                         { required: true, message: '请填写题组名称', trigger: 'blur' }
                     ],
-                    desc: [
-                        { required: true, message: '请填写题组描述', trigger: 'blur' }
+                    ids: [
+                        { required: true, message: '请选择试题', trigger: 'change' }
                     ],
-                    qustionType: [
+                    questionType: [
                         { required: true, message: '请选择试题类型', trigger: 'change' }
                     ],
                     course: [
@@ -131,7 +136,7 @@
                     ],
                 },
 
-                qustionTypeArr:[],
+                questionTypeArr:[],
                 courseArr: [],
                 chapterArr: [],
                 chapterAllArr: [],
@@ -145,10 +150,7 @@
                     children: 'children',
                     label: 'label',
                 },
-				addList: [{
-                    id: 9,
-                    label: '题目 1'
-                }],
+				// addList: [],
                 addListValue: [],
 			}
 		},
@@ -160,21 +162,35 @@
                 // 弹出框选择的题目
                 console.log(para);
                 this.$confirm('确认添加相似题组吗？', '提示', {}).then(() => {
-                    this.addList = para;
-                    this.addListValue = this.addList.map(item => item.id);
+                    this.ruleForm.ids = para;
+                    this.addListValue = this.ruleForm.ids.map(item => item.id);
+                    this.addFormVisible = false;
                 });
             },
             tagClose(id) {
-                console.log('del que id', id);
+                const index = _.findIndex(this.ruleForm.ids, { id: id });
+                this.ruleForm.ids.splice(index, 1);
+                this.addListValue = this.ruleForm.ids.map(item => item.id);
 			},
             onSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         this.$confirm('确认添加吗？', '提示', {}).then(() => {
                             let para = _.assign({}, this.ruleForm);
-                            console.log(para);
+                            console.log('addDemo',para);
+                            //todo 试题id集合
+                            var ids=[0];//如[1,2] JSON.stringify(ids);
+                            para={
+                                name:this.ruleForm.name,
+                                questionTypeId:this.ruleForm.questionType,
+                                courseId:this.ruleForm.course,
+                                sectionId:this.ruleForm.chapter,
+                                desc:this.ruleForm.desc,
+                                'ids':this.ruleForm.ids.map(item => item.id),
+                            };
+                            console.log('reqPara',para);
                             this.loading = true;
-                            addDemo(para).then((res) => {
+                            addSame(para).then((res) => {
                                 if (res.code !== 0) {
                                     this.$message({
                                         message: res.msg,
@@ -209,7 +225,7 @@
                     //todo所有章节数据 value text courseid为课程筛选id
                     this.chapterArr=res.data[1].children;
                     this.chapterAllArr = res.data[1].children;
-                    this.qustionTypeArr=res.data[2].children;
+                    this.questionTypeArr=res.data[2].children;
                 });
             },
             changeCourse(val) {
@@ -218,12 +234,24 @@
 			},
 			// 添加试题事件
             addQuestion() {
+                //todo希望可以获得下拉框courseName和sectionName
+                let para={
+                    courseId:this.ruleForm.course,
+                    courseName:'',
+                    sectionId:this.ruleForm.chapter,
+                    sectionName:'',
+                    questionTypeId:this.ruleForm.questionType
+                } ;
+                //若courseId或sectionId或questionTypeId有一为空 可以查询试题
+                console.log('addQuestion',para);
                 this.addFormVisible = true;
                 this.treeLoading = true;
-                getSameTreeList({}).then(res => {
-                    this.addRows = [res.data];
+                selectQuestions(para).then(res => {
+                    console.log('selectQuestions',res);
+                    this.addRows = res.data ? [res.data] : [];
                     this.treeLoading = false;
                 });
+                //todo选择完毕后 选择的试题展示到页面上
 			},
 		},
         computed: {
@@ -235,7 +263,13 @@
 
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 	@import '~scss_vars';
+
+	#sameAddForm{
+		.el-tag{
+			margin-right: 10px;
+		}
+	}
 
 </style>

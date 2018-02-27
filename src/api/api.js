@@ -23,6 +23,10 @@ export const getStudentSta = params => { return instance.get(`${base}/studentSco
 * 试题 question start
 * */
 //
+//添加试题的条件请求
+export const getQueAddFilter = params => { return instance.get(`${base}/question/questionAddFilter`,  { params: params } ).then(res => res.data); };
+//根据课程id 章节id 题型id获取相似题组
+export const getgroupList = params => { return instance.get(`${base}/question/groupList`,  { params: params } ).then(res => res.data); };
 export const getQueList = params => { return instance.post(`${base}/question/list`, qs.stringify(params) ).then(res => res.data); };
 
 export const getQuestionDetail = params => { return instance.get(`${base}/question/detail`, params ).then(res => res.data); };
@@ -94,8 +98,14 @@ export const removeSameQuestion= params => { return instance.get(`${base}/same/r
 //获取试题树
 export const getSameTreeList = params => { return instance.post(`${base}/same/tree`, qs.stringify(params) ).then(res => res.data); };
 
+//获取指定试题
+export const selectQuestions = params => { return instance.post(`${base}/same/selectQuestions`, qs.stringify(params) ).then(res => res.data); };
+
 //向相似题组添加试题
 export const addQuestionToGroup = params => { return instance.post(`${base}/same/addQuestion`, qs.stringify(params) ).then(res => res.data); };
+
+//添加相似题组
+export const addSame = params => { return instance.post(`${base}/same/add`, qs.stringify(params) ).then(res => res.data); };
 
 // 删除，添加，编辑 demo api
 export const addDemo = params => {
@@ -223,3 +233,13 @@ export const removePaper = params => { return instance.post(`${base}/paper/remov
 export const getListenFilter = params => { return instance.get(`${base}/listen/filter`, params ).then(res => res.data);};
 //监考列表
 export const getListenList = params => { return instance.post(`${base}/listen/list`, params ).then(res => res.data);};
+//被监考的考试人员filter
+export const getListenDetailFilter = params => { return instance.get(`${base}/listen/detail/filter`, params ).then(res => res.data);};
+//被监考的考试统计信息
+export const getListentStatistics = params => { return instance.post(`${base}/listen/statistics`, params ).then(res => res.data);};
+//被监考的考试人员列表
+export const getListenDetailList = params => { return instance.post(`${base}/listen/detail/list`, params ).then(res => res.data);};
+//监考异常列表
+export const getAbnormalList = params => { return instance.post(`${base}/listen/abnormal/list`, params ).then(res => res.data);};
+//更新异常列表
+export const updateAbnormal = params => { return instance.post(`${base}/listen/abnormal/update`, params ).then(res => res.data);};
