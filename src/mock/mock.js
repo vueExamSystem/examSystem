@@ -432,7 +432,7 @@ export default {
             return u.getMockList(config, GroupList);
         });
         mock.onGet(`/same/tree`).reply(config => {
-            return u.getMockList(config, [{
+            return u.getMockList(config, {
                 id: 1,
                 label: '课程 1',
                 children: [{
@@ -446,7 +446,7 @@ export default {
                         label: '题目 2'
                     }]
                 }]
-            }]);
+            });
         });
 
         //获取course列表
