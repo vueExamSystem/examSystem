@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ded44d1b-31ca-4019-bb9f-513cd69c457b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mock/mock.js" afterPath="$PROJECT_DIR$/src/mock/mock.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/views/question/same/Add.vue" afterPath="$PROJECT_DIR$/src/views/question/same/Add.vue" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -22,9 +20,28 @@
         <entry file="file://$PROJECT_DIR$/src/views/question/same/Table.vue">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="134">
-              <caret line="162" column="48" lean-forward="false" selection-start-line="162" selection-start-column="27" selection-end-line="162" selection-end-column="48" />
+              <caret line="162" column="48" lean-forward="false" selection-start-line="162" selection-start-column="48" selection-end-line="162" selection-end-column="48" />
               <folding>
                 <element signature="e#6005#6045#0" expanded="true" />
+                <marker date="1519637982594" expanded="true" signature="13495:14075" ph="{...}" />
+                <marker date="1519637982594" expanded="true" signature="13495:14736" ph="{...}" />
+                <marker date="1519637982594" expanded="true" signature="13495:15889" ph="{...}" />
+                <marker date="1519637982594" expanded="true" signature="13521:13810" ph="{&quot;groupId&quot;: row.id...}" />
+                <marker date="1519637982594" expanded="true" signature="13947:14059" ph="{...}" />
+                <marker date="1519637982594" expanded="true" signature="14105:14170" ph="{...}" />
+                <marker date="1519637982594" expanded="true" signature="14197:14447" ph="{...}" />
+                <marker date="1519637982594" expanded="true" signature="14315:14387" ph="{...}" />
+                <marker date="1519637982594" expanded="true" signature="14480:14725" ph="{...}" />
+                <marker date="1519637982594" expanded="true" signature="14753:15648" ph="{...}" />
+                <marker date="1519637982594" expanded="true" signature="14779:15225" ph="{...}" />
+                <marker date="1519637982594" expanded="true" signature="14821:15183" ph="{...}" />
+                <marker date="1519637982594" expanded="true" signature="15247:15638" ph="{...}" />
+                <marker date="1519637982594" expanded="true" signature="15289:15596" ph="{...}" />
+                <marker date="1519637982594" expanded="true" signature="15337:15578" ph="{...}" />
+                <marker date="1519637982594" expanded="true" signature="15467:15556" ph="{...}" />
+                <marker date="1519637982594" expanded="true" signature="15670:15755" ph="{&quot;Page&quot;: Pagination...}" />
+                <marker date="1519637982594" expanded="true" signature="15775:15786" ph="{...}" />
+                <marker date="1519637982594" expanded="true" signature="15806:15883" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -33,7 +50,7 @@
       <file leaf-file-name="Add.vue" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/views/question/same/Add.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="214">
+            <state relative-caret-position="-144">
               <caret line="149" column="22" lean-forward="true" selection-start-line="149" selection-start-column="22" selection-end-line="149" selection-end-column="22" />
               <folding>
                 <element signature="e#2942#3040#0" expanded="true" />
@@ -57,7 +74,10 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="212">
               <caret line="443" column="21" lean-forward="false" selection-start-line="440" selection-start-column="31" selection-end-line="443" selection-end-column="21" />
-              <folding />
+              <folding>
+                <marker date="1519637982603" expanded="true" signature="948:47003" ph="{...}" />
+                <marker date="1519637982603" expanded="true" signature="1004:47003" ph="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -163,131 +183,6 @@
               <item name="examSystem" type="b2602c69:ProjectViewProjectNode" />
               <item name="examSystem" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="examSystem" type="b2602c69:ProjectViewProjectNode" />
-              <item name="examSystem" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="mock" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="examSystem" type="b2602c69:ProjectViewProjectNode" />
-              <item name="examSystem" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="mock" type="462c0819:PsiDirectoryNode" />
-              <item name="data" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="examSystem" type="b2602c69:ProjectViewProjectNode" />
-              <item name="examSystem" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="examSystem" type="b2602c69:ProjectViewProjectNode" />
-              <item name="examSystem" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="backstage" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="examSystem" type="b2602c69:ProjectViewProjectNode" />
-              <item name="examSystem" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="backstage" type="462c0819:PsiDirectoryNode" />
-              <item name="competence" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="examSystem" type="b2602c69:ProjectViewProjectNode" />
-              <item name="examSystem" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="backstage" type="462c0819:PsiDirectoryNode" />
-              <item name="course" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="examSystem" type="b2602c69:ProjectViewProjectNode" />
-              <item name="examSystem" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="backstage" type="462c0819:PsiDirectoryNode" />
-              <item name="role" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="examSystem" type="b2602c69:ProjectViewProjectNode" />
-              <item name="examSystem" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="backstage" type="462c0819:PsiDirectoryNode" />
-              <item name="student" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="examSystem" type="b2602c69:ProjectViewProjectNode" />
-              <item name="examSystem" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="examSystem" type="b2602c69:ProjectViewProjectNode" />
-              <item name="examSystem" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="question" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="examSystem" type="b2602c69:ProjectViewProjectNode" />
-              <item name="examSystem" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="question" type="462c0819:PsiDirectoryNode" />
-              <item name="que" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="examSystem" type="b2602c69:ProjectViewProjectNode" />
-              <item name="examSystem" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="question" type="462c0819:PsiDirectoryNode" />
-              <item name="same" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="examSystem" type="b2602c69:ProjectViewProjectNode" />
-              <item name="examSystem" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="setting" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="examSystem" type="b2602c69:ProjectViewProjectNode" />
-              <item name="examSystem" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="setting" type="462c0819:PsiDirectoryNode" />
-              <item name="log" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="examSystem" type="b2602c69:ProjectViewProjectNode" />
-              <item name="examSystem" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="statistics" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="examSystem" type="b2602c69:ProjectViewProjectNode" />
-              <item name="examSystem" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="examSystem" type="b2602c69:ProjectViewProjectNode" />
-              <item name="examSystem" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="info" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -397,16 +292,15 @@
       <option name="presentableId" value="Default" />
       <updated>1513560802257</updated>
       <workItem from="1513560803807" duration="11139000" />
-      <workItem from="1519370240099" duration="10899000" />
+      <workItem from="1519370240099" duration="11784000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="22072000" />
+    <option name="totallyTimeSpent" value="22957000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17077045" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -415,7 +309,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32899022" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.42778543" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.42778543" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -806,23 +700,45 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="212">
           <caret line="443" column="21" lean-forward="false" selection-start-line="440" selection-start-column="31" selection-end-line="443" selection-end-column="21" />
-          <folding />
+          <folding>
+            <marker date="1519637982603" expanded="true" signature="948:47003" ph="{...}" />
+            <marker date="1519637982603" expanded="true" signature="1004:47003" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/views/question/same/Table.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="134">
-          <caret line="162" column="48" lean-forward="false" selection-start-line="162" selection-start-column="27" selection-end-line="162" selection-end-column="48" />
+          <caret line="162" column="48" lean-forward="false" selection-start-line="162" selection-start-column="48" selection-end-line="162" selection-end-column="48" />
           <folding>
             <element signature="e#6005#6045#0" expanded="true" />
+            <marker date="1519637982594" expanded="true" signature="13495:14075" ph="{...}" />
+            <marker date="1519637982594" expanded="true" signature="13495:14736" ph="{...}" />
+            <marker date="1519637982594" expanded="true" signature="13495:15889" ph="{...}" />
+            <marker date="1519637982594" expanded="true" signature="13521:13810" ph="{&quot;groupId&quot;: row.id...}" />
+            <marker date="1519637982594" expanded="true" signature="13947:14059" ph="{...}" />
+            <marker date="1519637982594" expanded="true" signature="14105:14170" ph="{...}" />
+            <marker date="1519637982594" expanded="true" signature="14197:14447" ph="{...}" />
+            <marker date="1519637982594" expanded="true" signature="14315:14387" ph="{...}" />
+            <marker date="1519637982594" expanded="true" signature="14480:14725" ph="{...}" />
+            <marker date="1519637982594" expanded="true" signature="14753:15648" ph="{...}" />
+            <marker date="1519637982594" expanded="true" signature="14779:15225" ph="{...}" />
+            <marker date="1519637982594" expanded="true" signature="14821:15183" ph="{...}" />
+            <marker date="1519637982594" expanded="true" signature="15247:15638" ph="{...}" />
+            <marker date="1519637982594" expanded="true" signature="15289:15596" ph="{...}" />
+            <marker date="1519637982594" expanded="true" signature="15337:15578" ph="{...}" />
+            <marker date="1519637982594" expanded="true" signature="15467:15556" ph="{...}" />
+            <marker date="1519637982594" expanded="true" signature="15670:15755" ph="{&quot;Page&quot;: Pagination...}" />
+            <marker date="1519637982594" expanded="true" signature="15775:15786" ph="{...}" />
+            <marker date="1519637982594" expanded="true" signature="15806:15883" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/views/question/same/Add.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="214">
+        <state relative-caret-position="-144">
           <caret line="149" column="22" lean-forward="true" selection-start-line="149" selection-start-column="22" selection-end-line="149" selection-end-column="22" />
           <folding>
             <element signature="e#2942#3040#0" expanded="true" />
