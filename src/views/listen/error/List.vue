@@ -16,61 +16,31 @@
 
             <div class="content">
                 <!--列表-->
-                <el-table
-                        :data="rows"
-                        highlight-current-row
-                        v-loading="listLoading"
-                        style="width: 100%;">
-                    <el-table-column type="index" label="ID" sortable>
+                <el-table :data="rows" highlight-current-row v-loading="listLoading" fit>
+                    <el-table-column type="index" label="序号" width="120">
                     </el-table-column>
-                    <el-table-column prop="name" label="课程名称" sortable>
-                    </el-table-column>
-                    <el-table-column prop="subject" label="学科" sortable>
-                        <template slot-scope="scope">
-                            <span v-if="scope.row.subject">{{scope.row.subject.name}}</span>
+                    <el-table-column prop="abnTime" label="时间" min-width="120"></el-table-column>
+                    <el-table-column prop="abnEvent" label="事件" min-width="200">
+                        <template scope="scope">
+                            <span>{{scope.row.studentName}}（{{scope.row.studentNo}}） {{scope.row.abnEvent}}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="creator" label="创建人" sortable>
-                    </el-table-column>
-                    <el-table-column
-                            label="操作"
-                            width="100">
-                        <template slot-scope="scope">
-                            <el-button type="danger" size="small" @click="handleEdit(scope.row.id, scope.row)">编辑</el-button>
+                    <el-table-column prop="id" label="操作" min-width="160">
+                        <template scope="scope">
+                            <el-button type="primary" plain disabled v-if="scope.row.isOutline">已强制下线</el-button>
+                            <el-button type="primary" v-else @click="forceToOutline(scope.row)">强制下线</el-button>
+                            <el-button type="danger" plain disabled v-if="scope.row.isCheap">已作弊处理</el-button>
+                            <el-button type="danger" v-else @click="signIncheap(scope.row)">作弊处理</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
             </div>
-
-            <!--编辑界面-->
-            <el-dialog title="编辑章节" :visible.sync="editFormVisible">
-                <el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
-                    <el-form-item label="课程名称" prop="name">
-                        <el-input v-model="editForm.name"></el-input>
-                    </el-form-item>
-                    <el-form-item label="学科种类" prop="subject">
-                        <el-input v-model="editForm.subject"></el-input>
-                    </el-form-item>
-                    <el-form-item label="课程描述" prop="desc">
-                        <el-input
-                                type="textarea"
-                                :rows="3"
-                                placeholder="请输入内容"
-                                v-model="editForm.desc">
-                        </el-input>
-                    </el-form-item>
-                </el-form>
-                <div slot="footer" class="dialog-footer">
-                    <el-button @click.native="editFormVisible = false">取消</el-button>
-                    <el-button type="primary" @click.native="editSubmit" v-loading="editLoading">提交</el-button>
-                </div>
-            </el-dialog>
         </div>
     </section>
 </template>
 
 <script>
-    import {getCourseList, editCourse} from '../../../api/api';
+    import { getAbnormalList, updateAbnormal } from '../../../api/api';
     import Pagination from '../../common/Pagination.vue';
     import _ from 'lodash';
 
@@ -84,81 +54,112 @@
                 pageSize: 10,
                 listLoading: false,
 
-                editFormVisible: false,//编辑界面是否显示
-                editLoading: false,
-                editFormRules: {
-                    name: [
-                        { required: true, message: '请填写课程名称', trigger: 'blur' }
-                    ],
-                    desc: [
-                        { required: true, message: '请填写课程描述', trigger: 'blur' }
-                    ],
-                    subject: [
-                        { required: true, message: '请填写学科种类', trigger: 'blur' }
-                    ],
-                },
-                //编辑界面数据
-                editForm: {
-                    id: -1,
-                    name: '',
-                    desc: '',
-                    subject: '',
-                },
+                fullPath: '',
+                minuteTimeClock: '' //分计时器
             }
         },
         methods: {
-            //显示编辑界面
-            handleEdit: function (index, row) {
-                this.editFormVisible = true;
-                this.editForm = _.assign({}, row);
-            },
-            //编辑
-            editSubmit: function () {
-                this.$refs.editForm.validate((valid) => {
-                    if (valid) {
-                        this.$confirm('确认提交吗？', '提示', {}).then(() => {
-                            this.editLoading = true;
-                            //NProgress.start();
-                            let para = _.assign({}, this.editForm);
-                            console.log(para);
-                            editCourse(para).then((res) => {
-                                this.editLoading = false;
-                                this.$message({
-                                    message: '提交成功',
-                                    type: 'success'
-                                });
-                                this.$refs['editForm'].resetFields();
-                                this.editFormVisible = false;
-                                this.getList();
-                            });
-                        });
-                    }
-                });
-            },
-            handleCurrentChange(val) {
+            handleCurrentChange(val) {//异常列表分页回调
                 this.pageNo = val;
                 this.getList();
             },
-            //获取用户列表
+            forceToOutline(row){ //强制下线
+                this.$confirm('确定强制下线该账号吗？','提示',{
+                    confirmButtonText: '强制下线'
+                }).then(res => {
+                    var para = {
+                        id: row.id, //异常记录id
+                        type: 'outline'
+                    };
+                    updateAbnormal(para).then(res => {
+                        if(res.code == '0'){
+                            this.$message({
+                                type: 'success',
+                                message: '账号 ' + row.studentNo + ' 已强制下线',
+                            });
+
+                            //更新行
+                            row.isOutline = 1;
+                            var index = _.findIndex(this.rows, {id: row.id});
+                            this.rows.splice(index, 1, row);
+
+                        }else{
+                            this.$message({
+                                type: 'error',
+                                message: res.msg,
+                            });
+                        }
+                    });
+                }).catch(res => {});
+            },
+            signIncheap(row){ //作弊处理
+                this.$confirm('确定将异常做作弊处理吗？','提示',{
+                    confirmButtonText: '作弊处理'
+                }).then(res => {
+                    var para = {
+                        id: row.id, //异常记录id
+                        type: 'cheap'
+                    };
+                    updateAbnormal(para).then(res => {
+                        if(res.code == '0'){
+                            this.$message({
+                                type: 'success',
+                                message: '账号 ' + row.studentNo + ' 已作弊处理',
+                            });
+
+                            //更新行
+                            row.isCheap = 1;
+                            var index = _.findIndex(this.rows, {id: row.id});
+                            this.rows.splice(index, 1, row);
+
+                        }else{
+                            this.$message({
+                                type: 'error',
+                                message: res.msg,
+                            });
+                        }
+                    });
+                }).catch(res => {});
+            },
+            //获取列表
             getList() {
-                let para = {
+                this.clearMinuteClock();//关闭分计时器
+                let abnPara = {
+                    paperId: '',//考试id
                     pageNo: this.pageNo,
+                    filter: JSON.stringify(this.filter),
                     keyword: this.keyword,
-                    pageSize: this.pageSize
+                    pageSize: this.pageSize,
                 };
                 this.listLoading = true;
-                getCourseList(para).then((res) => {
-                    res=res.data;
+                getAbnormalList(abnPara).then((res) => {
+                    res = res.data;
                     this.totalCount = res.totalCount;
                     this.rows = res.rows;
                     this.listLoading = false;
+                    this.minuteTimeClockRun();//分计时器启动
                 });
             },
+            minuteTimeClockRun(){//每分钟刷新表格
+                this.minuteTimeClock = setInterval(()=>{
+                    if(this.$route.fullPath != this.fullPath){
+                        this.clearMinuteClock();
+                    }else{
+                        this.getList();
+                    }
+                }, 60000);
+            },
+            clearMinuteClock(){//分计时器关闭
+                if(this.minuteTimeClock){
+                    clearInterval(this.minuteTimeClock);
+                }
+            }
         },
         components: {
             'Page': Pagination,
         },
         mounted() {
+            this.fullPath = this.$route.fullPath;
             this.getList();
         }
     }
