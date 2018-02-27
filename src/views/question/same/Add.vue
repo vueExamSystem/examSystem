@@ -270,14 +270,6 @@
 		.el-tag{
 			margin-right: 10px;
 		}
-		.tagArea{
-			border: 1px solid $color-primary;
-			width: 100%;
-			min-height: 100px;
-			padding: 10px;
-			box-sizing: border-box;
-			@include radius(4px);
-		}
 	}
 
 </style>
