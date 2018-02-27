@@ -1,5 +1,5 @@
 <template>
-	<section class="panel" id="queForm">
+	<section class="panel" id="sameAddForm">
 		<div class="title">
 			<span>添加题组</span>
 			<div class="pull-right">
@@ -53,20 +53,24 @@
 						</el-option>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="题组描述" prop="desc">
+				<el-form-item label="选择试题" prop="ids">
 					<el-button type="primary" icon="iconfont icon-plus" @click="addQuestion()">添加试题</el-button>
-					<el-tag
-							v-for="tag in addListValue"
-							:key="tag.id"
-							closable
-							@close="tagClose(tag.id)">
-							type="info">
-						{{tag.label}}
-					</el-tag>
+					<div class="tagArea" v-model="ruleForm.ids" >
+						<el-tag
+								v-for="tag in ruleForm.ids"
+								:key="tag.id"
+								closable
+								@close="tagClose(tag.id)"
+								type="info">
+							{{tag.label}}
+						</el-tag>
+					</div>
+				</el-form-item>
+				<el-form-item label="题组描述" prop="desc">
 					<el-input
 							type="textarea"
 							:rows="3"
-							placeholder="请输入内容"
+							placeholder="请输入题组描述"
 							v-model="ruleForm.desc">
 					</el-input>
 				</el-form-item>
@@ -111,14 +115,15 @@
                     desc: '',
 					chapter: '',
                     course: '',
-                    questionType:''
+                    questionType:'',
+					ids: [],
                 },
                 rules: {
                     name: [
                         { required: true, message: '请填写题组名称', trigger: 'blur' }
                     ],
-                    desc: [
-                        { required: true, message: '请填写题组描述', trigger: 'blur' }
+                    ids: [
+                        { required: true, message: '请选择试题', trigger: 'change' }
                     ],
                     questionType: [
                         { required: true, message: '请选择试题类型', trigger: 'change' }
@@ -145,10 +150,7 @@
                     children: 'children',
                     label: 'label',
                 },
-				addList: [{
-                    id: 9,
-                    label: '题目 1'
-                }],
+				// addList: [],
                 addListValue: [],
 			}
 		},
@@ -160,12 +162,15 @@
                 // 弹出框选择的题目
                 console.log(para);
                 this.$confirm('确认添加相似题组吗？', '提示', {}).then(() => {
-                    this.addList = para;
-                    this.addListValue = this.addList.map(item => item.id);
+                    this.ruleForm.ids = para;
+                    this.addListValue = this.ruleForm.ids.map(item => item.id);
+                    this.addFormVisible = false;
                 });
             },
             tagClose(id) {
-                console.log('del que id', id);
+                const index = _.findIndex(this.ruleForm.ids, { id: id });
+                this.ruleForm.ids.splice(index, 1);
+                this.addListValue = this.ruleForm.ids.map(item => item.id);
 			},
             onSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
@@ -181,7 +186,7 @@
                                 courseId:this.ruleForm.course,
                                 sectionId:this.ruleForm.chapter,
                                 desc:this.ruleForm.desc,
-                                'ids':ids
+                                'ids':this.ruleForm.ids.map(item => item.id),
                             };
                             console.log('reqPara',para);
                             this.loading = true;
@@ -243,7 +248,7 @@
                 this.treeLoading = true;
                 selectQuestions(para).then(res => {
                     console.log('selectQuestions',res);
-                    this.addRows = [res.data];
+                    this.addRows = res.data ? [res.data] : [];
                     this.treeLoading = false;
                 });
                 //todo选择完毕后 选择的试题展示到页面上
@@ -258,7 +263,21 @@
 
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 	@import '~scss_vars';
+
+	#sameAddForm{
+		.el-tag{
+			margin-right: 10px;
+		}
+		.tagArea{
+			border: 1px solid $color-primary;
+			width: 100%;
+			min-height: 100px;
+			padding: 10px;
+			box-sizing: border-box;
+			@include radius(4px);
+		}
+	}
 
 </style>
