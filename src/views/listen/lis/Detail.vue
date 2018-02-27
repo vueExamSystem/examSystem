@@ -6,25 +6,40 @@
 				<el-button type="danger" class="el-button-shadow" @click="close">关闭</el-button>
 			</div>
 		</div>
-		<div class="content">
+		<div class="content" v-loading="allLoading">
 			<my-filter v-if="filterList.length > 0" :list="filterList" @callback="search" v-loading="filterLoading"></my-filter>
 			<div class="paper-progress">
 				<table>
 					<tr>
 						<td>已完成比例</td>
-						<td><el-progress :percentage="completePCT * 100" :stroke-width="12"></el-progress></td>
+						<td>
+							<i class="el-icon-loading" v-show="stat_Loading"></i>
+							<el-progress v-show="!stat_Loading" :percentage="completePCT * 100" :stroke-width="12"></el-progress>
+						</td>
 						<td>在线人数/不在线/总人数</td>
-						<td>{{onlineCount}}/{{outlineCount}}/{{countTotal}}</td>
+						<td>
+							<i class="el-icon-loading" v-show="stat_Loading"></i>
+							<span v-show="!stat_Loading">{{onlineCount}}/{{outlineCount}}/{{countTotal}}</span>
+						</td>
 					</tr>
 					<tr>
 						<td>已交卷比例</td>
-						<td><el-progress :percentage="submitPCT * 100" :stroke-width="12"></el-progress></td>
+						<td>
+							<i class="el-icon-loading" v-show="stat_Loading"></i>
+							<el-progress v-show="!stat_Loading" :percentage="submitPCT * 100" :stroke-width="12"></el-progress>
+						</td>
 						<td>考试总体平均答题</td>
-						<td><el-progress :percentage="avgExamPCT * 100" :stroke-width="12"></el-progress></td>
+						<td>
+							<i class="el-icon-loading" v-show="stat_Loading"></i>
+							<el-progress v-show="!stat_Loading" :percentage="avgExamPCT * 100" :stroke-width="12"></el-progress>
+						</td>
 					</tr>
 					<tr>
 						<td>未开始答卷</td>
-						<td><el-progress :percentage="unExamPCT * 100" :stroke-width="12"></el-progress></td>
+						<td>
+							<i class="el-icon-loading" v-show="stat_Loading"></i>
+							<el-progress v-show="!stat_Loading" :percentage="unExamPCT * 100" :stroke-width="12"></el-progress>
+						</td>
 						<td></td>
 						<td></td>
 					</tr>
@@ -32,15 +47,15 @@
 			</div>
 			<div class="panel inner-panel">
 				<div class="title">
-					<el-input placeholder="请输入搜索关键词" v-model="keyword">
-						<el-button slot="append" icon="el-icon-search" @click="getList"></el-button>
+					<el-input placeholder="请输入搜索关键词" v-model="stu_keyword">
+						<el-button slot="append" icon="el-icon-search" @click="getStudent"></el-button>
 					</el-input>
 					<div class="pageArea">
-						<Page :pageNo="stu_pageNo" :totalCount="stu_totalCount" :pageSize="pageSize" @page-change="handleCurrentChange"></Page>
+						<Page :pageNo="stu_pageNo" :totalCount="stu_totalCount" :pageSize="pageSize" @page-change="studentPageChange"></Page>
 					</div>
 				</div>
 				<div class="content">
-					<el-table :data="studentRows" highlight-current-row v-loading="listLoading" fit>
+					<el-table :data="studentRows" highlight-current-row v-loading="stu_Loading" fit>
 	                    <el-table-column type="index" label="序号" width="60">
 	                    </el-table-column>
 	                    <el-table-column prop="studentNo" label="学号" min-width="120"></el-table-column>
@@ -58,22 +73,28 @@
 				<div class="title">
 					<span>异常列表</span>
 					<div class="pageArea">
-						<Page :pageNo="abn_pageNo" :totalCount="abn_totalCount" :pageSize="pageSize" @page-change="handleCurrentChange"></Page>
+						<Page :pageNo="abn_pageNo" :totalCount="abn_totalCount" :pageSize="pageSize" @page-change="abnormalPageChange"></Page>
 					</div>
-					<el-input class="pull-right" placeholder="请输入搜索关键词" v-model="keyword">
-						<el-button slot="append" icon="el-icon-search" @click="getList"></el-button>
+					<el-input class="pull-right" placeholder="请输入搜索关键词" v-model="abn_keyword">
+						<el-button slot="append" icon="el-icon-search" @click="getAbnormal"></el-button>
 					</el-input>
 				</div>
 				<div class="content">
-					<el-table :data="abnormalRows" highlight-current-row v-loading="listLoading" fit>
+					<el-table :data="abnormalRows" highlight-current-row v-loading="abn_Loading" fit>
 	                    <el-table-column type="index" label="序号" width="120">
 	                    </el-table-column>
 	                    <el-table-column prop="abnTime" label="时间" min-width="120"></el-table-column>
-	                    <el-table-column prop="abnEvent" label="事件" min-width="200"></el-table-column>
+	                    <el-table-column prop="abnEvent" label="事件" min-width="200">
+	                    	<template scope="scope">
+	                    		<span>{{scope.row.studentName}}（{{scope.row.studentNo}}） {{scope.row.abnEvent}}</span>
+	                    	</template>
+	                    </el-table-column>
 	                    <el-table-column prop="id" label="操作" min-width="160">
 	                    	<template scope="scope">
-	                            <el-button type="primary" @click="">强制下线</el-button>
-	                            <el-button type="danger" @click="">作弊处理</el-button>
+	                            <el-button type="primary" plain disabled v-if="scope.row.isOutline">已强制下线</el-button>
+	                            <el-button type="primary" v-else @click="forceToOutline(scope.row)">强制下线</el-button>
+	                            <el-button type="danger" plain disabled v-if="scope.row.isCheap">已作弊处理</el-button>
+	                            <el-button type="danger" v-else @click="signIncheap(scope.row)">作弊处理</el-button>
 	                        </template>
 	                    </el-table-column>
 	                </el-table>
@@ -84,7 +105,13 @@
 </template>
 <script>
 	import myFilter from '../../common/myFilter.vue'
-    import {getClassTestDetailList, getClassTestDetailFilter} from '../../../api/api';
+    import { //api
+    	getListenDetailFilter, //过滤器
+    	getListentStatistics, //百分比数据（保留两位）
+    	getListenDetailList, //考试人员列表
+    	getAbnormalList, //异常列表
+    	updateAbnormal //更新异常（强制下线，作弊处理）
+    } from '../../../api/api';
     import Pagination from '../../common/Pagination.vue';
     import _ from 'lodash';
 	export default{
@@ -105,29 +132,32 @@
 		},
 		data(){
 			return {
-                keyword: '',
+				allLoading: true,
                 filter: {},
-                studentRows: [],//考试学生列表
-                stu_totalCount: 0,
-                stu_pageNo: 1,
-                abnormalRows: [{
-                	id: 1,
-                	abnTime: '2018/02/25 16:08:29',
-                	abnEvent: '黄烨（0112307）多端登录，有作弊现象',
-                }],//异常列表
-                abn_totalCount: 0,
-                abn_pageNo: 1,
-                pageSize: 10,
-                listLoading: false,
                 filterLoading: false,
                 filterList: [],
-                completePCT: 0.6, //已完成比例
-                onlineCount: 25, //在线人数
-                outlineCount: 5, //不在线
-                countTotal: 30, //参考总人数
-                submitPCT: 0.7, //已交卷比例
-                avgExamPCT: 0.6, //考试总体平均答题
-                unExamPCT: 0.01, //未开始答卷
+                pageSize: 10,
+
+                studentRows: [],//考试学生列表
+                stu_Loading: false,
+                stu_keyword: '',
+                stu_totalCount: 0,
+                stu_pageNo: 1,
+
+                abnormalRows: [],//异常列表
+                abn_Loading: false,
+                abn_keyword: '',
+                abn_totalCount: 0,
+                abn_pageNo: 1,
+
+                stat_Loading: true,
+                completePCT: 0, //已完成比例
+                onlineCount: 0, //在线人数
+                outlineCount: 0, //不在线
+                countTotal: 0, //参考总人数
+                submitPCT: 0, //已交卷比例
+                avgExamPCT: 0, //考试总体平均答题
+                unExamPCT: 0, //未开始答卷
 
                 fullPath: '',
                 nowDate: new Date(),
@@ -139,38 +169,152 @@
             close() {
                 this.$emit('close');
             },
-            handleCurrentChange(val) {
-                this.pageNo = val;
-                this.getUsers();
-            },
-            search(obj) {
-                this.filter = obj;this.pageNo = 1;
+            search(obj) {//filter回调
+                this.filter = obj;
+                this.stu_pageNo = 1;
+                this.abn_pageNo = 1;
                 this.getList();
             },
-            //获取用户列表
-            getList() {
-                let para = {
-                    pageNo: this.stu_pageNo,
-                    filter: JSON.stringify(this.filter),
-                    keyword: this.keyword,
-                    pageSize: this.pageSize,
-                };
-                if (!this.listLoading) this.listLoading = true;
-                getClassTestDetailList(para).then((res) => {
-                    res=res.data;
-                    this.stu_totalCount = res.totalCount;
-                    this.studentRows = res.rows;
-                    if (!this.filterLoading) this.listLoading = false
-                });
-            },
-            // 获取过滤器数据
-            getFilter() {
+            getFilter() {// 获取过滤器数据
                 this.filterLoading = true;
-                this.listLoading = true;
-                getClassTestDetailFilter({}).then((res) => {
+            	this.allLoading = true;
+            	var para = {
+            		paperId: this.id //考试id
+            	};
+                getListenDetailFilter(para).then((res) => {
                     this.filterList = res.data;
                     this.filterLoading = false;
                     this.getList();
+                });
+            },
+            getList() {//获取列表
+        		this.clearMinuteClock();
+            	var callback = ()=>{
+                    if(!this.stat_Loading && !this.stu_Loading && !this.abn_Loading) {
+            			this.minuteTimeClockRun();//分计时器启动
+            			if(this.allLoading) this.allLoading = false;
+                    }
+            	};
+            	this.getStatistics(callback); // 统计信息
+            	this.getStudent(callback); //考试人员列表
+            	this.getAbnormal(callback); // 异常列表
+            },
+            studentPageChange(val) {//考试人员分页回调
+                this.stu_pageNo = val;
+                this.getStudent();
+            },
+            abnormalPageChange(val) {//异常列表分页回调
+                this.abn_pageNo = val;
+                this.getAbnormal();
+            },
+            forceToOutline(row){ //强制下线
+            	this.$confirm('确定强制下线该账号吗？','提示',{
+                    confirmButtonText: '强制下线'
+                }).then(res => {
+	            	var para = {
+	            		id: row.id, //异常记录id
+	            		type: 'outline'
+	            	};
+	            	updateAbnormal(para).then(res => {
+	            		if(res.code == '0'){
+	            			this.$message({
+	            				type: 'success',
+	            				message: '账号 ' + row.studentNo + ' 已强制下线',
+	            			});
+
+	            			//更新行
+	            			row.isOutline = 1;
+	            			var index = _.findIndex(this.abnormalRows, {id: row.id});
+	            			this.abnormalRows.splice(index, 1, row);
+
+	            		}else{
+	            			this.$message({
+	            				type: 'error',
+	            				message: res.msg,
+	            			});
+	            		}
+	            	});
+            	}).catch(res => {});
+            },
+            signIncheap(row){ //作弊处理
+            	this.$confirm('确定将异常做作弊处理吗？','提示',{
+                    confirmButtonText: '作弊处理'
+                }).then(res => {
+	            	var para = {
+	            		id: row.id, //异常记录id
+	            		type: 'cheap'
+	            	};
+	            	updateAbnormal(para).then(res => {
+	            		if(res.code == '0'){
+	            			this.$message({
+	            				type: 'success',
+	            				message: '账号 ' + row.studentNo + ' 已作弊处理',
+	            			});
+
+	            			//更新行
+	            			row.isCheap = 1;
+	            			var index = _.findIndex(this.abnormalRows, {id: row.id});
+	            			this.abnormalRows.splice(index, 1, row);
+
+	            		}else{
+	            			this.$message({
+	            				type: 'error',
+	            				message: res.msg,
+	            			});
+	            		}
+	            	});
+            	}).catch(res => {});
+            },
+            getStatistics(callback){ // 统计信息
+            	let basePara = {
+            		paperId: this.id,//考试id
+            	};
+            	this.stat_Loading = true;
+            	getListentStatistics(basePara).then((res) => {
+                    res = res.data;
+                    this.completePCT = res.complete; //已完成比例
+                    this.onlineCount = res.online; //在线人数
+                    this.outlineCount = res.outline; //不在线
+                    this.countTotal = res.total; //参考总人数
+                    this.submitPCT = res.submitted; //已交卷比例
+                    this.avgExamPCT = res.avgExam; //考试总体平均答题
+                    this.unExamPCT = res.unExam; //未开始答卷
+                    this.stat_Loading = false;
+                    if(callback) callback();
+                });
+            },
+            getStudent(callback){ //考试人员列表
+            	let detailPara = {
+            		paperId: this.id,//考试id
+                    pageNo: this.stu_pageNo,
+                    filter: JSON.stringify(this.filter),
+                    keyword: this.stu_keyword,
+                    pageSize: this.pageSize,
+                };
+                this.stu_Loading = true;
+                getListenDetailList(detailPara).then((res) => {
+                    res = res.data;
+                    this.stu_totalCount = res.totalCount;
+                    this.studentRows = res.rows;
+                    this.stu_Loading = false;
+                    if(callback) callback();
+                });
+            },
+            getAbnormal(callback){ // 异常列表
+            	let abnPara = {
+            		paperId: this.id,//考试id
+                    pageNo: this.abn_pageNo,
+                    filter: JSON.stringify(this.filter),
+                    keyword: this.abn_keyword,
+                    pageSize: this.pageSize,
+                };
+                this.abn_Loading = true;
+                getAbnormalList(abnPara).then((res) => {
+                    res = res.data;
+                    this.abn_totalCount = res.totalCount;
+                    this.abnormalRows = res.rows;
+                    this.abn_Loading = false;
+                    if(callback) callback();
                 });
             },
             dateParse(dateString){
@@ -184,6 +328,7 @@
             remainTime(dateString, isDynamic){//倒计时
                 var totalSeconds = this.getRemainSeconds(dateString);//剩余总秒数
                 if(totalSeconds <= 0){
+                	this.clearSecondClock();//关闭计时器
                     return '考试结束';
                 }else{
                     var hourStr = '0';
@@ -230,12 +375,12 @@
                     }
                 }, 1000);
             },
-            clearMinuteClock(){
+            clearMinuteClock(){//分计时器关闭
                 if(this.minuteTimeClock){
                     clearInterval(this.minuteTimeClock);
                 }
             },
-            clearSecondClock(){
+            clearSecondClock(){//秒计时器关闭
                 if(this.secondTimeClock){
                     clearInterval(this.secondTimeClock);
                 }
@@ -244,8 +389,7 @@
         mounted() {
             this.fullPath = this.$route.fullPath;
             this.getFilter();
-            this.minuteTimeClockRun();
-            this.secondTimeClockRun();
+            this.secondTimeClockRun();//秒计时器启动
         }
 	}
 </script>

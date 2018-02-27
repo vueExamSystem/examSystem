@@ -1342,6 +1342,7 @@ export default {
                 }]
             }]);
         });
+        //监考列表
         mock.onPost(`/listen/list`).reply(config => {
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
@@ -1388,6 +1389,170 @@ export default {
                                 exammer: '16级计算机3班,4班' 
                             }],
                         }
+                    }]);
+                }, 1000);
+            });
+        });
+
+        //被监考的考试人员filter
+        mock.onGet(`/listen/detail/filter`).reply(config => {
+            return u.getMockList(config, [{
+                title: '院系',
+                field: 'department',
+                children: [{
+                    value: 'computer',
+                    text: '计算机'
+                },{
+                    value: 'accounting',
+                    text: '会计'
+                },{
+                    value: 'traffic',
+                    text: '交运'
+                },{
+                    value: 'park',
+                    text: '园林'
+                },{
+                    value: 'architecture ',
+                    text: '建筑与艺术'
+                }]
+            },{
+                title: '班级',
+                field: 'class',
+                children: [{
+                    value: '20170801',
+                    text: '1班'
+                },{
+                    value: '20170802',
+                    text: '2班'
+                },{
+                    value: '20170803',
+                    text: '3班'
+                }]
+            }]);
+        });
+
+        //被监考的考试人员列表
+        mock.onPost(`/listen/statistics`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: '0',
+                        msg: '成功',
+                        data: {
+                            complete: 0.6, //已完成比例
+                            online: 25, //在线人数
+                            outline: 5, //不在线
+                            total: 30, //参考总人数
+                            submitted: 0.7, //已交卷比例
+                            avgExam: 0.6, //考试总体平均答题
+                            unExam: 0.01 //未开始答卷
+                        }
+                    }]);
+                }, 1000);
+            });
+        });
+
+        //被监考的考试人员列表
+        mock.onPost(`/listen/detail/list`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: '0',
+                        msg: '成功',
+                        data: {
+                            totalCount: Math.floor(Math.random() * 1000),
+                            rows: [{
+                                studentNo: '01112307',
+                                name: '叶子',
+                                class: '16级计算机3班',
+                                percentage: 70
+                            },{
+                                studentNo: '01112307',
+                                name: '叶子',
+                                class: '16级计算机3班',
+                                percentage: 70
+                            },{
+                                studentNo: '01112307',
+                                name: '叶子',
+                                class: '16级计算机3班',
+                                percentage: 70
+                            },{
+                                studentNo: '01112307',
+                                name: '叶子',
+                                class: '16级计算机3班',
+                                percentage: 70
+                            },{
+                                studentNo: '01112307',
+                                name: '叶子',
+                                class: '16级计算机3班',
+                                percentage: 70
+                            },{
+                                studentNo: '01112307',
+                                name: '叶子',
+                                class: '16级计算机3班',
+                                percentage: 70
+                            }]
+                         }
+                    }]);
+                }, 1000);
+            });
+        });
+
+        //监考异常列表
+        mock.onPost(`/listen/abnormal/list`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: '0',
+                        msg: '成功',
+                        data: {
+                            totalCount: Math.floor(Math.random() * 1000),
+                            rows:[{
+                                id: 1,
+                                studentNo: '01112307',
+                                studentName: '黄烨',
+                                abnTime: '2018/02/25 16:08:29',
+                                abnEvent: '多端登录，有作弊现象',
+                                isOutline: 1, //强制下线
+                                isCheap: 1 //作弊处理
+                            },{
+                                id: 2,
+                                studentNo: '01112308',
+                                studentName: '张一',
+                                abnTime: '2018/02/25 16:18:29',
+                                abnEvent: '多端登录，有作弊现象',
+                                isOutline: 0, //强制下线
+                                isCheap: 1 //作弊处理
+                            },{
+                                id: 3,
+                                studentNo: '01112308',
+                                studentName: '张一',
+                                abnTime: '2018/02/25 16:18:29',
+                                abnEvent: '多端登录，有作弊现象',
+                                isOutline: 1, //强制下线
+                                isCheap: 0 //作弊处理
+                            },{
+                                id: 4,
+                                studentNo: '01112307',
+                                studentName: '黄烨',
+                                abnTime: '2018/02/25 16:08:29',
+                                abnEvent: '多端登录，有作弊现象',
+                                isOutline: 0, //强制下线
+                                isCheap: 0 //作弊处理
+                            }]
+                        }
+                    }]);
+                }, 1000);
+            });
+        });
+        //更新异常列表
+        mock.onPost(`/listen/abnormal/update`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: '0',
+                        msg: '成功',
+                        data: ''
                     }]);
                 }, 1000);
             });
