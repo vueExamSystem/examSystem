@@ -16,10 +16,10 @@
 				<el-form-item label="题组名称" prop="name">
 					<el-input v-model="ruleForm.name"></el-input>
 				</el-form-item>
-                <el-form-item label="试题类型" prop="qustionType">
-                    <el-select v-model="ruleForm.qustionType" placeholder="请选择试题类型">
+                <el-form-item label="试题类型" prop="questionType">
+                    <el-select v-model="ruleForm.questionType" placeholder="请选择试题类型">
                         <el-option
-                                v-for="item in qustionTypeArr"
+                                v-for="item in questionTypeArr"
                                 :label="item.text"
                                 :value="item.value"
                                 :key="item.value"
@@ -99,8 +99,8 @@
 <script>
     import {
         getSameFilter,
-		addDemo,
-        getSameTreeList,
+		addSame,
+        selectQuestions,
     } from '../../../api/api';
     import _ from 'lodash';
 	export default {
@@ -111,7 +111,7 @@
                     desc: '',
 					chapter: '',
                     course: '',
-                    qustionType:''
+                    questionType:''
                 },
                 rules: {
                     name: [
@@ -120,7 +120,7 @@
                     desc: [
                         { required: true, message: '请填写题组描述', trigger: 'blur' }
                     ],
-                    qustionType: [
+                    questionType: [
                         { required: true, message: '请选择试题类型', trigger: 'change' }
                     ],
                     course: [
@@ -131,7 +131,7 @@
                     ],
                 },
 
-                qustionTypeArr:[],
+                questionTypeArr:[],
                 courseArr: [],
                 chapterArr: [],
                 chapterAllArr: [],
@@ -172,9 +172,20 @@
                     if (valid) {
                         this.$confirm('确认添加吗？', '提示', {}).then(() => {
                             let para = _.assign({}, this.ruleForm);
-                            console.log(para);
+                            console.log('addDemo',para);
+                            //todo 试题id集合
+                            var ids=[0];//如[1,2] JSON.stringify(ids);
+                            para={
+                                name:this.ruleForm.name,
+                                questionTypeId:this.ruleForm.questionType,
+                                courseId:this.ruleForm.course,
+                                sectionId:this.ruleForm.chapter,
+                                desc:this.ruleForm.desc,
+                                'ids':ids
+                            };
+                            console.log('reqPara',para);
                             this.loading = true;
-                            addDemo(para).then((res) => {
+                            addSame(para).then((res) => {
                                 if (res.code !== 0) {
                                     this.$message({
                                         message: res.msg,
@@ -209,7 +220,7 @@
                     //todo所有章节数据 value text courseid为课程筛选id
                     this.chapterArr=res.data[1].children;
                     this.chapterAllArr = res.data[1].children;
-                    this.qustionTypeArr=res.data[2].children;
+                    this.questionTypeArr=res.data[2].children;
                 });
             },
             changeCourse(val) {
@@ -218,12 +229,24 @@
 			},
 			// 添加试题事件
             addQuestion() {
+                //todo希望可以获得下拉框courseName和sectionName
+                let para={
+                    courseId:this.ruleForm.course,
+                    courseName:'',
+                    sectionId:this.ruleForm.chapter,
+                    sectionName:'',
+                    questionTypeId:this.ruleForm.questionType
+                } ;
+                //若courseId或sectionId或questionTypeId有一为空 可以查询试题
+                console.log('addQuestion',para);
                 this.addFormVisible = true;
                 this.treeLoading = true;
-                getSameTreeList({}).then(res => {
+                selectQuestions(para).then(res => {
+                    console.log('selectQuestions',res);
                     this.addRows = [res.data];
                     this.treeLoading = false;
                 });
+                //todo选择完毕后 选择的试题展示到页面上
 			},
 		},
         computed: {

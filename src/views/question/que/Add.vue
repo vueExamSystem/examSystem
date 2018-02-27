@@ -158,6 +158,8 @@
         getSubjectList,
         getChapterAll,
         getSameGroupList,
+        getQueAddFilter,
+        getgroupList,
     } from '../../../api/api';
     import {saveQue} from '../../../api/api';
     import _ from 'lodash';
@@ -216,6 +218,7 @@
                 isInlineMessage: true,
                 // 上传文件的路径
                 uploadSource: 'http://localhost:8081/api/question/upload',
+                uploadContent:'',
                 // 选项个数
                 selectNum: 2,
                 // 默认数据
@@ -314,7 +317,22 @@
             },
             // 获取初始数据
             getDefaultData() {
-                getSubjectList({}).then((res) => {
+                getQueAddFilter({}).then((res) => {
+                    console.log('getQueAddFilter',res.data);
+                    //todo 加载初始数据
+                    //this.subjectArr = res.data;
+                });
+                //根据课程id 章节id 题型id获取相似题组
+                let groupListPara={
+                    'courseid':1,
+                    'sectionid':2,
+                    'questiontypeid':1
+                };
+                getgroupList(groupListPara).then((res) => {
+                    console.log('getgroupList',res.data);
+                    //this.subjectArr = res.data;
+                });
+                /*getSubjectList({}).then((res) => {
                     this.subjectArr = res.data;
                 });
                 getChapterAll({}).then((res) => {
@@ -322,7 +340,7 @@
                 });
                 getSameGroupList({}).then((res) => {
                     this.departmentArr = res.data;
-                });
+                });*/
             },
             // 上传文件相关
             handleRemoveContent(file, fileList) {
