@@ -60,6 +60,9 @@
                             placeholder="请输入内容"
                             v-model="form.content">
                     </el-input>
+                    <div id="content" contentEditable="true" class="editDemo">
+                        编辑框一
+                    </div>
                 </el-form-item>
                 <el-form-item label="" prop="contentPic">
                     <el-upload
@@ -163,6 +166,8 @@
     } from '../../../api/api';
     import {saveQue} from '../../../api/api';
     import _ from 'lodash';
+    import JMEditor from '../../../common/js/JMEditor';
+    import $ from 'jquery';
 
     export default {
         props: {
