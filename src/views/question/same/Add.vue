@@ -122,9 +122,6 @@
                     name: [
                         { required: true, message: '请填写题组名称', trigger: 'blur' }
                     ],
-                    ids: [
-                        { required: true, message: '请选择试题', trigger: 'change' }
-                    ],
                     questionType: [
                         { required: true, message: '请选择试题类型', trigger: 'change' }
                     ],

@@ -64,7 +64,9 @@
                 <el-form-item label="" prop="contentPic">
                     <el-upload
                             class="upload-demo"
-                            :action="uploadSource"
+                            :action="UploadUrl('uploadTitleFile')"
+                            :onSuccess="uploadTitleSuccess"
+                            :onError="uploadError"
                             :on-preview="handlePreviewContent"
                             :on-remove="handleRemoveContent"
                             :file-list="form.contentPic"
@@ -84,7 +86,9 @@
                         <el-input v-model="form[`selection${item}`]"></el-input>
                         <el-upload
                                 class="upload-demo inline"
-                                :action="uploadSource"
+                                :action="UploadUrl('uploadOptionFile')"
+                                :onSuccess="uploadOptionSuccess"
+                                :onError="uploadError"
                                 :on-preview="handlePreview"
                                 :on-remove="handleRemove"
                                 :file-list="form.selectionPic[index]"
@@ -217,8 +221,9 @@
                 },
                 isInlineMessage: true,
                 // 上传文件的路径
-                uploadSource: 'http://localhost:8081/api/question/upload',
-                uploadContent:'',
+                // uploadSource: 'http://localhost:8081/api/question/uploadTitleFile',
+                // uploadTitle:'http://localhost:8081/api/question/uploadTitleFile',
+                // uploadOption:'http://localhost:8081/api/question/uploadOptionFile',
                 // 选项个数
                 selectNum: 2,
                 // 默认数据
@@ -259,6 +264,24 @@
             }
         },
         methods: {
+
+             UploadUrl:function(url){
+                return 'http://localhost:8081/api/question/'+url;     
+            }, 
+            // 上传题目图片成功后的回调
+            uploadTitleSuccess (response, file, fileList) {
+                console.log('上传文件', response);
+                //记住返回的文件存储的相对路径
+            },
+             // 上传答案图片成功后的回调
+            uploadOptionSuccess (response, file, fileList) {
+                console.log('上传文件', response);
+                //记住返回的文件存储的相对路径
+            },
+            // 上传错误
+            uploadError (response, file, fileList) {
+                console.log('上传失败，请重试！');
+            },
             onSubmit() {
                 this.$refs['form'].validate((valid) => {
                     if (valid) {
