@@ -17,7 +17,7 @@
                 <el-form-item label="试题类型:" prop="type">
                     <el-select v-model="form.type" placeholder="请选择试题类型">
                         <template v-for="item in typeArr">
-                            <el-option :label="item.name" :value="item.id"></el-option>
+                            <el-option :label="item.text" :value="item.value"></el-option>
                         </template>
                     </el-select>
                 </el-form-item>
@@ -25,31 +25,31 @@
                     <el-select v-model="form.usage" multiple placeholder="请选择试题用途">
                         <el-option
                                 v-for="item in usageArr"
-                                :label="item.name"
-                                :value="item.id"
-                                :key="item.id"
+                                :label="item.text"
+                                :value="item.value"
+                                :key="item.value"
                         >
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="选择科目:" prop="subject">
-                    <el-select v-model="form.subject" placeholder="请选择科目">
+                <el-form-item label="选择课程:" prop="subject">
+                    <el-select v-model="form.subject" placeholder="请选择课程">
                         <template v-for="item in subjectArr">
-                            <el-option :label="item.name" :value="item.id"></el-option>
+                            <el-option :label="item.text" :value="item.value"></el-option>
                         </template>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="章节选择:" prop="section">
                     <el-select v-model="form.chapter" placeholder="请选择章节">
                         <template v-for="item in chapterArr">
-                            <el-option :label="item.name" :value="item.id"></el-option>
+                            <el-option :label="item.text" :value="item.value"></el-option>
                         </template>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="题组:" prop="department" v-if="isNeedSame">
                     <el-select v-model="form.department" placeholder="请选择题组">
                         <template v-for="item in departmentArr">
-                            <el-option :label="item.name" :value="item.id"></el-option>
+                            <el-option :label="item.text" :value="item.value"></el-option>
                         </template>
                     </el-select>
                 </el-form-item>
@@ -349,6 +349,12 @@
                     console.log('getQueAddFilter',res.data);
                     //todo 加载初始数据
                     //this.subjectArr = res.data;
+                    this.subjectArr = res.data[0].children;
+                    this.chapterArr=res.data[1].children;
+                    this.typeArr=res.data[2].children;
+                    //todo缺少类别 简单题 送分题res.data[3].children
+                    this.usageArr=res.data[4].children;
+                    //this.departmentArr=res.data[0].children;
                 });
                 //根据课程id 章节id 题型id获取相似题组
                 let groupListPara={
