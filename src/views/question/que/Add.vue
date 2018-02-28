@@ -546,25 +546,6 @@
         .topline{border-top:solid #CADDFF 1px;}
         .bottomline{border-bottom:solid #CADDFF 1px;}
 
-        .content{
-            width:580px;
-            height:auto;
-            min-height:350px;
-            padding:20px;
-            margin:2px;
-        }
-
-        .content h1{
-            font-size:24px;
-            width:100%;
-        }
-
-        .content .mark{
-            background-color:#DDDDDD;
-            font-family:Symbola, serif;
-            padding:2px;
-        }
-
         .editDemo{
             border:solid #AAA 1px;
             min-height:100px;
