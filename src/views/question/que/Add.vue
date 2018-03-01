@@ -17,7 +17,7 @@
                 <el-form-item label="试题类型:" prop="type">
                     <el-select v-model="form.type" placeholder="请选择试题类型">
                         <template v-for="item in typeArr">
-                            <el-option :label="item.name" :value="item.id"></el-option>
+                            <el-option :label="item.text" :value="item.value"></el-option>
                         </template>
                     </el-select>
                 </el-form-item>
@@ -25,31 +25,31 @@
                     <el-select v-model="form.usage" multiple placeholder="请选择试题用途">
                         <el-option
                                 v-for="item in usageArr"
-                                :label="item.name"
-                                :value="item.id"
-                                :key="item.id"
+                                :label="item.text"
+                                :value="item.value"
+                                :key="item.value"
                         >
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="选择科目:" prop="subject">
-                    <el-select v-model="form.subject" placeholder="请选择科目">
+                <el-form-item label="选择课程:" prop="subject">
+                    <el-select v-model="form.subject" placeholder="请选择课程">
                         <template v-for="item in subjectArr">
-                            <el-option :label="item.name" :value="item.id"></el-option>
+                            <el-option :label="item.text" :value="item.value"></el-option>
                         </template>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="章节选择:" prop="section">
                     <el-select v-model="form.chapter" placeholder="请选择章节">
                         <template v-for="item in chapterArr">
-                            <el-option :label="item.name" :value="item.id"></el-option>
+                            <el-option :label="item.text" :value="item.value"></el-option>
                         </template>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="题组:" prop="department" v-if="isNeedSame">
                     <el-select v-model="form.department" placeholder="请选择题组">
                         <template v-for="item in departmentArr">
-                            <el-option :label="item.name" :value="item.id"></el-option>
+                            <el-option :label="item.text" :value="item.value"></el-option>
                         </template>
                     </el-select>
                 </el-form-item>
@@ -60,11 +60,16 @@
                             placeholder="请输入内容"
                             v-model="form.content">
                     </el-input>
+                    <div id="content" contentEditable="true" class="editDemo">
+                        编辑框一
+                    </div>
                 </el-form-item>
                 <el-form-item label="" prop="contentPic">
                     <el-upload
                             class="upload-demo"
-                            :action="uploadSource"
+                            :action="UploadUrl('uploadTitleFile')"
+                            :onSuccess="uploadTitleSuccess"
+                            :onError="uploadError"
                             :on-preview="handlePreviewContent"
                             :on-remove="handleRemoveContent"
                             :file-list="form.contentPic"
@@ -84,7 +89,9 @@
                         <el-input v-model="form[`selection${item}`]"></el-input>
                         <el-upload
                                 class="upload-demo inline"
-                                :action="uploadSource"
+                                :action="UploadUrl('uploadOptionFile')"
+                                :onSuccess="uploadOptionSuccess"
+                                :onError="uploadError"
                                 :on-preview="handlePreview"
                                 :on-remove="handleRemove"
                                 :file-list="form.selectionPic[index]"
@@ -163,6 +170,8 @@
     } from '../../../api/api';
     import {saveQue} from '../../../api/api';
     import _ from 'lodash';
+    import JMEditor from '../../../common/js/JMEditor';
+    import $ from 'jquery';
 
     export default {
         props: {
@@ -217,8 +226,9 @@
                 },
                 isInlineMessage: true,
                 // 上传文件的路径
-                uploadSource: 'http://localhost:8081/api/question/upload',
-                uploadContent:'',
+                // uploadSource: 'http://localhost:8081/api/question/uploadTitleFile',
+                // uploadTitle:'http://localhost:8081/api/question/uploadTitleFile',
+                // uploadOption:'http://localhost:8081/api/question/uploadOptionFile',
                 // 选项个数
                 selectNum: 2,
                 // 默认数据
@@ -259,6 +269,24 @@
             }
         },
         methods: {
+
+             UploadUrl:function(url){
+                return 'http://localhost:8081/api/question/'+url;     
+            }, 
+            // 上传题目图片成功后的回调
+            uploadTitleSuccess (response, file, fileList) {
+                console.log('上传文件', response);
+                //记住返回的文件存储的相对路径
+            },
+             // 上传答案图片成功后的回调
+            uploadOptionSuccess (response, file, fileList) {
+                console.log('上传文件', response);
+                //记住返回的文件存储的相对路径
+            },
+            // 上传错误
+            uploadError (response, file, fileList) {
+                console.log('上传失败，请重试！');
+            },
             onSubmit() {
                 this.$refs['form'].validate((valid) => {
                     if (valid) {
@@ -321,6 +349,12 @@
                     console.log('getQueAddFilter',res.data);
                     //todo 加载初始数据
                     //this.subjectArr = res.data;
+                    this.subjectArr = res.data[0].children;
+                    this.chapterArr=res.data[1].children;
+                    this.typeArr=res.data[2].children;
+                    //todo缺少类别 简单题 送分题res.data[3].children
+                    this.usageArr=res.data[4].children;
+                    //this.departmentArr=res.data[0].children;
                 });
                 //根据课程id 章节id 题型id获取相似题组
                 let groupListPara={
@@ -442,7 +476,7 @@
 
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
     @import '~scss_vars';
 
     #queForm {
@@ -450,6 +484,119 @@
             .el-form-item__label {
                 line-height: 50px;
             }
+        }
+
+
+        BODY {
+            PADDING: 0px; MARGIN: 0px; FONT-FAMILY: "ËÎÌå", "Arial Narrow";  FONT-SIZE: 14px;
+        }
+        UL,LI {
+            LIST-STYLE-TYPE: none; LIST-STYLE-IMAGE: none
+        }
+        IMG {
+            BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; BORDER-TOP: 0px; BORDER-RIGHT: 0px
+        }
+        A:link {
+            COLOR: #466AAD; TEXT-DECORATION: none
+        }
+        A:visited {
+            COLOR: #466AAD; TEXT-DECORATION: none
+        }
+        A:hover {
+            COLOR: #466AAD; TEXT-DECORATION: underline
+        }
+
+        div.test{border:solid green 1px;}
+
+        .container{
+            width:893px;
+            min-height:550px;
+            margin-left:auto;
+            margin-right:auto;
+            line-height:25px;
+            float:none;
+        }
+
+        .container div{
+            float:left;
+        }
+
+        .container div.head{
+            width:100%;
+            padding-top:15px;
+            padding-bottom:15px;
+        }
+        .container div.body{
+            width:100%;
+            background-color:white;
+        }
+
+        a.menuNormal{
+        }
+
+        a.menuFocusBg{
+            background-color:#679AF9;
+            font-weight:bold;
+            color:white;
+        }
+
+        .container .download,.container .floatdown{
+            width:260px;
+            height:450px;
+            margin-top:3px;
+            margin-left:3px;
+            float:right;
+        }
+
+        .download .btn , .container .floatdown .btn{
+            display:block;
+            width:120px;
+            line-height:35px;
+            border:solid #CADDFF 1px;
+            background-color:#F1313F;
+            text-align:center;
+            margin-left:30px;
+            margin-top:50px;
+            color:white;
+            cursor:pointer;
+        }
+        .container .footer{
+            width:100%;
+            height:50px;
+            margin-top:3px;
+            color:#999;
+        }
+        .container .footer span{
+            margin-left:10px;
+            line-height:40px;
+        }
+
+        .divborder{border:solid #CADDFF 1px;}
+        .topline{border-top:solid #CADDFF 1px;}
+        .bottomline{border-bottom:solid #CADDFF 1px;}
+
+        .editDemo{
+            border:solid #AAA 1px;
+            min-height:100px;
+            width:90%;
+            padding:10px;
+        }
+
+        .contentArea{
+            height:100px;
+            width:90%;
+        }
+
+        .notice{
+            background-color:#FAFF75;
+            padding:10px;
+            border:solid red 1px;
+            margin-bottom:10px;
+        }
+
+        .notice h2{
+            margin-top:10px;
+            margin-bottom:10px;
         }
     }
 
