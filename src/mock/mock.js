@@ -466,6 +466,115 @@ export default {
             });
         });
 
+        /**  以下成绩 **/
+        mock.onGet(`/student/list`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: 200,
+                        msg: '成功',
+                        data: {
+                            totalCount: '3',
+                            rows: [{
+                                id: '1',
+                                course: '大学物理',
+                                studentNo: '211111011',
+                                name: '张三',
+                                previewPoint: '80',
+                                testPoint: '88',
+                                examPoint: '76',
+                                score: '83',
+                                grade: '优秀',
+                            },{
+                                id: '2',
+                                course: '大学物理',
+                                studentNo: '211111011',
+                                name: '张三1',
+                                previewPoint: '80',
+                                testPoint: '88',
+                                examPoint: '76',
+                                score: '83',
+                                grade: '优秀',
+                            },{
+                                id: '3',
+                                course: '大学物理',
+                                studentNo: '211111011',
+                                name: '张三2',
+                                previewPoint: '80',
+                                testPoint: '88',
+                                examPoint: '76',
+                                score: '83',
+                                grade: '优秀',
+                            }],
+                        },
+                    }]);
+                }, 2000);
+            });
+        });
+        mock.onGet(`/student/filter`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: 200,
+                        msg: '成功',
+                        data: [{
+                            title:'年级',
+                            field:'grade',
+                            children:[{
+                                value:'2014',
+                                text:'14级'
+                            },{
+                                value:'2015',
+                                text:'15级'
+                            },{
+                                value:'2016',
+                                text:'16级'
+                            },{
+                                value:'2017',
+                                text:'17级'
+                            }]
+                        },{
+                            title:'院系',
+                            field:'dep',
+                            children:[{
+                                value:'2014',
+                                text:'计算机'
+                            },{
+                                value:'2015',
+                                text:'物电'
+                            },{
+                                value:'2016',
+                                text:'体院'
+                            }]
+                        },{
+                            title:'课程',
+                            field:'project',
+                            children:[{
+                                value:'hysics',
+                                text:'大学物理'
+                            },{
+                                value:'mathematics',
+                                text:'高等数学'
+                            },{
+                                value:'english',
+                                text:'大学英语'
+                            }]
+                        },{
+                            title:'班级',
+                            field:'status',
+                            children:[{
+                                value:'1',
+                                text:'11班'
+                            },{
+                                value:'2',
+                                text:'12班'
+                            }]
+                        }],
+                    }]);
+                }, 2000);
+            });
+        });
+
         /**  以下预习 **/
         //列表
         mock.onGet(`/example/list`).reply(config => {
