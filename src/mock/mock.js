@@ -985,6 +985,16 @@ export default {
                         code: 200,
                         msg: '成功',
                         data: {
+                            subjects: [{
+                                id: '0',
+                                name: '大学物理上',
+                            },{
+                                id: '1',
+                                name: '大学物理下',
+                            },{
+                                id: '2',
+                                name: '大学英语',
+                            }],
                             test: [{
                                 id: '0',
                                 name: '物理测试卷1',
@@ -1662,6 +1672,301 @@ export default {
                         code: '0',
                         msg: '成功',
                         data: ''
+                    }]);
+                }, 1000);
+            });
+        });
+
+
+        //考试过滤器
+        mock.onGet(`/exam/filter`).reply(config => {
+            return u.getMockList(config, [{
+                title:'课程',
+                field:'project',
+                children:[{
+                    value:'hysics',
+                    text:'大学物理'
+                },{
+                    value:'mathematics',
+                    text:'高等数学'
+                },{
+                    value:'english',
+                    text:'大学英语'
+                }]
+            },{
+                title:'状态',
+                field:'status',
+                children:[{
+                    value:'0',
+                    text:'未开始'
+                },{
+                    value:'1',
+                    text:'进行中'
+                },{
+                    value:'2',
+                    text:'已结束'
+                }]
+            }]);
+        });
+        //考试列表
+        mock.onPost(`/exam/list`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: '0',
+                        msg: '成功',
+                        data: {
+                            totalCount: 234,
+                            rows: [{
+                                id: '1',
+                                name:'物理测试1',
+                                paper: {
+                                    id: 2,
+                                    name: '物理期中试卷1',
+                                },
+                                beginTime:'2018/02/27 16:00',
+                                endTime: '2018/02/27 18:20',
+                                status:'2',
+                                grade: {
+                                    id: 5,
+                                    name: '18级',
+                                },
+                                department: {
+                                    id: 2,
+                                    name: '物理',
+                                },
+                                listener:{
+                                    id: 3,
+                                    name: '张老师',
+                                },
+                                testClass:{
+                                    id: 7,
+                                    name: '18级计算机3班',
+                                },
+                            },{
+                                id: '2',
+                                name:'物理测试2',
+                                paper: {
+                                    id: 2,
+                                    name: '物理期中试卷2',
+                                },
+                                beginTime:'2018/02/27 17:00',
+                                endTime: '2018/02/27 18:20',
+                                status:'1',
+                                grade: {
+                                    id: 5,
+                                    name: '16级',
+                                },
+                                department: {
+                                    id: 2,
+                                    name: '物理',
+                                },
+                                listener:{
+                                    id: 3,
+                                    name: '张老师',
+                                },
+                                testClass:{
+                                    id: 7,
+                                    name: '16级计算机3班',
+                                },
+                            },{
+                                id: '3',
+                                name:'物理测试3',
+                                paper: {
+                                    id: 2,
+                                    name: '物理期中试卷3',
+                                },
+                                beginTime:'2018/02/27 14:00',
+                                endTime: '2018/02/27 16:00',
+                                status:'3',
+                                grade: {
+                                    id: 5,
+                                    name: '15级',
+                                },
+                                department: {
+                                    id: 2,
+                                    name: '物理',
+                                },
+                                listener:{
+                                    id: 3,
+                                    name: '张老师',
+                                },
+                                testClass:{
+                                    id: 7,
+                                    name: '15级计算机3班',
+                                },
+                            },{
+                                id: '4',
+                                name:'物理测试4',
+                                paper: {
+                                    id: 2,
+                                    name: '物理期中试卷4',
+                                },
+                                beginTime:'2018/02/27 14:00',
+                                endTime: '2018/02/27 16:00',
+                                status:'3',
+                                grade: {
+                                    id: 5,
+                                    name: '17级',
+                                },
+                                department: {
+                                    id: 2,
+                                    name: '物理',
+                                },
+                                listener:{
+                                    id: 3,
+                                    name: '张老师',
+                                },
+                                testClass:{
+                                    id: 7,
+                                    name: '17级计算机3班',
+                                },
+                            },{
+                                id: '5',
+                                name:'物理测试5',
+                                paper: {
+                                    id: 2,
+                                    name: '物理期中试卷5',
+                                },
+                                beginTime:'2018/02/27 14:00',
+                                endTime: '2018/02/27 16:00',
+                                status:'3',
+                                grade: {
+                                    id: 5,
+                                    name: '17级',
+                                },
+                                department: {
+                                    id: 2,
+                                    name: '物理',
+                                },
+                                listener:{
+                                    id: 3,
+                                    name: '张老师',
+                                },
+                                testClass:{
+                                    id: 7,
+                                    name: '17级计算机3班',
+                                },
+                            }]
+                        }
+                    }]);
+                }, 1000);
+            });
+        });
+        // 编辑考试
+        mock.onPost(`/exam/update`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: '0',
+                        msg: '成功',
+                        data: ''
+                    }]);
+                }, 1000);
+            });
+        });
+        // 发布考试
+        mock.onPost(`/exam/add`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: '0',
+                        msg: '成功',
+                        data: {
+                            id: '88'
+                        }
+                    }]);
+                }, 1000);
+            });
+        });
+        // 考试班级列表
+        mock.onPost(`/exam/classlist`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: '0',
+                        msg: '成功',
+                        data: [{
+                            id: '1',
+                            department: {
+                                id: '1',
+                                name: '计算机'
+                            },
+                            grade: {
+                                id: '1',
+                                name: '17级'
+                            },
+                            class: {
+                                id: '1',
+                                name: '3班',
+                                count: 30,
+                                exammer: [1,2,3,4,5,6,7,8,9]
+                            },
+                        },{
+                            id: '2',
+                            department: {
+                                id: '1',
+                                name: '计算机'
+                            },
+                            grade: {
+                                id: '1',
+                                name: '17级'
+                            },
+                            class: {
+                                id: '1',
+                                name: '4班',
+                                count: 32,
+                                exammer: [1,2,3,4,5,6,7,8,9,10,11]
+                            },
+                        },{
+                            id: '3',
+                            department: {
+                                id: '1',
+                                name: '物电'
+                            },
+                            grade: {
+                                id: '1',
+                                name: '17级'
+                            },
+                            class: {
+                                id: '1',
+                                name: '4班',
+                                count: 32,
+                                exammer: [2,3,4,5,7,8]
+                            },
+                        },{
+                            id: '4',
+                            department: {
+                                id: '1',
+                                name: '物电'
+                            },
+                            grade: {
+                                id: '1',
+                                name: '17级'
+                            },
+                            class: {
+                                id: '1',
+                                name: '5班',
+                                count: 30,
+                                exammer: [2,3,4,5,6,7,9]
+                            },
+                        },{
+                            id: '5',
+                            department: {
+                                id: '1',
+                                name: '化工'
+                            },
+                            grade: {
+                                id: '1',
+                                name: '17级'
+                            },
+                            class: {
+                                id: '1',
+                                name: '4班',
+                                count: 31,
+                                exammer: [5,6,7,8,9,10]
+                            },
+                        }]
                     }]);
                 }, 1000);
             });

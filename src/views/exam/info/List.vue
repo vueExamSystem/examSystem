@@ -16,32 +16,40 @@
                     <el-table :data="rows" highlight-current-row v-loading="listLoading" style="width: 100%;">
                         <el-table-column type="index" label="序号" width="100">
                         </el-table-column>
-                        <el-table-column prop="name" label="考试名称">
+                        <el-table-column prop="name" label="考试名称" min-width="160">
                             <template scope="scope">
                                 <el-button type="text" @click="detailShow(scope.row.id)">{{scope.row.name}}</el-button>
                             </template>
                         </el-table-column>
-                        <el-table-column prop="paper" label="选择试卷" >
+                        <el-table-column prop="paper" label="选择试卷" min-width="160">
                             <template slot-scope="scope">
                                 <span v-if="scope.row.paper">{{scope.row.paper.name}}</span>
                             </template>
                         </el-table-column>
-                        <el-table-column prop="testRange" label="考试时间">
+                        <el-table-column prop="beginTime" :formatter="timeRangeFormatter" label="考试时间" min-width="180">
                         </el-table-column>
                         <el-table-column prop="status" label="状态">
+                            <template scope="scope">
+                                <span class="text-warning" v-if="scope.row.status == '1'">未开始</span>
+                                <span class="text-success" v-else-if="scope.row.status == '2'">进行中</span>
+                                <span v-else>已结束</span>
+                            </template>
                         </el-table-column>
                         <el-table-column prop="listener" label="监考老师">
                             <template slot-scope="scope">
                                 <span v-if="scope.row.listener">{{scope.row.listener.name}}</span>
                             </template>
                         </el-table-column>
-                        <el-table-column prop="testClass" label="考试人员">
+                        <el-table-column prop="testClass" label="考试人员" min-width="160">
+                            <template slot-scope="scope">
+                                <span v-if="scope.row.testClass">{{scope.row.testClass.name}}</span>
+                            </template>
                         </el-table-column>
                         <el-table-column
                                 label="操作"
                                 width="100">
                             <template slot-scope="scope">
-                                <el-button type="danger" size="small" @click="handleEdit(scope.row)">编辑</el-button>
+                                <el-button type="primary" size="small" @click="handleEdit(scope.row)">编辑</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -49,9 +57,9 @@
             </div>
             <!--编辑界面-->
             <el-dialog title="编辑课程" :visible.sync="editFormVisible" class="noPadding">
-                <exam-add v-if="formObj" @toTable="getList" :formObj="formObj" ref="editForm"></exam-add>
+                <exam-add v-if="editFormVisible" @toTable="afterSubmit" :formObj="formObj" ref="editForm"></exam-add>
                 <div slot="footer" class="dialog-footer">
-                    <el-button @click.native="editFormVisible = false; formObj = {};">取消</el-button>
+                    <el-button @click.native="cancelEdit">取消</el-button>
                     <el-button type="primary" @click.native="editSubmit" v-loading="editLoading">提交</el-button>
                 </div>
             </el-dialog>
@@ -63,7 +71,10 @@
 </template>
 <script>
 	import myFilter from '../../common/myFilter.vue'
-    import {getClassTestList, getClassTestFilter, addDemo } from '../../../api/api';
+    import { 
+        getExamFilter, 
+        getExamList
+    } from '../../../api/api';
     import Pagination from '../../common/Pagination.vue';
     import _ from 'lodash';
     import detail from './Detail.vue'
@@ -93,26 +104,40 @@
                 formObj: {},
                 editFormVisible: false,//编辑界面是否显示
                 editLoading: false,
+
+                fullPath: '',
+                minuteTimeClock: ''
             }
         },
         methods: {
             //显示编辑界面
             handleEdit: function (row) {
+                this.clearMinuteClock();
                 this.editFormVisible = true;
                 this.formObj = _.assign({}, row, {
-                    test: row.test ? row.test.id : '',
+                    id: row.id ? row.id : '',
+                    paper: row.paper ? row.paper.id : '',
                     grade: row.grade ? row.grade.id : '',
                     department: row.department ? row.department.id : '',
-                    class: row.class ? row.class.id : '',
-                    listeners: row.listeners ? row.listeners.id : '',
+                    class: row.testClass ? row.testClass.id : '',
+                    listeners: row.listener ? row.listener.id : '',
+                    beginTime: row.beginTime ? row.beginTime : '',
+                    endTime: row.endTime ? row.endTime : ''
                 });
-                console.log('this.formObj', this.formObj);
-                // this.$refs.editForm.resetForm('form');
 
             },
             //编辑
             editSubmit() {
                 this.$refs.editForm.onSubmit('form');
+            },
+            afterSubmit(){//编辑过后
+                this.editFormVisible = false;
+                this.getList();
+            },
+            cancelEdit(){//取消编辑
+                this.ditFormVisible = false; 
+                this.formObj = {};
+                this.minuteTimeClockRun();
             },
             detailShow(id) {
                 this.detailId = id;
@@ -122,14 +147,15 @@
             },
             handleCurrentChange(val) {
                 this.pageNo = val;
-                this.getUsers();
+                this.getList();
             },
             search(obj) {
                 this.filter = obj;this.pageNo = 1;
                 this.getList();
             },
-            //获取用户列表
+            //获取列表
             getList() {
+                this.clearMinuteClock();
                 let para = {
                     pageNo: this.pageNo,
                     filter: JSON.stringify(this.filter),
@@ -137,25 +163,47 @@
                     pageSize: this.pageSize,
                 };
                 if (!this.allLoading) this.listLoading = true;
-                getClassTestList(para).then((res) => {
+                getExamList(para).then((res) => {
                     res = res.data;
                     this.totalCount = res.totalCount;
                     this.rows = res.rows;
 
                     if (!this.allLoading) this.listLoading = false;
                     if (this.allLoading) this.allLoading = false;
+                    this.minuteTimeClockRun();//分计时器启动
                 });
             },
             // 获取过滤器数据
             getFilter() {
                 this.allLoading = true;
-                getClassTestFilter({}).then((res) => {
+                getExamFilter({}).then((res) => {
                     this.filterList = res.data;
                     this.getList();
                 });
             },
+            minuteTimeClockRun(){//每分钟刷新表格
+                this.minuteTimeClock = setInterval(()=>{
+                    if(this.$route.fullPath != this.fullPath){
+                        this.clearMinuteClock();
+                    }else{
+                        this.getList();
+                    }
+                }, 60000);
+            },
+            clearMinuteClock(){//分计时器关闭
+                if(this.minuteTimeClock){
+                    clearInterval(this.minuteTimeClock);
+                }
+            },
+            timeRangeFormatter(row){//时间范围格式化
+                var st = row.beginTime;
+                var et = row.endTime;
+                var etStr = et.split(' ')[1];
+                return st + '-' + etStr;
+            }
         },
         mounted() {
+            this.fullPath = this.$route.fullPath;
             this.getFilter();
         }
     }
