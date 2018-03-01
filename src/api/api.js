@@ -243,3 +243,17 @@ export const getListenDetailList = params => { return instance.post(`${base}/lis
 export const getAbnormalList = params => { return instance.post(`${base}/listen/abnormal/list`, params ).then(res => res.data);};
 //更新异常列表
 export const updateAbnormal = params => { return instance.post(`${base}/listen/abnormal/update`, params ).then(res => res.data);};
+
+/*
+* 考试 start
+* */
+//考试过滤器
+export const getExamFilter = params => { return instance.get(`${base}/exam/filter`, params ).then(res => res.data);};
+//考试列表
+export const getExamList = params => { return instance.post(`${base}/exam/list`, params ).then(res => res.data);};
+// 编辑考试
+export const updateExam = params => { return instance.post(`${base}/exam/update`, params ).then(res => res.data); };
+// 发布考试
+export const addExam = params => { return instance.post(`${base}/exam/add`, params ).then(res => res.data); };
+//考试班级列表
+export const getExamClassList = params => { return instance.post(`${base}/exam/classlist`, params ).then(res => res.data); };
