@@ -166,7 +166,7 @@
     } from '../../../api/api';
     import {saveQue} from '../../../api/api';
     import _ from 'lodash';
-    import JMEditor from '../../../common/js/JMEditor';
+    import '../../../common/js/JMEditor';
     import $ from 'jquery';
 
     export default {
@@ -442,6 +442,20 @@
         },
         mounted() {
             this.getDefaultData();
+            var JMEditor_BasePath = "/src/common/js/";
+            var JMEditor = {
+                versionCode : 5,
+                versionName : "V0.9.4",
+                ckEditor : CKEDITOR,
+                jmeBasePath : JMEditor_BasePath,
+                defaultFontSize : "20px",
+                isEmpty : function(elementId){
+                    return ($("#" + elementId).html()+"").replace(/(<[^>]*>|\s|&nbsp;)/ig,"").length < 1;
+                },
+                html : function(elementId){
+                    return $("#" + elementId).html();
+                }
+            };
         }
     }
 
