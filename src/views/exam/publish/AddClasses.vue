@@ -38,7 +38,7 @@
                     		<span>{{scope.row.class.exammer?scope.row.class.exammer.length:0}}</span>
                     	</template>
                     </el-table-column>
-                    <el-table-column label="操作" min-width="160">
+                    <el-table-column label="操作" min-width="220">
                         <template slot-scope="scope">
                             <el-button type="primary" size="small" @click="updateExammer(scope.row)">选择考生</el-button>
                             <el-button type="danger" size="small" @click="removeExamClass(scope.row)">删除班级</el-button>
@@ -54,21 +54,21 @@
 		            <el-form ref="classForm" :model="classForm" :rules="classRules" label-width="110px" :inline-message="isInlineMessage" @submit.prevent="onSubmitClass('classForm')">
 			            <el-form-item label="考试院系：" prop="department"> 
 			                <el-select v-model="classForm.department" placeholder="请选择考试院系">
-			                    <template v-for="item in defaultInfo.department">
+			                    <template v-for="item in departmentSelect">
 			                        <el-option :label="item.name" :value="item.id" :key="item.id"></el-option>
 			                    </template>
 			                </el-select>
 			            </el-form-item>
 			            <el-form-item label="考试年级：" prop="grade"> 
 			                <el-select v-model="classForm.grade" placeholder="请选择考试年级">
-			                    <template v-for="item in defaultInfo.grade">
+			                    <template v-for="item in gradeSelect">
 			                        <el-option :label="item.name" :value="item.id" :key="item.id"></el-option>
 			                    </template>
 			                </el-select>
 			            </el-form-item>
 			            <el-form-item label="考试班级：" prop="class">
 			                   <el-select v-model="classForm.class" placeholder="请选择考试班级" multiple>
-			                       <template v-for="item in defaultInfo.class">
+			                       <template v-for="item in classSelect">
 			                        <el-option :label="item.name" :value="item.id" :key="item.id"></el-option>
 			                    </template>
 			                </el-select>
@@ -88,8 +88,9 @@
 </template>
 <script>
     import {
-        getExamClassList,
-        addExam
+        getExamClassList,//获取参加考试的班级
+        getUnExamClassList,//获取学习该课程但未参加考试的班级
+        addExamClass //添加考试班级
     } from '../../../api/api';
     import _ from 'lodash';
 	export default {
@@ -124,20 +125,7 @@
 						{required: true, message: '请选择考试班级', trigger:'change'}
 					]
 				},
-				defaultInfo: {
-                    grade: [{
-                        id: 5,
-                        name: '18级',
-                    }],
-                    department: [{
-                        id: 2,
-                        name: '计算机',
-                    }],
-                    class:[{
-                        id: 7,
-                        name: '3班',
-                    }],
-                },
+                classTreeList: [],//班级树状关系图
 			}
 		},
 		computed:{
@@ -150,7 +138,63 @@
 					sum += row.class.exammer.length;
 				})
 				return sum;
-			}
+			},
+            departmentSelect(){
+                if(this.classTreeList.length == 1){
+                    this.classForm.department = this.classTreeList[0].id;
+                    if(this.classTreeList[0].gradeList.length == 1){
+                        this.classForm.grade = this.classTreeList[0].gradeList[0].id;
+                        if(this.classTreeList[0].gradeList[0].classList.length == 1){
+                            var classid = this.classTreeList[0].gradeList[0].classList[0].id;
+                            this.classForm.class = [classid];
+                        }else{
+                            this.classForm.class = [];
+                        }
+                    }else{
+                        this.classForm.grade = '';
+                        this.classForm.class = [];
+                    }
+                }else{
+                    this.classForm.department = '';
+                    this.classForm.grade = '';
+                    this.classForm.class = [];
+                }
+                return this.classTreeList;
+            },
+            gradeSelect(){
+                var departIndex = _.findIndex(this.departmentSelect,{id: this.classForm.department}); 
+                var list = [];
+                if(departIndex > -1){
+                    list = this.departmentSelect[departIndex].gradeList;
+                    if(list.length == 1){
+                        this.classForm.grade = list[0].id;
+                        if(list[0].classList.length == 1){
+                            var classid = list[0].classList[0].id;
+                            this.classForm.class = [classid];
+                        }else{
+                            this.classForm.class = [];
+                        }
+                    }else{
+                        this.classForm.grade = '';
+                        this.classForm.class = [];
+                    }
+                }
+                return list;
+            },
+            classSelect(){     
+                var gradeIndex = _.findIndex(this.gradeSelect, {id: this.classForm.grade});
+                var list = [];
+                if(gradeIndex > -1){
+                    list = this.gradeSelect[gradeIndex].classList;
+                    if(list.length == 1){
+                        var classid = list[0].id;
+                        this.classForm.class = [classid];
+                    }else{
+                        this.classForm.class = [];
+                    }
+                }
+                return list;
+            }
 		},
 		methods: {
 			getList(){//获取开始班级列表 不分页
@@ -163,6 +207,57 @@
 					this.listLoading = false;
 				});
 			},
+            getUnExamClasses(){//根据考试科目获取学习该科目的班级-前端处理为树状关系数据
+                this.classLoading = true;
+                this.classTreeList = [];
+                var para = {
+                    id: this.id //考试id 
+                };
+                var treeList = [];
+                getUnExamClassList(para).then(res => {
+                    res = res.data;
+                    _.forEach(res, treeItem => {
+                        var departIndex = _.findIndex(treeList,{id: treeItem.department.id}); 
+                        if(departIndex > -1){//已存在院系
+                            var departItem = treeList[departIndex];
+                            var gradeIndex = _.findIndex(departItem.gradeList, {
+                                id: treeItem.grade.id
+                            });
+                            if(gradeIndex > -1){//已存在年级
+                                var gradeItem = departItem.gradeList[gradeIndex].classList;
+                                gradeItem.push({
+                                    id: treeItem.class.id,//班级id
+                                    name: treeItem.class.name//班级id
+                                });
+                            }else{
+                                departItem.gradeList.push({
+                                    id: treeItem.grade.id,//年级id
+                                    name: treeItem.grade.name,//年级名称
+                                    classList: [{//班级列表
+                                        id: treeItem.class.id,//班级id
+                                        name: treeItem.class.name//班级id
+                                    }] 
+                                })
+                            }
+                        }else{
+                            treeList.push({
+                                id: treeItem.department.id, //院系id
+                                name: treeItem.department.name,//院系名称
+                                gradeList: [{ //年级列表
+                                    id: treeItem.grade.id,//年级id
+                                    name: treeItem.grade.name,//年级名称
+                                    classList: [{//班级列表
+                                        id: treeItem.class.id,//班级id
+                                        name: treeItem.class.name//班级id
+                                    }] 
+                                }]
+                            })
+                        }
+                    });
+                    this.classTreeList = treeList;
+                    this.classLoading = false;
+                });
+            },
 			onAdd(){//添加考生
 				this.showClassDialog();
 			},
@@ -175,7 +270,7 @@
                         this.$confirm('确认添加吗？', '提示', {}).then(() => {
                             let para = _.assign({}, this.classForm);
                             this.classLoading = true;
-							addExam(para).then((res) => {
+							addExamClass(para).then((res) => {
                                 if (res.code !== '0') {
                                     this.$message({
                                         message: res.msg,
@@ -203,6 +298,7 @@
             },
             showClassDialog(){//选择考生弹窗
                 this.classDialogVisible = true;
+                this.getUnExamClasses();
             },
             updateExammer(){//选择考生
 
