@@ -1971,5 +1971,113 @@ export default {
                 }, 1000);
             });
         });
+        // 获取学习该课程但未参加考试的班级
+        mock.onPost(`/exam/unclasslist`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: '0',
+                        msg: '成功',
+                        data: [{
+                            department: {
+                                id: '1',
+                                name: '计算机'
+                            },
+                            grade: {
+                                id: '1',
+                                name: '17级'
+                            },
+                            class: {
+                                id: '2',
+                                name: '2班',
+                                count: 32
+                            }
+                        },{
+                            department: {
+                                id: '1',
+                                name: '计算机'
+                            },
+                            grade: {
+                                id: '1',
+                                name: '17级'
+                            },
+                            class: {
+                                id: '3',
+                                name: '3班',
+                                count: 33
+                            }
+                        },{
+                            department: {
+                                id: '1',
+                                name: '计算机'
+                            },
+                            grade: {
+                                id: '2',
+                                name: '18级'
+                            },
+                            class: {
+                                id: '4',
+                                name: '4班',
+                                count: 32
+                            },
+                        },{
+                            department: {
+                                id: '2',
+                                name: '物电'
+                            },
+                            grade: {
+                                id: '1',
+                                name: '17级'
+                            },
+                            class: {
+                                id: '24',
+                                name: '4班',
+                                count: 32
+                            },
+                        },{
+                            department: {
+                                id: '2',
+                                name: '物电'
+                            },
+                            grade: {
+                                id: '1',
+                                name: '17级'
+                            },
+                            class: {
+                                id: '25',
+                                name: '5班',
+                                count: 30
+                            },
+                        },{
+                            department: {
+                                id: '3',
+                                name: '化工'
+                            },
+                            grade: {
+                                id: '1',
+                                name: '17级'
+                            },
+                            class: {
+                                id: '34',
+                                name: '4班',
+                                count: 31
+                            }
+                        }]
+                    }]);
+                }, 1000);
+            });
+        });
+        // 添加考试班级
+        mock.onPost(`/exam/addclass`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: '0',
+                        msg: '成功',
+                        data: ''
+                    }]);
+                }, 1000);
+            });
+        });
     }
 };
