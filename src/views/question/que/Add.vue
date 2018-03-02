@@ -491,8 +491,7 @@
                 'searchreplace', 'kityformula'
                 ]],
                 autoHeightEnabled: true,
-                autoFloatEnabled: true,
-                serverUrl: "/controller.ashx"
+                autoFloatEnabled: true
             });
         }
     }

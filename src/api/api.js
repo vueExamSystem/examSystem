@@ -47,7 +47,9 @@ export const saveTag = params => { return instance.post(`${base}/category/save`,
 // course
 export const getCourseList = params => { 
 	return instance.get(`${base}/course/list`, { params: params } ).then(res => res.data); };
-
+//加载课程列表
+export const getCoursesMap = params => { 
+	return instance.get(`${base}/course/map`, { params: params } ).then(res => res.data); };
 export const editCourse = params => {
 	return instance.get(`${base}/course/edit`, params ).then(res => res.data); };
 //course filter
