@@ -60,9 +60,7 @@
                             placeholder="请输入内容"
                             v-model="form.content">
                     </el-input>
-                    <div id="content" contentEditable="true" class="editDemo">
-                        编辑框一
-                    </div>
+                    <script id="editor" type="text/plain" style="width:100%;height:300px;"></script>
                 </el-form-item>
                 <el-form-item label="" prop="contentPic">
                     <el-upload
@@ -170,9 +168,18 @@
     } from '../../../api/api';
     import {saveQue} from '../../../api/api';
     import _ from 'lodash';
-    import '../../../../static/JMEditor-0.9.4/jmeditor/JMEditor';
-    import '../../../../static/JMEditor-0.9.4/jmeditor/jquery-1.8.3.min';
 
+    // import '../../../../static/JMEditor-0.9.4/jmeditor/jquery-1.8.3.min';
+    // import '../../../../static/JMEditor-0.9.4/jmeditor/JMEditor';
+
+    //ueditor
+    import $ from 'jQuery';
+    import '../../../../static/ueditor/ueditor.config';
+    import '../../../../static/ueditor/ueditor.all.min';
+    import '../../../../static/ueditor/lang/zh-cn/zh-cn';
+    import '../../../../static/ueditor/kityformula-plugin/addKityFormulaDialog';
+    import '../../../../static/ueditor/kityformula-plugin/getKfContent';
+    import '../../../../static/ueditor/kityformula-plugin/defaultFilterFix';
     export default {
         props: {
             sameId: {
@@ -471,6 +478,22 @@
         },
         mounted() {
             this.getDefaultData();
+
+            //ueditor
+            var ue = UE.getEditor('editor', {
+                toolbars: [['fullscreen', 'source', '|',
+                'undo', 'redo', '|',
+                'bold', 'italic', 'underline', 'superscript', 'subscript', 'pasteplain', '|',
+                'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', '|',
+                'paragraph', 'fontfamily', 'fontsize', '|',
+                'indent', 'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|',
+                'simpleupload', 'horizontal', 'inserttable', '|',
+                'searchreplace', 'kityformula'
+                ]],
+                autoHeightEnabled: true,
+                autoFloatEnabled: true,
+                serverUrl: "/controller.ashx"
+            });
         }
     }
 
