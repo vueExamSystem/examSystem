@@ -267,3 +267,7 @@ export const updateExam = params => { return instance.post(`${base}/exam/update`
 export const addExam = params => { return instance.post(`${base}/exam/add`, params ).then(res => res.data); };
 //考试班级列表
 export const getExamClassList = params => { return instance.post(`${base}/exam/classlist`, params ).then(res => res.data); };
+//获取学习该课程但未参加考试的班级
+export const getUnExamClassList = params => { return instance.post(`${base}/exam/unclasslist`, params ).then(res => res.data); };
+//添加考试班级
+export const addExamClass = params => { return instance.post(`${base}/exam/addclass`, params ).then(res => res.data); };
