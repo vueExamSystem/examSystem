@@ -16,20 +16,21 @@
                     <el-table :data="rows" highlight-current-row v-loading="listLoading" style="width: 100%;">
                         <el-table-column type="index" label="序号" width="100">
                         </el-table-column>
-                        <el-table-column prop="name" label="考试名称" min-width="160">
-                            <template scope="scope">
-                                <el-button type="text" @click="detailShow(scope.row.id)">{{scope.row.name}}</el-button>
-                            </template>
+                        <el-table-column prop="course" label="课程">
                         </el-table-column>
-                        <el-table-column prop="paper" label="选择试卷" min-width="160">
+                        <el-table-column prop="studentNo" label="学号">
                         </el-table-column>
-                        <el-table-column prop="testRange" label="测验时间" min-width="120">
+                        <el-table-column prop="name" label="姓名">
                         </el-table-column>
-                        <el-table-column prop="status" label="状态" min-width="100">
+                        <el-table-column prop="previewPoint" label="预习分数">
                         </el-table-column>
-                        <el-table-column prop="listener" label="监测老师" min-width="100">
+                        <el-table-column prop="testPoint" label="测验分数">
                         </el-table-column>
-                        <el-table-column prop="testClass" label="测试人员" min-width="120">
+                        <el-table-column prop="examPoint" label="考试分数">
+                        </el-table-column>
+                        <el-table-column prop="score" label="总体成绩">
+                        </el-table-column>
+                        <el-table-column prop="grade" label="等级">
                         </el-table-column>
                     </el-table>
                 </div>
@@ -42,7 +43,7 @@
 </template>
 <script>
 	import myFilter from '../../common/myFilter.vue'
-    import {getClassTestList, getClassTestFilter} from '../../../api/api';
+    import {getStudentScoreList, getStudentScoreFilter} from '../../../api/api';
     import Pagination from '../../common/Pagination.vue';
     import _ from 'lodash';
     import testDetail from './Detail.vue'
@@ -92,7 +93,7 @@
                     pageSize: this.pageSize,
                 };
                 if (!this.allLoading) this.listLoading = true;
-                getClassTestList(para).then((res) => {
+                getStudentScoreList(para).then((res) => {
                     res = res.data;
                     this.totalCount = res.totalCount;
                     this.rows = res.rows;
@@ -104,7 +105,7 @@
             // 获取过滤器数据
             getFilter() {
                 this.allLoading = true;
-                getClassTestFilter({}).then((res) => {
+                getStudentScoreFilter({}).then((res) => {
                     this.filterList = res.data;
                     this.getList();
                 });

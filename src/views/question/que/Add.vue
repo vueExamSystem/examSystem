@@ -170,8 +170,8 @@
     } from '../../../api/api';
     import {saveQue} from '../../../api/api';
     import _ from 'lodash';
-    import '../../../common/js/JMEditor';
-    import $ from 'jquery';
+    import '../../../../static/JMEditor-0.9.4/jmeditor/JMEditor';
+    import '../../../../static/JMEditor-0.9.4/jmeditor/jquery-1.8.3.min';
 
     export default {
         props: {
@@ -471,20 +471,6 @@
         },
         mounted() {
             this.getDefaultData();
-            var JMEditor_BasePath = "/src/common/js/";
-            var JMEditor = {
-                versionCode : 5,
-                versionName : "V0.9.4",
-                ckEditor : CKEDITOR,
-                jmeBasePath : JMEditor_BasePath,
-                defaultFontSize : "20px",
-                isEmpty : function(elementId){
-                    return ($("#" + elementId).html()+"").replace(/(<[^>]*>|\s|&nbsp;)/ig,"").length < 1;
-                },
-                html : function(elementId){
-                    return $("#" + elementId).html();
-                }
-            };
         }
     }
 
@@ -498,119 +484,6 @@
             .el-form-item__label {
                 line-height: 50px;
             }
-        }
-
-
-        BODY {
-            PADDING: 0px; MARGIN: 0px; FONT-FAMILY: "ËÎÌå", "Arial Narrow";  FONT-SIZE: 14px;
-        }
-        UL,LI {
-            LIST-STYLE-TYPE: none; LIST-STYLE-IMAGE: none
-        }
-        IMG {
-            BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; BORDER-TOP: 0px; BORDER-RIGHT: 0px
-        }
-        A:link {
-            COLOR: #466AAD; TEXT-DECORATION: none
-        }
-        A:visited {
-            COLOR: #466AAD; TEXT-DECORATION: none
-        }
-        A:hover {
-            COLOR: #466AAD; TEXT-DECORATION: underline
-        }
-
-        div.test{border:solid green 1px;}
-
-        .container{
-            width:893px;
-            min-height:550px;
-            margin-left:auto;
-            margin-right:auto;
-            line-height:25px;
-            float:none;
-        }
-
-        .container div{
-            float:left;
-        }
-
-        .container div.head{
-            width:100%;
-            padding-top:15px;
-            padding-bottom:15px;
-        }
-        .container div.body{
-            width:100%;
-            background-color:white;
-        }
-
-        a.menuNormal{
-        }
-
-        a.menuFocusBg{
-            background-color:#679AF9;
-            font-weight:bold;
-            color:white;
-        }
-
-        .container .download,.container .floatdown{
-            width:260px;
-            height:450px;
-            margin-top:3px;
-            margin-left:3px;
-            float:right;
-        }
-
-        .download .btn , .container .floatdown .btn{
-            display:block;
-            width:120px;
-            line-height:35px;
-            border:solid #CADDFF 1px;
-            background-color:#F1313F;
-            text-align:center;
-            margin-left:30px;
-            margin-top:50px;
-            color:white;
-            cursor:pointer;
-        }
-        .container .footer{
-            width:100%;
-            height:50px;
-            margin-top:3px;
-            color:#999;
-        }
-        .container .footer span{
-            margin-left:10px;
-            line-height:40px;
-        }
-
-        .divborder{border:solid #CADDFF 1px;}
-        .topline{border-top:solid #CADDFF 1px;}
-        .bottomline{border-bottom:solid #CADDFF 1px;}
-
-        .editDemo{
-            border:solid #AAA 1px;
-            min-height:100px;
-            width:90%;
-            padding:10px;
-        }
-
-        .contentArea{
-            height:100px;
-            width:90%;
-        }
-
-        .notice{
-            background-color:#FAFF75;
-            padding:10px;
-            border:solid red 1px;
-            margin-bottom:10px;
-        }
-
-        .notice h2{
-            margin-top:10px;
-            margin-bottom:10px;
         }
     }
 

@@ -2,7 +2,7 @@ import axios from 'axios';
 import instance  from './instance';
 import qs from 'qs'
 
-//let base = '';
+// let base = '';
 //let base = 'http://localhost:8081/api';
 let base = 'http://121.43.164.178:8081/api';//公网线上调试api
 //export const requestLogin = params => { return axios.get(`${base}/login/verify`,params).then(res => res.data); };
@@ -157,6 +157,16 @@ export const getSetAlertList = params => { return instance.get(`${base}/alert/li
 
 // chart
 export const getSetChartList = params => { return instance.get(`${base}/chart/list`, params ).then(res => res.data); };
+
+/*
+*  成绩 start
+* */
+// list
+export const getStudentScoreList = params => { return instance.get(`${base}/student/list`, params ).then(res => res.data); };
+
+// filter
+export const getStudentScoreFilter = params => { return instance.get(`${base}/student/filter`, params ).then(res => res.data); };
+
 
 /*
 *  后台 start
