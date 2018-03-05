@@ -100,12 +100,10 @@
                 </el-form-item>
                 <el-form-item label="正确选项:" prop="correctOptionRadio" v-if="isRadio">
                     <el-select v-model="form.correctOptionRadio" placeholder="请选择正确选项">
-                        <el-option
-                                v-for="item in correctRadioArr"
-                                :label="item.name"
-                                :value="item.id"
-                        >
-                        </el-option>
+                        <el-option label="A" value="A"></el-option>
+                        <el-option label="B" value="B"></el-option>
+                        <el-option label="C" value="C"></el-option>
+                        <el-option label="D" value="D"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="正确选项:" prop="correctOptionRadio" v-if="isJudgment">
@@ -117,9 +115,10 @@
                 <el-form-item label="正确选项:" prop="correctOptionMany" v-if="isCheckbox">
                     <el-checkbox-group
                             v-model="form.correctOptionMany">
-                        <el-checkbox v-for="item in correctManyArr" :label="item" :key="item">
-                            {{item}}
-                        </el-checkbox>
+                        <el-checkbox label="A" key="A">A</el-checkbox>
+                        <el-checkbox label="B" key="B">B</el-checkbox>
+                        <el-checkbox label="C" key="C">C</el-checkbox>
+                        <el-checkbox label="D" key="D">D</el-checkbox>
                     </el-checkbox-group>
                 </el-form-item>
                 <el-form-item label="分数:" prop="points">
@@ -266,10 +265,10 @@
                 chapterArr: [],
                 departmentArr: [],
                 correctRadioArr: [{
-                    id: '0',
+                    id: 'A',
                     name: 'A',
                 }, {
-                    id: '1',
+                    id: 'B',
                     name: 'B',
                 }],
                 correctManyArr: ['A', 'B'],
@@ -463,13 +462,13 @@
                 return !(this.selectNum > 3 && this.form.type === '0');
             },
             isRadio() {
-                return this.form.type === '0';
+                return this.form.type === 1;
             },
             isCheckbox() {
-                return this.form.type === '1';
+                return this.form.type === 2;
             },
             isJudgment() {
-                return this.form.type === '2';
+                return this.form.type === 3;
             },
             isNeedSame() {
                 console.log('sameId', this.sameGroupId);
