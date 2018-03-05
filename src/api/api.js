@@ -29,7 +29,7 @@ export const getQueAddFilter = params => { return instance.get(`${base}/question
 export const getgroupList = params => { return instance.get(`${base}/question/groupList`,  { params: params } ).then(res => res.data); };
 export const getQueList = params => { return instance.post(`${base}/question/list`, qs.stringify(params) ).then(res => res.data); };
 
-export const getQuestionDetail = params => { return instance.get(`${base}/question/detail`, params ).then(res => res.data); };
+export const getQuestionDetail = params => { return instance.post(`${base}/question/detail`,  qs.stringify(params) ).then(res => res.data); };
 
 export const saveQue = params => { return instance.post(`${base}/question/save`, qs.stringify(params) ); };
 // export const saveQue = params => { return instance.get(`${base}/question/save`, qs.stringify(params) ); };

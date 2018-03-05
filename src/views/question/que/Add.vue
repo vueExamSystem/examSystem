@@ -304,8 +304,9 @@
                 console.log('上传失败，请重试！');
             },
             onSubmit() {
-                console.log('content', this.ue.getContent());
+                //console.log('content', this.ue.getContent());
                 this.form.content = this.ue.getContent();
+                var name=this.ue.getContentTxt();
                 this.form.selection[0] = this.ueA.getContent();
                 this.form.selectionA = this.ueA.getContent();
                 this.form.selection[1] = this.ueB.getContent();
@@ -316,8 +317,8 @@
                     this.form.selection[3] = this.ueD.getContent();
                     this.form.selectionD = this.ueD.getContent();
                 }
-                console.log('selection value', this.selection);
-                console.log('form value', this.form);
+                //console.log('selection value', this.selection);
+                //console.log('form value', this.form);
                 this.$refs['form'].validate((valid) => {
                     if (valid) {
                         /*var str = "";
@@ -325,13 +326,17 @@
                             str = str + "," + this.form.correctOptionMany[i];
                         }*/
                         var queParams = {
-                            name: this.form.content,
+                            name: name,
                             questionTypeId: this.form.type,
                             levelId: this.form.usage[0],
                             "course.id": this.form.subject,
                             "section.id": this.form.chapter,
                             similarId: this.form.department || this.sameGroupId,
                             content: this.form.content,
+                            optiona:this.form.selectionA,
+                            optionb:this.form.selectionB,
+                            optionc:this.form.selectionC,
+                            optiond:this.form.selectionD,
                             titleImg: this.form.contentPic,
                             choiceList: this.form.selectionAdd,
                             choiceImgList: this.form.selectionPic,
@@ -343,6 +348,7 @@
                             keyword: this.form.keywords,
                             analysis: this.form.analysis
                         };
+                        console.log('question params',queParams);
                         this.$confirm('确认添加吗？', '提示', {}).then(() => {
                             this.loading = true;
                             saveQue(queParams).then((res) => {
