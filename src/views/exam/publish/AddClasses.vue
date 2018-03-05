@@ -24,9 +24,14 @@
                     	</template>
                     </el-table-column>
                     <el-table-column type="class" label="班级" min-width="120">
-                    	<template scope="scope">
-                    		<span>{{scope.row.class.name}}</span>
-                    	</template>
+                        <template scope="scope">
+                            <span>{{scope.row.class.name}}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column type="class" label="班主任" min-width="120">
+                        <template scope="scope">
+                            <span>{{scope.row.class.headmaster}}</span>
+                        </template>
                     </el-table-column>
                     <el-table-column type="class" label="班级人数" min-width="100">
                     	<template scope="scope">
@@ -40,7 +45,7 @@
                     </el-table-column>
                     <el-table-column label="操作" min-width="220">
                         <template slot-scope="scope">
-                            <el-button type="primary" size="small" @click="updateExammer(scope.row)">选择考生</el-button>
+                            <el-button type="primary" size="small" @click="showStudentDialog(scope.row)">选择考生</el-button>
                             <el-button type="danger" size="small" @click="removeExamClass(scope.row)">删除班级</el-button>
                         </template>
                     </el-table-column>
@@ -81,7 +86,32 @@
             </div>
             <div slot="footer" class="dialog-footer">
                 <el-button @click.native="cancelClassEdit">取消</el-button>
-                <el-button type="primary" @click.native="onSubmitClass('classForm')" v-loading="editLoading">提交</el-button>
+                <el-button type="primary" @click.native="onSubmitClass('classForm')">提交</el-button>
+            </div>
+        </el-dialog>
+        <el-dialog title="添加考生" :visible.sync="studentDialogVisible" width="80%">
+            <div class="panel">
+                <div class="title"><span>{{studentClassName}}</span></div>
+                <div class="content">
+                    <el-table ref="studentTable" :data="studentRows" height="520" highlight-current-row v-loading="studentLoading" fit @selection-change="handleSelectionChange">
+                        <el-table-column type="selection" width="60">
+                        </el-table-column>
+                        <el-table-column type="index" label="序号" width="60">
+                        </el-table-column>
+                        <el-table-column prop="studentNo" label="学号" min-width="120"></el-table-column>
+                        <el-table-column prop="name" label="姓名" min-width="100"></el-table-column>
+                        <el-table-column prop="gender" label="性别" min-width="100">
+                            <template scope="scope">
+                                <span>{{scope.row.gender=='0'?'女':'男'}}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="remark" label="备注" min-width="100"></el-table-column>
+                    </el-table>
+                </div>
+            </div>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click.native="cancelStudentEdit">取消</el-button>
+                <el-button type="primary" @click.native="onSubmitStudent('classForm')">提交</el-button>
             </div>
         </el-dialog>
 	</section>
@@ -90,7 +120,8 @@
     import {
         getExamClassList,//获取参加考试的班级
         getUnExamClassList,//获取学习该课程但未参加考试的班级
-        addExamClass //添加考试班级
+        addExamClass, //添加考试班级
+        getStudentsByClassId, //获取班级学生
     } from '../../../api/api';
     import _ from 'lodash';
 	export default {
@@ -102,12 +133,11 @@
 		data() {
 			return {
 				listLoading: false,
-				rows: [],
+				rows: [],//考试班级
 
 				isInlineMessage: true,
-				classDialogVisible: false,
-				classLoading: false,//班级弹窗loading
-				editLoading: false,//按钮
+				classDialogVisible: false,//选择考试班级弹窗
+				classLoading: false,
 				classForm: {
 					department: '',
 					grade: '',
@@ -126,6 +156,14 @@
 					]
 				},
                 classTreeList: [],//班级树状关系图
+
+                studentDialogVisible: false,//选择考生弹窗
+                studentClassId: '',//考生班级id
+                studentClassName: '',
+                studentRows:[],
+                studentLoading: true,
+                selectOldStudents: [],//选中初始已选
+                selectedNewStudents: ''//已选的学生
 			}
 		},
 		computed:{
@@ -300,8 +338,44 @@
                 this.classDialogVisible = true;
                 this.getUnExamClasses();
             },
-            updateExammer(){//选择考生
 
+            saveOrUpdateExammer(){//选择考生
+
+            },
+            handleSelectionChange(val){//表格多选变更
+                this.selectedNewStudents = val;
+            },
+            showStudentDialog(row){//打开考生弹窗
+                this.studentDialogVisible = true;
+                this.studentClassName = row.department.name + row.grade.name + row.class.name;
+                this.selectedOldStudents = row.class.exammer || [];
+                this.getDialogStudents(row.id);
+            },
+            cancelStudentEdit(){//隐藏考生弹窗
+                this.studentDialogVisible = false;
+            },
+            getDialogStudents(id){
+                this.studentClassId = id;
+                var para = {
+                    classId: this.studentClassId
+                };
+                this.studentLoading = true;
+                this.studentRows = [];
+                getStudentsByClassId(para).then(res => {//不分页
+                    this.studentRows = res.data;
+                    setTimeout(()=>{
+                        _.forEach(this.studentRows, row => {
+                            var index = _.indexOf(this.selectedOldStudents, row.studentNo);
+                            if(index > -1){
+                                this.setRowCheckState(row, true);
+                            }
+                        });
+                        this.studentLoading = false;
+                    },10);
+                });
+            },
+            setRowCheckState(row, isCheck){//设置学生行选择状态
+                this.$refs.studentTable.toggleRowSelection(row, isCheck);
             },
             removeExamClass(){//删除考试班级
 

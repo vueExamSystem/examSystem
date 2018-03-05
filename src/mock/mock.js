@@ -1900,7 +1900,8 @@ export default {
                                 id: '1',
                                 name: '3班',
                                 count: 30,
-                                exammer: [1,2,3,4,5,6,7,8,9]
+                                headmaster: '张老师',
+                                exammer: ['211111001','211111003','211111014','211111016','211111008','211111009']
                             },
                         },{
                             id: '2',
@@ -1916,7 +1917,8 @@ export default {
                                 id: '1',
                                 name: '4班',
                                 count: 32,
-                                exammer: [1,2,3,4,5,6,7,8,9,10,11]
+                                headmaster: '李老师',
+                                exammer: ['211111011','211111012','211111014','211111001','211111010','211111009']
                             },
                         },{
                             id: '3',
@@ -1932,7 +1934,8 @@ export default {
                                 id: '1',
                                 name: '4班',
                                 count: 32,
-                                exammer: [2,3,4,5,7,8]
+                                headmaster: '张老师',
+                                exammer: ['211111001','211111003','211111014','211111006','211111008']
                             },
                         },{
                             id: '4',
@@ -1948,7 +1951,8 @@ export default {
                                 id: '1',
                                 name: '5班',
                                 count: 30,
-                                exammer: [2,3,4,5,6,7,9]
+                                headmaster: '张老师',
+                                exammer: ['211111001','211111013','211111004','211111005','211111007','211111009']
                             },
                         },{
                             id: '5',
@@ -1964,7 +1968,8 @@ export default {
                                 id: '1',
                                 name: '4班',
                                 count: 31,
-                                exammer: [5,6,7,8,9,10]
+                                headmaster: '张老师',
+                                exammer: ['211111011','211111013','211111014','211111016','211111008','211111009']
                             },
                         }]
                     }]);
@@ -2075,6 +2080,114 @@ export default {
                         code: '0',
                         msg: '成功',
                         data: ''
+                    }]);
+                }, 1000);
+            });
+        });
+        //获取班级学生
+        mock.onPost(`/class/student`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: '0',
+                        msg: '成功',
+                        data: [{
+                            studentNo: '211111001',
+                            name: '张一',
+                            gender: '1',
+                            age: '18',
+                            remark: '班长'
+                        },{
+                            studentNo: '211111002',
+                            name: '张二',
+                            gender: '0',
+                            age: '18',
+                            remark: '体育特长生'
+                        },{
+                            studentNo: '211111003',
+                            name: '张三',
+                            gender: '0',
+                            age: '18',
+                            remark: ''
+                        },{
+                            studentNo: '211111004',
+                            name: '张三',
+                            gender: '0',
+                            age: '18',
+                            remark: ''
+                        },{
+                            studentNo: '211111005',
+                            name: '张三',
+                            gender: '0',
+                            age: '18',
+                            remark: ''
+                        },{
+                            studentNo: '211111006',
+                            name: '张三',
+                            gender: '1',
+                            age: '18',
+                            remark: ''
+                        },{
+                            studentNo: '211111007',
+                            name: '张三',
+                            gender: '1',
+                            age: '18',
+                            remark: ''
+                        },{
+                            studentNo: '211111008',
+                            name: '张三',
+                            gender: '0',
+                            age: '18',
+                            remark: ''
+                        },{
+                            studentNo: '211111009',
+                            name: '张三',
+                            gender: '0',
+                            age: '18',
+                            remark: ''
+                        },{
+                            studentNo: '211111010',
+                            name: '张三',
+                            gender: '1',
+                            age: '18',
+                            remark: ''
+                        },{
+                            studentNo: '211111011',
+                            name: '张三',
+                            gender: '1',
+                            age: '18',
+                            remark: ''
+                        },{
+                            studentNo: '211111012',
+                            name: '张三',
+                            gender: '0',
+                            age: '18',
+                            remark: ''
+                        },{
+                            studentNo: '211111013',
+                            name: '张三',
+                            gender: '1',
+                            age: '18',
+                            remark: ''
+                        },{
+                            studentNo: '211111014',
+                            name: '张三',
+                            gender: '0',
+                            age: '18',
+                            remark: ''
+                        },{
+                            studentNo: '211111015',
+                            name: '张三',
+                            gender: '1',
+                            age: '18',
+                            remark: ''
+                        },{
+                            studentNo: '211111016',
+                            name: '张三',
+                            gender: '1',
+                            age: '18',
+                            remark: ''
+                        }]
                     }]);
                 }, 1000);
             });
