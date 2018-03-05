@@ -273,3 +273,9 @@ export const getExamClassList = params => { return instance.post(`${base}/exam/c
 export const getUnExamClassList = params => { return instance.post(`${base}/exam/unclasslist`, params ).then(res => res.data); };
 //添加考试班级
 export const addExamClass = params => { return instance.post(`${base}/exam/addclass`, params ).then(res => res.data); };
+//获取班级学生
+export const getStudentsByClassId = params => { return instance.post(`${base}/class/student`, params ).then(res => res.data); };
+//保存班级考生
+export const saveExammer = params => { return instance.post(`${base}/exam/savestudents`, params ).then(res => res.data); };
+//删除考试班级
+export const delExamClass = params => { return instance.post(`${base}/exam/removeclass`, params ).then(res => res.data); };
