@@ -53,61 +53,51 @@
                         </template>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="试题内容:" prop="content">
-                    <el-input
-                            type="textarea"
-                            :rows="3"
-                            placeholder="请输入内容"
-                            v-model="form.content">
-                    </el-input>
-                    <script id="editor" type="text/plain" style="width:100%;height:300px;"></script>
+                <el-form-item label="试题内容:" prop="content" class="contentArea clearfix">
+                    <script id="editor" type="text/plain" class="editor"></script>
                 </el-form-item>
-                <el-form-item label="" prop="contentPic">
-                    <el-upload
-                            class="upload-demo"
-                            :action="UploadUrl('uploadTitleFile')"
-                            :onSuccess="uploadTitleSuccess"
-                            :onError="uploadError"
-                            :on-preview="handlePreviewContent"
-                            :on-remove="handleRemoveContent"
-                            :file-list="form.contentPic"
-                            list-type="picture">
-                        <el-button type="primary" icon="iconfont icon-plus">添加照片</el-button>
-                    </el-upload>
+                <el-form-item
+                        label="试题选项"
+                        prop="selectionA"
+                        class="spec clearfix"
+                >
+                    <span>A</span>
+                    <div class="edArea">
+                        <script id="editorA" class="editorEve" type="text/plain"></script>
+                    </div>
                 </el-form-item>
-                <template v-if="!isJudgment">
-                    <el-form-item
-                            v-for="(item, index) in correctManyArr"
-                            :label="item === 'A' ? '试题选项' : ''"
-                            :prop="`selection${item}`"
-                            :rules="[{required: true, message: `请输入试题选项${item}`, trigger: 'blur'}]"
-                            class="spec"
-                    >
-                        <span>{{item}}</span>
-                        <el-input v-model="form[`selection${item}`]"></el-input>
-                        <el-upload
-                                class="upload-demo inline"
-                                :action="UploadUrl('uploadOptionFile')"
-                                :onSuccess="uploadOptionSuccess"
-                                :onError="uploadError"
-                                :on-preview="handlePreview"
-                                :on-remove="handleRemove"
-                                :file-list="form.selectionPic[index]"
-                        >
-                            <el-button type="primary" icon="iconfont icon-plus">添加照片</el-button>
-                        </el-upload>
-                        <i class="iconfont icon-remove-circle" @click="delSelection(index)"></i>
-                        <span class="tip" v-if="item === 'A' && isRadio">*最多添加4个选项</span>
-                    </el-form-item>
-                    <el-form-item label="" prop="selectionAdd" v-if="isShowSelectionAdd" class="spec">
-                        <div class="hidden inline">
-                            <span>H</span>
-                            <el-input v-model="selectNum"></el-input>
-                            <el-button type="primary" icon="iconfont icon-plus">添加照片</el-button>
-                        </div>
-                        <i class="iconfont icon-add-circle" @click="selectAddFunc"></i>
-                    </el-form-item>
-                </template>
+                <el-form-item
+                        label=""
+                        prop="selectionB"
+                        class="spec clearfix"
+                >
+                    <span>B</span>
+                    <div class="edArea">
+                        <script id="editorB" class="editorEve" type="text/plain"></script>
+                    </div>
+                </el-form-item>
+                <el-form-item
+                        v-show="form.type !== 3"
+                        label=""
+                        prop="selectionC"
+                        class="spec clearfix"
+                >
+                    <span>C</span>
+                    <div class="edArea">
+                        <script id="editorC" class="editorEve" type="text/plain"></script>
+                    </div>
+                </el-form-item>
+                <el-form-item
+                        v-show="form.type !== 3"
+                        label=""
+                        prop="selectionD"
+                        class="spec clearfix"
+                >
+                    <span>D</span>
+                    <div class="edArea">
+                        <script id="editorD" class="editorEve" type="text/plain"></script>
+                    </div>
+                </el-form-item>
                 <el-form-item label="正确选项:" prop="correctOptionRadio" v-if="isRadio">
                     <el-select v-model="form.correctOptionRadio" placeholder="请选择正确选项">
                         <el-option
@@ -180,6 +170,7 @@
     import '../../../../static/ueditor/kityformula-plugin/addKityFormulaDialog';
     import '../../../../static/ueditor/kityformula-plugin/getKfContent';
     import '../../../../static/ueditor/kityformula-plugin/defaultFilterFix';
+
     export default {
         props: {
             sameId: {
@@ -189,8 +180,8 @@
         data() {
             return {
                 form: {
-                    type: '0',
-                    usage: '0',
+                    type: 1,
+                    usage: '',
                     subject: '',
                     chapter: '',
                     department: '',
@@ -229,6 +220,18 @@
                     ],
                     correctOptionMany: [
                         {required: true, message: '请选择正确选项', trigger: 'change'}
+                    ],
+                    selectionA:[{
+                        required: true, message: `请输入试题选项A`, trigger: 'blur'}
+                    ],
+                    selectionB:[{
+                        required: true, message: `请输入试题选项B`, trigger: 'blur'}
+                    ],
+                    selectionC:[{
+                        required: true, message: `请输入试题选项C`, trigger: 'blur'}
+                    ],
+                    selectionD:[{
+                        required: true, message: `请输入试题选项D`, trigger: 'blur'}
                     ],
                 },
                 isInlineMessage: true,
@@ -273,34 +276,55 @@
                 loading: false,
 
                 sameGroupId: this.sameId,
+
+                //ue
+                ue: null,
+                ueA: null,
+                ueB: null,
+                ueC: null,
+                ueD: null,
             }
         },
         methods: {
 
-             UploadUrl:function(url){
-                return 'http://localhost:8081/api/question/'+url;     
-            }, 
+            UploadUrl: function (url) {
+                return 'http://localhost:8081/api/question/' + url;
+            },
             // 上传题目图片成功后的回调
-            uploadTitleSuccess (response, file, fileList) {
+            uploadTitleSuccess(response, file, fileList) {
                 console.log('上传文件', response);
                 //记住返回的文件存储的相对路径
             },
-             // 上传答案图片成功后的回调
-            uploadOptionSuccess (response, file, fileList) {
+            // 上传答案图片成功后的回调
+            uploadOptionSuccess(response, file, fileList) {
                 console.log('上传文件', response);
                 //记住返回的文件存储的相对路径
             },
             // 上传错误
-            uploadError (response, file, fileList) {
+            uploadError(response, file, fileList) {
                 console.log('上传失败，请重试！');
             },
             onSubmit() {
+                console.log('content', this.ue.getContent());
+                this.form.content = this.ue.getContent();
+                this.form.selection[0] = this.ueA.getContent();
+                this.form.selectionA = this.ueA.getContent();
+                this.form.selection[1] = this.ueB.getContent();
+                this.form.selectionB = this.ueB.getContent();
+                if (this.form.type !== 3) {
+                    this.form.selection[2] = this.ueC.getContent();
+                    this.form.selectionC = this.ueC.getContent();
+                    this.form.selection[3] = this.ueD.getContent();
+                    this.form.selectionD = this.ueD.getContent();
+                }
+                console.log('selection value', this.selection);
+                console.log('form value', this.form);
                 this.$refs['form'].validate((valid) => {
                     if (valid) {
-                         var str = "";  
-                        for (var i = 0; i < this.form.correctOptionMany.length; i++) {  
-                            str = str+","+this.form.correctOptionMany[i];  
-                        } 
+                        /*var str = "";
+                        for (var i = 0; i < this.form.correctOptionMany.length; i++) {
+                            str = str + "," + this.form.correctOptionMany[i];
+                        }*/
                         var queParams = {
                             name: this.form.content,
                             questionTypeId: this.form.type,
@@ -313,7 +337,7 @@
                             choiceList: this.form.selectionAdd,
                             choiceImgList: this.form.selectionPic,
                             answer: this.form.correctOptionRadio,
-                            answers:str,
+                            answers: this.form.type === 3 ? 'A,B' : 'A,B,C,D',
                             points: this.form.points,
                             reference: this.form.source,
                             examingPoint: this.form.testSites,
@@ -323,7 +347,7 @@
                         this.$confirm('确认添加吗？', '提示', {}).then(() => {
                             this.loading = true;
                             saveQue(queParams).then((res) => {
-                                
+
                                 if (res.code != '0') {
                                     this.$message({
                                         message: res.msg,
@@ -353,35 +377,26 @@
             // 获取初始数据
             getDefaultData() {
                 getQueAddFilter({}).then((res) => {
-                    console.log('getQueAddFilter',res.data);
+                    console.log('getQueAddFilter', res.data);
                     //todo 加载初始数据
                     //this.subjectArr = res.data;
                     this.subjectArr = res.data[0].children;
-                    this.chapterArr=res.data[1].children;
-                    this.typeArr=res.data[2].children;
+                    this.chapterArr = res.data[1].children;
+                    this.typeArr = res.data[2].children;
                     //todo缺少类别 简单题 送分题res.data[3].children
-                    this.usageArr=res.data[4].children;
+                    this.usageArr = res.data[4].children;
                     //this.departmentArr=res.data[0].children;
                 });
                 //根据课程id 章节id 题型id获取相似题组
-                let groupListPara={
-                    'courseid':1,
-                    'sectionid':2,
-                    'questiontypeid':1
+                let groupListPara = {
+                    'courseid': 1,
+                    'sectionid': 2,
+                    'questiontypeid': 1
                 };
                 getgroupList(groupListPara).then((res) => {
-                    console.log('getgroupList',res.data);
+                    console.log('getgroupList', res.data);
                     //this.subjectArr = res.data;
                 });
-                /*getSubjectList({}).then((res) => {
-                    this.subjectArr = res.data;
-                });
-                getChapterAll({}).then((res) => {
-                    this.chapterArr = res.data;
-                });
-                getSameGroupList({}).then((res) => {
-                    this.departmentArr = res.data;
-                });*/
             },
             // 上传文件相关
             handleRemoveContent(file, fileList) {
@@ -395,14 +410,6 @@
             },
             handlePreview(file, type) {
                 console.log(file, type);
-            },
-            // 添加选项
-            selectAddFunc() {
-                this.selectNum = this.selectNum + 1;
-                const str = String.fromCharCode(64 + this.selectNum);
-                this.correctRadioArr.push({id: this.selectNum - 1, name: str});
-                this.correctManyArr.push(str);
-                this.rules = this.getRuleArr(this.selectNum);
             },
             // 删除选项
             delSelection(index) {
@@ -469,30 +476,46 @@
                 return !this.sameGroupId;
             },
         },
-        watch:{
+        watch: {
             sameId: {
-                handler(curVal,oldVal){
+                handler(curVal, oldVal) {
                     this.sameGroupId = curVal;
                 },
             },
         },
         mounted() {
             this.getDefaultData();
-
-            //ueditor
-            var ue = UE.getEditor('editor', {
+            const config = {
                 toolbars: [['fullscreen', 'source', '|',
-                'undo', 'redo', '|',
-                'bold', 'italic', 'underline', 'superscript', 'subscript', 'pasteplain', '|',
-                'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', '|',
-                'paragraph', 'fontfamily', 'fontsize', '|',
-                'indent', 'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|',
-                'simpleupload', 'horizontal', 'inserttable', '|',
-                'searchreplace', 'kityformula'
+                    'undo', 'redo', '|',
+                    'bold', 'italic', 'underline', 'superscript', 'subscript', 'pasteplain', '|',
+                    'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', '|',
+                    'paragraph', 'fontfamily', 'fontsize', '|',
+                    'indent', 'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|',
+                    'simpleupload', 'horizontal', 'inserttable', '|',
+                    'searchreplace', 'kityformula'
                 ]],
                 autoHeightEnabled: true,
                 autoFloatEnabled: true
-            });
+            };
+
+            // var editor = new UE.ui.Editor();
+            UE.delEditor("editor");
+            UE.delEditor("editorA");
+            UE.delEditor("editorB");
+            UE.delEditor("editorC");
+            UE.delEditor("editorD");
+            var editor = UE.getEditor('editor', config);
+            var editorA = UE.getEditor('editorA', config);
+            var editorB = UE.getEditor('editorB', config);
+            var editorC = UE.getEditor('editorC', config);
+            var editorD = UE.getEditor('editorD', config);
+            this.ue = editor;
+            this.ueA = editorA;
+            this.ueB = editorB;
+            this.ueC = editorC;
+            this.ueD = editorD;
+
         }
     }
 
@@ -506,6 +529,22 @@
             .el-form-item__label {
                 line-height: 50px;
             }
+        }
+        .editor {
+            width: 800px;
+            height: 280px;
+        }
+        .editorEve {
+            width: 100%;
+            height: 100px;
+        }
+        .edArea {
+            width: 800px;
+            height: auto;
+            display: inline-block;
+        }
+        .contentArea {
+            height: 400px;
         }
     }
 
