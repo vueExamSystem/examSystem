@@ -2192,5 +2192,17 @@ export default {
                 }, 1000);
             });
         });
+        //保存班级考生
+        mock.onPost(`/exam/savestudents`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: '0',
+                        msg: '成功',
+                        data: ''
+                    }]);
+                }, 1000);
+            });
+        });
     }
 };

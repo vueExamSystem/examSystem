@@ -122,6 +122,7 @@
         getUnExamClassList,//获取学习该课程但未参加考试的班级
         addExamClass, //添加考试班级
         getStudentsByClassId, //获取班级学生
+        saveExammer, //保存班级考生
     } from '../../../api/api';
     import _ from 'lodash';
 	export default {
@@ -339,8 +340,49 @@
                 this.getUnExamClasses();
             },
 
-            saveOrUpdateExammer(){//选择考生
-
+            onSubmitStudent(){//保存或更新考生
+                if(this.selectedNewStudents.length == 0){
+                    this.$message({
+                        type: 'error',
+                        message: '请先选择班级学生'
+                    });
+                }else{
+                    this.$confirm('确认选择这些考生吗？', '提示', {}).then(() => {
+                        this.selectedNewStudents = _.map(this.selectedNewStudents, row => {
+                            return row.studentNo;
+                        });
+                        console.log('new',this.selectedNewStudents)
+                        console.log('old',this.selectedOldStudents)
+                        var willAddStu = _.difference(this.selectedNewStudents, this.selectedOldStudents);
+                        var willDelStu = _.difference(this.selectedOldStudents, this.selectedNewStudents);
+                        console.log('willAddStu',willAddStu)
+                        console.log('willDelStu',willDelStu)
+                        let para = {
+                            examId: this.id, //考试id
+                            // students: this.selectedNewStudents,//最终的班级考生
+                            add: willAddStu,   //新有旧无，要添加
+                            remove: willDelStu  //旧有新无，要去除
+                        };
+                        this.studentLoading = true;
+                        //提交考生
+                        saveExammer(para).then((res) => {
+                            if (res.code !== '0') {
+                                this.$message({
+                                    message: res.msg,
+                                    type: 'error'
+                                });
+                            } else {
+                                this.$message({
+                                    message: '更新成功',
+                                    type: 'success'
+                                });
+                                this.studentLoading = false;
+                                this.cancelStudentEdit();
+                                this.getList();//人数变化
+                            }
+                        });
+                    });
+                }
             },
             handleSelectionChange(val){//表格多选变更
                 this.selectedNewStudents = val;
