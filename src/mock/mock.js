@@ -2204,5 +2204,17 @@ export default {
                 }, 1000);
             });
         });
+        //删除考试班级
+        mock.onPost(`/exam/removeclass`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: '0',
+                        msg: '成功',
+                        data: ''
+                    }]);
+                }, 1000);
+            });
+        });
     }
 };

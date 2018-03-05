@@ -121,6 +121,7 @@
         getExamClassList,//获取参加考试的班级
         getUnExamClassList,//获取学习该课程但未参加考试的班级
         addExamClass, //添加考试班级
+        delExamClass, //删除考试班级
         getStudentsByClassId, //获取班级学生
         saveExammer, //保存班级考生
     } from '../../../api/api';
@@ -325,7 +326,7 @@
                                     this.getList();
                                 }
                             });
-                        });
+                        }).catch(error=>{});
                     } else {
                         return false;
                     }
@@ -381,7 +382,7 @@
                                 this.getList();//人数变化
                             }
                         });
-                    });
+                    }).catch(error=>{});
                 }
             },
             handleSelectionChange(val){//表格多选变更
@@ -419,8 +420,27 @@
             setRowCheckState(row, isCheck){//设置学生行选择状态
                 this.$refs.studentTable.toggleRowSelection(row, isCheck);
             },
-            removeExamClass(){//删除考试班级
-
+            removeExamClass(row){//删除考试班级
+                this.$confirm('删除后，该班级下所有学生将不能参加此次考试，确认删除吗？', '提示', {}).then(() => {
+                    let para = {
+                        examId: this.id, //考试id
+                        classId: row.class.id //班级id
+                    };
+                    delExamClass(para).then((res) => {
+                        if (res.code !== '0') {
+                            this.$message({
+                                message: res.msg,
+                                type: 'error'
+                            });
+                        } else {
+                            this.$message({
+                                message: '删除成功',
+                                type: 'success'
+                            });
+                            this.getList();
+                        }
+                    });
+                }).catch(error=>{});
             },
             resetForm(formName){
             	this.$refs[formName].resetFields();
