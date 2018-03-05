@@ -158,7 +158,7 @@
                 }
             },
             detailShow(id){
-                this.detailId = _.toString(id);
+                this.detailId =id;
             },
             detailClose(){
                 this.detailId = '';

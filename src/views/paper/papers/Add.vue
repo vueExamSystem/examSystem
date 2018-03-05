@@ -13,13 +13,13 @@
 					<el-form-item label="试卷名称：" prop="name">
 						<el-input v-model="form.name"></el-input>
 					</el-form-item>
-					<el-form-item label="选择科目：" prop="subject"> 
-						<el-select v-model="form.subject" placeholder="请选择科目">
+					<el-form-item label="选择课程：" prop="subject"> 
+						<el-select v-model="form.subject" placeholder="请选择课程">
 						    <el-option :loading="subjectLoading" 
 						      v-for="item in subjectOptions"
-						      :key="item.id"
-						      :label="item.name"
-						      :value="item.id">
+						      :key="item.value"
+						      :label="item.text"
+						      :value="item.value">
 						    </el-option>
 						</el-select>
 					</el-form-item>
@@ -84,7 +84,7 @@
 </template>
 <script>
 	import Detail from './Detail.vue'
-	import { getSubjectList, savePaper } from '../../../api/api';
+	import { getCoursesMap, savePaper } from '../../../api/api';
 	export default {
 		components:{
 			Detail
@@ -183,11 +183,11 @@
 		},
 		methods: {
 			init(){
-				this.getSubjectOptions();
+				this.getCourseOptions();
 			},
-			getSubjectOptions(){//获取科目组
+			getCourseOptions(){//获取科目组
 				this.subjectLoading = true;
-				getSubjectList({}).then(res => {
+				getCoursesMap({}).then(res => {
 					this.subjectOptions = res.data;
 					this.subjectLoading = false;
 				});

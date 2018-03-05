@@ -29,7 +29,7 @@ export const getQueAddFilter = params => { return instance.get(`${base}/question
 export const getgroupList = params => { return instance.get(`${base}/question/groupList`,  { params: params } ).then(res => res.data); };
 export const getQueList = params => { return instance.post(`${base}/question/list`, qs.stringify(params) ).then(res => res.data); };
 
-export const getQuestionDetail = params => { return instance.get(`${base}/question/detail`, params ).then(res => res.data); };
+export const getQuestionDetail = params => { return instance.post(`${base}/question/detail`,  qs.stringify(params) ).then(res => res.data); };
 
 export const saveQue = params => { return instance.post(`${base}/question/save`, qs.stringify(params) ); };
 // export const saveQue = params => { return instance.get(`${base}/question/save`, qs.stringify(params) ); };
@@ -47,7 +47,9 @@ export const saveTag = params => { return instance.post(`${base}/category/save`,
 // course
 export const getCourseList = params => { 
 	return instance.get(`${base}/course/list`, { params: params } ).then(res => res.data); };
-
+//加载课程列表
+export const getCoursesMap = params => { 
+	return instance.get(`${base}/course/map`, { params: params } ).then(res => res.data); };
 export const editCourse = params => {
 	return instance.get(`${base}/course/edit`, params ).then(res => res.data); };
 //course filter

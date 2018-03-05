@@ -2,7 +2,7 @@
  * JMEditor 0.9 beta
  * http://www.jmeditor.com/
  */
-var JMEditor_BasePath = "";
+var JMEditor_BasePath = "/static/JMEditor-0.9.4";
 // var scriptEles=document.getElementsByTagName("script");
 // for(var i=0;i<scriptEles.length;i++){
 // 	var m = scriptEles[i].src.match(/^(.*)JMEditor.js$/i);
@@ -37,6 +37,7 @@ $(document).ready(function(){
 			return $("#" + elementId).html();
 		}
 	};
+	console.log('CKEDITOR', CKEDITOR);
 });
 
 
