@@ -85,7 +85,7 @@
                                 :onError="uploadError"
                                 :on-preview="handlePreview"
                                 :on-remove="handleRemove"
-                                :file-list="form.selectionPic[index]"
+                                :file-list="form.selectionPicA"
                         >
                             <el-button type="primary" icon="iconfont icon-plus">添加照片</el-button>
                         </el-upload>
@@ -106,7 +106,7 @@
                                 :onError="uploadError"
                                 :on-preview="handlePreview"
                                 :on-remove="handleRemove"
-                                :file-list="form.selectionPic[index]"
+                                :file-list="form.selectionPicB"
                         >
                             <el-button type="primary" icon="iconfont icon-plus">添加照片</el-button>
                         </el-upload>
@@ -128,7 +128,7 @@
                                 :onError="uploadError"
                                 :on-preview="handlePreview"
                                 :on-remove="handleRemove"
-                                :file-list="form.selectionPic[index]"
+                                :file-list="form.selectionPicC"
                         >
                             <el-button type="primary" icon="iconfont icon-plus">添加照片</el-button>
                         </el-upload>
@@ -150,7 +150,7 @@
                                 :onError="uploadError"
                                 :on-preview="handlePreview"
                                 :on-remove="handleRemove"
-                                :file-list="form.selectionPic[index]"
+                                :file-list="form.selectionPicD"
                         >
                             <el-button type="primary" icon="iconfont icon-plus">添加照片</el-button>
                         </el-upload>
@@ -244,7 +244,10 @@
                     content: '',
                     contentPic: [],
                     selection: [],
-                    selectionPic: [],
+                    selectionPicA: [],
+                    selectionPicB: [],
+                    selectionPicC: [],
+                    selectionPicD: [],
                     correctOptionRadio: '',
                     correctOptionMany: [],
                     source: '',
@@ -394,7 +397,7 @@
                     this.form.selection[3] = this.ueD.getContent();
                     this.form.selectionD = this.ueD.getContent();
                 }
-                console.log('categoryIds',this.form.usage.join(','));
+                // console.log('categoryIds',this.form.usage.join(','));
                 //console.log('selection value', this.selection);
                 //console.log('form value', this.form);
                 this.$refs['form'].validate((valid) => {
@@ -418,7 +421,12 @@
                             optiond:this.form.selectionD,
                             titleImg: this.form.contentPic,
                             choiceList: this.form.selectionAdd,
-                            choiceImgList: this.form.selectionPic,
+                            choiceImgList: [
+                                this.form.selectionPicA,
+                                this.form.selectionPicB,
+                                this.form.selectionPicC || undefined,
+                                this.form.selectionPicD || undefined,
+                            ],
                             answer: this.form.correctOptionRadio,
                             answers: this.form.type === 3 ? 'A,B' : 'A,B,C,D',
                             points: this.form.points,
@@ -437,7 +445,7 @@
                                         type: 'success'
                                     });
                                     this.loading = false;
-                                    this.$refs['form'].resetFields();
+                                    this.resetForm();
                                     this.$emit('toTable');
                                 } else {
                                     this.$message({
@@ -456,6 +464,11 @@
             },
             resetForm() {
                 this.$refs['form'].resetFields();
+                this.ue.setContent('');
+                this.ueA.setContent('');
+                this.ueB.setContent('');
+                this.ueC.setContent('');
+                this.ueD.setContent('');
             },
             // 获取初始数据
             getDefaultData() {
