@@ -5,7 +5,7 @@
 				<span>考试班级列表（共{{totalClass}}个班级，{{totalExammer}}个考生）</span>
 				<el-button type="primary" @click="onAdd" class="el-button-shadow">添加班级</el-button>
 				<div class="pull-right">
-					<el-button type="success" @click="onSave" class="el-button-shadow">保存</el-button>
+					<el-button type="success" @click="onPublish" class="el-button-shadow">发布</el-button>
 					<el-button type="danger" @click="close" class="el-button-shadow">关闭</el-button>
 				</div>
 			</div>
@@ -124,6 +124,7 @@
         delExamClass, //删除考试班级
         getStudentsByClassId, //获取班级学生
         saveExammer, //保存班级考生
+        publishExam   //发布考试
     } from '../../../api/api';
     import _ from 'lodash';
 	export default {
@@ -301,10 +302,35 @@
 			onAdd(){//添加考生
 				this.showClassDialog();
 			},
-            onSave() {//保存
-                
+            onPublish() {//发布
+                if(this.totalClass === 0 || this.totalExammer === 0){
+                    this.$message({
+                        message: '您还没有选择考试学生',
+                        type: 'error'
+                    });
+                }else{
+                    this.$confirm('发布后，您将不能再编辑考试班级与考生，确定发布吗？', '提示', {}).then(() => {
+                        let para = {
+                            examId: this.id //考试id
+                        };
+                        publishExam(para).then((res) => {
+                            if (res.code !== '0') {
+                                this.$message({
+                                    message: res.msg,
+                                    type: 'error'
+                                });
+                            } else {
+                                this.$message({
+                                    message: '发布成功',
+                                    type: 'success'
+                                });
+                                this.$router.push({ path: '/exam/list' });
+                            }
+                        });
+                    }).catch(error=>{});
+                }
             },
-            onSubmitClass(formName){
+            onSubmitClass(formName){//添加考试班级
 				this.$refs[formName].validate((isValid) => {
                     if (isValid) {
                         this.$confirm('确认添加吗？', '提示', {}).then(() => {
