@@ -56,6 +56,19 @@
                 <el-form-item label="试题内容:" prop="content" class="contentArea clearfix">
                     <script id="editor" type="text/plain" class="editor"></script>
                 </el-form-item>
+                <el-form-item label="" prop="contentPic">
+            <el-upload
+             class="upload-demo"
+             :action="UploadUrl('uploadTitleFile')"
+             :onSuccess="uploadTitleSuccess"
+             :onError="uploadError"
+             :on-preview="handlePreviewContent"
+             :on-remove="handleRemoveContent"
+             :file-list="form.contentPic"
+             list-type="picture">
+            <el-button type="primary" icon="iconfont icon-plus">添加照片</el-button>
+            </el-upload>
+            </el-form-item>
                 <el-form-item
                         label="试题选项"
                         prop="selectionA"
@@ -65,6 +78,17 @@
                     <div class="edArea">
                         <script id="editorA" class="editorEve" type="text/plain"></script>
                     </div>
+                     <el-upload
+                                class="upload-demo inline"
+                                :action="UploadUrl('uploadOptionFile')"
+                                :onSuccess="uploadOptionSuccessA"
+                                :onError="uploadError"
+                                :on-preview="handlePreview"
+                                :on-remove="handleRemove"
+                                :file-list="form.selectionPicA"
+                        >
+                            <el-button type="primary" icon="iconfont icon-plus">添加照片</el-button>
+                        </el-upload>
                 </el-form-item>
                 <el-form-item
                         label=""
@@ -75,6 +99,17 @@
                     <div class="edArea">
                         <script id="editorB" class="editorEve" type="text/plain"></script>
                     </div>
+                     <el-upload
+                                class="upload-demo inline"
+                                :action="UploadUrl('uploadOptionFile')"
+                                :onSuccess="uploadOptionSuccessB"
+                                :onError="uploadError"
+                                :on-preview="handlePreview"
+                                :on-remove="handleRemove"
+                                :file-list="form.selectionPicB"
+                        >
+                            <el-button type="primary" icon="iconfont icon-plus">添加照片</el-button>
+                        </el-upload>
                 </el-form-item>
                 <el-form-item
                         v-show="form.type !== 3"
@@ -86,6 +121,17 @@
                     <div class="edArea">
                         <script id="editorC" class="editorEve" type="text/plain"></script>
                     </div>
+                     <el-upload
+                                class="upload-demo inline"
+                                :action="UploadUrl('uploadOptionFile',)"
+                                :onSuccess="uploadOptionSuccessC"
+                                :onError="uploadError"
+                                :on-preview="handlePreview"
+                                :on-remove="handleRemove"
+                                :file-list="form.selectionPicC"
+                        >
+                            <el-button type="primary" icon="iconfont icon-plus">添加照片</el-button>
+                        </el-upload>
                 </el-form-item>
                 <el-form-item
                         v-show="form.type !== 3"
@@ -97,6 +143,17 @@
                     <div class="edArea">
                         <script id="editorD" class="editorEve" type="text/plain"></script>
                     </div>
+                     <el-upload
+                                class="upload-demo inline"
+                                :action="UploadUrl('uploadOptionFile')"
+                                :onSuccess="uploadOptionSuccessD"
+                                :onError="uploadError"
+                                :on-preview="handlePreview"
+                                :on-remove="handleRemove"
+                                :file-list="form.selectionPicD"
+                        >
+                            <el-button type="primary" icon="iconfont icon-plus">添加照片</el-button>
+                        </el-upload>
                 </el-form-item>
                 <el-form-item label="正确选项:" prop="correctOptionRadio" v-if="isRadio">
                     <el-select v-model="form.correctOptionRadio" placeholder="请选择正确选项">
@@ -187,7 +244,10 @@
                     content: '',
                     contentPic: [],
                     selection: [],
-                    selectionPic: [],
+                    selectionPicA: [],
+                    selectionPicB: [],
+                    selectionPicC: [],
+                    selectionPicD: [],
                     correctOptionRadio: '',
                     correctOptionMany: [],
                     source: '',
@@ -287,18 +347,38 @@
         methods: {
 
             UploadUrl: function (url) {
-                return 'http://localhost:8081/api/question/' + url;
+                //return 'http://localhost:8081/api/question/' + url;
+                return 'http://121.43.164.178:8081/api/question/' + url;
             },
             // 上传题目图片成功后的回调
-            uploadTitleSuccess(response, file, fileList) {
-                console.log('上传文件', response);
+            uploadTitleSuccess(res, file, fileList) {
+                console.log('上传文件', res);
                 //记住返回的文件存储的相对路径
+                this.ue.focus();
+                this.ue.setContent(res.data,true);
             },
             // 上传答案图片成功后的回调
-            uploadOptionSuccess(response, file, fileList) {
-                console.log('上传文件', response);
+            uploadOptionSuccessA(res, file, fileList) {
+                console.log('上传文件', res);
+                this.ueA.setContent(res.data,true);
                 //记住返回的文件存储的相对路径
             },
+              uploadOptionSuccessB(res, file, fileList) {
+                console.log('上传文件', res);
+                this.ueB.setContent(res.data,true);
+                //记住返回的文件存储的相对路径
+            },
+              uploadOptionSuccessC(res, file, fileList) {
+                console.log('上传文件', res);
+                this.ueC.setContent(res.data,true);
+                //记住返回的文件存储的相对路径
+            },
+              uploadOptionSuccessD(res, file, fileList) {
+                console.log('上传文件', res);
+                this.ueD.setContent(res.data,true);
+                //记住返回的文件存储的相对路径
+            },
+              
             // 上传错误
             uploadError(response, file, fileList) {
                 console.log('上传失败，请重试！');
@@ -317,6 +397,7 @@
                     this.form.selection[3] = this.ueD.getContent();
                     this.form.selectionD = this.ueD.getContent();
                 }
+                // console.log('categoryIds',this.form.usage.join(','));
                 //console.log('selection value', this.selection);
                 //console.log('form value', this.form);
                 this.$refs['form'].validate((valid) => {
@@ -332,6 +413,7 @@
                             "course.id": this.form.subject,
                             "section.id": this.form.chapter,
                             similarId: this.form.department || this.sameGroupId,
+                            categoryIds:this.form.usage.join(','),
                             content: this.form.content,
                             optiona:this.form.selectionA,
                             optionb:this.form.selectionB,
@@ -339,7 +421,12 @@
                             optiond:this.form.selectionD,
                             titleImg: this.form.contentPic,
                             choiceList: this.form.selectionAdd,
-                            choiceImgList: this.form.selectionPic,
+                            choiceImgList: [
+                                this.form.selectionPicA,
+                                this.form.selectionPicB,
+                                this.form.selectionPicC || undefined,
+                                this.form.selectionPicD || undefined,
+                            ],
                             answer: this.form.correctOptionRadio,
                             answers: this.form.type === 3 ? 'A,B' : 'A,B,C,D',
                             points: this.form.points,
@@ -352,20 +439,19 @@
                         this.$confirm('确认添加吗？', '提示', {}).then(() => {
                             this.loading = true;
                             saveQue(queParams).then((res) => {
-
-                                if (res.code != '0') {
-                                    this.$message({
-                                        message: res.msg,
-                                        type: 'error'
-                                    });
-                                } else {
-                                    this.$message({
+                                if (res.code === 0) {
+                                     this.$message({
                                         message: '提交成功',
                                         type: 'success'
                                     });
                                     this.loading = false;
-                                    this.$refs['form'].resetFields();
+                                    this.resetForm();
                                     this.$emit('toTable');
+                                } else {
+                                    this.$message({
+                                        message: res.msg,
+                                        type: 'error'
+                                    });
                                 }
 
                             });
@@ -378,6 +464,11 @@
             },
             resetForm() {
                 this.$refs['form'].resetFields();
+                this.ue.setContent('');
+                this.ueA.setContent('');
+                this.ueB.setContent('');
+                this.ueC.setContent('');
+                this.ueD.setContent('');
             },
             // 获取初始数据
             getDefaultData() {

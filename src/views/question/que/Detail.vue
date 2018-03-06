@@ -3,7 +3,7 @@
         <div class="panel">
             <div class="title">
 				<span>
-				试题预览（单选）
+				试题预览
 				</span>
                 <div class="pull-right">
                     <el-button type="danger" @click="goBack()" class="el-button-shadow">关闭</el-button>
@@ -11,14 +11,15 @@
             </div>
             <div class="content">
                 <div class="el-question" v-loading="isLoading">
-                    <div class="el-question-title">
-                        <span>{{detail.title}}</span>
+                    <div class="el-question-title" v-html="detail.content">
                     </div>
                     <div class="el-question-options mask">
                         <el-radio-group v-model="detail.answer">
-                            <el-radio v-for="option in detail.options"
-                                      :key="option.id"
-                                      :label="option.flag">{{option.flag}}. {{option.text}}</el-radio>
+                            <el-radio key="A" class="radio-short"></el-radio>
+                            <div class="radio-short-div">
+                                <p class="radio-short-p">A.</p>
+                                <div v-html="detail.optiona" class="radio-short-html"></div>
+                            </div>
                         </el-radio-group>
                     </div>
                     <div class="el-question-info">
@@ -89,6 +90,24 @@
     #queDetail{
         .content{
             padding: 20px;
+        }
+        .radio-short{
+            width: 20px;
+            float: left;
+        }
+        .radio-short-p{
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+        }
+        .radio-short-div{
+            float: left;
+            padding: 20px 0;
+
+            &>p,
+            &>div{
+              float: left;
+            }
         }
     }
 </style>

@@ -31,7 +31,7 @@ export const getQueList = params => { return instance.post(`${base}/question/lis
 
 export const getQuestionDetail = params => { return instance.post(`${base}/question/detail`,  qs.stringify(params) ).then(res => res.data); };
 
-export const saveQue = params => { return instance.post(`${base}/question/save`, qs.stringify(params) ); };
+export const saveQue = params => { return instance.post(`${base}/question/save`, qs.stringify(params)).then(res => res.data); };
 // export const saveQue = params => { return instance.get(`${base}/question/save`, qs.stringify(params) ); };
 
 // 科目列表
@@ -174,10 +174,10 @@ export const getStudentScoreFilter = params => { return instance.get(`${base}/st
 *  后台 start
 * */
 // department
-export const getDepartmentList = params => { return instance.get(`${base}/department/list`, params ).then(res => res.data); };
-
+export const getDepartmentList = params => { return instance.get(`${base}/college/list`, params ).then(res => res.data); };
+ 
 // class
-export const getClassList = params => { return instance.get(`${base}/class/list`, params ).then(res => res.data); };
+export const getClassList = params => { return instance.get(`${base}/group/list`, params ).then(res => res.data); };
 
 // role
 export const getRoleList = params => { return instance.get(`${base}/role/list`, params ).then(res => res.data); };
@@ -190,6 +190,8 @@ export const getCompetenceList = params => { return instance.get(`${base}/compet
 
 // 选课
 export const getSelectCourseList = params => { return instance.get(`${base}/selectCourse/list`, params ).then(res => res.data); };
+
+export const saveStudent=params => { return instance.post(`${base}/user/addStudent`, qs.stringify(params) ).then(res => res.data); };
 
 /*
 * 统计 start
