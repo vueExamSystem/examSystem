@@ -1726,7 +1726,7 @@ export default {
                                 },
                                 beginTime:'2018/02/27 16:00',
                                 endTime: '2018/02/27 18:20',
-                                status:'2',
+                                status:'0',
                                 grade: {
                                     id: 5,
                                     name: '18级',

@@ -131,6 +131,9 @@
 	    props: {
             id: {//考试id
             	required: 1
+            },
+            initable:{//是否初始化表格
+                default: 0
             }
 		},
 		data() {
@@ -476,7 +479,9 @@
             }
         },
         mounted() {
-
+            if(this.initable){
+                this.getList();
+            }
         }
 	}
 </script>
