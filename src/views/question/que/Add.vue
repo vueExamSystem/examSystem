@@ -438,6 +438,7 @@
                         this.$confirm('确认添加吗？', '提示', {}).then(() => {
                             this.loading = true;
                             saveQue(queParams).then((res) => {
+                                res = res.data;
                                 console.log('saveQue',res);
                                 console.log('res.code',res.code == 0);
                                 console.log('res.code',res.code === '0');
@@ -447,7 +448,7 @@
                                         type: 'success'
                                     });
                                     this.loading = false;
-                                    this.$refs['form'].resetFields();
+                                    this.resetForm();
                                     this.$emit('toTable');
                                 } else {
                                     this.$message({
@@ -466,6 +467,11 @@
             },
             resetForm() {
                 this.$refs['form'].resetFields();
+                this.ue.setContent('');
+                this.ueA.setContent('');
+                this.ueB.setContent('');
+                this.ueC.setContent('');
+                this.ueD.setContent('');
             },
             // 获取初始数据
             getDefaultData() {
