@@ -351,27 +351,28 @@
             uploadTitleSuccess(res, file, fileList) {
                 console.log('上传文件', res);
                 //记住返回的文件存储的相对路径
-                this.ue.setContent(res.data);
+                this.ue.focus();
+                this.ue.setContent(res.data,true);
             },
             // 上传答案图片成功后的回调
             uploadOptionSuccessA(res, file, fileList) {
                 console.log('上传文件', res);
-                this.ueA.setContent(res.data);
+                this.ueA.setContent(res.data,true);
                 //记住返回的文件存储的相对路径
             },
               uploadOptionSuccessB(res, file, fileList) {
                 console.log('上传文件', res);
-                this.ueB.setContent(res.data);
+                this.ueB.setContent(res.data,true);
                 //记住返回的文件存储的相对路径
             },
               uploadOptionSuccessC(res, file, fileList) {
                 console.log('上传文件', res);
-                this.ueC.setContent(res.data);
+                this.ueC.setContent(res.data,true);
                 //记住返回的文件存储的相对路径
             },
               uploadOptionSuccessD(res, file, fileList) {
                 console.log('上传文件', res);
-                this.ueD.setContent(res.data);
+                this.ueD.setContent(res.data,true);
                 //记住返回的文件存储的相对路径
             },
               
@@ -430,10 +431,7 @@
                         this.$confirm('确认添加吗？', '提示', {}).then(() => {
                             this.loading = true;
                             saveQue(queParams).then((res) => {
-                                console.log('saveQue',res);
-                                console.log('res.code',res.code == 0);
-                                console.log('res.code',res.code === '0');
-                                if (res.code == 0) {
+                                if (res.code === 0) {
                                      this.$message({
                                         message: '提交成功',
                                         type: 'success'
