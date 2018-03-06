@@ -59,7 +59,9 @@
 	import {
         getDepartmentList,
 		getClassList,
+       
 	} from '../../../api/api';
+    import {saveStudent} from '../../../api/api';
 	export default {
 		data() {
 			return {
@@ -96,9 +98,41 @@
 		methods: {
             onSubmit(formName) {
                 console.log(formName);
+
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        alert('submit!');
+                         var stuParams = {
+                            name: name,
+                            'grade.id': this.form.grade,
+                            'college.id':this.form.department,
+                            'group.id': this.form.class,
+                            studentNo: this.form.studentNo,
+                            userName:this.form.name,
+                            userAccount: this.form.account,
+                            sex: this.form.sex ,
+                            password:this.form.password
+                        };
+                        console.log('stuParams ',stuParams);
+                        this.$confirm('确认添加吗？', '提示', {}).then(() => {
+                            this.loading = true;
+                            saveStudent(stuParams).then((res) => {
+                                if (res.code == 0) {
+                                     this.$message({
+                                        message: '提交成功',
+                                        type: 'success'
+                                    });
+                                    this.loading = false;
+                                    this.$refs['form'].resetFields();
+                                    this.$emit('toTable');
+                                } else {
+                                    this.$message({
+                                        message: res.msg,
+                                        type: 'error'
+                                    });
+                                }
+
+                            });
+                        });
                     } else {
                         console.log('error submit!!');
                         return false;
