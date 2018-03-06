@@ -57,7 +57,7 @@
                 </div>
             </div>
             <!--编辑界面-->
-            <el-dialog title="编辑课程" :visible.sync="editFormVisible" class="noPadding">
+            <el-dialog title="编辑课程" :visible.sync="editFormVisible" class="noPadding" id="dialogExam">
                 <exam-add v-if="editFormVisible" @toTable="afterSubmit" :formObj="formObj" ref="editForm"></exam-add>
                 <div slot="footer" class="dialog-footer">
                     <el-button @click.native="cancelEdit">取消</el-button>
@@ -66,7 +66,7 @@
             </el-dialog>
     	</section>
         <section v-if="detailId">
-            <detail :id="detailId" @close="detailClose"></detail>
+            <detail :id="detailId" :info="detailInfo" @close="detailClose"></detail>
         </section>
         <section v-if="editExamId">
             <exam-edit :id="editExamId" @close="detailClose" :initable="1"></exam-edit>
@@ -106,6 +106,8 @@
                 allLoading: false,
 
                 detailId: '', //考试当前详情
+                detailInfo: '',
+
                 editExamId: '',//编辑考生
 
                 formObj: {},
@@ -151,6 +153,7 @@
                     this.editExamId = row.id;
                 }else{//已发布
                     this.detailId = row.id;
+                    this.detailInfo = row;
                 }
                 
             },
@@ -229,5 +232,10 @@
     @import '~scss_vars';
     .filter-wrap{
         margin-bottom: 20px;
+    }
+</style>
+<style>
+    #dialogExam .el-form .el-button{
+        display: none;
     }
 </style>
