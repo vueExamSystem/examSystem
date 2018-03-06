@@ -327,7 +327,12 @@
                                     message: '发布成功',
                                     type: 'success'
                                 });
-                                this.$router.push({ path: '/exam/list' });
+                                if(this.$route.fullPath == '/exam/list'){
+                                    var isRefresh = true;
+                                    this.close(true);
+                                }else{
+                                    this.$router.push({ path: '/exam/list' });
+                                }
                             }
                         });
                     }).catch(error=>{});
@@ -474,8 +479,11 @@
             resetForm(formName){
             	this.$refs[formName].resetFields();
             },
-            close() {//返回
-                this.$emit('close');
+            close(isRefresh) {//返回
+                if(isRefresh != 1){
+                    isRefresh = 0;
+                }
+                this.$emit('close', isRefresh);
             }
         },
         mounted() {

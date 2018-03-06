@@ -154,9 +154,12 @@
                 }
                 
             },
-            detailClose() {
+            detailClose(isRefresh) {
                 this.detailId = '';
                 this.editExamId = '';
+                if(isRefresh){
+                    this.getList();
+                }
             },
             handleCurrentChange(val) {
                 this.pageNo = val;
