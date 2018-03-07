@@ -21,6 +21,20 @@
                         </template>
                     </el-select>
                 </el-form-item>
+                <el-form-item label="难易级别:" prop="level">
+                    <el-select v-model="form.level" placeholder="请选择难易级别">
+                        <template v-for="item in levelArr">
+                            <el-option :label="item.text" :value="item.value"></el-option>
+                        </template>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="是否选做:" prop="isSelect">
+                    <el-select v-model="form.isSelect" placeholder="请选择是否选做">
+                        <template v-for="item in isSelectArr">
+                            <el-option :label="item.text" :value="item.value"></el-option>
+                        </template>
+                    </el-select>
+                </el-form-item>
                 <el-form-item label="试题用途:" prop="usage">
                     <el-select v-model="form.usage" multiple placeholder="请选择试题用途">
                         <el-option
@@ -237,6 +251,8 @@
             return {
                 form: {
                     type: 1,
+                    level: 1,
+                    isSelect: 0,
                     usage: '',
                     subject: '',
                     chapter: '',
@@ -258,6 +274,12 @@
                 rules: {
                     type: [
                         {required: true, message: '请选择试题类型', trigger: 'change'}
+                    ],
+                    level: [
+                        {required: true, message: '请选择难易级别', trigger: 'change'}
+                    ],
+                    isSelect: [
+                        {required: true, message: '请选择是否选做', trigger: 'change'}
                     ],
                     usage: [
                         {required: true, message: '请选择试题用途', trigger: 'change'}
@@ -302,24 +324,41 @@
                 selectNum: 2,
                 // 默认数据
                 typeArr: [{
-                    id: '0',
-                    name: '单选题',
+                    value: 0,
+                    text: '单选题',
                 }, {
-                    id: '1',
-                    name: '多选题',
+                    value: 1,
+                    text: '多选题',
                 }, {
-                    id: '2',
-                    name: '判断题',
+                    value: 2,
+                    text: '判断题',
+                }],
+                levelArr: [{
+                    value: 1,
+                    text: '送分题',
+                }, {
+                    value: 2,
+                    text: '简单题',
+                }, {
+                    value: 3,
+                    text: '易错题',
+                }],
+                isSelectArr: [{
+                    value: 0,
+                    text: '常规题',
+                }, {
+                    value: 1,
+                    text: '选做题',
                 }],
                 usageArr: [{
-                    id: '0',
-                    name: '练习题',
+                    value: '0',
+                    text: '练习题',
                 }, {
-                    id: '1',
-                    name: '随堂测验',
+                    value: '1',
+                    text: '随堂测验',
                 }, {
-                    id: '2',
-                    name: '正规考试',
+                    value: '2',
+                    text: '正规考试',
                 }],
                 subjectArr: [],
                 chapterArr: [],
