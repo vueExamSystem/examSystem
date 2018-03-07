@@ -15,11 +15,20 @@
                     </div>
                     <div class="el-question-options mask">
                         <el-radio-group v-model="detail.answer">
-                            <el-radio key="A" class="radio-short"></el-radio>
-                            <div class="radio-short-div">
-                                <p class="radio-short-p">A.</p>
-                                <div v-html="detail.optiona" class="radio-short-html"></div>
-                            </div>
+                            <el-radio key="A" class="radio-short" label="A."></el-radio>
+                            <div class="radio-short-div" v-html="detail.optiona"></div>
+                        </el-radio-group>
+                        <el-radio-group v-model="detail.answer">
+                            <el-radio key="B" class="radio-short" label="B."></el-radio>
+                            <div class="radio-short-div" v-html="detail.optionb"></div>
+                        </el-radio-group>
+                        <el-radio-group v-model="detail.answer" v-if="detail.optionc">
+                            <el-radio key="C" class="radio-short" label="C."></el-radio>
+                            <div class="radio-short-div" v-html="detail.optionc"></div>
+                        </el-radio-group>
+                        <el-radio-group v-model="detail.answer" v-if="detail.optiond">
+                            <el-radio key="D" class="radio-short" label="D."></el-radio>
+                            <div class="radio-short-div" v-html="detail.optiond"></div>
                         </el-radio-group>
                     </div>
                     <div class="el-question-info">
@@ -92,7 +101,7 @@
             padding: 20px;
         }
         .radio-short{
-            width: 20px;
+            width: 45px;
             float: left;
         }
         .radio-short-p{
@@ -108,6 +117,9 @@
             &>div{
               float: left;
             }
+        }
+        .el-radio-group{
+            width: 100%;
         }
     }
 </style>
