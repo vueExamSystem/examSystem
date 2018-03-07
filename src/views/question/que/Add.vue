@@ -179,8 +179,8 @@
                 </el-form-item>
                 <el-form-item label="正确选项:" prop="correctOptionRadio" v-if="isJudgment">
                     <el-select v-model="form.correctOptionRadio" placeholder="请选择正确选项">
-                        <el-option label="正确" value="1"></el-option>
-                        <el-option label="错误" value="0"></el-option>
+                        <el-option label="正确" value="A"></el-option>
+                        <el-option label="错误" value="B"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="正确选项:" prop="correctOptionMany" v-if="isCheckbox">
@@ -333,16 +333,7 @@
                     value: 2,
                     text: '判断题',
                 }],
-                levelArr: [{
-                    value: 1,
-                    text: '送分题',
-                }, {
-                    value: 2,
-                    text: '简单题',
-                }, {
-                    value: 3,
-                    text: '易错题',
-                }],
+                levelArr: [],
                 isSelectArr: [{
                     value: 0,
                     text: '常规题',
@@ -448,7 +439,8 @@
                         var queParams = {
                             name: name,
                             questionTypeId: this.form.type,
-                            levelId: this.form.usage[0],
+                            levelId: this.form.level,
+                            isOptional:this.form.isSelect,
                             "course.id": this.form.subject,
                             "section.id": this.form.chapter,
                             similarId: this.form.department || this.sameGroupId,
@@ -512,15 +504,13 @@
             // 获取初始数据
             getDefaultData() {
                 getQueAddFilter({}).then((res) => {
-                    console.log('getQueAddFilter', res.data);
-                    //todo 加载初始数据
-                    //this.subjectArr = res.data;
+                    //console.log('getQueAddFilter', res.data);
+                    //done 加载初始数据
                     this.subjectArr = res.data[0].children;
                     this.chapterArr = res.data[1].children;
                     this.typeArr = res.data[2].children;
-                    //todo缺少类别 简单题 送分题res.data[3].children
+                    this.levelArr=res.data[3].children;
                     this.usageArr = res.data[4].children;
-                    //this.departmentArr=res.data[0].children;
                 });
                 //根据课程id 章节id 题型id获取相似题组
                 let groupListPara = {
