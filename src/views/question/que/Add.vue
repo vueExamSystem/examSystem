@@ -130,6 +130,7 @@
                         label=""
                         prop="selectionC"
                         class="spec clearfix"
+                        :rules="[{required: form.type !== 3, message: `请输入试题选项C`, trigger: 'blur'}]"
                 >
                     <span>C</span>
                     <div class="edArea">
@@ -152,6 +153,7 @@
                         label=""
                         prop="selectionD"
                         class="spec clearfix"
+                        :rules="[{required: form.type !== 3, message: `请输入试题选项D`, trigger: 'blur'}]"
                 >
                     <span>D</span>
                     <div class="edArea">
@@ -307,12 +309,6 @@
                     ],
                     selectionB:[{
                         required: true, message: `请输入试题选项B`, trigger: 'blur'}
-                    ],
-                    selectionC:[{
-                        required: true, message: `请输入试题选项C`, trigger: 'blur'}
-                    ],
-                    selectionD:[{
-                        required: true, message: `请输入试题选项D`, trigger: 'blur'}
                     ],
                 },
                 isInlineMessage: true,
