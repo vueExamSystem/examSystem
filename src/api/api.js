@@ -281,3 +281,6 @@ export const getStudentsByClassId = params => { return instance.post(`${base}/cl
 export const saveExammer = params => { return instance.post(`${base}/exam/savestudents`, params ).then(res => res.data); };
 //删除考试班级
 export const delExamClass = params => { return instance.post(`${base}/exam/removeclass`, params ).then(res => res.data); };
+//发布考试
+export const publishExam = params => { return instance.post(`${base}/exam/publish`, params ).then(res => res.data); };
+   

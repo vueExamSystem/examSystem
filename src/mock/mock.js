@@ -1726,7 +1726,7 @@ export default {
                                 },
                                 beginTime:'2018/02/27 16:00',
                                 endTime: '2018/02/27 18:20',
-                                status:'2',
+                                status:'0',
                                 grade: {
                                     id: 5,
                                     name: '18级',
@@ -2206,6 +2206,18 @@ export default {
         });
         //删除考试班级
         mock.onPost(`/exam/removeclass`).reply(config => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        code: '0',
+                        msg: '成功',
+                        data: ''
+                    }]);
+                }, 1000);
+            });
+        });
+        //发布考试
+        mock.onPost(`/exam/publish`).reply(config => {
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
                     resolve([200, {

@@ -1,6 +1,6 @@
 <template>
 	<div>
-        <section v-show="!detailId" v-loading="allLoading">
+        <section v-show="!detailId && !editExamId" v-loading="allLoading">
     		<my-filter v-if="filterList.length > 0" :list="filterList" @callback="search" v-loading="filterLoading"></my-filter>
             <div class="panel">
                 <div class="title">
@@ -18,7 +18,7 @@
                         </el-table-column>
                         <el-table-column prop="name" label="考试名称" min-width="160">
                             <template scope="scope">
-                                <el-button type="text" @click="detailShow(scope.row.id)">{{scope.row.name}}</el-button>
+                                <el-button type="text" @click="detailShow(scope.row)">{{scope.row.name}}</el-button>
                             </template>
                         </el-table-column>
                         <el-table-column prop="paper" label="选择试卷" min-width="160">
@@ -30,7 +30,8 @@
                         </el-table-column>
                         <el-table-column prop="status" label="状态">
                             <template scope="scope">
-                                <span class="text-warning" v-if="scope.row.status == '1'">未开始</span>
+                                <span class="text-danger" v-if="scope.row.status == '0'">未发布</span>
+                                <span class="text-warning" v-else-if="scope.row.status == '1'">未开始</span>
                                 <span class="text-success" v-else-if="scope.row.status == '2'">进行中</span>
                                 <span v-else>已结束</span>
                             </template>
@@ -49,14 +50,14 @@
                                 label="操作"
                                 width="100">
                             <template slot-scope="scope">
-                                <el-button type="primary" size="small" @click="handleEdit(scope.row)">编辑</el-button>
+                                <el-button type="primary" size="small" @click="handleEdit(scope.row)" :disabled="scope.row.status == '2' || scope.row.status == '3'">编辑</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
                 </div>
             </div>
             <!--编辑界面-->
-            <el-dialog title="编辑课程" :visible.sync="editFormVisible" class="noPadding">
+            <el-dialog title="编辑课程" :visible.sync="editFormVisible" class="noPadding" id="dialogExam">
                 <exam-add v-if="editFormVisible" @toTable="afterSubmit" :formObj="formObj" ref="editForm"></exam-add>
                 <div slot="footer" class="dialog-footer">
                     <el-button @click.native="cancelEdit">取消</el-button>
@@ -65,7 +66,10 @@
             </el-dialog>
     	</section>
         <section v-if="detailId">
-            <detail :id="detailId" @close="detailClose"></detail>
+            <detail :id="detailId" :info="detailInfo" @close="detailClose"></detail>
+        </section>
+        <section v-if="editExamId">
+            <exam-edit :id="editExamId" @close="detailClose" :initable="1"></exam-edit>
         </section>
     </div>
 </template>
@@ -79,12 +83,14 @@
     import _ from 'lodash';
     import detail from './Detail.vue'
     import examAdd from '../publish/Add.vue'
+    import examEdit from '../publish/AddClasses.vue'
     export default {
         components:{
         	myFilter,
         	Page:Pagination,
             detail,
             examAdd,
+            examEdit
         },
         data() {
             return {
@@ -99,7 +105,10 @@
                 filterLoading: false,
                 allLoading: false,
 
-                detailId: '',
+                detailId: '', //考试当前详情
+                detailInfo: '',
+
+                editExamId: '',//编辑考生
 
                 formObj: {},
                 editFormVisible: false,//编辑界面是否显示
@@ -139,11 +148,21 @@
                 this.formObj = {};
                 this.minuteTimeClockRun();
             },
-            detailShow(id) {
-                this.detailId = id;
+            detailShow(row) {
+                if(row.status == '0'){//未发布
+                    this.editExamId = row.id;
+                }else{//已发布
+                    this.detailId = row.id;
+                    this.detailInfo = row;
+                }
+                
             },
-            detailClose() {
+            detailClose(isRefresh) {
                 this.detailId = '';
+                this.editExamId = '';
+                if(isRefresh){
+                    this.getList();
+                }
             },
             handleCurrentChange(val) {
                 this.pageNo = val;
@@ -182,6 +201,7 @@
                 });
             },
             minuteTimeClockRun(){//每分钟刷新表格
+                this.clearMinuteClock();
                 this.minuteTimeClock = setInterval(()=>{
                     if(this.$route.fullPath != this.fullPath){
                         this.clearMinuteClock();
@@ -212,5 +232,10 @@
     @import '~scss_vars';
     .filter-wrap{
         margin-bottom: 20px;
+    }
+</style>
+<style>
+    #dialogExam .el-form .el-button{
+        display: none;
     }
 </style>
