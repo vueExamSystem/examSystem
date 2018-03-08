@@ -78,7 +78,7 @@
             </div>
         </section>
         <section v-if="isShowDetail && detailPaperId">
-            <paper-detail :id="detailPaperId" :name="detailPaperName" @close="detailClose"></paper-detail>
+            <paper-detail :id="detailPaperId" :info="detailPaperInfo" @close="detailClose"></paper-detail>
         </section>
     </div>
 </template>
@@ -135,7 +135,7 @@
                 subjectOptions: [],//科目组
                 isShowDetail: false,
                 detailPaperId: '',
-                detailPaperName: ''
+                detailPaperInfo: ''
             }
         },
         computed:{
@@ -216,12 +216,12 @@
             detailShow(row){console.log('row',row)
                 this.isShowDetail = true;
                 this.detailPaperId = row.id;
-                this.detailPaperName = row.name;
+                this.detailPaperInfo = row;
             },
             detailClose({refresh}){//取消试卷详情查看
                 this.isShowDetail = false;
                 this.detailPaperId = '';
-                this.detailPaperName = '';
+                this.detailPaperInfo = '';
                 if(refresh){
                     this.isNewPage = true;
                     this.pageNo = 1;

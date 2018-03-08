@@ -79,7 +79,7 @@
 				</el-form>
 			</div>
 		</div>
-		<Detail :id="detailPaperId" v-if="isNext" @close="detailBack"></Detail>
+		<Detail :id="detailPaperId" :info="detailPaperInfo" v-if="isNext" @close="detailBack"></Detail>
 	</section>
 </template>
 <script>
@@ -114,6 +114,7 @@
 					total: 100//总分
 				},
 				detailPaperId:'',
+				detailPaperInfo: '',
 				rules:{
 					name:[
 						{required: true, message: '请输入试卷名称', trigger: 'blur'},
@@ -237,17 +238,19 @@
                                     });
                                     this.loading = false;
                                     this.$refs['form'].resetFields();
-                                    this.$emit('toTable');
+                                    if(flag && flag == 'next'){
+										this.resetForm('form');
+										this.detailPaperId = '1';
+										this.detailPaperInfo.totalPoint = paperParams.total;
+										this.detailPaperInfo.status = 0;
+										this.isNext = true;
+									}
                                 }
 
                             });
                         });
 						
-						if(flag && flag == 'next'){
-							this.resetForm('form');
-							this.detailPaperId = '1';
-							this.isNext = true;
-						}
+
 						
 					}else{
 						return false;

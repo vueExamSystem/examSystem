@@ -3,8 +3,8 @@
 		<div class="panel" v-show="!isAddProblem">
 			<div class="title">
 				<span>
-				{{name}}
-				（总分：{{config.total}}分  <span v-if="isEditAble" style="margin-left:12px;">已有分值：{{totalSet}}分</span>）
+				{{info.name}}
+				（总分：{{info.totalPoint}}分  <span v-if="isEditAble" style="margin-left:12px;">已有分值：{{totalSet}}分</span>）
 				</span>
 				<div class="pull-right">
 					<el-button v-if="isEditAble" type="success" @click="onSave()" class="el-button-shadow">保存</el-button>
@@ -15,11 +15,11 @@
 				<el-collapse v-if="isDrawPage">
 					<el-collapse-item>
 						<template slot="title">
-							<span>单选题（共<span>{{radioIndexes.length}}</span>题 &nbsp; 每题<span>{{config.radioscore}}</span>分）</span>
+							<span>单选题（共<span>{{radioList.length}}</span>题 &nbsp; 每题<span>{{info.radioScore}}</span>分）</span>
 							<el-button v-if="isEditAble" type="primary" @click.stop="addProblem('radio')">添加试题</el-button>
 						</template>
 						<div v-loading="radioLoading">
-							<template v-if="radioIndexes.length>0">
+							<template v-if="radioList.length>0">
 								<div class="el-question" :class="{'is-event-able': isEditAble}">
 									<div class="el-question-title">
 										<span>{{radioCurrent + 1}}. {{radioProblem.title}}</span>
@@ -49,8 +49,8 @@
 									</div>
 									<el-button type="danger" class="el-question-btn" @click="removeProblem(radioProblem.id, 'radio')">删除</el-button>
 								</div>
-								<div class="pageArea" v-if="isDrawPage && !isRadioNewPage && radioIndexes.length>1">
-									<Page :pageNo="radioCurrent + 1" :totalCount="radioIndexes.length" pageSize="1" @page-change="radioPageChange"></Page>
+								<div class="pageArea" v-if="isDrawPage && !isRadioNewPage && radioList.length>1">
+									<Page :pageNo="radioCurrent + 1" :totalCount="radioList.length" pageSize="1" @page-change="radioPageChange"></Page>
 								</div>
 							</template>
 							<template v-else>
@@ -60,11 +60,11 @@
 					</el-collapse-item>
 					<el-collapse-item>
 						<template slot="title">
-							<span>多选题（共<span>{{checkIndexes.length}}</span>题 &nbsp; 每题<span>{{config.checkscore}}</span>分）</span>
+							<span>多选题（共<span>{{checkList.length}}</span>题 &nbsp; 每题<span>{{info.checkScore}}</span>分）</span>
 							<el-button v-if="isEditAble" type="primary" @click.stop="addProblem('check')">添加试题</el-button>
 						</template>
 						<div v-loading="checkLoading">
-							<template v-if="checkIndexes.length>0">
+							<template v-if="checkList.length>0">
 								<div class="el-question" :class="{'is-event-able': isEditAble}">
 									<div class="el-question-title">
 										<span>{{checkCurrent + 1}}. {{checkProblem.title}}</span>
@@ -94,8 +94,8 @@
 									</div>
 									<el-button type="danger" class="el-question-btn" @click="removeProblem(checkProblem.id, 'check')">删除</el-button>
 								</div>
-								<div class="pageArea" v-if="isDrawPage && !isCheckNewPage && checkIndexes.length>1">
-									<Page :pageNo="checkCurrent + 1" :totalCount="checkIndexes.length" pageSize="1" @page-change="checkPageChange"></Page>
+								<div class="pageArea" v-if="isDrawPage && !isCheckNewPage && checkList.length>1">
+									<Page :pageNo="checkCurrent + 1" :totalCount="checkList.length" pageSize="1" @page-change="checkPageChange"></Page>
 								</div>
 							</template>
 							<template v-else>
@@ -105,11 +105,11 @@
 					</el-collapse-item>
 					<el-collapse-item>
 						<template slot="title">
-							<span>判断题（共<span>{{judgeIndexes.length}}</span>题 &nbsp; 每题<span>{{config.judgescore}}</span>分）</span>
+							<span>判断题（共<span>{{judgeList.length}}</span>题 &nbsp; 每题<span>{{info.judgeScore}}</span>分）</span>
 							<el-button v-if="isEditAble" type="primary" @click.stop="addProblem('judge')">添加试题</el-button>
 						</template>
 						<div v-loading="judgeLoading">
-							<template v-if="judgeIndexes.length>0">
+							<template v-if="judgeList.length>0">
 								<div class="el-question" :class="{'is-event-able': isEditAble}">
 									<div class="el-question-title">
 										<span>{{judgeCurrent + 1}}. {{judgeProblem.title}}</span>
@@ -139,8 +139,8 @@
 									</div>
 									<el-button type="danger" class="el-question-btn" @click="removeProblem(judgeProblem.id, 'judge')">删除</el-button>
 								</div>
-								<div class="pageArea" v-if="isDrawPage && !isJudgeNewPage && judgeIndexes.length>1">
-									<Page :pageNo="judgeCurrent + 1" :totalCount="judgeIndexes.length" pageSize="1" @page-change="judgePageChange"></Page>
+								<div class="pageArea" v-if="isDrawPage && !isJudgeNewPage && judgeList.length>1">
+									<Page :pageNo="judgeCurrent + 1" :totalCount="judgeList.length" pageSize="1" @page-change="judgePageChange"></Page>
 								</div>
 							</template>
 							<template v-else>
@@ -150,14 +150,14 @@
 					</el-collapse-item>
 					<el-collapse-item>
 						<template slot="title">
-							<span>选做题（共<span>{{optionIndexes.length}}</span>题 &nbsp; 选{{config.necessary}}题 &nbsp; 每题<span>{{config.choosescore}}</span>分）</span>
+							<span>选做题（共<span>{{optionalList.length}}</span>题 &nbsp; 选{{info.mustCount}}题 &nbsp; 每题<span>{{info.optionalScore}}</span>分）</span>
 							<el-button v-if="isEditAble" type="primary" @click.stop="addProblem('option')">添加试题</el-button>
 						</template>
 						<div v-loading="optionLoading">
-							<template v-if="optionIndexes.length>0">
+							<template v-if="optionalList.length>0">
 								<div class="el-question" :class="{'is-event-able': isEditAble}">
 									<div class="el-question-title">
-										<span>{{optionCurrent + 1}}. {{optionProblem.title}}</span>
+										<span>{{optionalCurrent + 1}}. {{optionProblem.title}}</span>
 									</div>
 									<div class="el-question-options mask">
 										<el-checkbox-group v-if="optionProblem.type=='check'" v-model="optionProblem.answer">
@@ -187,8 +187,8 @@
 									</div>
 									<el-button type="danger" class="el-question-btn" @click="removeProblem(optionProblem.id, 'option')">删除</el-button>
 								</div>
-								<div class="pageArea" v-if="isDrawPage && !isOptionNewPage && optionIndexes.length>1">
-									<Page :pageNo="optionCurrent + 1" :totalCount="optionIndexes.length" pageSize="1" @page-change="optionPageChange"></Page>
+								<div class="pageArea" v-if="isDrawPage && !isOptionNewPage && optionalList.length>1">
+									<Page :pageNo="optionalCurrent + 1" :totalCount="optionalList.length" pageSize="1" @page-change="optionPageChange"></Page>
 								</div>
 							</template>
 							<template v-else>
@@ -211,7 +211,7 @@
 			id:{
 				required: true
 			},
-			name:{
+			info:{
 				required: true
 			}
 		},
@@ -222,40 +222,25 @@
 		data(){
 			return {
 				isDrawPage: false,
-				detail: {},
-				config:{//默认配置
-					// radiocount: 10,//单选题数
-					radioscore: 5,//单选每题分数
-					// checkcount: 5,//多选题数
-					checkscore: 5,//多选每题分数
-					// judgecount: 5,//判断分数
-					judgescore: 2,//判断每题分数
-					// optional: 5,//选做题数
-					necessary: 3,//选做必做题数
-					choosescore: 5,//选做每题分数
-					total: 100//总分
-				},
-
-				allList: [],//试卷题目列表
 
 				radioLoading: false,
-				radioIndexes: [],//单选对应的索引列表
+				radioList: [],//单选题目列表
 				radioCurrent: 0,//当前单选对应索引序号
 				isRadioNewPage: false,//为了刷新分页
 
 				checkLoading: false,
-				checkIndexes: [],//多选对应的索引列表
+				checkList: [],//多选题目列表
 				checkCurrent: 0,//当前多选对应索引序号
 				isCheckNewPage: false,//为了刷新分页
 
 				judgeLoading: false,
-				judgeIndexes: [],//判断对应的索引列表
+				judgeList: [],//判断题目列表
 				judgeCurrent: 0,//当前判断对应索引序号
 				isJudgeNewPage: false,//为了刷新分页
 
 				optionLoading: false,
-				optionIndexes: [],//选做对应的索引列表
-				optionCurrent: 0,//当前选做对应索引序号
+				optionalList: [],//选做题目列表
+				optionalCurrent: 0,//当前选做对应索引序号
 				isOptionNewPage: false,//为了刷新分页
 
 				saveLoading: false,//保存加载mask
@@ -266,60 +251,39 @@
 		},
 		computed:{
 			radioProblem(){//“单选”当前题目
-				if(typeof this.radioIndexes[this.radioCurrent] != 'undefined'){
-					var index = this.radioIndexes[this.radioCurrent];
-					return this.allList[index];
-				}else{
-					return '';
-				}
+				return this.radioList[this.radioCurrent]?this.radioList[this.radioCurrent]:{};
 			},
 			checkProblem(){//“多选”当前题目
-				if(typeof this.checkIndexes[this.checkCurrent] != 'undefined'){
-					var index = this.checkIndexes[this.checkCurrent];
-					return this.allList[index];
-				}else{
-					return '';
-				}
+				return this.checkList[this.checkCurrent]?this.checkList[this.checkCurrent]:{};
 			},
 			judgeProblem(){//“判断”当前题目
-				if(typeof this.judgeIndexes[this.judgeCurrent] != 'undefined'){
-					var index = this.judgeIndexes[this.judgeCurrent];
-					return this.allList[index];
-				}else{
-					return '';
-				}
+				return this.judgeList[this.judgeCurrent]?this.judgeList[this.judgeCurrent]:{};
 			},
 			optionProblem(){//多选题目
-				if(typeof this.optionIndexes[this.optionCurrent] != 'undefined'){
-					var index = this.optionIndexes[this.optionCurrent];
-					return this.allList[index];
-				}else{
-					return '';
-				}
+				return this.optionalList[this.optionalCurrent]?this.optionalList[this.optionalCurrent]:{};
 			},
 			isEditAble(){
 				var isEditAble = true;
 
 				//当前用户与创建人一致
 				//试卷状态未启用
-				//试卷组卷模型为手动
 
 				var userName = this.$store.getters.userName;
 
-				if(this.detail.creator != userName || this.detail.status != '0' || this.detail.mode != 'manual'){
+				if(this.info.creator != userName || (this.info.status != 0 && this.info.status != 1)){
 					isEditAble = false;
 				}
 				return isEditAble;
 			},
 			totalSet(){//已有分值
 				var sum = 0;
-				sum += this.radioIndexes.length * this.config.radioscore;
-				sum += this.checkIndexes.length * this.config.checkscore;
-				sum += this.judgeIndexes.length * this.config.judgescore;
-				if(this.optionIndexes.length >= this.config.necessary){
-					sum += this.config.necessary * this.config.choosescore;
+				sum += this.radioList.length * this.info.radioScore;
+				sum += this.checkList.length * this.info.checkScore;
+				sum += this.judgeList.length * this.info.judgeScore;
+				if(this.optionalList.length >= this.info.mustCount){
+					sum += this.info.mustCount * this.info.optionalScore;
 				}else{
-					sum += this.optionIndexes.length * this.config.choosescore;
+					sum += this.optionalList.length * this.info.optionalScore;
 				}
 				return sum;
 			}
@@ -331,34 +295,16 @@
 					paperId: this.id
 				};
 				getPaperProblemList(param).then(res => {
-					this.detail = res.data.detail;
-					this.allList = res.data.list;
-					this.arrange();
+					this.radioList = res.data.radio;
+					this.checkList = res.data.check;
+					this.judgeList = res.data.judge;
+					this.optionalList = res.data.optional;
 					this.isDrawPage = true;
 				});
 			},
-			arrange(){//按类型整理题目
-				this.radioIndexes = [];
-				this.checkIndexes = [];
-				this.judgeIndexes = [];
-				this.optionIndexes = [];
-				for(var i=0;i<this.allList.length;i++){
-					var item = this.allList[i];
-					if(item.isNecessary === true){
-						switch(item.type){
-							case 'radio': this.radioIndexes.push(i);break;
-							case 'check': this.checkIndexes.push(i);break;
-							case 'judge': this.judgeIndexes.push(i);break;
-							default: break;
-						}
-					}else{
-						this.optionIndexes.push(i);
-					}
-				}
-			},
 			onSave(){//试卷保存
 				//前端100分判断(后端判定100分)
-				if(this.totalSet == this.config.total){
+				if(this.totalSet == this.info.totalPoint){
 					this.saveLoading = true;
 					//to do
 					var params = {
@@ -384,7 +330,7 @@
 				}else{
 					this.$message({
 						type: 'error',
-						message: '当前已有分值：' + this.totalSet + '分；总分：'+ this.config.total + '分；不一致！'
+						message: '当前已有分值：' + this.totalSet + '分；总分：'+ this.info.totalPoint + '分；不一致！'
 					});
 				}
 			},
@@ -408,34 +354,35 @@
 						break;
 					default: break;
 				};
-				var index = _.findIndex(this.allList,{id:id});
 				//to do
 				var params = {
 					paperId: this.id,//试卷id
 					problemId: id//题目id
 				};
 				removePaperProblem(params).then(res => {
-					if(res.code == '0'){
-						this.allList.splice(index, 1);
-						this.arrange();
+					if(res.code == 0){
 		                switch(blockType){
 							case 'radio': 
+								this.radioList.splice(this.radioCurrent, 1);
 								this.radioCurrent = 0;
 								this.isRadioNewPage = false;
 								this.radioLoading = false;
 								break;
 							case 'check': 
+								this.checkList.splice(this.checkCurrent, 1);
 								this.checkCurrent = 0;
 								this.isCheckNewPage = false;
 								this.checkLoading = false;
 								break;
 							case 'judge': 
+								this.judgeList.splice(this.judgeCurrent, 1);
 								this.judgeCurrent = 0;
 								this.isJudgeNewPage = false;
 								this.judgeLoading = false;
 								break;
 							case 'option': 
-								this.optionCurrent = 0;
+								this.optionalList.splice(this.optionalCurrent, 1);
+								this.optionalCurrent = 0;
 								this.isOptionNewPage = false;
 								this.optionLoading = false;
 								break;
@@ -471,7 +418,7 @@
 				this.judgeCurrent = pageNo - 1;
 			},
 			optionPageChange(pageNo){//选做题题数变更
-				this.optionCurrent = pageNo - 1;
+				this.optionalCurrent = pageNo - 1;
 			}
 		},
 		mounted(){
