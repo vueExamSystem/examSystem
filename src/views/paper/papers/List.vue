@@ -22,8 +22,13 @@
                         </el-table-column>
                         <el-table-column prop="duration" label="时长(min)" min-width="100">
                         </el-table-column>
-                        <el-table-column prop="project" label="所属课程" min-width="120">
-                        </el-table-column>
+<!--                         <el-table-column prop="project" label="所属课程" min-width="120">
+                        </el-table-column> -->
+                        <el-table-column prop="course" label="所属课程">
+                         <template slot-scope="scope">
+                         <span v-if="scope.row.course">{{scope.row.course.name}}</span>
+                         </template> 
+                         </el-table-column>
                         <el-table-column prop="category" label="类别" min-width="100" :formatter="formatCategory">
                         </el-table-column>
                         <el-table-column prop="status" label="状态" min-width="100">
@@ -202,7 +207,7 @@
             //     }
             // },
             formatCategory(row, column){
-                if(row.category == '1'){
+                if(row.createType == '1'){
                     return '随机组卷';
                 }else{
                     return '手动组卷';
@@ -264,8 +269,8 @@
             isRowEditable(row){
                 var isEditAble = true;
                 //当前用户与创建人一致
-                //试卷初始化或未启用状态
-                if(row.creator != this.userName || (row.status != '0' && row.status != '1')){
+                //试卷初始化或未启用状态row.creator != this.userName || 
+                if((row.status != '0' && row.status != '1')){
                     isEditAble = false;
                 }
                 return isEditAble;

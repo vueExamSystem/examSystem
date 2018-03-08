@@ -328,7 +328,7 @@
 			init(){
 				this.isDrawPage = false;
 				var param = {
-					id: this.id
+					paperId: this.id
 				};
 				getPaperProblemList(param).then(res => {
 					this.detail = res.data.detail;

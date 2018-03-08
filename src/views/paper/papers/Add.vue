@@ -25,7 +25,7 @@
 					</el-form-item>
 					<el-form-item label="组卷方式：" prop="mode">
 						<el-select v-model="form.mode" placeholder="请选择组卷方式">
-							<el-option label="自动" value="random"></el-option>
+							<el-option label="随机组卷" value="random"></el-option>
 							<el-option label="手动组卷" value="manual"></el-option>
 						</el-select>
 					</el-form-item>
@@ -222,7 +222,7 @@
 							this.form.choosescore = '';
 						}
 
-						var paperParams = {
+						/*var paperParams = {
                             name: this.form.name,
                             "course.id": this.form.subject,
                             duration:this.form.time,
@@ -237,15 +237,32 @@
                             choosescore: this.form.choosescore,
                             total:this.form.total,
                             mode: this.form.mode,
+                        };*/
+                        var paperParams = {
+                        	paperType:1,
+                            name: this.form.name,
+                            "course.id": this.form.subject,
+                            duration:this.form.time,
+                            radioCount: this.form.radiocount,
+                            radioScore: this.form.radioscore,
+                            checkCount: this.form.checkcount,
+                            checkScore: this.form.checkscore,
+                            judgeCount: this.form.judgecount,
+                            judgeScore: this.form.judgescore,
+                            optionalCount: this.form.optional,
+                            mustCount: this.form.necessary,
+                            optionalScore: this.form.choosescore,
+                            total:this.form.total,
+                            mode: this.form.mode,
                         };
+                        console.log('paperParams',paperParams);
                         this.$confirm('确认添加吗？', '提示', {}).then(() => {
                             this.loading = true;
                             savePaper(paperParams).then((res) => {
-                                res=res.data;
                                 console.log(res);
-                                if (res.code != '0') {
+                                if (res.code != 0) {
                                     this.$message({
-                                        message: "题目数量不足",
+                                        message: res.msg,//"题目数量不足",
                                         type: 'error'
                                     });
                                 } else {

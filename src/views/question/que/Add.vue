@@ -432,6 +432,7 @@
                         for (var i = 0; i < this.form.correctOptionMany.length; i++) {
                             str = str + "," + this.form.correctOptionMany[i];
                         }*/
+                        var str=this.form.correctOptionMany.join(',')
                         var queParams = {
                             name: name,
                             questionTypeId: this.form.type,
@@ -455,7 +456,7 @@
                                 this.form.selectionPicD || undefined,
                             ],
                             answer: this.form.correctOptionRadio,
-                            answers: this.form.type === 3 ? 'A,B' : 'A,B,C,D',
+                            answers: this.form.type === 3 ? '' : str,
                             points: this.form.points,
                             reference: this.form.source,
                             examingPoint: this.form.testSites,
