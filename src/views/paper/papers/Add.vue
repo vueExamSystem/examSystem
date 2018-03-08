@@ -33,7 +33,7 @@
 						<el-input v-model="form.time"></el-input>
 						<span class="text-primary" style="margin-left:12px;">*单位分钟</span>
 					</el-form-item>
-					<el-form-item label="考试题型：" :required="isConfigRequired" v-if="isConfigRequired">
+					<el-form-item label="考试题型：">
 						<el-col :span="24">
 							<el-form-item class="form-item-unit" prop="radiocount">
 								单选 <el-input v-model.integer="form.radiocount"></el-input> 道
@@ -59,11 +59,11 @@
 							</el-form-item>
 						</el-col>
 						<el-col :span="24">
-							<el-form-item class="form-item-unit" prop="optional">
-								选做 <el-input v-model.integer="form.optional"></el-input> 道
+							<el-form-item class="form-item-unit" prop="optionalCount">
+								选做 <el-input v-model.integer="form.optionalCount"></el-input> 道
 							</el-form-item>
-							<el-form-item class="form-item-unit" prop="necessary">
-								需做 <el-input v-model.integer="form.necessary"></el-input> 道
+							<el-form-item class="form-item-unit" prop="mustCount">
+								需做 <el-input v-model.integer="form.mustCount"></el-input> 道
 							</el-form-item>
 							<el-form-item class="form-item-unit" prop="choosescore">
 								分值 <el-input v-model.integer="form.choosescore"></el-input> 分
@@ -79,7 +79,7 @@
 				</el-form>
 			</div>
 		</div>
-		<Detail :id="detailPaperId" v-if="isNext" @close="detailBack"></Detail>
+		<Detail :id="detailPaperId" :info="detailPaperInfo" v-if="isNext" @close="detailBack"></Detail>
 	</section>
 </template>
 <script>
@@ -91,13 +91,6 @@
 		},
 		data() {
 			var integerPattern = '^\\d+$';//>=0整数正则
-			var isRequiedValidator = (rule, value, callback) => {//考试题型是否需要验证
-				if(this.isConfigRequired && value.length == 0){
-					callback(new Error('该项不能为空'));
-				}else{
-					callback();
-				}
-			};
 			return {
 				isInlineMessage: true,
 				isNext: false,
@@ -115,12 +108,13 @@
 					checkscore:'',//多选每题分数
 					judgecount:'',//判断分数
 					judgescore:'',//判断每题分数
-					optional:'',//选做题数
-					necessary:'',//选做必做题数
+					optionalCount:'',//选做题数
+					mustCount:'',//选做必做题数
 					choosescore:'',//选做每题分数
 					total: 100//总分
 				},
 				detailPaperId:'',
+				detailPaperInfo: '',
 				rules:{
 					name:[
 						{required: true, message: '请输入试卷名称', trigger: 'blur'},
@@ -137,39 +131,39 @@
 						{pattern: integerPattern, message: '请输入整数', trigger:'change'}
 					],
 					radiocount: [
-						{validator: isRequiedValidator, message: '请输入题数', trigger:'change'},
+						{required: true, message: '请输入题数', trigger:'change'},
 						{pattern: integerPattern, message: '请输入整数', trigger: 'change'}
 					],
 					radioscore: [
-						{validator: isRequiedValidator, message: '请输入分值', trigger:'change'},
+						{required: true, message: '请输入分值', trigger:'change'},
 						{pattern: integerPattern, message: '请输入整数', trigger:'change'}
 					],
 					checkcount: [
-						{validator: isRequiedValidator, message: '请输入题数', trigger:'change'},
+						{required: true, message: '请输入题数', trigger:'change'},
 						{pattern: integerPattern, message: '请输入整数', trigger:'change'}
 					],
 					checkscore: [
-						{validator: isRequiedValidator, message: '请输入分值', trigger:'change'},
+						{required: true, message: '请输入分值', trigger:'change'},
 						{pattern: integerPattern, message: '请输入整数', trigger:'change'}
 					],
 					judgecount: [
-						{validator: isRequiedValidator, message: '请输入题数', trigger:'change'},
+						{required: true, message: '请输入题数', trigger:'change'},
 						{pattern: integerPattern, message: '请输入整数', trigger:'change'}
 					],
 					judgescore: [
-						{validator: isRequiedValidator, message: '请输入分值', trigger:'change'},
+						{required: true, message: '请输入分值', trigger:'change'},
 						{pattern: integerPattern, message: '请输入整数', trigger:'change'}
 					],
-					optional: [
-						{validator: isRequiedValidator, message: '请输入选做题数', trigger:'change'},
+					optionalCount: [
+						{required: true, message: '请输入选做题数', trigger:'change'},
 						{pattern: integerPattern, message: '请输入整数', trigger:'change'}
 					],
-					necessary: [
-						{validator: isRequiedValidator, message: '请输入必做题数', trigger:'change'},
+					mustCount: [
+						{required: true, message: '请输入必做题数', trigger:'change'},
 						{pattern: integerPattern, message: '请输入整数', trigger:'change'}
 					],
 					choosescore: [
-						{validator: isRequiedValidator, message: '请输入分值', trigger:'change'},
+						{required: true, message: '请输入分值', trigger:'change'},
 						{pattern: integerPattern, message: '请输入整数', trigger:'change'}
 					],
 					total:{required:true}
@@ -196,48 +190,20 @@
 				   this.$refs['form'].validate((valid) => {
 					if(valid){
 						//验证总分是否100分
-						if(this.isConfigRequired){
-							if(this.form.necessary>this.form.optional){
-								this.alerrError("选做题的需做数超过总题数!");
-								return false;
-							}
-							var sum = 0;
-							sum += this.form.radiocount * this.form.radioscore;
-							sum += this.form.checkcount * this.form.checkscore;
-							sum += this.form.judgecount * this.form.judgescore;
-							sum += this.form.choosescore * this.form.necessary;
-							if(sum != this.form.total){
-								this.alerrError("分数已配置:" + sum + "分; 总分:"+ this.form.total +"分;不一致!");
-								return false;
-							}
-						}else{
-							this.form.radiocount = '';
-							this.form.radioscore = '';
-							this.form.checkcount = '';
-							this.form.checkscore = '';
-							this.form.judgecount = '';
-							this.form.judgescore = '';
-							this.form.optional = '';
-							this.form.necessary = '';
-							this.form.choosescore = '';
+						if(this.form.mustCount>this.form.optionalCount){
+							this.alerrError("选做题的需做数超过总题数!");
+							return false;
+						}
+						var sum = 0;
+						sum += this.form.radiocount * this.form.radioscore;
+						sum += this.form.checkcount * this.form.checkscore;
+						sum += this.form.judgecount * this.form.judgescore;
+						sum += this.form.choosescore * this.form.mustCount;
+						if(sum != this.form.total){
+							this.alerrError("分数已配置:" + sum + "分; 总分:"+ this.form.total +"分;不一致!");
+							return false;
 						}
 
-						/*var paperParams = {
-                            name: this.form.name,
-                            "course.id": this.form.subject,
-                            duration:this.form.time,
-                            radiocount: this.form.radiocount,
-                            radioscore: this.form.radioscore,
-                           checkcount: this.form.checkcount,
-                            checkscore: this.form.checkscore,
-                            judgecount: this.form.judgecount,
-                           judgescore: this.form.judgescore,
-                            optional: this.form.optional,
-                            necessary: this.form.necessary,
-                            choosescore: this.form.choosescore,
-                            total:this.form.total,
-                            mode: this.form.mode,
-                        };*/
                         var paperParams = {
                         	paperType:1,
                             name: this.form.name,
@@ -249,8 +215,8 @@
                             checkScore: this.form.checkscore,
                             judgeCount: this.form.judgecount,
                             judgeScore: this.form.judgescore,
-                            optionalCount: this.form.optional,
-                            mustCount: this.form.necessary,
+                            optionalCount: this.form.optionalCount,
+                            mustCount: this.form.mustCount,
                             optionalScore: this.form.choosescore,
                             total:this.form.total,
                             mode: this.form.mode,
@@ -272,17 +238,19 @@
                                     });
                                     this.loading = false;
                                     this.$refs['form'].resetFields();
-                                    this.$emit('toTable');
+                                    if(flag && flag == 'next'){
+										this.resetForm('form');
+										this.detailPaperId = '1';
+										this.detailPaperInfo.totalPoint = paperParams.total;
+										this.detailPaperInfo.status = 0;
+										this.isNext = true;
+									}
                                 }
 
                             });
                         });
 						
-						if(flag && flag == 'next'){
-							this.resetForm('form');
-							this.detailPaperId = '1';
-							this.isNext = true;
-						}
+
 						
 					}else{
 						return false;
