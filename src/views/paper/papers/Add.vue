@@ -59,11 +59,11 @@
 							</el-form-item>
 						</el-col>
 						<el-col :span="24">
-							<el-form-item class="form-item-unit" prop="optional">
-								选做 <el-input v-model.integer="form.optional"></el-input> 道
+							<el-form-item class="form-item-unit" prop="optionalCount">
+								选做 <el-input v-model.integer="form.optionalCount"></el-input> 道
 							</el-form-item>
-							<el-form-item class="form-item-unit" prop="necessary">
-								需做 <el-input v-model.integer="form.necessary"></el-input> 道
+							<el-form-item class="form-item-unit" prop="mustCount">
+								需做 <el-input v-model.integer="form.mustCount"></el-input> 道
 							</el-form-item>
 							<el-form-item class="form-item-unit" prop="choosescore">
 								分值 <el-input v-model.integer="form.choosescore"></el-input> 分
@@ -108,8 +108,8 @@
 					checkscore:'',//多选每题分数
 					judgecount:'',//判断分数
 					judgescore:'',//判断每题分数
-					optional:'',//选做题数
-					necessary:'',//选做必做题数
+					optionalCount:'',//选做题数
+					mustCount:'',//选做必做题数
 					choosescore:'',//选做每题分数
 					total: 100//总分
 				},
@@ -154,11 +154,11 @@
 						{required: true, message: '请输入分值', trigger:'change'},
 						{pattern: integerPattern, message: '请输入整数', trigger:'change'}
 					],
-					optional: [
+					optionalCount: [
 						{required: true, message: '请输入选做题数', trigger:'change'},
 						{pattern: integerPattern, message: '请输入整数', trigger:'change'}
 					],
-					necessary: [
+					mustCount: [
 						{required: true, message: '请输入必做题数', trigger:'change'},
 						{pattern: integerPattern, message: '请输入整数', trigger:'change'}
 					],
@@ -190,7 +190,7 @@
 				   this.$refs['form'].validate((valid) => {
 					if(valid){
 						//验证总分是否100分
-						if(this.form.necessary>this.form.optional){
+						if(this.form.mustCount>this.form.optionalCount){
 							this.alerrError("选做题的需做数超过总题数!");
 							return false;
 						}
@@ -198,7 +198,7 @@
 						sum += this.form.radiocount * this.form.radioscore;
 						sum += this.form.checkcount * this.form.checkscore;
 						sum += this.form.judgecount * this.form.judgescore;
-						sum += this.form.choosescore * this.form.necessary;
+						sum += this.form.choosescore * this.form.mustCount;
 						if(sum != this.form.total){
 							this.alerrError("分数已配置:" + sum + "分; 总分:"+ this.form.total +"分;不一致!");
 							return false;
@@ -215,8 +215,8 @@
                             checkScore: this.form.checkscore,
                             judgeCount: this.form.judgecount,
                             judgeScore: this.form.judgescore,
-                            optionalCount: this.form.optional,
-                            mustCount: this.form.necessary,
+                            optionalCount: this.form.optionalCount,
+                            mustCount: this.form.mustCount,
                             optionalScore: this.form.choosescore,
                             total:this.form.total,
                             mode: this.form.mode,
