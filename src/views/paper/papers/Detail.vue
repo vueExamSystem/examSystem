@@ -15,8 +15,8 @@
 				<el-collapse v-if="isDrawPage">
 					<el-collapse-item>
 						<template slot="title">
-							<span>单选题（共<span>{{radioList.length}}</span>题 &nbsp; 每题<span>{{info.radioScore}}</span>分）</span>
-							<el-button v-if="isEditAble" type="primary" @click.stop="addProblem('radio')">添加试题</el-button>
+							<span>单选题（共需{{info.radioCount}}题 &nbsp; 已有{{radioList.length}}题 &nbsp; 每题{{info.radioScore}}分）</span>
+							<el-button v-if="isEditAble" type="primary" @click.stop="addProblem('radio')" :disabled="info.radioCount<=radioList.length">添加试题</el-button>
 						</template>
 						<div v-loading="radioLoading">
 							<template v-if="radioList.length>0">
@@ -60,8 +60,8 @@
 					</el-collapse-item>
 					<el-collapse-item>
 						<template slot="title">
-							<span>多选题（共<span>{{checkList.length}}</span>题 &nbsp; 每题<span>{{info.checkScore}}</span>分）</span>
-							<el-button v-if="isEditAble" type="primary" @click.stop="addProblem('check')">添加试题</el-button>
+							<span>多选题（共需{{info.checkCount}}题 &nbsp; 已有{{checkList.length}}题 &nbsp; 每题{{info.checkScore}}分）</span>
+							<el-button v-if="isEditAble" type="primary" @click.stop="addProblem('check')" :disabled="info.checkCount<=checkList.length">添加试题</el-button>
 						</template>
 						<div v-loading="checkLoading">
 							<template v-if="checkList.length>0">
@@ -105,8 +105,8 @@
 					</el-collapse-item>
 					<el-collapse-item>
 						<template slot="title">
-							<span>判断题（共<span>{{judgeList.length}}</span>题 &nbsp; 每题<span>{{info.judgeScore}}</span>分）</span>
-							<el-button v-if="isEditAble" type="primary" @click.stop="addProblem('judge')">添加试题</el-button>
+							<span>判断题（共需{{info.judgeCount}}题 &nbsp; 已有{{judgeList.length}}题 &nbsp; 每题{{info.judgeScore}}分）</span>
+							<el-button v-if="isEditAble" type="primary" @click.stop="addProblem('judge')" :disabled="info.judgeCount<=judgeList.length">添加试题</el-button>
 						</template>
 						<div v-loading="judgeLoading">
 							<template v-if="judgeList.length>0">
@@ -150,8 +150,8 @@
 					</el-collapse-item>
 					<el-collapse-item>
 						<template slot="title">
-							<span>选做题（共<span>{{optionalList.length}}</span>题 &nbsp; 选{{info.mustCount}}题 &nbsp; 每题<span>{{info.optionalScore}}</span>分）</span>
-							<el-button v-if="isEditAble" type="primary" @click.stop="addProblem('option')">添加试题</el-button>
+							<span>选做题（共需{{info.optionalCount}}题 &nbsp; 已有{{optionalList.length}}题 &nbsp; 选做{{info.mustCount}}题 &nbsp; 每题{{info.optionalScore}}分）</span>
+							<el-button v-if="isEditAble" type="primary" @click.stop="addProblem('option')" :disabled="info.optionalCount<=optionalList.length">添加试题</el-button>
 						</template>
 						<div v-loading="optionLoading">
 							<template v-if="optionalList.length>0">
@@ -267,10 +267,13 @@
 
 				//当前用户与创建人一致
 				//试卷状态未启用
+				// var userName = this.$store.getters.userName;
+				// if(this.info.creator != userName || (this.info.status != 0 && this.info.status != 1)){
+				// 	isEditAble = false;
+				// }
 
-				var userName = this.$store.getters.userName;
-
-				if(this.info.creator != userName || (this.info.status != 0 && this.info.status != 1)){
+				//状态0：未完成;1:已完成;2已发布
+				if(this.info.status != 0 && this.info.status != 1){
 					isEditAble = false;
 				}
 				return isEditAble;
