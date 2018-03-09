@@ -240,7 +240,8 @@
                                     this.$refs['form'].resetFields();
                                     if(flag && flag == 'next'){
 										this.resetForm('form');
-										this.detailPaperId = '1';
+										this.detailPaperId = '1';//后台返回试卷id
+										this.detailPaperInfo = paperParams;
 										this.detailPaperInfo.totalPoint = paperParams.total;
 										this.detailPaperInfo.status = 0;
 										this.isNext = true;
