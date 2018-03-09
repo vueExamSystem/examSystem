@@ -13,28 +13,62 @@
                 <div class="el-question" v-loading="isLoading">
                     <div class="el-question-title" v-html="detail.content">
                     </div>
-                    <div class="el-question-options mask">
+                    <div v-if="detail.questionTypeId === 2" class="el-question-options mask">
+                        <el-checkbox-group v-model="detail.answer">
+                            <el-checkbox class="radio-short" label="A">
+                                <span>A.</span>
+                                <div class="radio-short-div" v-html="detail.optiona"></div>
+                                </el-checkbox>
+                            <el-checkbox class="radio-short" label="B">
+                                <span>B.</span>
+                                <div class="radio-short-div" v-html="detail.optionb"></div>
+                            </el-checkbox>
+                            <el-checkbox class="radio-short" label="C">
+                                <span>C.</span>
+                                <div class="radio-short-div" v-html="detail.optionc"></div>
+                            </el-checkbox>
+                            <el-checkbox class="radio-short" label="D">
+                                <span>D.</span>
+                                <div class="radio-short-div" v-html="detail.optiond"></div>
+                            </el-checkbox>
+                        </el-checkbox-group>
+                    </div>
+                    <div v-else-if="detail.questionTypeId === 3" class="el-question-options mask">
                         <el-radio-group v-model="detail.answer">
-                            <el-radio key="A" class="radio-short" label="A."></el-radio>
-                            <div class="radio-short-div" v-html="detail.optiona"></div>
+                            <el-radio class="radio-short" label="A">
+                                <span>A.</span>
+                                <div class="radio-short-div" v-html="detail.optiona"></div>
+                                </el-radio>
+                            <el-radio class="radio-short" label="B">
+                                <span>B.</span>
+                                <div class="radio-short-div" v-html="detail.optionb"></div>
+                            </el-radio>
                         </el-radio-group>
+                    </div>
+                    <div v-else class="el-question-options mask">
                         <el-radio-group v-model="detail.answer">
-                            <el-radio key="B" class="radio-short" label="B."></el-radio>
-                            <div class="radio-short-div" v-html="detail.optionb"></div>
-                        </el-radio-group>
-                        <el-radio-group v-model="detail.answer" v-if="detail.optionc">
-                            <el-radio key="C" class="radio-short" label="C."></el-radio>
-                            <div class="radio-short-div" v-html="detail.optionc"></div>
-                        </el-radio-group>
-                        <el-radio-group v-model="detail.answer" v-if="detail.optiond">
-                            <el-radio key="D" class="radio-short" label="D."></el-radio>
-                            <div class="radio-short-div" v-html="detail.optiond"></div>
+                            <el-radio class="radio-short" label="A">
+                                <span>A.</span>
+                                <div class="radio-short-div" v-html="detail.optiona"></div>
+                                </el-radio>
+                            <el-radio class="radio-short" label="B">
+                                <span>B.</span>
+                                <div class="radio-short-div" v-html="detail.optionb"></div>
+                            </el-radio>
+                            <el-radio v-if="detail.optionc" class="radio-short" label="C">
+                                <span>C.</span>
+                                <div class="radio-short-div" v-html="detail.optionc"></div>
+                            </el-radio>
+                            <el-radio v-if="detail.optiond" class="radio-short" label="D">
+                                <span>D.</span>
+                                <div class="radio-short-div" v-html="detail.optiond"></div>
+                            </el-radio>
                         </el-radio-group>
                     </div>
                     <div class="el-question-info">
                         <div class="el-info">
                             <div class="el-label el-label-light-green">正确答案</div>
-                            <div class="el-info-content">{{detail.answer}}</div>
+                            <div class="el-info-content">{{detail.answer?detail.answer.toString():''}}</div>
                         </div>
                         <div class="el-info">
                             <div class="el-label el-label-blue">解析</div>
@@ -42,7 +76,7 @@
                         </div>
                         <div class="el-info">
                             <div class="el-label el-label-green">考点</div>
-                            <div class="el-info-content">{{detail.keynote}}</div>
+                            <div class="el-info-content">{{detail.examingPoint}}</div>
                         </div>
                         <div class="el-info">
                             <div class="el-label el-label-purple">添加人</div>
@@ -80,8 +114,18 @@
                 }).then(res => {
                     console.log('detail', res);
                     this.detail = res.data;
+                    if(this.detail.questionTypeId === 2){//多选
+                        this.detail.answer = this.checkAnswerFormat(this.detail.answer);
+                    }
                     this.isLoading = false;
                 });
+            },
+            checkAnswerFormat(checkAnswer){
+                if(!_.isArray(checkAnswer)){
+                    return checkAnswer.split(',')
+                }else{
+                    return checkAnswer;
+                }
             },
             goBack() {
                 this.$emit('close');
@@ -99,27 +143,6 @@
     #queDetail{
         .content{
             padding: 20px;
-        }
-        .radio-short{
-            width: 45px;
-            float: left;
-        }
-        .radio-short-p{
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-        }
-        .radio-short-div{
-            float: left;
-            padding: 20px 0;
-
-            &>p,
-            &>div{
-              float: left;
-            }
-        }
-        .el-radio-group{
-            width: 100%;
         }
     }
 </style>
