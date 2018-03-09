@@ -402,10 +402,28 @@ form {
     font-size: 16px;
     color: #000000;
     letter-spacing: 1px;
-    line-height: 22px;
+    line-height: 26px;
+    &.has-order{
+      position: relative;
+      text-indent: 30px;
+      &>.el-question-index{
+        position: absolute;
+        top: 0;
+        left: -30px;
+        line-height: 26px;
+      }
+    }
   }
   .el-question-options {
     padding: 10px;
+    .el-radio-group,.el-checkbox-group{
+      .radio-short-div{
+        display: inline-block;
+        margin-left: 5px;
+        vertical-align: middle;
+        font-size: 14px;
+      }
+    }
     .el-radio, .el-checkbox {
       display: block;
       margin: 20px 0;

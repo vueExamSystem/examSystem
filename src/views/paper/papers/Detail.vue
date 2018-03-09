@@ -21,14 +21,30 @@
 						<div v-loading="radioLoading">
 							<template v-if="radioList.length>0">
 								<div class="el-question" :class="{'is-event-able': isEditAble}">
-									<div class="el-question-title">
-										<span>{{radioCurrent + 1}}. {{radioProblem.title}}</span>
+									<div class="el-question-title has-order">
+										<span class="el-question-index">{{radioCurrent + 1}}.</span>
+										<div v-html="radioProblem.content"></div>
 									</div>
-									<div class="el-question-options mask">
-										<el-radio-group v-model="radioProblem.answer">
-										<el-radio v-for="option in radioProblem.options" :label="option.flag">{{option.flag}}. {{option.text}}</el-radio>
-									</el-radio-group>
-									</div>
+				                    <div class="el-question-options mask">
+				                        <el-radio-group v-model="radioProblem.answer">
+				                            <el-radio class="radio-short" label="A">
+				                            	<span>A.</span>
+				                            	<div class="radio-short-div" v-html="radioProblem.optiona"></div>
+				                            	</el-radio>
+				                            <el-radio class="radio-short" label="B">
+					                            <span>B.</span>
+					                            <div class="radio-short-div" v-html="radioProblem.optionb"></div>
+				                            </el-radio>
+				                            <el-radio v-if="radioProblem.optionc" class="radio-short" label="C">
+					                            <span>C.</span>
+					                            <div class="radio-short-div" v-html="radioProblem.optionc"></div>
+				                            </el-radio>
+				                            <el-radio v-if="radioProblem.optiond" class="radio-short" label="D">
+					                            <span>D.</span>
+					                            <div class="radio-short-div" v-html="radioProblem.optiond"></div>
+				                            </el-radio>
+				                        </el-radio-group>
+				                    </div>
 									<div class="el-question-info">
 										<div class="el-info">
 											<div class="el-label el-label-light-green">正确答案</div>
@@ -40,7 +56,7 @@
 										</div>
 										<div class="el-info">
 											<div class="el-label el-label-green">考点</div>
-											<div class="el-info-content">{{radioProblem.keynote}}</div>
+											<div class="el-info-content">{{radioProblem.examingPoint}}</div>
 										</div>
 										<div class="el-info">
 											<div class="el-label el-label-purple">添加人</div>
@@ -66,14 +82,30 @@
 						<div v-loading="checkLoading">
 							<template v-if="checkList.length>0">
 								<div class="el-question" :class="{'is-event-able': isEditAble}">
-									<div class="el-question-title">
-										<span>{{checkCurrent + 1}}. {{checkProblem.title}}</span>
+									<div class="el-question-title has-order">
+										<span class="el-question-index">{{checkCurrent + 1}}.</span>
+										<div v-html="checkProblem.content"></div>
 									</div>
 									<div class="el-question-options mask">
-										<el-checkbox-group v-model="checkProblem.answer">
-											<el-checkbox v-for="option in checkProblem.options" :label="option.flag">{{option.flag}}. {{option.text}}</el-checkbox>
-										</el-checkbox-group>
-									</div>
+				                        <el-checkbox-group v-model="checkProblem.answer">
+				                            <el-checkbox class="radio-short" label="A">
+					                            <span>A.</span>
+					                            <div class="radio-short-div" v-html="checkProblem.optiona"></div>
+					                            </el-checkbox>
+				                            <el-checkbox class="radio-short" label="B">
+				                            	<span>B.</span>
+				                            	<div class="radio-short-div" v-html="checkProblem.optionb"></div>
+				                            </el-checkbox>
+				                            <el-checkbox class="radio-short" label="C">
+				                            	<span>C.</span>
+				                            	<div class="radio-short-div" v-html="checkProblem.optionc"></div>
+				                            </el-checkbox>
+				                            <el-checkbox class="radio-short" label="D">
+				                            	<span>D.</span>
+				                            	<div class="radio-short-div" v-html="checkProblem.optiond"></div>
+				                            </el-checkbox>
+				                        </el-checkbox-group>
+				                    </div>
 									<div class="el-question-info">
 										<div class="el-info">
 											<div class="el-label el-label-light-green">正确答案</div>
@@ -85,7 +117,7 @@
 										</div>
 										<div class="el-info">
 											<div class="el-label el-label-green">考点</div>
-											<div class="el-info-content">{{checkProblem.keynote}}</div>
+											<div class="el-info-content">{{checkProblem.examingPoint}}</div>
 										</div>
 										<div class="el-info">
 											<div class="el-label el-label-purple">添加人</div>
@@ -111,14 +143,22 @@
 						<div v-loading="judgeLoading">
 							<template v-if="judgeList.length>0">
 								<div class="el-question" :class="{'is-event-able': isEditAble}">
-									<div class="el-question-title">
-										<span>{{judgeCurrent + 1}}. {{judgeProblem.title}}</span>
+									<div class="el-question-title has-order">
+										<span class="el-question-index">{{judgeCurrent + 1}}.</span>
+										<div v-html="judgeProblem.content"></div>
 									</div>
 									<div class="el-question-options mask">
-										<el-radio-group v-model="judgeProblem.answer">
-											<el-radio v-for="option in judgeProblem.options" :label="option.flag">{{option.flag}}. {{option.text}}</el-radio>
-										</el-radio-group>
-									</div>
+				                        <el-radio-group v-model="judgeProblem.answer">
+				                            <el-radio class="radio-short" label="A">
+				                            	<span>A.</span>
+				                            	<div class="radio-short-div" v-html="judgeProblem.optiona"></div>
+				                            	</el-radio>
+				                            <el-radio class="radio-short" label="B">
+					                            <span>B.</span>
+					                            <div class="radio-short-div" v-html="judgeProblem.optionb"></div>
+				                            </el-radio>
+				                        </el-radio-group>
+				                    </div>
 									<div class="el-question-info">
 										<div class="el-info">
 											<div class="el-label el-label-light-green">正确答案</div>
@@ -130,7 +170,7 @@
 										</div>
 										<div class="el-info">
 											<div class="el-label el-label-green">考点</div>
-											<div class="el-info-content">{{judgeProblem.keynote}}</div>
+											<div class="el-info-content">{{judgeProblem.examingPoint}}</div>
 										</div>
 										<div class="el-info">
 											<div class="el-label el-label-purple">添加人</div>
@@ -156,17 +196,62 @@
 						<div v-loading="optionLoading">
 							<template v-if="optionalList.length>0">
 								<div class="el-question" :class="{'is-event-able': isEditAble}">
-									<div class="el-question-title">
-										<span>{{optionalCurrent + 1}}. {{optionProblem.title}}</span>
+									<div class="el-question-title has-order">
+										<span class="el-question-index">{{optionalCurrent + 1}}.</span>
+										<div v-html="optionProblem.content"></div>
 									</div>
-									<div class="el-question-options mask">
-										<el-checkbox-group v-if="optionProblem.type=='check'" v-model="optionProblem.answer">
-											<el-checkbox v-for="option in optionProblem.options" :label="option.flag">{{option.flag}}. {{option.text}}</el-checkbox>
-										</el-checkbox-group>
-										<el-radio-group v-else v-model="optionProblem.answer">
-											<el-radio v-for="option in optionProblem.options" :label="option.flag">{{option.flag}}. {{option.text}}}</el-radio>
-										</el-radio-group>
-									</div>
+				                    <div v-if="optionProblem.questionTypeId === 2" class="el-question-options mask">
+				                        <el-checkbox-group v-model="optionProblem.answer">
+				                            <el-checkbox class="radio-short" label="A">
+					                            <span>A.</span>
+					                            <div class="radio-short-div" v-html="optionProblem.optiona"></div>
+					                            </el-checkbox>
+				                            <el-checkbox class="radio-short" label="B">
+				                            	<span>B.</span>
+				                            	<div class="radio-short-div" v-html="optionProblem.optionb"></div>
+				                            </el-checkbox>
+				                            <el-checkbox class="radio-short" label="C">
+				                            	<span>C.</span>
+				                            	<div class="radio-short-div" v-html="optionProblem.optionc"></div>
+				                            </el-checkbox>
+				                            <el-checkbox class="radio-short" label="D">
+				                            	<span>D.</span>
+				                            	<div class="radio-short-div" v-html="optionProblem.optiond"></div>
+				                            </el-checkbox>
+				                        </el-checkbox-group>
+				                    </div>
+									<div v-else-if="optionProblem.questionTypeId === 3" class="el-question-options mask">
+				                        <el-radio-group v-model="optionProblem.answer">
+				                            <el-radio class="radio-short" label="A">
+				                            	<span>A.</span>
+				                            	<div class="radio-short-div" v-html="optionProblem.optiona"></div>
+				                            	</el-radio>
+				                            <el-radio class="radio-short" label="B">
+					                            <span>B.</span>
+					                            <div class="radio-short-div" v-html="optionProblem.optionb"></div>
+				                            </el-radio>
+				                        </el-radio-group>
+				                    </div>
+				                    <div v-else class="el-question-options mask">
+				                        <el-radio-group v-model="optionProblem.answer">
+				                            <el-radio class="radio-short" label="A">
+				                            	<span>A.</span>
+				                            	<div class="radio-short-div" v-html="optionProblem.optiona"></div>
+				                            	</el-radio>
+				                            <el-radio class="radio-short" label="B">
+					                            <span>B.</span>
+					                            <div class="radio-short-div" v-html="optionProblem.optionb"></div>
+				                            </el-radio>
+				                            <el-radio v-if="optionProblem.optionc" class="radio-short" label="C">
+					                            <span>C.</span>
+					                            <div class="radio-short-div" v-html="optionProblem.optionc"></div>
+				                            </el-radio>
+				                            <el-radio v-if="optionProblem.optiond" class="radio-short" label="D">
+					                            <span>D.</span>
+					                            <div class="radio-short-div" v-html="optionProblem.optiond"></div>
+				                            </el-radio>
+				                        </el-radio-group>
+				                    </div>
 									<div class="el-question-info">
 										<div class="el-info">
 											<div class="el-label el-label-light-green">正确答案</div>
@@ -178,7 +263,7 @@
 										</div>
 										<div class="el-info">
 											<div class="el-label el-label-green">考点</div>
-											<div class="el-info-content">{{optionProblem.keynote}}</div>
+											<div class="el-info-content">{{optionProblem.examingPoint}}</div>
 										</div>
 										<div class="el-info">
 											<div class="el-label el-label-purple">添加人</div>
@@ -254,13 +339,27 @@
 				return this.radioList[this.radioCurrent]?this.radioList[this.radioCurrent]:{};
 			},
 			checkProblem(){//“多选”当前题目
-				return this.checkList[this.checkCurrent]?this.checkList[this.checkCurrent]:{};
+				var currentProblem = this.checkList[this.checkCurrent];
+				if(currentProblem){
+					currentProblem.answer = this.checkAnswerFormat(currentProblem.answer);
+					return currentProblem;
+				}else{
+					return {};
+				}
 			},
 			judgeProblem(){//“判断”当前题目
 				return this.judgeList[this.judgeCurrent]?this.judgeList[this.judgeCurrent]:{};
 			},
-			optionProblem(){//多选题目
-				return this.optionalList[this.optionalCurrent]?this.optionalList[this.optionalCurrent]:{};
+			optionProblem(){//“选做”当前题目
+				var currentProblem = this.optionalList[this.optionalCurrent];
+				if(currentProblem){
+					if(currentProblem.questionTypeId === 2){//多选
+						currentProblem.answer = this.checkAnswerFormat(currentProblem.answer);
+					}
+					return currentProblem;
+				}else{
+					return {};
+				}
 			},
 			isEditAble(){
 				var isEditAble = true;
@@ -298,15 +397,43 @@
 					paperId: this.id
 				};
 				getPaperProblemList(param).then(res => {
-					this.radioList = res.data.radio;
-					this.checkList = res.data.check;
-					this.judgeList = res.data.judge;
-					this.optionalList = res.data.optional;
+					this.radioList = res.data.radio || [];
+					this.checkList = res.data.check || [];
+					this.judgeList = res.data.judge || [];
+					this.optionalList = res.data.optional || [];
 					this.isDrawPage = true;
 				});
 			},
 			onSave(){//试卷保存
 				//前端100分判断(后端判定100分)
+				if(this.info.radioCount != this.radioList.length){
+					this.$message({
+						type: 'error',
+						message: '单选题已有题数与所需题数不一致！'
+					});
+					return false;
+				}
+				if(this.info.checkCount != this.checkList.length){
+					this.$message({
+						type: 'error',
+						message: '多选题已有题数与所需题数不一致！'
+					});
+					return false;
+				}
+				if(this.info.judgeCount != this.judgeList.length){
+					this.$message({
+						type: 'error',
+						message: '判断题已有题数与所需题数不一致！'
+					});
+					return false;
+				}
+				if(this.info.optionalCount != this.optionalList.length){
+					this.$message({
+						type: 'error',
+						message: '选做题已有题数与所需题数不一致！'
+					});
+					return false;
+				}
 				if(this.totalSet == this.info.totalPoint){
 					this.saveLoading = true;
 					//to do
@@ -422,6 +549,13 @@
 			},
 			optionPageChange(pageNo){//选做题题数变更
 				this.optionalCurrent = pageNo - 1;
+			},
+			checkAnswerFormat(checkAnswer){
+				if(!_.isArray(checkAnswer)){
+					return checkAnswer.split(',')
+				}else{
+					return checkAnswer;
+				}
 			}
 		},
 		mounted(){
