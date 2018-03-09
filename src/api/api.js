@@ -220,7 +220,7 @@ export const getPaperProblem = params => { return instance.post(`${base}/paper/p
 //获取试卷题目列表
 export const getPaperProblemList = params => { return instance.post(`${base}/paper/problem/list`, qs.stringify(params) ).then(res => res.data); };
 //删除试卷题目
-export const removePaperProblem = params => { return instance.post(`${base}/paper/problem/remove`, params ).then(res => res.data); };
+export const removePaperProblem = params => { return instance.post(`${base}/paper/problem/remove`, qs.stringify(params) ).then(res => res.data); };
 //更新试卷状态
 export const updatePaperStatus = params => { return instance.post(`${base}/paper/update/status`, params ).then(res => res.data); };
 
@@ -262,7 +262,7 @@ export const updateAbnormal = params => { return instance.post(`${base}/listen/a
 * 考试 start
 * */
 //考试过滤器
-export const getExamFilter = params => { return instance.get(`${base}/exam/filter`, params ).then(res => res.data);};
+export const getExamFilter = params => { return instance.post(`${base}/exam/filter`, qs.stringify(params) ).then(res => res.data);};
 //考试列表
 export const getExamList = params => { return instance.post(`${base}/exam/list`, params ).then(res => res.data);};
 // 编辑考试

@@ -111,7 +111,7 @@
 				isNewPage: true,//是否新分页
                 totalCount: 10,
                 pageNo: 1,
-                pageSize:5,
+                pageSize:10,
                 listLoading: false,//表格加载
                 submitLoading: false,//提交加载
                 questionType: 1, //添加的试题类型
@@ -172,6 +172,9 @@
                 this.listLoading = true;
                 var params = {
                     keyword: this.keyword,
+                    PaperId: this.id,
+                    questionType: this.questionType,
+                    isOptional: this.isOptional,
                     filter: JSON.stringify(this.filter),
                     pageNo: this.pageNo,
                     pageSize: this.pageSize
