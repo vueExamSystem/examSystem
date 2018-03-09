@@ -211,8 +211,11 @@
 	            	var params = {
 	            		paperId: this.id,
 	            		type: this.flag,//试题类型
-	            		ids: idArr
+	            		ids:idArr// [1,2]
 	            	};
+	            	params={
+	            		json:JSON.stringify(params)
+	            	}
 	            	//to do
 	            	addPaperProblem(params).then(res => {
 	            		this.submitLoading = false;
