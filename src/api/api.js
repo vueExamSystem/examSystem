@@ -229,7 +229,7 @@ export const getProblemFilter = params => { return instance.post(`${base}/paper/
 //获取试卷试题列表
 export const getProblemList = params => { return instance.post(`${base}/paper/problem/question`, qs.stringify(params) ).then(res => res.data); };
 //试卷添加试题
-export const addPaperProblem = params => { return instance.post(`${base}/paper/problem/add`, params ).then(res => res.data); };
+export const addPaperProblem = params => { return instance.post(`${base}/paper/problem/add`, qs.stringify(params) ).then(res => res.data); };
 
 //添加试卷
 export const paperSubmit = params => { return instance.post(`${base}/paper/submit`, params ).then(res => res.data); };
