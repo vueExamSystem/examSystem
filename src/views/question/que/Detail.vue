@@ -144,5 +144,8 @@
         .content{
             padding: 20px;
         }
+        .el-checkbox__input{
+            bottom: -1px;
+        }
     }
 </style>
