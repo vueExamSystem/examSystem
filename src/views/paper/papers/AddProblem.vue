@@ -114,18 +114,39 @@
                 pageSize:5,
                 listLoading: false,//表格加载
                 submitLoading: false,//提交加载
+                questionType: 1, //添加的试题类型
+                isOptional: 0, //添加的试题类型是否为选做
                 isShowInnerHeader: false
 			}
 		},
 		computed:{
 			typeText(){
 				switch(this.flag){
-					case 'radio': return '单选';break;
-					case 'check': return '多选';break;
-					case 'judge': return '判断';break;
-					case 'option': return '选做题';break;
-					case 'text': return '简答题';break;
-					default: return '单选';break;
+					case 'radio': 
+						this.questionType = 1;
+						this.isOptional = 0;
+						return '单选';
+						break;
+					case 'check': 
+						this.questionType = 2;
+						this.isOptional = 0;
+						return '多选';
+						break;
+					case 'judge': 
+						this.questionType = 3;
+						this.isOptional = 0;
+						return '判断';
+						break;
+					case 'option': 
+						this.questionType = '';
+						this.isOptional = 1;
+						return '选做题';
+						break;
+					default: 
+						this.questionType = 1;
+						this.isOptional = 0;
+						return '单选';
+						break;
 				}
 			},
 		},
@@ -134,7 +155,12 @@
             getFilter() {
                 this.isInited = false;
                 this.listLoading = true;
-                getProblemFilter({}).then((res) => {
+                var para = {
+                	questionType: this.questionType,//1单选 2多选 3判断
+					isOptional: this.isOptional,//0常规题 1选做题
+					paperId: this.id //试卷id
+                };
+                getProblemFilter(para).then((res) => {
                     this.filterList = res.data;
                     // filter 对应key默认好 -1
                     this.filter = u.getDefaultFilter(this.filterList);
