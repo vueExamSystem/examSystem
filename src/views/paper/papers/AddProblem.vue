@@ -1,85 +1,93 @@
 <template>
-	<div class="panel">
-		<div class="title">
-			<span>添加{{typeText}}</span>
-			<div class="pull-right">
-				<el-button type="primary" class="el-button-shadow" @click="addSave">添加选中</el-button>
-				<el-button type="danger" @click="goBack" class="el-button-shadow">取消</el-button>
+	<section>
+		<div class="panel" v-if="!detailId">
+			<div class="title">
+				<span>添加{{typeText}}</span>
+				<div class="pull-right">
+					<el-button type="primary" class="el-button-shadow" @click="addSave">添加选中</el-button>
+					<el-button type="danger" @click="goBack" class="el-button-shadow">取消</el-button>
+				</div>
+			</div>
+			<div class="content" v-loading="!isInited" style="min-height:300px;">
+				<my-filter v-show="isInited" v-if="isFilterInited" :list="filterList" @callback="filterCallback"></my-filter>
+				<div class="panel inner-panel" v-if="isInited">
+		            <div class="title">
+		                <el-input placeholder="请输入搜索关键词" v-model="keyword" @change="searchClick">
+		                    <el-button slot="append" icon="el-icon-search" @click="searchClick"></el-button>
+		                </el-input>
+		                <div class="pageArea">
+		                    <Page v-if="!isNewPage" :pageNo="pageNo" :totalCount="totalCount" :pageSize="pageSize" @page-change="pageChange"></Page>
+		                </div>
+		                
+		            </div>
+		            <div class="content" v-loading="submitLoading">
+		                <el-table :data="questionList" class="el-table-expand" highlight-current-row v-loading="listLoading" fit :row-class-name="setRowClass" @selection-change="handleSelectionChange">
+		                    <el-table-column type="selection" width="60">
+		                    </el-table-column>
+		                    <el-table-column type="index" label="序号" width="60">
+		                    </el-table-column>
+		                    <el-table-column prop="questionName" label="试题名称" min-width="160">
+		                    	<template scope="scope">
+		                        	<el-button v-if="scope.row.kind === 0" type="text" @click="detailShow(scope.row)">{{scope.row.questionName}}</el-button>
+		                        	<span v-else>{{scope.row.questionName}}</span>
+		                        </template>
+		                    </el-table-column>
+		                    <el-table-column prop="questionType" label="试题类型" min-width="100">
+		                    </el-table-column>
+		                    <el-table-column prop="courseName" label="所属课程" min-width="120">
+		                    </el-table-column>
+		                    <el-table-column prop="sectionName" label="所属章节" min-width="100">
+		                    </el-table-column>
+		                    <el-table-column align="right" prop="sameName" label="所属题组" min-width="120">
+		                    </el-table-column>
+		                    <el-table-column align="left" type="expand">
+		                    	<template slot-scope="props">
+		                    		<div style="margin: -20px -50px;">
+			                    		<el-table class="el-inner-table" :data="props.row.children?props.row.children:[]" :show-header="isShowInnerHeader" highlight-current-row v-loading="listLoading" fit empty-text="没有对应的相似试题">
+						                    <el-table-column prop="index" width="60">
+						                    	<template></template>
+						                    </el-table-column>
+						                    <el-table-column prop="radio" width="60">
+						                    	<template scope="scope">
+						                    		<el-radio v-model="props.row.innerRadio" :label="scope.row.id"></el-radio>
+						                    	</template>
+						                    </el-table-column>
+						                    <el-table-column prop="questionName" min-width="160">
+						                        <template scope="scope">
+						                        	<el-button v-if="scope.row.kind === 0" type="text" @click="detailShow(scope.row)">{{scope.row.questionName}}</el-button>
+						                        	<span v-else>{{scope.row.questionName}}</span>
+						                        </template>
+						                    </el-table-column>
+						                    <el-table-column prop="questionType" min-width="100">
+						                    </el-table-column>
+						                    <el-table-column prop="courseName" min-width="120">
+						                    </el-table-column>
+						                    <el-table-column prop="sectionName" min-width="100">
+						                    </el-table-column>
+						                    <el-table-column min-width="120">
+						                    	<template></template>
+						                    </el-table-column>
+						                    <el-table-column width="48">
+						                    	<template></template>
+						                    </el-table-column>
+						                </el-table>
+					                </div>
+		                    	</template>
+		                    </el-table-column>
+		                </el-table>
+		            </div>
+		        </div>
 			</div>
 		</div>
-		<div class="content" v-loading="!isInited" style="min-height:300px;">
-			<my-filter v-show="isInited" v-if="isFilterInited" :list="filterList" @callback="filterCallback"></my-filter>
-			<div class="panel inner-panel" v-if="isInited">
-	            <div class="title">
-	                <el-input placeholder="请输入搜索关键词" v-model="keyword" @change="searchClick">
-	                    <el-button slot="append" icon="el-icon-search" @click="searchClick"></el-button>
-	                </el-input>
-	                <div class="pageArea">
-	                    <Page v-if="!isNewPage" :pageNo="pageNo" :totalCount="totalCount" :pageSize="pageSize" @page-change="pageChange"></Page>
-	                </div>
-	                
-	            </div>
-	            <div class="content" v-loading="submitLoading">
-	                <el-table :data="questionList" class="el-table-expand" highlight-current-row v-loading="listLoading" fit :row-class-name="setRowClass" @selection-change="handleSelectionChange">
-	                    <el-table-column type="selection" width="60">
-	                    </el-table-column>
-	                    <el-table-column type="index" label="序号" width="60">
-	                    </el-table-column>
-	                    <el-table-column prop="name" label="试题名称" min-width="160">
-	                        <template scope="scope">
-	                            <span class="text-primary">{{scope.row.name}}</span>
-	                        </template>
-	                    </el-table-column>
-	                    <el-table-column prop="category" label="试题类型" min-width="100" :formatter="formatType">
-	                    </el-table-column>
-	                    <el-table-column prop="project" label="所属课程" min-width="120">
-	                    </el-table-column>
-	                    <el-table-column prop="chapter" label="所属章节" min-width="100">
-	                    </el-table-column>
-	                    <el-table-column align="right" prop="questionGroup" label="所属题组" min-width="120">
-	                    </el-table-column>
-	                    <el-table-column align="left" type="expand">
-	                    	<template scope="scope">
-	                    		<div style="margin: -20px -50px;">
-		                    		<el-table class="el-inner-table" :data="scope.row.children" :show-header="isShowInnerHeader" highlight-current-row v-loading="listLoading" fit>
-					                    <el-table-column prop="index" width="60">
-					                    	<template></template>
-					                    </el-table-column>
-					                    <el-table-column prop="radio" width="60">
-					                    	<template scope="props">
-					                    		<el-radio v-model="scope.row.innerRadio" :label="props.row.id"></el-radio>
-					                    	</template>
-					                    </el-table-column>
-					                    <el-table-column prop="name" min-width="160">
-					                        <template scope="scope">
-					                        	<span class="text-primary">{{scope.row.name}}</span>
-					                        </template>
-					                    </el-table-column>
-					                    <el-table-column prop="category" min-width="100">
-					                    </el-table-column>
-					                    <el-table-column prop="project" min-width="120">
-					                    </el-table-column>
-					                    <el-table-column prop="chapter" min-width="100">
-					                    </el-table-column>
-					                    <el-table-column min-width="120">
-					                    	<template></template>
-					                    </el-table-column>
-					                    <el-table-column width="48">
-					                    	<template></template>
-					                    </el-table-column>
-					                </el-table>
-				                </div>
-	                    	</template>
-	                    </el-table-column>
-	                </el-table>
-	            </div>
-	        </div>
-		</div>
-	</div>
+		<section v-if="detailId">
+	        <question-detail :id="detailId" @close="detailClose"></question-detail>
+	    </section>
+    </section>
 </template>
 <script>
 	import myFilter from '../../common/myFilter.vue'
 	import Pagination from '../../common/Pagination.vue' 
+	import Detail from '../../question/que/Detail.vue' 
 	import { getProblemFilter, getProblemList, addPaperProblem } from '../../../api/api';
 	import u from '../../../common/js/util';
 	export default{
@@ -93,7 +101,8 @@
 		},
 		components:{
 			myFilter,
-			Page: Pagination
+			Page: Pagination,
+			questionDetail:Detail
 		},
 		computed:{
 
@@ -116,7 +125,9 @@
                 submitLoading: false,//提交加载
                 questionType: 1, //添加的试题类型
                 isOptional: 0, //添加的试题类型是否为选做
-                isShowInnerHeader: false
+                isShowInnerHeader: false,
+
+                detailId: ''
 			}
 		},
 		computed:{
@@ -182,6 +193,15 @@
                 getProblemList(params).then(res => {
                     this.questionList = res.data.rows;
                     this.totalCount = res.data.totalCount;
+
+                    //innerRadio
+                    _.forEach(this.questionList, question => {
+                    	if(question.kind === 1){//有相似组
+                    		this.$set(question, 'innerRadio', question.children[0].id)
+                    	}else{
+                    		this.$set(question, 'innerRadio', question.id)
+                    	}
+                    });
                     this.isNewPage = false;
                     this.listLoading = false;
                     this.isInited = true;
@@ -218,18 +238,29 @@
 	            	}
 	            	//to do
 	            	addPaperProblem(params).then(res => {
-	            		this.submitLoading = false;
-            			this.isHasSubmitted = true;
-		            	this.$confirm('试题添加成功,是否继续添加试题？', '提示', {
-		            		confirmButtonText:'继续添加'
-		            	}).then(res => {
-		            	//数据不包含已存在试卷上的试题
-		            		this.isNewPage = true;
-			                this.pageNo = 1;
-			                this.search();
-                        }).catch(res=>{
-                        	this.goBack();
-                        });
+	            		if(res.code == 0){
+	            			this.$message({
+	            				type: 'success',
+	            				message: '添加成功'
+	            			});
+	            			this.submitLoading = false;
+	            			this.isHasSubmitted = true;
+			            	this.$confirm('试题添加成功,是否继续添加试题？', '提示', {
+			            		confirmButtonText:'继续添加'
+			            	}).then(res => {
+			            	//数据不包含已存在试卷上的试题
+			            		this.isNewPage = true;
+				                this.pageNo = 1;
+				                this.search();
+	                        }).catch(res=>{
+	                        	this.goBack();
+	                        });
+	            		}else{
+	            			this.$message({
+	            				type: 'error',
+	            				message: res.msg
+	            			});
+	            		}
 	            	});
 	            }else{
 	            	this.$message({
@@ -248,16 +279,13 @@
 					return 'el-row-even';
 				}
 			},
-            formatType(row, column){//试题类型
-                if(row.category == '0'){
-                    return '单选';
-                }else if(row.category == '1'){
-                    return '多选'
-                }else if(row.category == '2'){
-                    return '判断'
-                }else{
-                    return '^_^后端修改formatType'
-                }
+            detailShow(row){
+            	if(!row.kind){
+					this.detailId = row.id;
+            	}
+            },
+            detailClose(){
+                this.detailId = '';
             },
 			goBack(){
 				this.$emit('back', {refresh:this.isHasSubmitted});
