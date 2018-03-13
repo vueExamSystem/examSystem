@@ -151,6 +151,18 @@
             }
         },
         methods:{
+            checkStatus(){//检验考试状态
+                if(this.info.status === 1){//未开始
+                    this.isShowProgress = false;
+                    this.secondTimeClockRun();//秒计时器启动
+                }else if(this.info.status === 2){//进行中
+                    this.isShowProgress = true;
+                    this.secondTimeClockRun();//秒计时器启动
+                }else{//已结束
+                    this.isShowProgress = true;
+                    this.clearSecondClock();//秒计时器关闭
+                }
+            },
             close() {
                 this.$emit('close');
             },
@@ -174,12 +186,21 @@
             getList() {//获取列表
                 this.clearMinuteClock();
                 var callback = ()=>{
-                    if(!this.stat_Loading && !this.stu_Loading) {
-                        this.minuteTimeClockRun();//分计时器启动
+                    if(this.info.status === 1){
                         if(this.allLoading) this.allLoading = false;
+                    }else{
+                        if(!this.stat_Loading && !this.stu_Loading) {
+                            if(this.allLoading) this.allLoading = false;
+                            if(this.info.status === 2){
+                                this.minuteTimeClockRun();//分计时器启动
+                            }
+                        }
                     }
+                    
                 };
-                this.getStatistics(callback); // 统计信息
+                if(this.info.status == 2 || this.info.status == 3){
+                    this.getStatistics(callback); // 统计信息
+                }
                 this.getStudent(callback); //考试人员列表
             },
             studentPageChange(val) {//考试人员分页回调
@@ -230,15 +251,39 @@
                 return totalSeconds;
             },
             remainTime(dateString, isDynamic){//倒计时
-                if(this.info.status == '1' || this.info.status == '3'){//未开始||已结束
+                if(this.info.status === 1){//未开始
+                    var s_seconds = this.getRemainSeconds(this.info.beginTime);
+                    var e_seconds = this.getRemainSeconds(this.info.endTime);
+                    var str = '';
+                    if(s_seconds<=0){
+                        if(e_seconds>=0){
+                            this.info.status = 2;
+                            str = '考试开始';
+                        }else{
+                            this.info.status = 3;
+                            str = '考试结束';
+                        }
+                        this.checkStatus();
+                        this.getList();//刷新一次
+                        return str;
+                    }else{
+                        var st = this.info.beginTime;
+                        var et = this.info.endTime;
+                        var etStr = et.split(' ')[1];
+                        return  st + '-' + etStr + ' 未开始';
+                    }
+                }else if(this.info.status === 3){//已结束
                     var st = this.info.beginTime;
                     var et = this.info.endTime;
                     var etStr = et.split(' ')[1];
-                    return st + '-' + etStr;
+                    this.checkStatus();
+                    return st + '-' + etStr + ' 已结束';
                 } else {//进行中
                     var totalSeconds = this.getRemainSeconds(dateString);//剩余总秒数
                     if(totalSeconds <= 0){
-                        this.clearSecondClock();//关闭计时器
+                        this.info.status = 3;
+                        this.checkStatus();
+                        this.getList();//刷新一次
                         return '考试结束';
                     }else{
                         var hourStr = '0';
@@ -264,13 +309,13 @@
                         }else{
                             secondStr = remainSeconds + '';
                         }
-                        
 
                         return hourStr + ':' + minuteStr + ':' + secondStr;
                     }
                 }
             },
             minuteTimeClockRun(){//每分钟刷新表格
+                this.clearMinuteClock();
                 this.minuteTimeClock = setInterval(()=>{
                     if(this.$route.fullPath != this.fullPath){
                         this.clearMinuteClock();
@@ -280,6 +325,7 @@
                 }, 60000);
             },
             secondTimeClockRun(){//每秒刷新剩余时间一次
+                this.clearSecondClock();
                 this.secondTimeClock = setInterval(()=>{
                     if(this.$route.fullPath != this.fullPath){
                         this.clearSecondClock();
@@ -302,14 +348,7 @@
         mounted() {
             this.fullPath = this.$route.fullPath;
             this.getFilter();
-            if(this.info.status == '1'){//未开始
-                this.isShowProgress = false;
-            }else if(this.info.status == '2'){//进行中
-                this.isShowProgress = true;
-                this.secondTimeClockRun();//秒计时器启动
-            }else{//已结束
-                this.isShowProgress = true;
-            }
+            this.checkStatus();//检验状态
         }
     }
 </script>
