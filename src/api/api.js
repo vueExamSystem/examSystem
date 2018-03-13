@@ -146,7 +146,6 @@ export const getClassTestDetailFilter = params => { return instance.get(`${base}
 
 export const getClassTestDetailList = params => { return instance.get(`${base}/classTest/detail/list`, params ).then(res => res.data);};
 
-export const getPublishAddInfo = params => { return instance.get(`${base}/publish/add/info`, params ).then(res => res.data);};
 
 /*
 *  设置 start
@@ -264,23 +263,23 @@ export const updateAbnormal = params => { return instance.post(`${base}/listen/a
 //考试过滤器
 export const getExamFilter = params => { return instance.post(`${base}/exam/filter`, qs.stringify(params) ).then(res => res.data);};
 //考试列表
-export const getExamList = params => { return instance.post(`${base}/exam/list`, params ).then(res => res.data);};
+export const getExamList = params => { return instance.post(`${base}/exam/list`, qs.stringify(params) ).then(res => res.data);};
 // 编辑考试
-export const updateExam = params => { return instance.post(`${base}/exam/update`, params ).then(res => res.data); };
+export const updateExam = params => { return instance.post(`${base}/exam/update`, qs.stringify(params) ).then(res => res.data); };
 // 发布考试
-export const addExam = params => { return instance.post(`${base}/exam/add`, params ).then(res => res.data); };
+export const addExam = params => { return instance.post(`${base}/exam/add`, qs.stringify(params) ).then(res => res.data); };
 //考试班级列表
-export const getExamClassList = params => { return instance.post(`${base}/exam/classlist`, params ).then(res => res.data); };
+export const getExamClassList = params => { return instance.post(`${base}/exam/grouplist`, qs.stringify(params) ).then(res => res.data); };
 //获取学习该课程但未参加考试的班级
-export const getUnExamClassList = params => { return instance.post(`${base}/exam/unclasslist`, params ).then(res => res.data); };
+export const getUnExamClassList = params => { return instance.post(`${base}/exam/ungrouplist`, qs.stringify(params) ).then(res => res.data); };
 //添加考试班级
-export const addExamClass = params => { return instance.post(`${base}/exam/addclass`, params ).then(res => res.data); };
+export const addExamClass = params => { return instance.post(`${base}/exam/addclass`, qs.stringify(params) ).then(res => res.data); };
 //获取班级学生
-export const getStudentsByClassId = params => { return instance.post(`${base}/class/student`, params ).then(res => res.data); };
+export const getStudentsByClassId = params => { return instance.post(`${base}/exam/group/student`, qs.stringify(params) ).then(res => res.data); };
 //保存班级考生
-export const saveExammer = params => { return instance.post(`${base}/exam/savestudents`, params ).then(res => res.data); };
+export const saveExammer = params => { return instance.post(`${base}/exam/savestudents`, qs.stringify(params) ).then(res => res.data); };
 //删除考试班级
-export const delExamClass = params => { return instance.post(`${base}/exam/removeclass`, params ).then(res => res.data); };
+export const delExamClass = params => { return instance.post(`${base}/exam/removeclass`, qs.stringify(params) ).then(res => res.data); };
 //发布考试
-export const publishExam = params => { return instance.post(`${base}/exam/publish`, params ).then(res => res.data); };
+export const publishExam = params => { return instance.post(`${base}/exam/publish`, qs.stringify(params) ).then(res => res.data); };
    

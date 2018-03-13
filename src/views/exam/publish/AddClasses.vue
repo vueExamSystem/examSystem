@@ -317,7 +317,7 @@
                             examId: this.id //考试id
                         };
                         publishExam(para).then((res) => {
-                            if (res.code !== '0') {
+                            if (res.code !== 0) {
                                 this.$message({
                                     message: res.msg,
                                     type: 'error'
@@ -343,9 +343,13 @@
                     if (isValid) {
                         this.$confirm('确认添加吗？', '提示', {}).then(() => {
                             let para = _.assign({}, this.classForm);
+                            para={
+                                examId:this.id,//考试id
+                                groupId:this.classForm.class//班级id
+                            }
                             this.classLoading = true;
 							addExamClass(para).then((res) => {
-                                if (res.code !== '0') {
+                                if (res.code !== 0) {
                                     this.$message({
                                         message: res.msg,
                                         type: 'error'
@@ -401,7 +405,7 @@
                         this.studentLoading = true;
                         //提交考生
                         saveExammer(para).then((res) => {
-                            if (res.code !== '0') {
+                            if (res.code !== 0) {
                                 this.$message({
                                     message: res.msg,
                                     type: 'error'
@@ -461,7 +465,7 @@
                         classId: row.class.id //班级id
                     };
                     delExamClass(para).then((res) => {
-                        if (res.code !== '0') {
+                        if (res.code !== 0) {
                             this.$message({
                                 message: res.msg,
                                 type: 'error'

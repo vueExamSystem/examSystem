@@ -1,6 +1,6 @@
 <template>
     <el-tabs type="border-card" v-model="activeName">
-        <el-tab-pane label="发布测验" name="publishform">
+        <el-tab-pane label="发布考试" name="publishform">
             <add-form></add-form>
         </el-tab-pane>
     </el-tabs>

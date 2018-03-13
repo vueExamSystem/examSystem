@@ -183,7 +183,8 @@
                 };
                 if (!this.allLoading) this.listLoading = true;
                 getExamList(para).then((res) => {
-                    res = res.data;
+                    res=res.data;
+                    console.log('getExamList',res);
                     this.totalCount = res.totalCount;
                     this.rows = res.rows;
 
