@@ -63,7 +63,7 @@
 											<div class="el-info-content">{{radioProblem.creator}}</div>
 										</div>
 									</div>
-									<el-button type="danger" class="el-question-btn" @click="removeProblem(radioProblem.id, 'radio')">删除</el-button>
+									<el-button v-if="isEditAble" type="danger" class="el-question-btn" @click="removeProblem(radioProblem.id, 'radio')">删除</el-button>
 								</div>
 								<div class="pageArea" v-if="isDrawPage && !isRadioNewPage && radioList.length>1">
 									<Page :pageNo="radioCurrent + 1" :totalCount="radioList.length" pageSize="1" @page-change="radioPageChange"></Page>
@@ -124,7 +124,7 @@
 											<div class="el-info-content">{{checkProblem.creator}}</div>
 										</div>
 									</div>
-									<el-button type="danger" class="el-question-btn" @click="removeProblem(checkProblem.id, 'check')">删除</el-button>
+									<el-button v-if="isEditAble" type="danger" class="el-question-btn" @click="removeProblem(checkProblem.id, 'check')">删除</el-button>
 								</div>
 								<div class="pageArea" v-if="isDrawPage && !isCheckNewPage && checkList.length>1">
 									<Page :pageNo="checkCurrent + 1" :totalCount="checkList.length" pageSize="1" @page-change="checkPageChange"></Page>
@@ -177,7 +177,7 @@
 											<div class="el-info-content">{{judgeProblem.creator}}</div>
 										</div>
 									</div>
-									<el-button type="danger" class="el-question-btn" @click="removeProblem(judgeProblem.id, 'judge')">删除</el-button>
+									<el-button v-if="isEditAble" type="danger" class="el-question-btn" @click="removeProblem(judgeProblem.id, 'judge')">删除</el-button>
 								</div>
 								<div class="pageArea" v-if="isDrawPage && !isJudgeNewPage && judgeList.length>1">
 									<Page :pageNo="judgeCurrent + 1" :totalCount="judgeList.length" pageSize="1" @page-change="judgePageChange"></Page>
@@ -270,7 +270,7 @@
 											<div class="el-info-content">{{optionProblem.creator}}</div>
 										</div>
 									</div>
-									<el-button type="danger" class="el-question-btn" @click="removeProblem(optionProblem.id, 'option')">删除</el-button>
+									<el-button v-if="isEditAble" type="danger" class="el-question-btn" @click="removeProblem(optionProblem.id, 'option')">删除</el-button>
 								</div>
 								<div class="pageArea" v-if="isDrawPage && !isOptionNewPage && optionalList.length>1">
 									<Page :pageNo="optionalCurrent + 1" :totalCount="optionalList.length" pageSize="1" @page-change="optionPageChange"></Page>

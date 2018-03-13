@@ -57,7 +57,7 @@ export default {
         let mock = new MockAdapter(instance);
 
         //登录
-        noTokenMock.onGet('/login/verify').reply(config => {
+        noTokenMock.onPost('/login/verify').reply(config => {
             // let {username, password} = JSON.parse(config.data);
             return new Promise((resolve, reject) => {
                 let user = null;
@@ -1679,7 +1679,7 @@ export default {
 
 
         //考试过滤器
-        mock.onGet(`/exam/filter`).reply(config => {
+        mock.onPost(`/exam/filter`).reply(config => {
             return u.getMockList(config, [{
                 title:'课程',
                 field:'project',
@@ -1724,9 +1724,9 @@ export default {
                                     id: 2,
                                     name: '物理期中试卷1',
                                 },
-                                beginTime:'2018/02/27 16:00',
-                                endTime: '2018/02/27 18:20',
-                                status:'0',
+                                beginTime:'2018/03/13 12:00',
+                                endTime: '2018/03/13 14:20',
+                                status: 2,
                                 grade: {
                                     id: 5,
                                     name: '18级',
@@ -1750,9 +1750,9 @@ export default {
                                     id: 2,
                                     name: '物理期中试卷2',
                                 },
-                                beginTime:'2018/02/27 17:00',
-                                endTime: '2018/02/27 18:20',
-                                status:'1',
+                                beginTime:'2018/03/13 17:00',
+                                endTime: '2018/03/13 18:20',
+                                status: 1,
                                 grade: {
                                     id: 5,
                                     name: '16级',
@@ -1776,9 +1776,9 @@ export default {
                                     id: 2,
                                     name: '物理期中试卷3',
                                 },
-                                beginTime:'2018/02/27 14:00',
-                                endTime: '2018/02/27 16:00',
-                                status:'3',
+                                beginTime:'2018/04/27 14:00',
+                                endTime: '2018/04/27 16:00',
+                                status: 0,
                                 grade: {
                                     id: 5,
                                     name: '15级',
@@ -1804,7 +1804,7 @@ export default {
                                 },
                                 beginTime:'2018/02/27 14:00',
                                 endTime: '2018/02/27 16:00',
-                                status:'3',
+                                status: 3,
                                 grade: {
                                     id: 5,
                                     name: '17级',
@@ -1830,7 +1830,7 @@ export default {
                                 },
                                 beginTime:'2018/02/27 14:00',
                                 endTime: '2018/02/27 16:00',
-                                status:'3',
+                                status: 3,
                                 grade: {
                                     id: 5,
                                     name: '17级',
