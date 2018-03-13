@@ -57,7 +57,7 @@ export default {
         let mock = new MockAdapter(instance);
 
         //登录
-        noTokenMock.onGet('/login/verify').reply(config => {
+        noTokenMock.onPost('/login/verify').reply(config => {
             // let {username, password} = JSON.parse(config.data);
             return new Promise((resolve, reject) => {
                 let user = null;
@@ -1679,7 +1679,7 @@ export default {
 
 
         //考试过滤器
-        mock.onGet(`/exam/filter`).reply(config => {
+        mock.onPost(`/exam/filter`).reply(config => {
             return u.getMockList(config, [{
                 title:'课程',
                 field:'project',
