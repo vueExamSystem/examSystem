@@ -22,17 +22,17 @@
                             </template>
                         </el-table-column>
                         <el-table-column prop="paper" label="选择试卷" min-width="160">
-                            <template slot-scope="scope">
+                          <!--   <template slot-scope="scope">
                                 <span v-if="scope.row.paper">{{scope.row.paper.name}}</span>
-                            </template>
+                            </template> -->
                         </el-table-column>
                         <el-table-column prop="beginTime" :formatter="timeRangeFormatter" label="考试时间" min-width="180">
                         </el-table-column>
                         <el-table-column prop="status" label="状态">
                             <template scope="scope">
-                                <span class="text-danger" v-if="scope.row.status == '0'">未发布</span>
-                                <span class="text-warning" v-else-if="scope.row.status == '1'">未开始</span>
-                                <span class="text-success" v-else-if="scope.row.status == '2'">进行中</span>
+                                <span class="text-danger" v-if="scope.row.status == '0'">编辑中</span>
+                                <span class="text-warning" v-else-if="scope.row.status == '1'">已发布</span>
+                                <span class="text-success" v-else-if="scope.row.status == '2'">考试中</span>
                                 <span v-else>已结束</span>
                             </template>
                         </el-table-column>
@@ -123,13 +123,14 @@
             handleEdit: function (row) {
                 this.clearMinuteClock();
                 this.editFormVisible = true;
+                //console.log('row',row);
                 this.formObj = _.assign({}, row, {
                     id: row.id ? row.id : '',
-                    paper: row.paper ? row.paper.id : '',
-                    grade: row.grade ? row.grade.id : '',
+                    paper: row.paper ? row.paperId : '',
+                    course: row.course ? row.courseId : '',
                     department: row.department ? row.department.id : '',
                     class: row.testClass ? row.testClass.id : '',
-                    listeners: row.listener ? row.listener.id : '',
+                    teacher: row.dutyTeachers ? row.dutyTeachers.split(',') : '',
                     beginTime: row.beginTime ? row.beginTime : '',
                     endTime: row.endTime ? row.endTime : ''
                 });
