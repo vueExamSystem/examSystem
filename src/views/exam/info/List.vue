@@ -123,14 +123,18 @@
             handleEdit: function (row) {
                 this.clearMinuteClock();
                 this.editFormVisible = true;
-                //console.log('row',row);
+                //console.log('row',row.dutyTeachers.split(','));
+                var arTeachers=row.dutyTeachers.split(',');//监考老师int数组
+                for(var i = 0;i < arTeachers.length;i++){
+                    arTeachers[i]=parseInt(arTeachers[i]);
+                }
                 this.formObj = _.assign({}, row, {
                     id: row.id ? row.id : '',
                     paper: row.paper ? row.paperId : '',
                     course: row.course ? row.courseId : '',
                     department: row.department ? row.department.id : '',
                     class: row.testClass ? row.testClass.id : '',
-                    teacher: row.dutyTeachers ? row.dutyTeachers.split(',') : '',
+                    teacher: row.dutyTeachers ? arTeachers : '',
                     beginTime: row.beginTime ? row.beginTime : '',
                     endTime: row.endTime ? row.endTime : ''
                 });
