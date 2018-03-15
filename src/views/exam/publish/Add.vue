@@ -126,7 +126,15 @@
                 		endTime:this.form.endTime,
                 		dutyTeachers:this.form.teacher.join(','),
                 	};
-                	console.log('addPara',addPara);
+                	let updatePara={
+                		id:this.form.id,
+                		name:this.form.name,
+                		paperId:this.form.paper,
+                		beginTime:this.form.beginTime,
+                		endTime:this.form.endTime,
+                		dutyTeachers:this.form.teacher.join(','),
+                	};
+                	//console.log('addPara',addPara);
                     if (isValid) {
                         this.$confirm('确认添加考试吗？', '提示', {}).then(() => {     
                             this.loading = true;
@@ -153,7 +161,8 @@
 	                            });
                             }else{
                             	//更新
-                            	updateExam(para).then((res) => {
+                            	console.log('updatePara',updatePara);
+                            	updateExam(updatePara).then((res) => {
 	                                if (res.code !== 0) {
 	                                    this.$message({
 	                                        message: res.msg,

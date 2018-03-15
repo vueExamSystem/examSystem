@@ -36,10 +36,10 @@
                                 <span v-else>已结束</span>
                             </template>
                         </el-table-column>
-                        <el-table-column prop="listener" label="监考老师">
-                            <template slot-scope="scope">
+                        <el-table-column prop="teachers" label="监考老师">
+                         <!--    <template slot-scope="scope">
                                 <span v-if="scope.row.listener">{{scope.row.listener.name}}</span>
-                            </template>
+                            </template> -->
                         </el-table-column>
                         <el-table-column prop="testClass" label="考试人员" min-width="160">
                             <template slot-scope="scope">
@@ -189,7 +189,7 @@
                 if (!this.allLoading) this.listLoading = true;
                 getExamList(para).then((res) => {
                     res=res.data;
-                    console.log('getExamList',res);
+                    //console.log('getExamList',res);
                     this.totalCount = res.totalCount;
                     this.rows = res.rows;
 
