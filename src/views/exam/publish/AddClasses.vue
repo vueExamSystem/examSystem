@@ -13,34 +13,34 @@
 				<el-table :data="rows" highlight-current-row v-loading="listLoading" style="width: 100%;" fit>
                     <el-table-column type="index" label="序号" min-width="100">
                     </el-table-column>
-                    <el-table-column type="department" label="院系" min-width="120">
-                    	<template scope="scope">
+                    <el-table-column prop="collegeName" label="院系" min-width="120">
+                    	<!-- <template scope="scope">
                     		<span>{{scope.row.department.name}}</span>
-                    	</template>
+                    	</template> -->
                     </el-table-column>
-                    <el-table-column type="grade" label="年级" min-width="120">
-                    	<template scope="scope">
+                    <el-table-column prop="grade" label="年级" min-width="120">
+                    	<!-- <template scope="scope">
                     		<span>{{scope.row.grade.name}}</span>
-                    	</template>
+                    	</template> -->
                     </el-table-column>
-                    <el-table-column type="class" label="班级" min-width="120">
-                        <template scope="scope">
+                    <el-table-column prop="name" label="班级" min-width="120">
+                       <!--  <template scope="scope">
                             <span>{{scope.row.class.name}}</span>
-                        </template>
+                        </template> -->
                     </el-table-column>
-                    <el-table-column type="class" label="班主任" min-width="120">
+                  <!--   <el-table-column type="class" label="班主任" min-width="120">
                         <template scope="scope">
                             <span>{{scope.row.class.headmaster}}</span>
                         </template>
-                    </el-table-column>
-                    <el-table-column type="class" label="班级人数" min-width="100">
-                    	<template scope="scope">
+                    </el-table-column> -->
+                    <el-table-column prop="num" label="班级人数" min-width="100">
+                    	<!-- <template scope="scope">
                     		<span>{{scope.row.class.count}}</span>
-                    	</template>
+                    	</template> -->
                     </el-table-column>
                     <el-table-column label="考生人数" min-width="100">
                     	<template scope="scope">
-                    		<span>{{scope.row.class.exammer?scope.row.class.exammer.length:0}}</span>
+                    		<span>{{scope.row.exammer?scope.row.exammer.length:0}}</span>
                     	</template>
                     </el-table-column>
                     <el-table-column label="操作" min-width="220">
@@ -100,12 +100,12 @@
                         </el-table-column>
                         <el-table-column prop="studentNo" label="学号" min-width="120"></el-table-column>
                         <el-table-column prop="name" label="姓名" min-width="100"></el-table-column>
-                        <el-table-column prop="gender" label="性别" min-width="100">
+                        <el-table-column prop="sex" label="性别" min-width="100">
                             <template scope="scope">
-                                <span>{{scope.row.gender=='0'?'女':'男'}}</span>
+                                <span>{{scope.row.sex=='0'?'女':'男'}}</span>
                             </template>
                         </el-table-column>
-                        <el-table-column prop="remark" label="备注" min-width="100"></el-table-column>
+                        <!-- <el-table-column prop="remark" label="备注" min-width="100"></el-table-column> -->
                     </el-table>
                 </div>
             </div>
@@ -179,7 +179,7 @@
 			totalExammer(){
 				var sum = 0;
 				_.forEach(this.rows, (row)=>{
-					sum += row.class.exammer.length;
+					sum += row.exammer.length;
 				})
 				return sum;
 			},
@@ -244,7 +244,7 @@
 			getList(){//获取开始班级列表 不分页
 				this.listLoading = true;
 				var para = {
-					id: this.id //考试id
+					examId: this.id //考试id
 				};
 				getExamClassList(para).then(res =>{ 
 					this.rows = res.data;
@@ -255,7 +255,7 @@
                 this.classLoading = true;
                 this.classTreeList = [];
                 var para = {
-                    id: this.id //考试id 
+                    examId: this.id //考试id 
                 };
                 var treeList = [];
                 getUnExamClassList(para).then(res => {
@@ -345,8 +345,10 @@
                             let para = _.assign({}, this.classForm);
                             para={
                                 examId:this.id,//考试id
-                                groupId:this.classForm.class//班级id
+                                groupIds:this.classForm.class.join(','),//班级id
+                                isAll:this.classForm.isAll
                             }
+                            console.log('addExamClass',para);
                             this.classLoading = true;
 							addExamClass(para).then((res) => {
                                 if (res.code !== 0) {
@@ -388,20 +390,22 @@
                 }else{
                     this.$confirm('确认选择这些考生吗？', '提示', {}).then(() => {
                         this.selectedNewStudents = _.map(this.selectedNewStudents, row => {
-                            return row.studentNo;
+                            return row.id;
                         });
-                        console.log('new',this.selectedNewStudents)
-                        console.log('old',this.selectedOldStudents)
+                        // console.log('new',this.selectedNewStudents)
+                        // console.log('old',this.selectedOldStudents)
                         var willAddStu = _.difference(this.selectedNewStudents, this.selectedOldStudents);
                         var willDelStu = _.difference(this.selectedOldStudents, this.selectedNewStudents);
-                        console.log('willAddStu',willAddStu)
-                        console.log('willDelStu',willDelStu)
+                        // console.log('willAddStu',willAddStu)
+                        // console.log('willDelStu',willDelStu)
                         let para = {
                             examId: this.id, //考试id
+                            groupId: this.studentClassId,//班级id
                             // students: this.selectedNewStudents,//最终的班级考生
-                            add: willAddStu,   //新有旧无，要添加
-                            remove: willDelStu  //旧有新无，要去除
+                            add: willAddStu.join(','),   //新有旧无，要添加
+                            remove: willDelStu.join(',')  //旧有新无，要去除
                         };
+                        //console.log('saveExammer',para);
                         this.studentLoading = true;
                         //提交考生
                         saveExammer(para).then((res) => {
@@ -428,8 +432,8 @@
             },
             showStudentDialog(row){//打开考生弹窗
                 this.studentDialogVisible = true;
-                this.studentClassName = row.department.name + row.grade.name + row.class.name;
-                this.selectedOldStudents = row.class.exammer || [];
+                this.studentClassName = row.collegeName + row.grade + row.name;
+                this.selectedOldStudents = row.exammer || [];
                 this.getDialogStudents(row.id);
             },
             cancelStudentEdit(){//隐藏考生弹窗
@@ -438,7 +442,7 @@
             getDialogStudents(id){
                 this.studentClassId = id;
                 var para = {
-                    classId: this.studentClassId
+                    groupId: this.studentClassId
                 };
                 this.studentLoading = true;
                 this.studentRows = [];
@@ -446,7 +450,7 @@
                     this.studentRows = res.data;
                     setTimeout(()=>{
                         _.forEach(this.studentRows, row => {
-                            var index = _.indexOf(this.selectedOldStudents, row.studentNo);
+                            var index = _.indexOf(this.selectedOldStudents, row.id);//row.studentNo 用studentId替换
                             if(index > -1){
                                 this.setRowCheckState(row, true);
                             }
@@ -462,8 +466,9 @@
                 this.$confirm('删除后，该班级下所有学生将不能参加此次考试，确认删除吗？', '提示', {}).then(() => {
                     let para = {
                         examId: this.id, //考试id
-                        classId: row.class.id //班级id
+                        groupId: row.id //班级id
                     };
+                    console.log('delExamClass',para)
                     delExamClass(para).then((res) => {
                         if (res.code !== 0) {
                             this.$message({
