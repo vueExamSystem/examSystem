@@ -36,10 +36,10 @@
 						</el-select>
 					</el-form-item>
 					<el-form-item label="开始时间：" prop="beginTime">
-						<el-date-picker type="datetime" placeholder="请选择开始时间" value-format="yyyy/MM/dd HH:mm:ss" v-model="form.beginTime" style="width: 240px;"></el-date-picker>
+						<el-date-picker type="datetime" placeholder="请选择开始时间" format="yyyy/MM/dd HH:mm:ss" value-format="yyyy/MM/dd HH:mm:ss" v-model="form.beginTime" style="width: 240px;"></el-date-picker>
 					</el-form-item>
 					<el-form-item label="结束时间：" prop="endTime">
-						<el-date-picker type="datetime" placeholder="请选择结束时间" value-format="yyyy/MM/dd HH:mm:ss" v-model="form.endTime" style="width: 240px;"></el-date-picker>
+						<el-date-picker type="datetime" placeholder="请选择结束时间" format="yyyy/MM/dd HH:mm:ss" value-format="yyyy/MM/dd HH:mm:ss" v-model="form.endTime" style="width: 240px;"></el-date-picker>
 					</el-form-item>
 					<el-form-item>
 						<el-button type="success" class="el-button-shadow" @click="onSubmit('form', 'next')">下一步</el-button>
@@ -130,11 +130,11 @@
                 		id:this.form.id,
                 		name:this.form.name,
                 		paperId:this.form.paper,
-                		beginTime:this.form.beginTime,
-                		endTime:this.form.endTime,
+                		beginTime:this.form.beginTime.replace(/-/g,'/'),
+                		endTime:this.form.endTime.replace(/-/g,'/'),
                 		dutyTeachers:this.form.teacher.join(','),
                 	};
-                	//console.log('addPara',addPara);
+                	console.log('updatePara111',updatePara);
                     if (isValid) {
                         this.$confirm('确认添加考试吗？', '提示', {}).then(() => {     
                             this.loading = true;

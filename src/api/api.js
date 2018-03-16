@@ -221,7 +221,7 @@ export const getPaperProblemList = params => { return instance.post(`${base}/pap
 //删除试卷题目
 export const removePaperProblem = params => { return instance.post(`${base}/paper/problem/remove`, qs.stringify(params) ).then(res => res.data); };
 //更新试卷状态
-export const updatePaperStatus = params => { return instance.post(`${base}/paper/update/status`, params ).then(res => res.data); };
+export const updatePaperStatus = params => { return instance.post(`${base}/paper/enablePaper`, qs.stringify(params) ).then(res => res.data); };
 
 //获取试卷题目过滤器
 export const getProblemFilter = params => { return instance.post(`${base}/paper/problem/filter`, qs.stringify(params) ).then(res => res.data); };

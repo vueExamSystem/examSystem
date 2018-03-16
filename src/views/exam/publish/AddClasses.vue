@@ -33,7 +33,7 @@
                             <span>{{scope.row.class.headmaster}}</span>
                         </template>
                     </el-table-column> -->
-                    <el-table-column prop="num" label="班级人数" min-width="100">
+                    <el-table-column prop="count" label="班级人数" min-width="100">
                     	<!-- <template scope="scope">
                     		<span>{{scope.row.class.count}}</span>
                     	</template> -->

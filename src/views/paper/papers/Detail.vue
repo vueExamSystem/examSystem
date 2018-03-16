@@ -7,7 +7,7 @@
 				（总分：{{info.totalPoint}}分  <span v-if="isEditAble" style="margin-left:12px;">已有分值：{{totalSet}}分</span>）
 				</span>
 				<div class="pull-right">
-					<el-button v-if="isEditAble" type="success" @click="onSave()" class="el-button-shadow">保存</el-button>
+					<el-button v-if="isEditAble" type="success" @click="onSave()" class="el-button-shadow">启用</el-button>
 					<el-button type="danger" @click="goBack()" class="el-button-shadow">取消</el-button>
 				</div>
 			</div>
@@ -436,10 +436,10 @@
 				}
 				if(this.totalSet == this.info.totalPoint){
 					this.saveLoading = true;
-					//to do
+					
 					var params = {
 						paperId: this.id,
-						// status: '??'
+						//status: 2
 					};
 					updatePaperStatus(params).then(res => {
 						this.saveLoading = false;
@@ -447,7 +447,7 @@
 							this.isSaveSubmitted = true;
 							this.$message({
 								type: 'success',
-								message: '试卷更新成功'
+								message: '试卷启用成功'
 							});
 							this.goBack();
 						}else{//其他原因
