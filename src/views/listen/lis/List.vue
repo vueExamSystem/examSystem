@@ -26,9 +26,9 @@
                             <span>{{remainTime(scope.row.endTime)}}</span>
                         </template>
                         </el-table-column>
-                        <el-table-column prop="listener" label="监测老师" min-width="100">
+                        <el-table-column prop="teachers" label="监测老师" min-width="100">
                         </el-table-column>
-                        <el-table-column prop="exammer" label="考试人员" min-width="120">
+                        <el-table-column prop="groups" label="考试人员" min-width="120">
                         </el-table-column>
                     </el-table>
                 </div>
@@ -103,6 +103,7 @@
                     keyword: this.keyword,
                     pageSize: this.pageSize,
                 };
+                console.log('getListenList',para);
                 if (!this.allLoading) this.listLoading = true;
                 getListenList(para).then((res) => {
                     res = res.data;

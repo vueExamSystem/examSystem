@@ -259,6 +259,14 @@
                 };
                 var treeList = [];
                 getUnExamClassList(para).then(res => {
+                    if(res.code!==0){
+                    this.$message({
+                        type: 'error',
+                        message: res.msg
+                    });
+                    this.classDialogVisible = false;
+                    return;
+                }
                     res = res.data;
                     _.forEach(res, treeItem => {
                         var departIndex = _.findIndex(treeList,{id: treeItem.department.id}); 

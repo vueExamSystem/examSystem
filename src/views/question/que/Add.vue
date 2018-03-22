@@ -138,7 +138,7 @@
                     </div>
                      <el-upload
                                 class="upload-demo inline"
-                                :action="UploadUrl('uploadOptionFile',)"
+                                :action="UploadUrl('uploadOptionFile')"
                                 :onSuccess="uploadOptionSuccessC"
                                 :onError="uploadError"
                                 :on-preview="handlePreview"

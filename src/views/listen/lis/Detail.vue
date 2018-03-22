@@ -3,6 +3,7 @@
 		<div class="title">
 			<span>{{name}}（{{remainTime(endtime)}}）</span>
 			<div class="pull-right">
+                <el-button type="success" @click="onRefresh" class="el-button-shadow">刷新</el-button>
 				<el-button type="danger" class="el-button-shadow" @click="close">关闭</el-button>
 			</div>
 		</div>
@@ -11,10 +12,10 @@
 			<div class="paper-progress">
 				<table>
 					<tr>
-						<td>已完成比例</td>
+						<td>平均答题进度</td>
 						<td>
 							<i class="el-icon-loading" v-show="stat_Loading"></i>
-							<el-progress v-show="!stat_Loading" :percentage="completePCT * 100" :stroke-width="12"></el-progress>
+							<el-progress v-show="!stat_Loading" :percentage="completePCT" :stroke-width="12"></el-progress>
 						</td>
 						<td>在线人数/不在线/总人数</td>
 						<td>
@@ -26,15 +27,20 @@
 						<td>已交卷比例</td>
 						<td>
 							<i class="el-icon-loading" v-show="stat_Loading"></i>
-							<el-progress v-show="!stat_Loading" :percentage="submitPCT * 100" :stroke-width="12"></el-progress>
+							<el-progress v-show="!stat_Loading" :percentage="submitPCT" :stroke-width="12"></el-progress>
 						</td>
-						<td>考试总体平均答题</td>
+						<!-- <td>考试总体平均答题</td>
 						<td>
 							<i class="el-icon-loading" v-show="stat_Loading"></i>
 							<el-progress v-show="!stat_Loading" :percentage="avgExamPCT * 100" :stroke-width="12"></el-progress>
-						</td>
+						</td> -->
+                        <td>未开始答卷</td>
+                        <td>
+                            <i class="el-icon-loading" v-show="stat_Loading"></i>
+                            <el-progress v-show="!stat_Loading" :percentage="unExamPCT" :stroke-width="12"></el-progress>
+                        </td>
 					</tr>
-					<tr>
+				<!-- 	<tr>
 						<td>未开始答卷</td>
 						<td>
 							<i class="el-icon-loading" v-show="stat_Loading"></i>
@@ -42,7 +48,7 @@
 						</td>
 						<td></td>
 						<td></td>
-					</tr>
+					</tr> -->
 				</table>
 			</div>
 			<div class="panel inner-panel">
@@ -60,16 +66,16 @@
 	                    </el-table-column>
 	                    <el-table-column prop="studentNo" label="学号" min-width="120"></el-table-column>
 	                    <el-table-column prop="name" label="姓名" min-width="100"></el-table-column>
-	                    <el-table-column prop="class" label="班级" min-width="160"></el-table-column>
-	                    <el-table-column prop="percentage" label="考试进度" min-width="150">
+	                    <el-table-column prop="groupName" label="班级" min-width="160"></el-table-column>
+	                    <el-table-column prop="percent" label="考试进度" min-width="150">
 	                    	<template scope="scope">
-	                            <el-progress :percentage="scope.row.percentage" :stroke-width="12"></el-progress>
+	                            <el-progress :percentage="scope.row.percent" :stroke-width="12"></el-progress>
 	                        </template>
 	                    </el-table-column>
 	                </el-table>
 				</div>
 			</div>
-			<div class="panel inner-panel" style="margin-top: 20px;">
+			<!-- <div class="panel inner-panel" style="margin-top: 20px;">
 				<div class="title">
 					<span>异常列表</span>
 					<div class="pageArea">
@@ -99,7 +105,7 @@
 	                    </el-table-column>
 	                </el-table>
 				</div>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </template>
@@ -169,6 +175,9 @@
             close() {
                 this.$emit('close');
             },
+            onRefresh() {
+                this.getList();
+            },
             search(obj) {//filter回调
                 this.filter = obj;
                 this.stu_pageNo = 1;
@@ -179,8 +188,9 @@
                 this.filterLoading = true;
             	this.allLoading = true;
             	var para = {
-            		paperId: this.id //考试id
+            		examId: this.id //考试id
             	};
+                console.log('para',para);
                 getListenDetailFilter(para).then((res) => {
                     this.filterList = res.data;
                     this.filterLoading = false;
@@ -267,8 +277,9 @@
             },
             getStatistics(callback){ // 统计信息
             	let basePara = {
-            		paperId: this.id,//考试id
+            		examId: this.id,//考试id
             	};
+                 console.log('getListentStatisticsbasePara',basePara);
             	this.stat_Loading = true;
             	getListentStatistics(basePara).then((res) => {
                     res = res.data;
@@ -285,7 +296,7 @@
             },
             getStudent(callback){ //考试人员列表
             	let detailPara = {
-            		paperId: this.id,//考试id
+            		examId: this.id,//考试id
                     pageNo: this.stu_pageNo,
                     filter: JSON.stringify(this.filter),
                     keyword: this.stu_keyword,
@@ -301,8 +312,8 @@
                 });
             },
             getAbnormal(callback){ // 异常列表
-            	let abnPara = {
-            		paperId: this.id,//考试id
+            	/*let abnPara = {
+            		examId: this.id,//考试id
                     pageNo: this.abn_pageNo,
                     filter: JSON.stringify(this.filter),
                     keyword: this.abn_keyword,
@@ -315,7 +326,7 @@
                     this.abnormalRows = res.rows;
                     this.abn_Loading = false;
                     if(callback) callback();
-                });
+                });*/
             },
             dateParse(dateString){
                 return new Date(dateString);

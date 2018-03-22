@@ -243,19 +243,19 @@ export const removePaper = params => { return instance.post(`${base}/paper/remov
 *	监考 start
 */
 // 监考过滤数据
-export const getListenFilter = params => { return instance.get(`${base}/listen/filter`, params ).then(res => res.data);};
+export const getListenFilter = params => { return instance.post(`${base}/listen/filter`, qs.stringify(params) ).then(res => res.data);};
 //监考列表
-export const getListenList = params => { return instance.post(`${base}/listen/list`, params ).then(res => res.data);};
+export const getListenList = params => { return instance.post(`${base}/listen/list`,  qs.stringify(params)).then(res => res.data);};
 //被监考的考试人员filter
-export const getListenDetailFilter = params => { return instance.get(`${base}/listen/detail/filter`, params ).then(res => res.data);};
+export const getListenDetailFilter = params => { return instance.post(`${base}/listen/detail/filter`, qs.stringify(params) ).then(res => res.data);};
 //被监考的考试统计信息
-export const getListentStatistics = params => { return instance.post(`${base}/listen/statistics`, params ).then(res => res.data);};
+export const getListentStatistics = params => { return instance.post(`${base}/listen/stat`,  qs.stringify(params) ).then(res => res.data);};
 //被监考的考试人员列表
-export const getListenDetailList = params => { return instance.post(`${base}/listen/detail/list`, params ).then(res => res.data);};
+export const getListenDetailList = params => { return instance.post(`${base}/listen/detail/list`,  qs.stringify(params) ).then(res => res.data);};
 //监考异常列表
-export const getAbnormalList = params => { return instance.post(`${base}/listen/abnormal/list`, params ).then(res => res.data);};
+export const getAbnormalList = params => { return instance.post(`${base}/listen/abnormal/list`,  qs.stringify(params) ).then(res => res.data);};
 //更新异常列表
-export const updateAbnormal = params => { return instance.post(`${base}/listen/abnormal/update`, params ).then(res => res.data);};
+export const updateAbnormal = params => { return instance.post(`${base}/listen/abnormal/update`,  qs.stringify(params) ).then(res => res.data);};
 
 /*
 * 考试 start
