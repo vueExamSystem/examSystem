@@ -183,7 +183,7 @@
                 this.listLoading = true;
                 var params = {
                     keyword: this.keyword,
-                    PaperId: this.id,
+                    paperId: this.id,
                     questionType: this.questionType,
                     isOptional: this.isOptional,
                     filter: JSON.stringify(this.filter),
@@ -230,7 +230,7 @@
 	            	});
 	            	var params = {
 	            		paperId: this.id,
-	            		type: this.flag,//试题类型
+	            		questionType: this.flag,//试题类型
 	            		ids:idArr// [1,2]
 	            	};
 	            	params={

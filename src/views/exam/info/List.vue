@@ -41,10 +41,10 @@
                                 <span v-if="scope.row.listener">{{scope.row.listener.name}}</span>
                             </template> -->
                         </el-table-column>
-                        <el-table-column prop="testClass" label="考试人员" min-width="160">
-                            <template slot-scope="scope">
+                        <el-table-column prop="groups" label="考试人员" min-width="160">
+            <!--                 <template slot-scope="scope">
                                 <span v-if="scope.row.testClass">{{scope.row.testClass.name}}</span>
-                            </template>
+                            </template> -->
                         </el-table-column>
                         <el-table-column
                                 label="操作"
@@ -66,7 +66,7 @@
             </el-dialog>
     	</section>
         <section v-if="detailId">
-            <detail :id="detailId" :info="detailInfo" @close="detailClose"></detail>
+            <detail   :id="detailId" :name="detailName" :endtime="detailEndTime" @close="detailClose"></detail>
         </section>
         <section v-if="editExamId">
             <exam-edit :id="editExamId" @close="detailClose" :initable="1"></exam-edit>
@@ -107,6 +107,8 @@
 
                 detailId: '', //考试当前详情
                 detailInfo: '',
+                detailName: '',
+                detailEndTime: '',
 
                 editExamId: '',//编辑考生
 
@@ -159,6 +161,8 @@
                 }else{//已发布
                     this.detailId = row.id;
                     this.detailInfo = row;
+                    this.detailName = row.name;
+                    this.detailEndTime = row.endTime;
                 }
                 
             },

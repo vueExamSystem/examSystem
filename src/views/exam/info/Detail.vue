@@ -1,20 +1,21 @@
 <template>
     <div class="panel">
         <div class="title">
-            <span>{{info.name}}（{{remainTime(info.endTime)}}）</span>
+            <span>{{name}}（{{remainTime(endtime)}}）</span>
             <div class="pull-right">
+                <el-button type="success" @click="onRefresh" class="el-button-shadow">刷新</el-button>
                 <el-button type="danger" class="el-button-shadow" @click="close">关闭</el-button>
             </div>
         </div>
         <div class="content" v-loading="allLoading">
             <my-filter v-if="filterList.length > 0" :list="filterList" @callback="search" v-loading="filterLoading"></my-filter>
-            <div class="paper-progress" v-if="isShowProgress">
+            <div class="paper-progress">
                 <table>
                     <tr>
-                        <td>已完成比例</td>
+                        <td>平均答题进度</td>
                         <td>
                             <i class="el-icon-loading" v-show="stat_Loading"></i>
-                            <el-progress v-show="!stat_Loading" :percentage="completePCT * 100" :stroke-width="12"></el-progress>
+                            <el-progress v-show="!stat_Loading" :percentage="completePCT" :stroke-width="12"></el-progress>
                         </td>
                         <td>在线人数/不在线/总人数</td>
                         <td>
@@ -26,15 +27,20 @@
                         <td>已交卷比例</td>
                         <td>
                             <i class="el-icon-loading" v-show="stat_Loading"></i>
-                            <el-progress v-show="!stat_Loading" :percentage="submitPCT * 100" :stroke-width="12"></el-progress>
+                            <el-progress v-show="!stat_Loading" :percentage="submitPCT" :stroke-width="12"></el-progress>
                         </td>
-                        <td>考试总体平均答题</td>
+                        <!-- <td>考试总体平均答题</td>
                         <td>
                             <i class="el-icon-loading" v-show="stat_Loading"></i>
                             <el-progress v-show="!stat_Loading" :percentage="avgExamPCT * 100" :stroke-width="12"></el-progress>
+                        </td> -->
+                        <td>未开始答卷</td>
+                        <td>
+                            <i class="el-icon-loading" v-show="stat_Loading"></i>
+                            <el-progress v-show="!stat_Loading" :percentage="unExamPCT" :stroke-width="12"></el-progress>
                         </td>
                     </tr>
-                    <tr>
+                <!--    <tr>
                         <td>未开始答卷</td>
                         <td>
                             <i class="el-icon-loading" v-show="stat_Loading"></i>
@@ -42,7 +48,7 @@
                         </td>
                         <td></td>
                         <td></td>
-                    </tr>
+                    </tr> -->
                 </table>
             </div>
             <div class="panel inner-panel">
@@ -55,45 +61,51 @@
                     </div>
                 </div>
                 <div class="content">
-                    <template v-if="info.status == '1'">
-                        <el-table :data="studentRows" highlight-current-row v-loading="stu_Loading" fit>
-                            <el-table-column type="index" label="序号" width="60">
-                            </el-table-column>
-                            <el-table-column prop="studentNo" label="学号" min-width="120"></el-table-column>
-                            <el-table-column prop="name" label="姓名" min-width="100"></el-table-column>
-                            <el-table-column prop="class" label="班级" min-width="160"></el-table-column>
-                        </el-table>
-                    </template>
-                    <template v-else-if="info.status == '2'">
-                        <el-table :data="studentRows" highlight-current-row v-loading="stu_Loading" fit>
-                            <el-table-column type="index" label="序号" width="60">
-                            </el-table-column>
-                            <el-table-column prop="studentNo" label="学号" min-width="120"></el-table-column>
-                            <el-table-column prop="name" label="姓名" min-width="100"></el-table-column>
-                            <el-table-column prop="class" label="班级" min-width="160"></el-table-column>
-                            <el-table-column prop="percentage" label="考试进度" min-width="150">
-                                <template scope="scope">
-                                    <el-progress :percentage="scope.row.percentage" :stroke-width="12"></el-progress>
-                                </template>
-                            </el-table-column>
-                        </el-table>
-                    </template>
-                    <template v-else>
-                        <el-table :data="studentRows" highlight-current-row v-loading="stu_Loading" fit>
-                            <el-table-column type="index" label="序号" width="60">
-                            </el-table-column>
-                            <el-table-column prop="studentNo" label="学号" min-width="120"></el-table-column>
-                            <el-table-column prop="name" label="姓名" min-width="100"></el-table-column>
-                            <el-table-column prop="class" label="班级" min-width="160"></el-table-column>
-                            <el-table-column prop="percentage" label="得分" min-width="150">
-                                <template scope="scope">
-                                    {{80}}
-                                </template>
-                            </el-table-column>
-                        </el-table>
-                    </template>
+                    <el-table :data="studentRows" highlight-current-row v-loading="stu_Loading" fit>
+                        <el-table-column type="index" label="序号" width="60">
+                        </el-table-column>
+                        <el-table-column prop="studentNo" label="学号" min-width="120"></el-table-column>
+                        <el-table-column prop="name" label="姓名" min-width="100"></el-table-column>
+                        <el-table-column prop="groupName" label="班级" min-width="160"></el-table-column>
+                        <el-table-column prop="percent" label="考试进度" min-width="150">
+                            <template scope="scope">
+                                <el-progress :percentage="scope.row.percent" :stroke-width="12"></el-progress>
+                            </template>
+                        </el-table-column>
+                    </el-table>
                 </div>
             </div>
+            <!-- <div class="panel inner-panel" style="margin-top: 20px;">
+                <div class="title">
+                    <span>异常列表</span>
+                    <div class="pageArea">
+                        <Page :pageNo="abn_pageNo" :totalCount="abn_totalCount" :pageSize="pageSize" @page-change="abnormalPageChange"></Page>
+                    </div>
+                    <el-input class="pull-right" placeholder="请输入搜索关键词" v-model="abn_keyword">
+                        <el-button slot="append" icon="el-icon-search" @click="getAbnormal"></el-button>
+                    </el-input>
+                </div>
+                <div class="content">
+                    <el-table :data="abnormalRows" highlight-current-row v-loading="abn_Loading" fit>
+                        <el-table-column type="index" label="序号" width="120">
+                        </el-table-column>
+                        <el-table-column prop="abnTime" label="时间" min-width="120"></el-table-column>
+                        <el-table-column prop="abnEvent" label="事件" min-width="200">
+                            <template scope="scope">
+                                <span>{{scope.row.studentName}}（{{scope.row.studentNo}}） {{scope.row.abnEvent}}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="id" label="操作" min-width="160">
+                            <template scope="scope">
+                                <el-button type="primary" plain disabled v-if="scope.row.isOutline">已强制下线</el-button>
+                                <el-button type="primary" v-else @click="forceToOutline(scope.row)">强制下线</el-button>
+                                <el-button type="danger" plain disabled v-if="scope.row.isCheap">已作弊处理</el-button>
+                                <el-button type="danger" v-else @click="signIncheap(scope.row)">作弊处理</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </div>
+            </div> -->
         </div>
     </div>
 </template>
@@ -103,6 +115,8 @@
         getListenDetailFilter, //过滤器
         getListentStatistics, //百分比数据（保留两位）
         getListenDetailList, //考试人员列表
+        getAbnormalList, //异常列表
+        updateAbnormal //更新异常（强制下线，作弊处理）
     } from '../../../api/api';
     import Pagination from '../../common/Pagination.vue';
     import _ from 'lodash';
@@ -111,7 +125,10 @@
             id:{
                 required: true
             },
-            info:{
+            name:{
+                required: true
+            },
+            endtime:{
                 required: true
             }
         },
@@ -127,13 +144,17 @@
                 filterList: [],
                 pageSize: 10,
 
-                isShowProgress: false,//是否显示进度
-
                 studentRows: [],//考试学生列表
                 stu_Loading: false,
                 stu_keyword: '',
                 stu_totalCount: 0,
                 stu_pageNo: 1,
+
+                abnormalRows: [],//异常列表
+                abn_Loading: false,
+                abn_keyword: '',
+                abn_totalCount: 0,
+                abn_pageNo: 1,
 
                 stat_Loading: true,
                 completePCT: 0, //已完成比例
@@ -151,32 +172,25 @@
             }
         },
         methods:{
-            checkStatus(){//检验考试状态
-                if(this.info.status === 1){//未开始
-                    this.isShowProgress = false;
-                    this.secondTimeClockRun();//秒计时器启动
-                }else if(this.info.status === 2){//进行中
-                    this.isShowProgress = true;
-                    this.secondTimeClockRun();//秒计时器启动
-                }else{//已结束
-                    this.isShowProgress = true;
-                    this.clearSecondClock();//秒计时器关闭
-                }
-            },
             close() {
                 this.$emit('close');
+            },
+            onRefresh() {
+                this.getList();
             },
             search(obj) {//filter回调
                 this.filter = obj;
                 this.stu_pageNo = 1;
+                this.abn_pageNo = 1;
                 this.getList();
             },
             getFilter() {// 获取过滤器数据
                 this.filterLoading = true;
                 this.allLoading = true;
                 var para = {
-                    paperId: this.id //考试id
+                    examId: this.id //考试id
                 };
+                //console.log('para',para);
                 getListenDetailFilter(para).then((res) => {
                     this.filterList = res.data;
                     this.filterLoading = false;
@@ -186,31 +200,86 @@
             getList() {//获取列表
                 this.clearMinuteClock();
                 var callback = ()=>{
-                    if(this.info.status === 1){
+                    if(!this.stat_Loading && !this.stu_Loading && !this.abn_Loading) {
+                        this.minuteTimeClockRun();//分计时器启动
                         if(this.allLoading) this.allLoading = false;
-                    }else{
-                        if(!this.stat_Loading && !this.stu_Loading) {
-                            if(this.allLoading) this.allLoading = false;
-                            if(this.info.status === 2){
-                                this.minuteTimeClockRun();//分计时器启动
-                            }
-                        }
                     }
-                    
                 };
-                if(this.info.status == 2 || this.info.status == 3){
-                    this.getStatistics(callback); // 统计信息
-                }
+                this.getStatistics(callback); // 统计信息
                 this.getStudent(callback); //考试人员列表
+                this.getAbnormal(callback); // 异常列表
             },
             studentPageChange(val) {//考试人员分页回调
                 this.stu_pageNo = val;
                 this.getStudent();
             },
+            abnormalPageChange(val) {//异常列表分页回调
+                this.abn_pageNo = val;
+                this.getAbnormal();
+            },
+            forceToOutline(row){ //强制下线
+                this.$confirm('确定强制下线该账号吗？','提示',{
+                    confirmButtonText: '强制下线'
+                }).then(res => {
+                    var para = {
+                        id: row.id, //异常记录id
+                        type: 'outline'
+                    };
+                    updateAbnormal(para).then(res => {
+                        if(res.code == '0'){
+                            this.$message({
+                                type: 'success',
+                                message: '账号 ' + row.studentNo + ' 已强制下线',
+                            });
+
+                            //更新行
+                            row.isOutline = 1;
+                            var index = _.findIndex(this.abnormalRows, {id: row.id});
+                            this.abnormalRows.splice(index, 1, row);
+
+                        }else{
+                            this.$message({
+                                type: 'error',
+                                message: res.msg,
+                            });
+                        }
+                    });
+                }).catch(res => {});
+            },
+            signIncheap(row){ //作弊处理
+                this.$confirm('确定将异常做作弊处理吗？','提示',{
+                    confirmButtonText: '作弊处理'
+                }).then(res => {
+                    var para = {
+                        id: row.id, //异常记录id
+                        type: 'cheap'
+                    };
+                    updateAbnormal(para).then(res => {
+                        if(res.code == '0'){
+                            this.$message({
+                                type: 'success',
+                                message: '账号 ' + row.studentNo + ' 已作弊处理',
+                            });
+
+                            //更新行
+                            row.isCheap = 1;
+                            var index = _.findIndex(this.abnormalRows, {id: row.id});
+                            this.abnormalRows.splice(index, 1, row);
+
+                        }else{
+                            this.$message({
+                                type: 'error',
+                                message: res.msg,
+                            });
+                        }
+                    });
+                }).catch(res => {});
+            },
             getStatistics(callback){ // 统计信息
                 let basePara = {
-                    paperId: this.id,//考试id
+                    examId: this.id,//考试id
                 };
+                //console.log('getListentStatisticsbasePara',basePara);
                 this.stat_Loading = true;
                 getListentStatistics(basePara).then((res) => {
                     res = res.data;
@@ -227,7 +296,7 @@
             },
             getStudent(callback){ //考试人员列表
                 let detailPara = {
-                    paperId: this.id,//考试id
+                    examId: this.id,//考试id
                     pageNo: this.stu_pageNo,
                     filter: JSON.stringify(this.filter),
                     keyword: this.stu_keyword,
@@ -242,6 +311,23 @@
                     if(callback) callback();
                 });
             },
+            getAbnormal(callback){ // 异常列表
+                /*let abnPara = {
+                    examId: this.id,//考试id
+                    pageNo: this.abn_pageNo,
+                    filter: JSON.stringify(this.filter),
+                    keyword: this.abn_keyword,
+                    pageSize: this.pageSize,
+                };
+                this.abn_Loading = true;
+                getAbnormalList(abnPara).then((res) => {
+                    res = res.data;
+                    this.abn_totalCount = res.totalCount;
+                    this.abnormalRows = res.rows;
+                    this.abn_Loading = false;
+                    if(callback) callback();
+                });*/
+            },
             dateParse(dateString){
                 return new Date(dateString);
             },
@@ -251,71 +337,38 @@
                 return totalSeconds;
             },
             remainTime(dateString, isDynamic){//倒计时
-                if(this.info.status === 1){//未开始
-                    var s_seconds = this.getRemainSeconds(this.info.beginTime);
-                    var e_seconds = this.getRemainSeconds(this.info.endTime);
-                    var str = '';
-                    if(s_seconds<=0){
-                        if(e_seconds>=0){
-                            this.info.status = 2;
-                            str = '考试开始';
-                        }else{
-                            this.info.status = 3;
-                            str = '考试结束';
-                        }
-                        this.checkStatus();
-                        this.getList();//刷新一次
-                        return str;
+                var totalSeconds = this.getRemainSeconds(dateString);//剩余总秒数
+                if(totalSeconds <= 0){
+                    this.clearSecondClock();//关闭计时器
+                    return '考试结束';
+                }else{
+                    var hourStr = '0';
+                    var minuteStr = '0';
+                    var secondStr = '0';
+                    var minuteSeconds = 1000 * 60;//一分钟毫秒数
+                    var hourSeconds = minuteSeconds * 60;//一小时毫秒数
+                    var remainHours = Math.floor(totalSeconds / hourSeconds);//对应剩余小时
+                    var remainMinutes = Math.floor(totalSeconds % hourSeconds / minuteSeconds);//对应剩余分钟
+                    var remainSeconds = Math.floor(totalSeconds % hourSeconds % minuteSeconds / 1000);//对应剩余秒
+                    if(remainHours < 10){//剩余小时小于10小时
+                        hourStr += remainHours;
                     }else{
-                        var st = this.info.beginTime;
-                        var et = this.info.endTime;
-                        var etStr = et.split(' ')[1];
-                        return  st + '-' + etStr + ' 未开始';
+                        hourStr = remainHours + '';
                     }
-                }else if(this.info.status === 3){//已结束
-                    var st = this.info.beginTime;
-                    var et = this.info.endTime;
-                    var etStr = et.split(' ')[1];
-                    this.checkStatus();
-                    return st + '-' + etStr + ' 已结束';
-                } else {//进行中
-                    var totalSeconds = this.getRemainSeconds(dateString);//剩余总秒数
-                    if(totalSeconds <= 0){
-                        this.info.status = 3;
-                        this.checkStatus();
-                        this.getList();//刷新一次
-                        return '考试结束';
+                    if(remainMinutes < 10){//剩余分钟小于10分钟
+                        minuteStr += remainMinutes;
                     }else{
-                        var hourStr = '0';
-                        var minuteStr = '0';
-                        var secondStr = '0';
-                        var minuteSeconds = 1000 * 60;//一分钟毫秒数
-                        var hourSeconds = minuteSeconds * 60;//一小时毫秒数
-                        var remainHours = Math.floor(totalSeconds / hourSeconds);//对应剩余小时
-                        var remainMinutes = Math.floor(totalSeconds % hourSeconds / minuteSeconds);//对应剩余分钟
-                        var remainSeconds = Math.floor(totalSeconds % hourSeconds % minuteSeconds / 1000);//对应剩余秒
-                        if(remainHours < 10){//剩余小时小于10小时
-                            hourStr += remainHours;
-                        }else{
-                            hourStr = remainHours + '';
-                        }
-                        if(remainMinutes < 10){//剩余分钟小于10分钟
-                            minuteStr += remainMinutes;
-                        }else{
-                            minuteStr = remainMinutes + '';
-                        }
-                        if(remainSeconds < 10){//剩余秒小于10秒
-                            secondStr += remainSeconds;
-                        }else{
-                            secondStr = remainSeconds + '';
-                        }
-
-                        return hourStr + ':' + minuteStr + ':' + secondStr;
+                        minuteStr = remainMinutes + '';
                     }
+                    if(remainSeconds < 10){//剩余秒小于10秒
+                        secondStr += remainSeconds;
+                    }else{
+                        secondStr = remainSeconds + '';
+                    }
+                    return hourStr + ':' + minuteStr + ':' + secondStr;
                 }
             },
             minuteTimeClockRun(){//每分钟刷新表格
-                this.clearMinuteClock();
                 this.minuteTimeClock = setInterval(()=>{
                     if(this.$route.fullPath != this.fullPath){
                         this.clearMinuteClock();
@@ -325,7 +378,6 @@
                 }, 60000);
             },
             secondTimeClockRun(){//每秒刷新剩余时间一次
-                this.clearSecondClock();
                 this.secondTimeClock = setInterval(()=>{
                     if(this.$route.fullPath != this.fullPath){
                         this.clearSecondClock();
@@ -348,7 +400,7 @@
         mounted() {
             this.fullPath = this.$route.fullPath;
             this.getFilter();
-            this.checkStatus();//检验状态
+            this.secondTimeClockRun();//秒计时器启动
         }
     }
 </script>

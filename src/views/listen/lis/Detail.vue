@@ -279,7 +279,6 @@
             	let basePara = {
             		examId: this.id,//考试id
             	};
-                 console.log('getListentStatisticsbasePara',basePara);
             	this.stat_Loading = true;
             	getListentStatistics(basePara).then((res) => {
                     res = res.data;

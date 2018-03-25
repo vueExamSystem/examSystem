@@ -202,6 +202,41 @@ export const getDepExamStaList = params => { return instance.get(`${base}/depart
 export const getDepScoreStaList = params => { return instance.get(`${base}/department/score/statistics/list`, params ).then(res => res.data); };
 
 
+//测验
+export const saveTestPaper = params => { return instance.post(`${base}/quiz/save`, qs.stringify(params)  ).then(res => res.data);};
+export const getTestFilter = params => { return instance.get(`${base}/quiz/filter`, params ).then(res => res.data);};
+export const getTestList = params => { return instance.post(`${base}/quiz/list`, qs.stringify(params)  ).then(res => res.data);};
+export const saveTest = params => { return instance.post(`${base}/quiz/save`, qs.stringify(params)  ).then(res => res.data);};
+//测验详情
+export const getTestDetail = params => { return instance.post(`${base}/quiz/detail`, qs.stringify(params)  ).then(res => res.data); };
+//获取测验题目详情
+export const getTestProblem = params => { return instance.post(`${base}/quiz/problem`, qs.stringify(params)  ).then(res => res.data); };
+
+//获取测验题目列表
+export const getTestProblemList = params => { return instance.post(`${base}/quiz/problem/list`, qs.stringify(params) ).then(res => res.data); };
+//删除测验题目
+export const removeTestProblem = params => { return instance.post(`${base}/quiz/problem/remove`, qs.stringify(params) ).then(res => res.data); };
+//更新测验试卷状态
+export const updateTestStatus = params => { return instance.post(`${base}/quiz/enablePaper`, qs.stringify(params) ).then(res => res.data); };
+
+//获取测验题目过滤器
+export const getTestProblemFilter = params => { return instance.post(`${base}/quiz/problem/filter`, qs.stringify(params) ).then(res => res.data); };
+//获取测验试题列表
+export const getQuizProblemList = params => { return instance.post(`${base}/quiz/problem/question`, qs.stringify(params) ).then(res => res.data); };
+//测验添加试题
+export const addTestProblem = params => { return instance.post(`${base}/quiz/problem/add`, qs.stringify(params) ).then(res => res.data); };
+
+//添加测验
+export const testSubmit = params => { return instance.post(`${base}/quiz/submit`, params ).then(res => res.data); };
+
+//编辑测验
+export const eidtTest = params => { return instance.post(`${base}/quiz/edit`, params ).then(res => res.data); };
+//删除测验
+export const removeTest = params => { return instance.post(`${base}/quiz/remove`, params ).then(res => res.data); };
+
+
+
+
 /*
 * 试卷 start
 * */
