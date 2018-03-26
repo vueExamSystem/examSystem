@@ -202,7 +202,7 @@ export const getDepExamStaList = params => { return instance.get(`${base}/depart
 export const getDepScoreStaList = params => { return instance.get(`${base}/department/score/statistics/list`, params ).then(res => res.data); };
 
 
-//测验
+//测验试卷
 export const saveTestPaper = params => { return instance.post(`${base}/quiz/save`, qs.stringify(params)  ).then(res => res.data);};
 export const getTestFilter = params => { return instance.get(`${base}/quiz/filter`, params ).then(res => res.data);};
 export const getTestList = params => { return instance.post(`${base}/quiz/list`, qs.stringify(params)  ).then(res => res.data);};
@@ -317,4 +317,13 @@ export const saveExammer = params => { return instance.post(`${base}/exam/savest
 export const delExamClass = params => { return instance.post(`${base}/exam/removeclass`, qs.stringify(params) ).then(res => res.data); };
 //发布考试
 export const publishExam = params => { return instance.post(`${base}/exam/publish`, qs.stringify(params) ).then(res => res.data); };
-   
+
+
+//随堂测验 发布
+export const getLessonQuizFilter = params => { return instance.post(`${base}/lesson/quiz/filter`, qs.stringify(params) ).then(res => res.data);};
+
+export const getLessonQuizList = params => { return instance.post(`${base}/lesson/quiz/list`, qs.stringify(params) ).then(res => res.data);};
+
+export const addLessonQuiz = params => { return instance.post(`${base}/lesson/quiz/add`, qs.stringify(params) ).then(res => res.data); };
+
+export const updateLessonQuiz = params => { return instance.post(`${base}/lesson/quiz/update`, qs.stringify(params) ).then(res => res.data); };
