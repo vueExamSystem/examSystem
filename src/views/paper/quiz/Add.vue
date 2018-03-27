@@ -2,7 +2,7 @@
 	<section>
 		<div v-show="!isNext" class="panel">
 			<div class="title">
-				<span>添加测试</span>
+				<span>添加测验</span>
 				<div class="pull-right">
 					<el-button type="success" @click="onSubmit('form')" class="el-button-shadow">保存</el-button>
 					<el-button type="danger" @click="resetForm('form')" class="el-button-shadow">重置</el-button>
@@ -10,7 +10,7 @@
 			</div>
 			<div class="content" v-loading="isSubmitting">
 				<el-form id="paperForm" ref="form" :model="form" :rules="rules" label-width="110px" :inline-message="isInlineMessage" @submit.prevent="onSubmit">
-					<el-form-item label="测试名称：" prop="name">
+					<el-form-item label="测验名称：" prop="name">
 						<el-input v-model="form.name"></el-input>
 					</el-form-item>
 					<el-form-item label="选择课程：" prop="subject"> 
@@ -21,6 +21,13 @@
 						      :label="item.text"
 						      :value="item.value">
 						    </el-option>
+						</el-select>
+					</el-form-item>
+					<el-form-item label="选择章节：" prop="section"> 
+					<el-select v-model="form.section" placeholder="请选择章节" multiple>
+							<template v-for="item in sections">
+								<el-option :label="item.text" :value="item.value" :key="item.value"></el-option>
+							</template>
 						</el-select>
 					</el-form-item>
 					<el-form-item label="组卷方式：" prop="mode">
@@ -84,7 +91,7 @@
 </template>
 <script>
 	import Detail from './Detail.vue'
-	import { getCoursesMap, saveTestPaper } from '../../../api/api';
+	import { getCoursesMap,getSections,saveTestPaper } from '../../../api/api';
 	export default {
 		components:{
 			Detail
@@ -97,9 +104,11 @@
 				isSubmitting: false,
 				subjectLoading: true,//科目加载
 				subjectOptions: [], //科目选项组
+				sections:[],//章节
 				form: {
 					name: '',//试卷名称
 					subject: '',//科目
+					section:'',//章节
 					mode: 'random',//组卷方式
 					time: '',//考试时间
 					radiocount:'',//单选题数
@@ -178,12 +187,18 @@
 		methods: {
 			init(){
 				this.getCourseOptions();
+				this.getSectionOptions();
 			},
 			getCourseOptions(){//获取科目组
 				this.subjectLoading = true;
 				getCoursesMap({}).then(res => {
 					this.subjectOptions = res.data;
 					this.subjectLoading = false;
+				});
+			},
+			getSectionOptions(){//获取章节
+				getSections({}).then(res => {
+					this.sections = res.data;
 				});
 			},
 			onSubmit(formName, flag) {
@@ -208,6 +223,7 @@
                         	paperType:2,
                             name: this.form.name,
                             "course.id": this.form.subject,
+                            sections:this.form.section.join(','),
                             duration:this.form.time,
                             radioCount: this.form.radiocount,
                             radioScore: this.form.radioscore,
@@ -221,7 +237,7 @@
                             total:this.form.total,
                             mode: this.form.mode,
                         };
-                        //console.log('paperParams',paperParams);
+                        console.log('paperParams',paperParams);
                         this.$confirm('确认添加吗？', '提示', {}).then(() => {
                             this.loading = true;
                             saveTestPaper(paperParams).then((res) => {

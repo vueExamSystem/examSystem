@@ -335,11 +335,11 @@
                                     message: '发布成功',
                                     type: 'success'
                                 });
-                                if(this.$route.fullPath == '/exam/list'){
+                                if(this.$route.fullPath == '/test/list'){
                                     var isRefresh = true;
                                     this.close(true);
                                 }else{
-                                    this.$router.push({ path: '/exam/list' });
+                                    this.$router.push({ path: '/test/list' });
                                 }
                             }
                         });

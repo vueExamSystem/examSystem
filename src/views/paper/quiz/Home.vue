@@ -1,9 +1,9 @@
 <template>
     <el-tabs type="border-card" v-model="activeName">
-        <el-tab-pane label="测试列表" name="quizlist">
+        <el-tab-pane label="测验列表" name="quizlist">
             <List></List>
         </el-tab-pane>
-        <el-tab-pane label="添加测试" name="quizadd">
+        <el-tab-pane label="添加测验" name="quizadd">
             <add-form></add-form>
         </el-tab-pane>
     </el-tabs>

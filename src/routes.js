@@ -104,7 +104,7 @@ export const asyncRouterMap  = [{
             redirect: '/paper/paper',
             children: [
                 { path: '/paper/paper', component: PaperDefault, name: '考试试卷', icon:'iconfont icon-kaoshi-larger', defaultPath: true},
-                { path: '/paper/quiz', component: PaperQuiz, name: '随堂测验', icon:'iconfont icon-ceyan-larger', },
+                { path: '/paper/quiz', component: PaperQuiz, name: '测验试卷', icon:'iconfont icon-ceyan-larger', },
                 { path: '/paper/exercises', component: PaperExercises, name: '练习题', icon:'iconfont icon-pencil-larger' }
             ]
         },

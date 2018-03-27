@@ -28,13 +28,13 @@
 							</template>
 						</el-select>
 					</el-form-item>
-					<el-form-item label="监考老师：" prop="teachers">
+				<!-- 	<el-form-item label="监考老师：" prop="teachers">
 						<el-select v-model="form.teacher" placeholder="请选择监考老师" multiple>
 							<template v-for="item in defaultInfo.teachers">
 								<el-option :label="item.text" :value="item.value" :key="item.value"></el-option>
 							</template>
 						</el-select>
-					</el-form-item>
+					</el-form-item> -->
 					<el-form-item label="开始时间：" prop="beginTime">
 						<el-date-picker type="datetime" placeholder="请选择开始时间" format="yyyy/MM/dd HH:mm:ss" value-format="yyyy/MM/dd HH:mm:ss" v-model="form.beginTime" style="width: 240px;"></el-date-picker>
 					</el-form-item>
@@ -84,7 +84,7 @@
 				}, this.formObj),
 				rules:{
 					name:[
-						{required: true, message: '请输入预习名称', trigger: 'blur'},
+						{required: true, message: '请输入随堂测验名称', trigger: 'blur'},
 						{min: 2, max: 30, message: '长度在2-30个字符', trigger: 'blur'}
 					],
 					subject: [
@@ -101,7 +101,7 @@
                 defaultInfo: {
                 	courses: [],
                     papers: [],
-                    teachers: [],
+                    //teachers: [],
                     grade: [],
                     department: [],
                     class: [],
@@ -124,7 +124,7 @@
                 		paperId:this.form.paper,
                 		beginTime:this.form.beginTime,
                 		endTime:this.form.endTime,
-                		dutyTeachers:this.form.teacher.join(','),
+                		//dutyTeachers:this.form.teacher.join(','),
                 	};
                 	let updatePara={
                 		id:this.form.id,
@@ -132,9 +132,9 @@
                 		paperId:this.form.paper,
                 		beginTime:this.form.beginTime.replace(/-/g,'/'),
                 		endTime:this.form.endTime.replace(/-/g,'/'),
-                		dutyTeachers:this.form.teacher.join(','),
+                		//dutyTeachers:this.form.teacher.join(','),
                 	};
-                	console.log('updatePara111',updatePara);
+                	//console.log('updatePara111',updatePara);
                     if (isValid) {
                         this.$confirm('确认添加考试吗？', '提示', {}).then(() => {     
                             this.loading = true;

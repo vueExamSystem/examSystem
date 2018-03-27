@@ -15,12 +15,12 @@
                     <el-table :data="papers" highlight-current-row v-loading="listLoading" style="width: 100%;">
                         <el-table-column type="index" label="序号" width="60">
                         </el-table-column>
-                        <el-table-column prop="name" label="测验名称" min-width="160">
+                        <el-table-column prop="name" label="测验名称" min-width="100">
                             <template scope="scope">
                                 <el-button type="text" @click="detailShow(scope.row)">{{scope.row.name}}</el-button>
                             </template>
                         </el-table-column>
-                        <el-table-column prop="duration" label="时长(min)" min-width="100">
+                        <el-table-column prop="duration" label="时长(min)" min-width="50">
                         </el-table-column>
 <!--                         <el-table-column prop="project" label="所属课程" min-width="120">
                         </el-table-column> -->
@@ -28,6 +28,8 @@
                          <template slot-scope="scope">
                          <span v-if="scope.row.course">{{scope.row.course.name}}</span>
                          </template> 
+                         </el-table-column>
+                          <el-table-column prop="sections" label="所属章节">
                          </el-table-column>
                         <el-table-column prop="category" label="类别" min-width="100" :formatter="formatCategory">
                         </el-table-column>

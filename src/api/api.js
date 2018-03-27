@@ -327,3 +327,6 @@ export const getLessonQuizList = params => { return instance.post(`${base}/lesso
 export const addLessonQuiz = params => { return instance.post(`${base}/lesson/quiz/add`, qs.stringify(params) ).then(res => res.data); };
 
 export const updateLessonQuiz = params => { return instance.post(`${base}/lesson/quiz/update`, qs.stringify(params) ).then(res => res.data); };
+
+//章节信息数组
+export const getSections=params => { return instance.post(`${base}/chapter/sections`, qs.stringify(params) ).then(res => res.data); };

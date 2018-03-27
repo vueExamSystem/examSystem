@@ -223,7 +223,7 @@
                 if (!this.listLoading) this.listLoading = true;
                 getSameList(para).then((res) => {
                     res=res.data;
-                    console.log('getSameList',res);
+                    //console.log('getSameList',res);
                     this.totalCount = res.totalCount;
                     this.rows = res.rows;
                     if (!this.filterLoading) this.listLoading = false;

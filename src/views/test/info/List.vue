@@ -36,11 +36,11 @@
                                 <span v-else>已结束</span>
                             </template>
                         </el-table-column>
-                        <el-table-column prop="teachers" label="监考老师">
-                         <!--    <template slot-scope="scope">
+                      <!--   <el-table-column prop="teachers" label="监考老师">
+                            <template slot-scope="scope">
                                 <span v-if="scope.row.listener">{{scope.row.listener.name}}</span>
-                            </template> -->
-                        </el-table-column>
+                            </template>
+                        </el-table-column> -->
                         <el-table-column prop="groups" label="考试人员" min-width="160">
             <!--                 <template slot-scope="scope">
                                 <span v-if="scope.row.testClass">{{scope.row.testClass.name}}</span>
