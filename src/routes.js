@@ -29,6 +29,8 @@ import PaperExercises from './views/paper/exercises/Home.vue'
 import PreviewHome from './views/preview/Home.vue'
 import PreviewExample from './views/preview/example/Home.vue'
 import PreviewDoc from './views/preview/doc/Home.vue'
+import PriewPublish from './views/preview/publish/Home.vue'
+
 /*测验*/
 import TestHome from './views/test/Home.vue'
 import TestInfo from './views/test/info/Home.vue'
@@ -114,7 +116,8 @@ export const asyncRouterMap  = [{
             name: '预习',
             redirect: '/preview/list',
             children: [
-                { path: '/preview/list', component: PreviewExample, name: '预习题', icon:'iconfont icon-pencil-larger', defaultPath: true},
+                { path: '/preview/list', component: PreviewExample, name: '预习列表', icon:'iconfont icon-pencil-larger', defaultPath: true},
+                { path: '/preview/publish', component: PriewPublish, name: '发布预习', icon:'iconfont icon-book-larger' },
                 { path: '/preview/doc', component: PreviewDoc, name: '预习资料', icon:'iconfont icon-book-larger' }
             ]
         },

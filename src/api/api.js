@@ -163,10 +163,10 @@ export const getSetChartList = params => { return instance.get(`${base}/chart/li
 *  成绩 start
 * */
 // list
-export const getStudentScoreList = params => { return instance.get(`${base}/student/list`, params ).then(res => res.data); };
+export const getStudentScoreList = params => { return instance.post(`${base}/score/list`, qs.stringify(params)  ).then(res => res.data); };
 
 // filter
-export const getStudentScoreFilter = params => { return instance.get(`${base}/student/filter`, params ).then(res => res.data); };
+export const getStudentScoreFilter = params => { return instance.get(`${base}/score/filter`, { params: params } ).then(res => res.data); };
 
 
 /*
@@ -206,7 +206,7 @@ export const getDepScoreStaList = params => { return instance.get(`${base}/depar
 export const saveTestPaper = params => { return instance.post(`${base}/quiz/save`, qs.stringify(params)  ).then(res => res.data);};
 export const getTestFilter = params => { return instance.get(`${base}/quiz/filter`, params ).then(res => res.data);};
 export const getTestList = params => { return instance.post(`${base}/quiz/list`, qs.stringify(params)  ).then(res => res.data);};
-export const saveTest = params => { return instance.post(`${base}/quiz/save`, qs.stringify(params)  ).then(res => res.data);};
+//export const saveTest = params => { return instance.post(`${base}/quiz/save`, qs.stringify(params)  ).then(res => res.data);};
 //测验详情
 export const getTestDetail = params => { return instance.post(`${base}/quiz/detail`, qs.stringify(params)  ).then(res => res.data); };
 //获取测验题目详情
@@ -235,6 +235,29 @@ export const eidtTest = params => { return instance.post(`${base}/quiz/edit`, pa
 export const removeTest = params => { return instance.post(`${base}/quiz/remove`, params ).then(res => res.data); };
 
 
+//练习题 train
+export const saveTrainPaper = params => { return instance.post(`${base}/train/save`, qs.stringify(params)  ).then(res => res.data);};
+
+export const getTrainFilter = params => { return instance.get(`${base}/train/filter`, params ).then(res => res.data);};
+export const getTrainList = params => { return instance.post(`${base}/train/list`, qs.stringify(params)  ).then(res => res.data);};
+
+//编辑练习题
+export const eidtTrain = params => { return instance.post(`${base}/train/edit`, params ).then(res => res.data); };
+//删除练习题
+export const removeTrain = params => { return instance.post(`${base}/train/remove`, params ).then(res => res.data); };
+//获取练习题题目列表
+export const getTrainProblemList = params => { return instance.post(`${base}/train/problem/list`, qs.stringify(params) ).then(res => res.data); };
+//删除练习题题目
+export const removeTrainProblem = params => { return instance.post(`${base}/train/problem/remove`, qs.stringify(params) ).then(res => res.data); };
+//更新练习题试卷状态
+export const updateTrainStatus = params => { return instance.post(`${base}/train/enablePaper`, qs.stringify(params) ).then(res => res.data); };
+
+//获取练习题题目过滤器
+export const getTrainProblemFilter = params => { return instance.post(`${base}/train/problem/filter`, qs.stringify(params) ).then(res => res.data); };
+//获取练习题试题列表
+export const getTrainQuestionList = params => { return instance.post(`${base}/train/problem/question`, qs.stringify(params) ).then(res => res.data); };
+//练习题添加试题
+export const addTrainProblem = params => { return instance.post(`${base}/train/problem/add`, qs.stringify(params) ).then(res => res.data); };
 
 
 /*
@@ -330,3 +353,13 @@ export const updateLessonQuiz = params => { return instance.post(`${base}/lesson
 
 //章节信息数组
 export const getSections=params => { return instance.post(`${base}/chapter/sections`, qs.stringify(params) ).then(res => res.data); };
+
+
+//练习题 发布
+export const getLessonTrainFilter = params => { return instance.post(`${base}/lesson/train/filter`, qs.stringify(params) ).then(res => res.data);};
+
+export const getLessonTrainList = params => { return instance.post(`${base}/lesson/train/list`, qs.stringify(params) ).then(res => res.data);};
+
+export const addLessonTrain = params => { return instance.post(`${base}/lesson/train/add`, qs.stringify(params) ).then(res => res.data); };
+
+export const updateLessonTrain = params => { return instance.post(`${base}/lesson/train/update`, qs.stringify(params) ).then(res => res.data); };
