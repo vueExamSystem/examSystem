@@ -17,6 +17,9 @@
                         <el-table-column type="index" label="序号" width="100">
                         </el-table-column>
                         <el-table-column prop="courseName" label="课程">
+                            <template slot-scope="scope">
+                                <el-button type="text" @click="detailShow(scope.row.id)">{{scope.row.courseName}}</el-button>
+                            </template>
                         </el-table-column>
                         <el-table-column prop="termName" label="学期">
                         </el-table-column>

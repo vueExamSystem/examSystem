@@ -1,6 +1,6 @@
 <template>
     <el-tabs type="border-card" v-model="activeName">
-        <el-tab-pane label="学生成绩" name="infolist">
+        <el-tab-pane label="学生成绩" name="list">
             <List></List>
         </el-tab-pane>
     </el-tabs>
@@ -14,7 +14,7 @@
         },
         data() {
             return {
-                activeName:'infolist',
+                activeName:'list',
             }
         },
         methods: {

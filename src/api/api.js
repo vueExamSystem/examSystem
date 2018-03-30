@@ -168,6 +168,12 @@ export const getStudentScoreList = params => { return instance.post(`${base}/sco
 // filter
 export const getStudentScoreFilter = params => { return instance.get(`${base}/score/filter`, { params: params } ).then(res => res.data); };
 
+// detail
+export const getStudentScoreDetailList = params => { return instance.post(`${base}/score/detail/list`, qs.stringify(params)  ).then(res => res.data); };
+
+// filter
+export const getStudentScoreDetailFilter = params => { return instance.get(`${base}/score/detail/filter`, { params: params } ).then(res => res.data); };
+
 
 /*
 *  后台 start
