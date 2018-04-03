@@ -3,6 +3,9 @@
         <el-tab-pane label="院系班级" name="list">
             <student-table></student-table>
         </el-tab-pane>
+          <el-tab-pane label="添加老师" name="addTeacher">
+            <teacher-add></teacher-add>
+        </el-tab-pane>
         <el-tab-pane label="添加学生" name="add">
             <student-add></student-add>
         </el-tab-pane>
@@ -14,6 +17,7 @@
 
 <script>
     import studentTable from './Table.vue';
+    import teacherAdd from './AddTeacher.vue';
     import studentAdd from './Add.vue';
     import studentImport from './Import.vue';
 
@@ -25,12 +29,13 @@
         },
         components: {
             studentTable,
+            teacherAdd,
             studentAdd,
             studentImport,
         },
         methods: {
             handleClick(tab, event){
-                console.log('tab',tab,event);
+                //console.log('tab',tab,event);
             },
         },
         mounted() {

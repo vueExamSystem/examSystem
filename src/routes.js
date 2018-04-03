@@ -178,7 +178,7 @@ export const asyncRouterMap  = [{
             name: '后台',
             redirect: '/backstage/student',
             children: [
-                { path: '/backstage/student', component: BackstageStudent, name: '学生管理', icon:'iconfont icon-student-larger', defaultPath: true},
+                { path: '/backstage/student', component: BackstageStudent, name: '院系管理', icon:'iconfont icon-student-larger', defaultPath: true},
                 { path: '/backstage/course', component: BackstageCourse, name: '选课管理', icon:'iconfont icon-kecheng-larger' },
                 { path: '/backstage/role', component: BackstageRole, name: '角色管理', icon:'iconfont icon-user-larger' },
                 { path: '/backstage/score', component: BackstageScore, name: '成绩管理', icon:'iconfont icon-score-larger' },

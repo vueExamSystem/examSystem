@@ -1,12 +1,11 @@
-import axios from 'axios';
 import instance  from './instance';
 import qs from 'qs'
 
-// let base = '';
-//let base = 'http://localhost:8081/api';
-let base = 'http://121.43.164.178:8081/api';//公网线上调试api
+let base = 'aps/api';
+//let base = 'http://127.0.0.1:8081/api';
+//let base = 'http://121.43.164.178:8081/api';//公网线上调试api
 //export const requestLogin = params => { return axios.post(`${base}/login/verify`,params).then(res => res.data); };
- export const requestLogin = params => { return axios.post(`${base}/login/verify`,  qs.stringify(params)).then(res => res.data); };
+ export const requestLogin = params => { return instance.post(`${base}/login/verify`,  qs.stringify(params)).then(res => res.data); };
 
 //用户信息
 export const getUserInfo = params => { return instance.post(`${base}/user/info`, qs.stringify(params)).then(res => res.data); };
@@ -168,16 +167,15 @@ export const getStudentScoreList = params => { return instance.post(`${base}/sco
 // filter
 export const getStudentScoreFilter = params => { return instance.get(`${base}/score/filter`, { params: params } ).then(res => res.data); };
 
-// detail
-export const getStudentScoreDetailList = params => { return instance.post(`${base}/score/detail/list`, qs.stringify(params)  ).then(res => res.data); };
-
-// filter
-export const getStudentScoreDetailFilter = params => { return instance.get(`${base}/score/detail/filter`, { params: params } ).then(res => res.data); };
-
 
 /*
 *  后台 start
 * */
+export const getAddStuFilter = params => { return instance.get(`${base}/back/filter`, { params: params } ).then(res => res.data); };
+
+export const saveOneStudent=params => { return instance.post(`${base}/back/addStudent`, qs.stringify(params) ).then(res => res.data); };
+
+export const addTeacher=params => { return instance.post(`${base}/back/addTeacher`, qs.stringify(params) ).then(res => res.data); };
 // department
 export const getDepartmentList = params => { return instance.get(`${base}/college/list`, params ).then(res => res.data); };
  
@@ -196,7 +194,7 @@ export const getCompetenceList = params => { return instance.get(`${base}/compet
 // 选课
 export const getSelectCourseList = params => { return instance.get(`${base}/selectCourse/list`, params ).then(res => res.data); };
 
-export const saveStudent=params => { return instance.post(`${base}/user/addStudent`, qs.stringify(params) ).then(res => res.data); };
+
 
 /*
 * 统计 start

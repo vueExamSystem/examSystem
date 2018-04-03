@@ -1,7 +1,7 @@
 <template>
 	<section class="panel" id="queForm">
 		<div class="title">
-			<span>添加学生</span>
+			<span>添加老师</span>
 			<div class="pull-right">
 				<el-button type="success" @click="onSubmit('form')" class="el-button-shadow">保存</el-button>
 				<el-button type="danger" @click="resetForm('form')" class="el-button-shadow">取消</el-button>
@@ -10,13 +10,6 @@
 
 		<div class="content">
 			<el-form :model="form" :rules="rules" ref="form" label-width="110px" :inline-message="isInlineMessage" @submit.prevent="onSubmit">
-				<el-form-item label="所属年级:" prop="grade" :rules="[{required: true, message: '请选择所属年级', trigger: 'change'}]">
-					<el-select v-model="form.grade" placeholder="请选择所属年级">
-						<template v-for="item in gradeArr">
-							<el-option :label="item.text" :value="item.value"></el-option>
-						</template>
-					</el-select>
-				</el-form-item>
 				<el-form-item label="所属院系:" prop="department" :rules="[{required: true, message: '请选择所属院系', trigger: 'change'}]">
 					<el-select v-model="form.department" placeholder="请选择所属院系">
 						<template v-for="item in departmentArr">
@@ -24,35 +17,32 @@
 						</template>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="所属班级:" prop="class" :rules="[{required: true, message: '请选择所属班级', trigger: 'change'}]">
-					<el-select v-model="form.class" placeholder="请选择所属班级">
-						<template v-for="item in classArr">
-							<el-option :label="item.text" :value="item.value"></el-option>
-						</template>
-					</el-select>
+                <el-form-item label="管理课程：" prop="courses" :rules="[{required: true, message: '请选择课程', trigger: 'change'}]">
+                        <el-select v-model="form.courses" placeholder="请选择课程" multiple>
+                            <template v-for="item in courseArr">
+                                <el-option :label="item.text" :value="item.value" :key="item.value"></el-option>
+                            </template>
+                        </el-select>
+                    </el-form-item>
+				<el-form-item label="老师姓名:" prop="name" :rules="[{required: true, message: '请输入老师姓名', trigger: 'blur'}]">
+					<el-input v-model="form.name" placeholder="请输入老师姓名"></el-input>
 				</el-form-item>
-				<el-form-item label="学生学号:" prop="studentNo" :rules="[{required: true, message: '请输入学生学号', trigger: 'blur'}]">
-					<el-input v-model="form.studentNo" placeholder="请输入学生学号"></el-input>
-				</el-form-item>
-				<el-form-item label="学生姓名:" prop="name" :rules="[{required: true, message: '请输入学生姓名', trigger: 'blur'}]">
-					<el-input v-model="form.name" placeholder="请输入学生姓名"></el-input>
-				</el-form-item>
-				<el-form-item label="学生性别:" prop="sex" :rules="[{required: true, message: '请选择学生性别', trigger: 'change'}]">
-					<el-select v-model="form.sex" placeholder="请选择学生性别">
+				<el-form-item label="老师性别:" prop="sex" :rules="[{required: true, message: '请选择老师性别', trigger: 'change'}]">
+					<el-select v-model="form.sex" placeholder="请选择老师性别">
 						<el-option label="男" value="0"></el-option>
 						<el-option label="女" value="1"></el-option>
 					</el-select>
 				</el-form-item>
-                 <el-form-item label="学生邮箱:" prop="email">
-                    <el-input v-model="form.email" placeholder="请输入学生邮箱"></el-input>
+                <el-form-item label="老师邮箱:" prop="email">
+                    <el-input v-model="form.email" placeholder="请输入老师姓名"></el-input>
                 </el-form-item>
                  <el-form-item label="手机号码:" prop="phone">
                     <el-input v-model="form.phone" placeholder="请输入手机号码"></el-input>
                 </el-form-item>
-                 <el-form-item label="入学日期:" prop="signTime">
-                    <el-date-picker type="datetime" placeholder="请选择入职日期" format="yyyy/MM/dd" value-format="yyyy/MM/dd" 
-                    v-model="form.signTime" style="width: 240px;"> 
-                    </el-date-picker>
+                <el-form-item label="入职日期:" prop="signTime" >
+                  <el-date-picker type="datetime" placeholder="请选择入职日期" format="yyyy/MM/dd" value-format="yyyy/MM/dd" 
+                  v-model="form.signTime" style="width: 240px;"> 
+                  </el-date-picker>
                 </el-form-item>
 				<el-form-item label="登录帐号:" prop="account" :rules="[{required: true, message: '请输入登录帐号', trigger: 'blur'}]">
 					<el-input v-model="form.account" placeholder="请输入登录帐号"></el-input>
@@ -73,7 +63,7 @@
         getAddStuFilter
        
 	} from '../../../api/api';
-    import {saveOneStudent} from '../../../api/api';
+    import {addTeacher} from '../../../api/api';
 	export default {
 		data() {
 			return {
@@ -81,12 +71,10 @@
                     grade: '',
                     department: '',
                     class: '',
+                    courses:'',
                     studentNo: '',
                     name: '',
                     sex: '',
-                    email:'',
-                    phone:'',
-                    signTime:'',
                     account: '',
 					password: '',
                 },
@@ -108,6 +96,7 @@
 				}],
                 classArr: [],
 				departmentArr: [],
+                courseArr:[]
 			}
 		},
 		methods: {
@@ -117,10 +106,8 @@
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                          var stuParams = {
-                            'gradeId': this.form.grade,
-                            'collegeId':this.form.department,
-                            'groupId': this.form.class,
-                            studentNo: this.form.studentNo,
+                            collegeId:this.form.department,
+                            courses:this.form.courses,
                             userName:this.form.name,
                             userAccount: this.form.account,
                             sex: this.form.sex ,
@@ -132,7 +119,7 @@
                         console.log('stuParams ',stuParams);
                         this.$confirm('确认添加吗？', '提示', {}).then(() => {
                             this.loading = true;
-                            saveOneStudent(stuParams).then((res) => {
+                            addTeacher(stuParams).then((res) => {
                                 if (res.code == 0) {
                                      this.$message({
                                         message: '提交成功',
@@ -167,6 +154,7 @@
                    this.departmentArr = res.data.colleges;
                    this.classArr=res.data.groups;
                    this.gradeArr=res.data.grades;
+                   this.courseArr=res.data.courses;
                 });
 			},
 			// 上传文件相关
