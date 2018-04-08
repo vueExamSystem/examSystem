@@ -57,9 +57,7 @@
         data() {
             return {
                 keyword: '',
-                filters: {
-                    name: ''
-                },
+                filters:[],
                 list: [],
                 total: 0,
                 page: 1,
@@ -98,7 +96,7 @@
                 getClassList(para).then((res) => {
                     this.list = res.data.list;
                     this.listLoading = false;
-                    this.filterList = this.getFilterList();
+                    //this.filterList = this.getFilterList();
                     //NProgress.done();
                 });
             },

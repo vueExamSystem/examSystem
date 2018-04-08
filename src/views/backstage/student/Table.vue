@@ -5,14 +5,14 @@
             <div class="panel">
                 <div class="title">
                     <el-input placeholder="请输入搜索关键词" v-model="keyword">
-                        <el-button slot="append" icon="el-icon-search"></el-button>
+                        <el-button slot="append" icon="el-icon-search" @click="getList"></el-button>
                     </el-input>
 
                     <el-button type="success" @click="departmentAdd" class="el-button-shadow">添加院系</el-button>
                     <!--分页-->
-                    <div class="pageArea">
-                        <Page :current="page" :total="total" :pageSize="pageSize" @page-change="handleCurrentChange"></Page>
-                    </div>
+<!--                     <div class="pageArea">
+                        <Page :current="pageNo" :totalCount="totalCount" :pageSize="pageSize" @page-change="handleCurrentChange"></Page>
+                    </div> -->
 
                 </div>
 
@@ -25,36 +25,36 @@
                             v-for="(item, index) in list">
                         <el-collapse-item>
                             <template slot="title" name="index">
-                                <div v-if="!isShowResetInput(index)">
-                                    <span>{{item.department}}</span>
-                                    <el-button type="primary" @click="resetNameEvent($event, index)" class="el-button-shadow">重命名</el-button>
+                                <div v-if="!isShowResetInput(item.collegeId)">
+                                    <span>{{item.college}}</span>
+                                    <el-button type="primary" @click="resetNameEvent($event, item.collegeId)" class="el-button-shadow">重命名</el-button>
                                     <el-button type="success" @click="classAdd($event, index)" class="el-button-shadow">添加班级</el-button>
                                 </div>
-                                <div v-if="isShowResetInput(index)">
+                                <div v-if="isShowResetInput(item.collegeId)">
                                     <div class="resetNameInput">
-                                        <el-input v-model="item.department"></el-input>
+                                        <el-input v-model="item.college"></el-input>
                                     </div>
-                                    <el-button type="success" @click="saveResetName($event, index)" class="el-button-shadow">保存</el-button>
+                                    <el-button type="success" @click="saveResetName($event, item.collegeId)" class="el-button-shadow">保存</el-button>
                                     <el-button type="danger" @click="cancelResetName($event)" class="el-button-shadow">取消</el-button>
                                 </div>
                             </template>
                             <!--列表-->
                             <el-table
-                                    :data="item.classArr"
+                                    :data="item.groups"
                                     highlight-current-row
                                     @selection-change="selsChange"
                                     v-loading="listLoading"
                                     style="width: 100%;">
                                 <el-table-column type="index" label="ID">
                                 </el-table-column>
-                                <el-table-column prop="name" label="班级名称" sortable>
+                                <el-table-column prop="groupName" label="班级名称" sortable>
                                     <template scope="scope">
-                                        <el-button type="text" @click="detailShow(scope.row.id)">{{scope.row.name}}</el-button>
+                                        <el-button type="text" @click="detailShow(scope.row.id)">{{scope.row.groupName}}</el-button>
                                     </template>
                                 </el-table-column>
-                                <el-table-column prop="personNum" label="班级人数" sortable>
+                                <el-table-column prop="studentNum" label="班级人数" sortable>
                                 </el-table-column>
-                                <el-table-column prop="counselor" label="辅导员" sortable>
+                                <el-table-column prop="teacher" label="辅导员" sortable>
                                 </el-table-column>
                                 <el-table-column
                                         label="操作"
@@ -71,29 +71,29 @@
             </div>
         </section>
         <section v-else>
-            <class-detail id="classId" @close="detailClose"></class-detail>
+            <class-detail :id="classId" @close="detailClose"></class-detail>
         </section>
     </div>
 </template>
 
 <script>
-    import {getDepartmentList} from '../../../api/api';
+    import {getDepartmentList,getGradeFilter} from '../../../api/api';
     import myFilter from '../../common/myFilter.vue'
     import Pagination from '../../common/Pagination.vue'
     import classDetail from './Detail.vue'
-
+    import u from '../../../common/js/util';
+    import _ from 'lodash';
     export default {
         data() {
             return {
                 keyword: '',
-                filters: {
-                    name: ''
-                },
+                filter: {},
                 list: [],
-                total: 0,
-                page: 1,
-                pageSize: 5,
-                listLoading: true,
+                totalCount: 0,
+                pageNo: 1,
+                pageSize: 10,
+                listLoading: false,
+                filterLoading: false,
                 sels: [],//列表选中列
                 // 手风琴选项的默认
                 activeName: 0,
@@ -116,33 +116,48 @@
                         }]
                     }],
                 // 选择某个班级id
-                classId: '',
+                classId: 0,
             }
         },
         methods: {
-            handleSizeChange(val) {
-                console.log(val);
-            },
-            handleCurrentChange(val) {
-                this.page = val;
-                this.getUsers();
-            },
+         /*   handleSizeChange(val) {
+                //console.log(val);
+            },*/
+            // handleCurrentChange(val) {
+            //     this.page = val;
+            //     //this.getList();
+            // },
             selsChange: function (sels) {
                 this.sels = sels;
             },
-            search() {
+            search(obj) {
+                this.filter = obj;this.pageNo = 1;
+                this.getList();
+            },
+            // 获取初始数据
+            getDefaultData() {
+                getGradeFilter({}).then((res) => {
+                        res=res.data;
+                        this.filterList = res;
+                        // filter 对应key默认好 -1
+                        this.filter = u.getDefaultFilter(this.filterList);
+                        this.getList();
+                    });
             },
             //获取用户列表
             getList() {
+                if (_.isEmpty(this.filter)) return;
                 let para = {
-                    page: this.page,
-                    name: this.filters.name,
-                    pageSize: this.pageSize
+                    pageNo: this.pageNo,
+                    filter: JSON.stringify(this.filter),
+                    pageSize: this.pageSize,
+                    keyword: this.keyword,
                 };
+                //console.log('para',para);
                 this.listLoading = true;
                 //NProgress.start();
                 getDepartmentList(para).then((res) => {
-                    this.list = res.data.list;
+                    this.list = res.data;
                     this.listLoading = false;
                     //NProgress.done();
                 });
@@ -150,15 +165,16 @@
             changeCollapse(val) {
                 console.log('changeCollapse', val);
             },
-            // 重命名
-            resetNameEvent(e, index){
+            // 重命名d
+            resetNameEvent(e, id){
                 e.stopPropagation();
-                this.resetIndex = index;
+                console.log('resetNameEvent',id);
+                this.resetIndex = id;
             },
             // 保存重命名名称
-            saveResetName(e, index) {
+            saveResetName(e, id) {
                 e.stopPropagation();
-                console.log('save name success index = ', index);
+                console.log('save name success index = ', id);
                 this.resetIndex = '';
             },
             // 取消重命名
@@ -191,7 +207,7 @@
 
         },
         mounted() {
-            this.getList();
+            this.getDefaultData();
         }
     }
 

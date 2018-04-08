@@ -86,7 +86,7 @@
 			getDefaultData() {
                 getCourseList({}).then((res) => {
                     this.courseArr = res.data;
-                    console.log(res);
+                    //console.log(res);
                 });
 			},
 			// 上传文件相关

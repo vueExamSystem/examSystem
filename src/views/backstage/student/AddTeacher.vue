@@ -29,8 +29,8 @@
 				</el-form-item>
 				<el-form-item label="老师性别:" prop="sex" :rules="[{required: true, message: '请选择老师性别', trigger: 'change'}]">
 					<el-select v-model="form.sex" placeholder="请选择老师性别">
-						<el-option label="男" value="0"></el-option>
-						<el-option label="女" value="1"></el-option>
+						<el-option label="男" value="1"></el-option>
+						<el-option label="女" value="0"></el-option>
 					</el-select>
 				</el-form-item>
                 <el-form-item label="老师邮箱:" prop="email">
@@ -101,7 +101,7 @@
 		},
 		methods: {
             onSubmit(formName) {
-                console.log(formName);
+                //console.log(formName);
 
                 this.$refs[formName].validate((valid) => {
                     if (valid) {

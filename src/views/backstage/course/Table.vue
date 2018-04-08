@@ -5,12 +5,12 @@
             <div class="panel">
                 <div class="title">
                     <el-input placeholder="请输入搜索关键词" v-model="keyword">
-                        <el-button slot="append" icon="el-icon-search"></el-button>
+                        <el-button slot="append" icon="el-icon-search" @click="getList"></el-button>
                     </el-input>
 
                     <!--分页-->
                     <div class="pageArea">
-                        <Page :current="page" :total="total" :pageSize="pageSize" @page-change="handleCurrentChange"></Page>
+                        <Page :current="pageNo" :totalCount="totalCount" :pageSize="pageSize" @page-change="handleCurrentChange"></Page>
                     </div>
 
                 </div>
@@ -25,12 +25,16 @@
                             style="width: 100%;">
                         <el-table-column type="index" label="ID">
                         </el-table-column>
-                        <el-table-column prop="name" label="课程" sortable>
+                        <el-table-column prop="course" label="课程" sortable>
                             <template scope="scope">
-                                <el-button type="text" @click="detailShow(scope.row.id)">{{scope.row.name}}</el-button>
+                                <el-button type="text" @click="detailShow(scope.row.courseId)">{{scope.row.course}}</el-button>
                             </template>
                         </el-table-column>
-                        <el-table-column prop="className" label="班级名称" sortable :formatter="formatClass">
+                        <el-table-column prop="teacher" label="授课老师">
+                        </el-table-column>
+                        <el-table-column prop="term" label="学期">
+                        </el-table-column>
+                        <el-table-column prop="groups" label="班级名称">
                         </el-table-column>
                         <el-table-column
                                 label="操作"
@@ -50,22 +54,21 @@
 </template>
 
 <script>
-    import {getSelectCourseList} from '../../../api/api';
+    import {getSelectCourseList,getBackCourseFilter} from '../../../api/api';
     import myFilter from '../../common/myFilter.vue'
     import Pagination from '../../common/Pagination.vue'
     import courseDetail from './Detail.vue'
-
+    import u from '../../../common/js/util';
+    import _ from 'lodash';
     export default {
         data() {
             return {
                 keyword: '',
-                filters: {
-                    name: ''
-                },
+                filter: {},
                 list: [],
-                total: 0,
-                page: 1,
-                pageSize: 5,
+                totalCount: 0,
+                pageNo: 1,
+                pageSize: 10,
                 listLoading: true,
                 sels: [],//列表选中列
                 // 过滤器数据
@@ -93,28 +96,45 @@
                 return row.className.join('，');
             },
             handleSizeChange(val) {
-                console.log(val);
+                //console.log(val);
             },
             handleCurrentChange(val) {
                 this.page = val;
-                this.getUsers();
+                this.getList();
             },
             selsChange: function (sels) {
                 this.sels = sels;
             },
-            search() {
+            search(obj) {
+                this.filter = obj;this.pageNo = 1;
+                //console.log(this.filter);
+                this.getList();
+            },
+             // 获取初始数据
+            getDefaultData() {
+                getBackCourseFilter({}).then((res) => {
+                        res=res.data;
+                        this.filterList = res;
+                        // filter 对应key默认好 -1
+                        this.filter = u.getDefaultFilter(this.filterList);
+                        this.getList();
+                    });
             },
             //获取用户列表
             getList() {
+                if (_.isEmpty(this.filter)) return;
                 let para = {
-                    page: this.page,
-                    name: this.filters.name,
-                    pageSize: this.pageSize
+                    pageNo: this.pageNo,
+                    filter: JSON.stringify(this.filter),
+                    pageSize: this.pageSize,
+                    keyword: this.keyword,
                 };
                 this.listLoading = true;
                 //NProgress.start();
                 getSelectCourseList(para).then((res) => {
-                    this.list = res.data.list;
+                    res=res.data;
+                    this.list = res.rows;
+                    this.totalCount=res.totalCount;
                     this.listLoading = false;
                     //NProgress.done();
                 });
@@ -125,6 +145,7 @@
             // 显示详情面板
             detailShow(id) {
                 this.courseId = id;
+                console.log('courseId:',id);
             },
             // 关闭详情面板
             detailClose() {
@@ -140,7 +161,7 @@
 
         },
         mounted() {
-            this.getList();
+            this.getDefaultData();
         }
     }
 

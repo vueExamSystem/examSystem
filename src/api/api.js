@@ -176,9 +176,16 @@ export const getAddStuFilter = params => { return instance.get(`${base}/back/fil
 export const saveOneStudent=params => { return instance.post(`${base}/back/addStudent`, qs.stringify(params) ).then(res => res.data); };
 
 export const addTeacher=params => { return instance.post(`${base}/back/addTeacher`, qs.stringify(params) ).then(res => res.data); };
+
+export const getGradeFilter=params => { return instance.post(`${base}/back/gradeFilter`, qs.stringify(params) ).then(res => res.data); };
+
 // department
-export const getDepartmentList = params => { return instance.get(`${base}/college/list`, params ).then(res => res.data); };
- 
+export const getDepartmentList = params => { return instance.post(`${base}/back/collegeInfo`, qs.stringify(params) ).then(res => res.data); };
+
+export const getGroupInfo = params => { return instance.post(`${base}/back/groupInfo`, qs.stringify(params) ).then(res => res.data); };
+
+export const ResetStuPwd = params => { return instance.post(`${base}/back/resetStuPwd`, qs.stringify(params) ).then(res => res.data); };
+
 // class
 export const getClassList = params => { return instance.get(`${base}/group/list`, params ).then(res => res.data); };
 
@@ -192,7 +199,9 @@ export const getClassObject = params => { return instance.get(`${base}/class/det
 export const getCompetenceList = params => { return instance.get(`${base}/competence/list`, params ).then(res => res.data); };
 
 // 选课
-export const getSelectCourseList = params => { return instance.get(`${base}/selectCourse/list`, params ).then(res => res.data); };
+export const getSelectCourseList = params => { return instance.post(`${base}/back/selectCourse/list`,  qs.stringify(params) ).then(res => res.data); };
+
+export const getBackCourseFilter=params => { return instance.post(`${base}/back/courseFilter`, qs.stringify(params) ).then(res => res.data); };
 
 
 
