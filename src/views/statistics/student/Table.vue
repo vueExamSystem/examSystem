@@ -152,7 +152,7 @@
 </template>
 
 <script>
-    import {getDepExamStaList, getDepScoreStaList} from '../../../api/api';
+    import {getStuStaFilter,getStuByGroup,getDepExamStaList, getDepScoreStaList} from '../../../api/api';
     import myFilter from '../../common/myFilter.vue'
     import Pagination from '../../common/Pagination.vue'
     import _ from 'lodash';
@@ -323,6 +323,59 @@
             },
             importTable() {
             },
+             // 获取初始数据
+            getDefaultData() {
+                getStuStaFilter({}).then((res) => {
+                        this.filterList = res.data;
+                        // filter 对应key默认好 -1
+                        this.filter = u.getDefaultFilter(this.filterList);
+                        this.getList();
+                    });
+            },
+            getGroupStu(groupId){
+                var param={
+                    'groupId':groupId
+                };
+                 getStuByGroup(param).then((res) => {
+                      //通过班级id 获取学生集合
+                      //
+                    /*              "data": {
+                    "arr": [
+                        {
+                            "data": [
+                                {
+                                    "name": "080510101",
+                                    "id": 11
+                                },
+                                {
+                                    "name": "080510102",
+                                    "id": 12
+                                },
+                                {
+                                    "name": "080510103",
+                                    "id": 20
+                                },
+                                {
+                                    "name": "080510104",
+                                    "id": 22
+                                },
+                                {
+                                    "name": "080510105",
+                                    "id": 23
+                                }
+                            ],
+                            "groupId": 1,
+                            "type": "select"
+                        }
+                    ],
+                    "noAll": true,
+                    "field": "studentNo",
+                    "title": "学号"
+                }*/
+                    console.log('getStuByGroup',res.data);
+
+                    });
+            },
             //获取用户列表
             getList() {
                 let para = {
@@ -390,7 +443,7 @@
             chart,
         },
         mounted() {
-            this.getList();
+            this.getDefaultData();
         }
     }
 

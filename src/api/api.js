@@ -209,6 +209,9 @@ export const getBackCourseFilter=params => { return instance.post(`${base}/back/
 * 统计 start
 * */
 // 院系考试统计列表
+export const getStuStaFilter = params => { return instance.post(`${base}/stat/studentStatFilter`, qs.stringify(params) ).then(res => res.data); };
+
+export const getStuByGroup = params => { return instance.get(`${base}/stat/group/students`, {params:params} ).then(res => res.data); };
 export const getDepExamStaList = params => { return instance.get(`${base}/department/exam/statistics/list`, params ).then(res => res.data); };
 
 // 院系成绩统计列表
