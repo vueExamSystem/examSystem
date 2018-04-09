@@ -34,6 +34,7 @@
 					<el-form-item label="考试分数：" prop="exam">
 						<el-input class="point" v-model="form.name"></el-input> %
 					</el-form-item>
+					<span class="tip">*三部分百分比之和必须=100%</span>
 				</el-form>
 			</div>
 		</div>
@@ -139,6 +140,11 @@
     #scoreStudentAdd{
 		.point{
 			width: 80px;
+		}
+		.tip{
+			color:#3C5398;
+			padding-left: 2%;
+			font-size: 14px;
 		}
 	}
 </style>
