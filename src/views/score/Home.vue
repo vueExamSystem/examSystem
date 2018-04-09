@@ -20,13 +20,23 @@
     export default {
         data() {
             return {
+                routes: [],
             }
         },
         components: {
         },
         methods: {
+            init(){
+                this.getRoutes();
+            },
+            getRoutes(){
+                var topMenu =  _.find(this.$store.getters.addRouters, { path: '/' }).children;
+                var sideMenus = _.find(topMenu,{path: '/score'}).children;
+                this.routes = sideMenus;
+            }
         },
         mounted() {
+            this.init();
         }
     }
 
