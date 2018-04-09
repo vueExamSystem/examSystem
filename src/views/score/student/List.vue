@@ -18,7 +18,7 @@
                         </el-table-column>
                         <el-table-column prop="courseName" label="课程">
                             <template slot-scope="scope">
-                                <el-button type="text" @click="detailShow(scope.row.courseId)">{{scope.row.courseName}}</el-button>
+                                <el-button type="text" @click="detailShow(scope.row)">{{scope.row.courseName}}</el-button>
                             </template>
                         </el-table-column>
                         <el-table-column prop="termName" label="学期">
@@ -42,7 +42,7 @@
             </div>
     	</section>
         <section v-if="detailId">
-            <test-detail :id="detailId" @close="detailClose"></test-detail>
+            <test-detail :id="detailId" :detailRow="detailRow" @close="detailClose"></test-detail>
         </section>
     </div>
 </template>
@@ -72,14 +72,17 @@
                 allLoading: false,
 
                 detailId: '',
+                detailRow:''
             }
         },
         methods: {
-            detailShow(id) {
-                this.detailId = id;
+            detailShow(row) {
+                this.detailId = row.courseId;
+                this.detailRow=row;
             },
             detailClose() {
                 this.detailId = '';
+                this.detailRow='';
             },
             handleCurrentChange(val) {
                 this.pageNo = val;
