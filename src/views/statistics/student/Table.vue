@@ -1,6 +1,6 @@
 <template>
     <section id="depStatistics" v-loading="allLoading">
-        <my-filter v-if="filterList.length > 0" :list="filterList" @callback="search" v-loading="filterLoading"></my-filter>
+        <my-filter v-if="filterList.length > 0" :list="filterList" @callback="search" v-loading="filterLoading" @linkage="linkage"></my-filter>
         <div v-bind:class="[ showExamChart || showScoreChart ? 'noBottom' : '', 'panel' ]">
             <div class="title">
                 <span :model="getMainTitle"></span>
@@ -131,6 +131,7 @@
 
 <script>
     import {
+        getStatisticsStudentInfo,
         getStatisticsStudentFilter,
         getStatisticsStudentList,
         getStatStuClassFilter,
@@ -299,8 +300,9 @@
                     keyword: this.keyword,
                     pageSize: this.pageSize,
                 };
+                console.log('getlist para',para);
                 if (!this.allLoading) this.listLoading = true;
-                getStatisticsStudentList(para).then((res) => {
+                getStatisticsStudentInfo(para).then((res) => {
                     res = res.data;
                     this.totalCount = res.totalCount;
                     this.rows = res.rows;
@@ -346,20 +348,21 @@
                         ts.filterList.splice(index, 1);
                         return;
                     }
+                    const index_grade = _.findIndex(ts.filterList, { field: 'grade' });//grade index
                     this.filterLoading = true;
                     getStatStuClassFilter({
-                        filter:"{gradeid: "+value+"}"
+                        'gradeId':value//filter:"{gradeid: "+value+"}"
                     }).then(res => {
                         res=res.data;
                         this.filterLoading = false;
                         const index = _.findIndex(ts.filterList, { field: res.field });
                         console.log('index', index);
                         if (index > -1) {
-                            ts.filterList.splice(1, 1, res);
+                            ts.filterList.splice(index_grade+1, 1, res);
                         } else {
-                            ts.filterList.splice(1, 0, res);
+                            ts.filterList.splice(index_grade+1, 0, res);
                         }
-
+                        ts.filterList.splice(index_grade+2, 1);//学号 移除
                         // 过滤器数据增加联动判断字段
                         ts.dealFilterList();
                         // filter 对应key默认好 -1
@@ -375,18 +378,19 @@
                         ts.filterList.splice(index, 1);
                         return;
                     }
+                    const index_class = _.findIndex(ts.filterList, { field: 'class' });//class index
                     this.filterLoading = true;
-                    getStatStuClassFilter({
-                        filter:"{classid: "+value+"}"
+                    getStatisticsStudentList({
+                        'groupId':value//filter:"{classid: "+value+"}"
                     }).then(res => {
                         res=res.data;
                         this.filterLoading = false;
                         const index = _.findIndex(ts.filterList, { field: res.field });
                         console.log('index', index);
                         if (index > -1) {
-                            ts.filterList.splice(1, 1, res);
+                            ts.filterList.splice(index_class+1, 1, res);
                         } else {
-                            ts.filterList.splice(1, 0, res);
+                            ts.filterList.splice(index_class+1, 0, res);
                         }
                     });
                 }

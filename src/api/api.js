@@ -191,7 +191,7 @@ export const getClassList = params => { return instance.get(`${base}/group/list`
 
 // role
 //export const getRoleList = params => { return instance.get(`${base}/role/list`, params ).then(res => res.data); };
-export const getRoleList = params => { return instance.get(`${base}/back/role/list`, params ).then(res => res.data); };
+export const getRoleList = params => { return instance.get(`${base}/back/role/list`,  {params:params} ).then(res => res.data); };
 // class
 export const getClassObject = params => { return instance.get(`${base}/class/detail`, params ).then(res => res.data); };
 
@@ -219,13 +219,16 @@ export const getDepScoreStaList = params => { return instance.get(`${base}/depar
 
 
 // 学生统计
-export const getStatisticsStudentFilter = params => { return instance.get(`${base}/stat/student/filter`, params ).then(res => res.data); };
 
-export const getStatisticsStudentList = params => { return instance.get(`${base}/stat/student/list`, params ).then(res => res.data); };
+export const getStatisticsStudentInfo = params => { return instance.post(`${base}/stat/student/info`, qs.stringify(params) ).then(res => res.data); };
 
-export const getStatStuClassFilter = params => { return instance.get(`${base}/stat/student/class/filter`, params ).then(res => res.data); };
+export const getStatisticsStudentFilter = params => { return instance.get(`${base}/stat/student/filter`, {params:params} ).then(res => res.data); };
 
-export const getStatStuStudentNoFilter = params => { return instance.get(`${base}/stat/student/class/filter`, params ).then(res => res.data); };
+export const getStatisticsStudentList = params => { return instance.get(`${base}/stat/student/list`,{params:params} ).then(res => res.data); };
+
+export const getStatStuClassFilter = params => { return instance.get(`${base}/stat/student/class/filter`, {params:params} ).then(res => res.data); };
+
+export const getStatStuStudentNoFilter = params => { return instance.get(`${base}/stat/student/class/filter`, {params:params} ).then(res => res.data); };
 
 
 
