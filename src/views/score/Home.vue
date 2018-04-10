@@ -1,14 +1,16 @@
 <template>
     <el-container>
         <el-aside width="120px">
-            <router-link to="/score">
-                <i class="iconfont icon-score-larger"></i>
-                <span>学生成绩</span>
-            </router-link>
-            <router-link to="/score/set">
-                <i class="iconfont icon-setting-larger"></i>
-                <span>成绩设置</span>
-            </router-link>
+            <template v-for="item in routes">
+                <router-link :to="item.path">
+                    <div>
+                        <i :class="item.icon"></i>
+                        <span slot="title">
+                            {{item.name}}
+                        </span>
+                    </div>
+                </router-link>
+            </template>
         </el-aside>
         <el-main>
             <router-view></router-view>
@@ -30,9 +32,9 @@
                 this.getRoutes();
             },
             getRoutes(){
-                var topMenu =  _.find(this.$store.getters.addRouters, { path: '/' }).children;
-                var sideMenus = _.find(topMenu,{path: '/score'}).children;
-                this.routes = sideMenus;
+               var topMenu =  _.find(this.$store.getters.addRouters, { path: '/' }).children;
+               var sideMenus = _.find(topMenu,{path: '/score'}).children;
+               this.routes = sideMenus;
             }
         },
         mounted() {

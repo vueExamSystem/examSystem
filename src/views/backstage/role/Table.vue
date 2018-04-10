@@ -81,8 +81,8 @@
                 this.listLoading = true;
                 //NProgress.start();
                 getRoleList(para).then((res) => {
-                    this.total = res.data.total;
-                    this.list = res.data.list;
+                    //this.total = res.data.total;
+                    this.list = res.data;
                     this.listLoading = false;
                     //NProgress.done();
                 });

@@ -60,13 +60,13 @@
                         </template>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="题组:" prop="department" v-if="isNeedSame">
+              <!--   <el-form-item label="题组:" prop="department" v-if="isNeedSame">
                     <el-select v-model="form.department" placeholder="请选择题组">
                         <template v-for="item in departmentArr">
                             <el-option :label="item.text" :value="item.value"></el-option>
                         </template>
                     </el-select>
-                </el-form-item>
+                </el-form-item> -->
                 <el-form-item label="试题内容:" prop="content" class="contentArea clearfix">
                     <script id="editor" type="text/plain" class="editor"></script>
                 </el-form-item>
@@ -194,9 +194,9 @@
                         <el-checkbox label="D" key="D">D</el-checkbox>
                     </el-checkbox-group>
                 </el-form-item>
-                <el-form-item label="分数:" prop="points">
+ <!--                <el-form-item label="分数:" prop="points">
                     <el-input v-model="form.points"></el-input>
-                </el-form-item>
+                </el-form-item> -->
                 <el-form-item label="来源:" prop="source">
                     <el-input v-model="form.source"></el-input>
                 </el-form-item>
@@ -215,6 +215,12 @@
                     </el-input>
                 </el-form-item>
             </el-form>
+        </div>
+    <div class="title">
+            <div class="pull-right">
+                <el-button type="success" @click="onSubmit()" class="el-button-shadow">保存</el-button>
+                <el-button type="danger" @click="resetForm()" class="el-button-shadow">取消</el-button>
+            </div>
         </div>
     </section>
 
@@ -457,7 +463,7 @@
                             ],
                             answer: this.form.correctOptionRadio,
                             answers: this.form.type === 3 ? '' : str,
-                            points: this.form.points,
+                            points: 0,//this.form.points,
                             reference: this.form.source,
                             examingPoint: this.form.testSites,
                             keyword: this.form.keywords,

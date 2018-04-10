@@ -78,7 +78,7 @@
 		</div>
 
 		<!--编辑界面-->
-		<el-dialog title="添加题组" :visible.sync="addFormVisible">
+		<el-dialog title="添加试题" :visible.sync="addFormVisible">
 			<el-tree
 					ref="tree"
 					highlight-current
@@ -240,7 +240,7 @@
                     questionTypeId:this.ruleForm.questionType
                 } ;
                 //若courseId或sectionId或questionTypeId有一为空 可以查询试题
-                console.log('addQuestion',para);
+                //console.log('addQuestion',para);
                 this.addFormVisible = true;
                 this.treeLoading = true;
                 selectQuestions(para).then(res => {

@@ -6,9 +6,9 @@
         <el-tab-pane label="添加试题" name="add">
             <que-add @toTable="toTable"></que-add>
         </el-tab-pane>
-        <el-tab-pane label="导入试题" name="import">
+<!--         <el-tab-pane label="导入试题" name="import">
             <que-import @toTable="toTable"></que-import>
-        </el-tab-pane>
+        </el-tab-pane> -->
     </el-tabs>
 </template>
 
@@ -29,7 +29,7 @@
         },
         methods: {
             handleClick(tab, event){
-                console.log('tab',tab,event);
+                //console.log('tab',tab,event);
             },
             toTable() {
                 this.activeName = 'list';
