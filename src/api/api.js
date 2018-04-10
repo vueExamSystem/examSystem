@@ -1,8 +1,7 @@
 import instance  from './instance';
 import qs from 'qs'
 
-let base = '';
-//let base = 'aps/api';
+let base = 'aps/api';
 //let base = 'http://127.0.0.1:8081/api';
 //let base = 'http://121.43.164.178:8081/api';//公网线上调试api
 //export const requestLogin = params => { return axios.post(`${base}/login/verify`,params).then(res => res.data); };
@@ -168,7 +167,7 @@ export const getStudentScoreList = params => { return instance.post(`${base}/sco
 // filter
 export const getStudentScoreFilter = params => { return instance.get(`${base}/score/filter`, { params: params } ).then(res => res.data); };
 
-
+export const getStudentScoreDetailList = params => { return instance.get(`${base}/score/student/detailList`, { params: params } ).then(res => res.data); };
 /*
 *  后台 start
 * */
@@ -191,8 +190,8 @@ export const ResetStuPwd = params => { return instance.post(`${base}/back/resetS
 export const getClassList = params => { return instance.get(`${base}/group/list`, params ).then(res => res.data); };
 
 // role
-export const getRoleList = params => { return instance.get(`${base}/role/list`, params ).then(res => res.data); };
-
+//export const getRoleList = params => { return instance.get(`${base}/role/list`, params ).then(res => res.data); };
+export const getRoleList = params => { return instance.get(`${base}/back/role/list`, params ).then(res => res.data); };
 // class
 export const getClassObject = params => { return instance.get(`${base}/class/detail`, params ).then(res => res.data); };
 

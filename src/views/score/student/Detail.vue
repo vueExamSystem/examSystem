@@ -1,7 +1,7 @@
 <template>
 	<div class="panel">
 		<div class="title">
-			<span>大学物理</span>
+			<span>{{detailRow.courseName}}</span>
 			<div class="pull-right">
 				<el-button type="danger" class="el-button-shadow" @click="close">关闭</el-button>
 			</div>
@@ -12,35 +12,35 @@
 				<table>
 					<tr>
 						<td>姓名</td>
-						<td>xx</td>
+						<td>{{detailRow.studentName}}</td>
 						<td>学号</td>
-						<td>xxxxx</td>
+						<td>{{detailRow.studentNo}}</td>
 					</tr>
 					<tr>
 						<td>所属班级</td>
-						<td>xxxx</td>
+						<td>{{detailRow.groupName}}</td>
 						<td>最终成绩</td>
-						<td>xxx</td>
+						<td>{{detailRow.totalScore}}</td>
 					</tr>
 				</table>
 			</div>
 			<div class="panel inner-panel">
-				<div class="title">
+				<!-- <div class="title">
 					<el-input placeholder="请输入搜索关键词" v-model="keyword">
 						<el-button slot="append" icon="el-icon-search" @click="getList"></el-button>
 					</el-input>
 					<div class="pageArea">
 						<Page :pageNo="pageNo" :totalCount="totalCount" :pageSize="pageSize" @page-change="handleCurrentChange"></Page>
 					</div>
-				</div>
+				</div> -->
 				<div class="content">
 					<el-table :data="rows" highlight-current-row v-loading="listLoading" fit>
 	                    <el-table-column type="index" label="ID" width="60"></el-table-column>
 	                    <el-table-column prop="name" label="名称"></el-table-column>
-						<el-table-column prop="studentNo" label="时间"></el-table-column>
-	                    <el-table-column prop="class" label="完成度" ></el-table-column>
-	                    <el-table-column prop="percentage" label="分数" ></el-table-column>
-	                    <el-table-column prop="percentage" label="等级" ></el-table-column>
+						<!-- <el-table-column prop="studentNo" label="时间"></el-table-column> -->
+	                    <el-table-column prop="percent" label="完成度" ></el-table-column>
+	                    <el-table-column prop="score" label="分数" ></el-table-column>
+	                    <el-table-column prop="ranking" label="等级" ></el-table-column>
 	                </el-table>
 				</div>
 			</div>
@@ -56,6 +56,9 @@
 		props:{
 			id:{
 				required: true
+			},
+			detailRow:{
+				required:true
 			}
 		},
 		components:{
@@ -89,33 +92,21 @@
             },
             //获取用户列表
             getList() {
-                let para = {
-                    pageNo: this.pageNo,
-                    filter: JSON.stringify(this.filter),
-                    keyword: this.keyword,
-                    pageSize: this.pageSize,
+                let para={
+                	courseId:this.detailRow.courseId,
+                	studentId:this.detailRow.studentId
                 };
                 if (!this.listLoading) this.listLoading = true;
                 getStudentScoreDetailList(para).then((res) => {
                     res=res.data;
-                    this.totalCount = res.totalCount;
-                    this.rows = res.rows;
+                    //this.totalCount = res.totalCount;
+                    this.rows = res;
                     if (!this.filterLoading) this.listLoading = false
-                });
-            },
-            // 获取过滤器数据
-            getFilter() {
-                this.filterLoading = true;
-                this.listLoading = true;
-                getStudentScoreDetailFilter({}).then((res) => {
-                    this.filterList = res.data;
-                    this.filterLoading = false;
-                    this.getList();
                 });
             },
         },
         mounted() {
-            this.getFilter();
+            this.getList();
         }
 	}
 </script>
