@@ -135,9 +135,10 @@ export default {
 
     },
     //filter default
-    getDefaultFilter: (list) => {
+    getDefaultFilter: (list, noAll) => {
         const res = {};
         list.forEach(item => {
+            const val = noAll ? (item.children.length > 0 ? item.children[0].value : -1) : -1;
             res[item.field] = -1;
         });
         return res;

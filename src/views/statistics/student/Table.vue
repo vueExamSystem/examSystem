@@ -133,6 +133,8 @@
     import {
         getStatisticsStudentFilter,
         getStatisticsStudentList,
+        getStatStuClassFilter,
+        getStatStuStudentNoFilter,
     } from '../../../api/api';
     import myFilter from '../../common/myFilter.vue'
     import Pagination from '../../common/Pagination.vue'
@@ -173,23 +175,6 @@
                             text: '体育学院'
                         }]
                     }, {
-                        title: '年级',
-                        field: 'grade',
-                        noAll: false,
-                        children: [{
-                            value: '14',
-                            text: '14级'
-                        }, {
-                            value: '15',
-                            text: '15级'
-                        }, {
-                            value: '16',
-                            text: '16级'
-                        }, {
-                            value: '17',
-                            text: '17级'
-                        }]
-                    }, {
                         title: '学期',
                         field: 'team',
                         noAll: false,
@@ -213,6 +198,23 @@
                         }, {
                             value: 'english',
                             text: '大学英语'
+                        }]
+                    }, {
+                        title: '年级',
+                        field: 'grade',
+                        noAll: false,
+                        children: [{
+                            value: '14',
+                            text: '14级'
+                        }, {
+                            value: '15',
+                            text: '15级'
+                        }, {
+                            value: '16',
+                            text: '16级'
+                        }, {
+                            value: '17',
+                            text: '17级'
                         }]
                     }, {
                         title: '班级',
@@ -309,11 +311,85 @@
             },
             // 获取过滤器数据
             getFilter() {
-                this.allLoading = true;
+                this.filterLoading = true;
+                this.listLoading = true;
                 getStatisticsStudentFilter({}).then((res) => {
-                    // this.filterList = res.data;
+                    res=res.data;
+                    this.filterList = res;
+                    this.filterLoading = false;
+                    // 过滤器数据增加联动判断字段
+                    this.dealFilterList();
+                    // filter 对应key默认好 -1
+                    this.filter = _.assign(this.filter,u.getDefaultFilter(this.filterList, true));
+                    // get table list
                     this.getList();
                 });
+            },
+            // 处理过滤器数据
+            dealFilterList() {
+                const index = _.findIndex(this.filterList, { field: 'grade' });
+                if (index > -1) {
+                    this.filterList[index].isLinkage = true;
+                }
+                const index1 = _.findIndex(this.filterList, { field: 'class' });
+                if (index1 > -1) {
+                    this.filterList[index1].isLinkage = true;
+                }
+            },
+            // 联动处理数据
+            linkage(field, value) {
+                const ts = this;
+                // 年级与班级联动
+                if (field === 'grade') {
+                    if (value === -1) {
+                        const index = _.findIndex(ts.filterList, { field: 'class' });
+                        ts.filterList.splice(index, 1);
+                        return;
+                    }
+                    this.filterLoading = true;
+                    getStatStuClassFilter({
+                        filter:"{gradeid: "+value+"}"
+                    }).then(res => {
+                        res=res.data;
+                        this.filterLoading = false;
+                        const index = _.findIndex(ts.filterList, { field: res.field });
+                        console.log('index', index);
+                        if (index > -1) {
+                            ts.filterList.splice(1, 1, res);
+                        } else {
+                            ts.filterList.splice(1, 0, res);
+                        }
+
+                        // 过滤器数据增加联动判断字段
+                        ts.dealFilterList();
+                        // filter 对应key默认好 -1
+                        ts.filter = _.assign(ts.filter,u.getDefaultFilter(ts.filterList, true));
+                        // get table list
+                        ts.getList();
+                    });
+                }
+                // 班级与学号联动
+                if (field === 'class') {
+                    if (value === -1) {
+                        const index = _.findIndex(ts.filterList, { field: 'studentNo' });
+                        ts.filterList.splice(index, 1);
+                        return;
+                    }
+                    this.filterLoading = true;
+                    getStatStuClassFilter({
+                        filter:"{classid: "+value+"}"
+                    }).then(res => {
+                        res=res.data;
+                        this.filterLoading = false;
+                        const index = _.findIndex(ts.filterList, { field: res.field });
+                        console.log('index', index);
+                        if (index > -1) {
+                            ts.filterList.splice(1, 1, res);
+                        } else {
+                            ts.filterList.splice(1, 0, res);
+                        }
+                    });
+                }
             },
         },
         computed: {

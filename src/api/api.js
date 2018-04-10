@@ -223,6 +223,10 @@ export const getStatisticsStudentFilter = params => { return instance.get(`${bas
 
 export const getStatisticsStudentList = params => { return instance.get(`${base}/stat/student/list`, params ).then(res => res.data); };
 
+export const getStatStuClassFilter = params => { return instance.get(`${base}/stat/student/class/filter`, params ).then(res => res.data); };
+
+export const getStatStuStudentNoFilter = params => { return instance.get(`${base}/stat/student/class/filter`, params ).then(res => res.data); };
+
 
 
 
