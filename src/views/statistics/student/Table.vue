@@ -141,6 +141,7 @@
     import Pagination from '../../common/Pagination.vue'
     import _ from 'lodash';
     import chart from './Echarts.vue';
+    import u from '../../../common/js/util';
 
     export default {
         data() {
@@ -160,99 +161,7 @@
 
 
 
-                filterList: [
-                    {
-                        title: '院系',
-                        field: 'department',
-                        noAll: false,
-                        children: [{
-                            value: '11',
-                            text: '计算机'
-                        }, {
-                            value: '22',
-                            text: '物电学院'
-                        }, {
-                            value: '33',
-                            text: '体育学院'
-                        }]
-                    }, {
-                        title: '学期',
-                        field: 'team',
-                        noAll: false,
-                        children: [{
-                            value: '1',
-                            text: '上学期'
-                        }, {
-                            value: '2',
-                            text: '下学期'
-                        }]
-                    }, {
-                        title: '课程',
-                        field: 'project',
-                        noAll: false,
-                        children: [{
-                            value: 'physics',
-                            text: '大学物理'
-                        }, {
-                            value: 'mathematics',
-                            text: '高等数学'
-                        }, {
-                            value: 'english',
-                            text: '大学英语'
-                        }]
-                    }, {
-                        title: '年级',
-                        field: 'grade',
-                        noAll: false,
-                        children: [{
-                            value: '14',
-                            text: '14级'
-                        }, {
-                            value: '15',
-                            text: '15级'
-                        }, {
-                            value: '16',
-                            text: '16级'
-                        }, {
-                            value: '17',
-                            text: '17级'
-                        }]
-                    }, {
-                        title: '班级',
-                        field: 'class',
-                        noAll: false,
-                        children: [{
-                            value: '1',
-                            text: '1班'
-                        }, {
-                            value: '2',
-                            text: '2班'
-                        }, {
-                            value: '4',
-                            text: '4班'
-                        }]
-                    }, {
-                        title: '学号',
-                        field: 'studentNo',
-                        arr: [ // 具体特殊项（目前加入单选，按钮，需要继续加）
-                            {
-                                id: 0,
-                                type: 'select', // 特殊项的类型 （button select等）
-                                data: [{
-                                    id: '1',
-                                    name: '211111001'
-                                }, {
-                                    id: '2',
-                                    name: '211111002'
-                                }, {
-                                    id: '3',
-                                    name: '211111003'
-                                }],
-                            }
-                        ],
-                        noAll: true,
-                    }
-                ],
+                filterList: [],
                 filterListTable: [
                     {
                         title: '统计',
@@ -301,8 +210,10 @@
                     pageSize: this.pageSize,
                 };
                 console.log('getlist para',para);
+                console.log('this.filter',this.filter);
                 if (!this.allLoading) this.listLoading = true;
                 getStatisticsStudentInfo(para).then((res) => {
+                    console.log('getStatisticsStudentInfo', res);
                     res = res.data;
                     this.totalCount = res.totalCount;
                     this.rows = res.rows;

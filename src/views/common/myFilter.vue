@@ -42,9 +42,11 @@
                     <div v-if="row.arr !== undefined && row.arr.length > 0" class="filter-item-special">
                         <template v-for="item in row.arr">
                             <el-select
-                                    :key="item.id"
+                                    :key="filters[row.field]"
                                     v-if="item.type === 'select'"
-                                    placeholder="请选择正确选项">
+                                    placeholder="请选择正确选项"
+                                    @change="selectChange($event, row.field)"
+                            >
                                 <el-option
                                         v-for="d in item.data"
                                         :label="d.name"
@@ -194,6 +196,11 @@
                 if(!row.isLinkage) {
                     this.$emit('callback', this.filters);
                 }
+            },
+            selectChange(e, field) {
+                this.filters[field] = e;
+                this.$forceUpdate();
+                this.$emit('callback', this.filters);
             },
             addEmit(eveName) {
                 this.$emit(eveName);
