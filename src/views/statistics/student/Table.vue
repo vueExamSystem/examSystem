@@ -1,5 +1,5 @@
 <template>
-    <section id="depStatistics">
+    <section id="depStatistics" v-loading="allLoading">
         <my-filter v-if="filterList.length > 0" :list="filterList" @callback="search" v-loading="filterLoading"></my-filter>
         <div v-bind:class="[ showExamChart || showScoreChart ? 'noBottom' : '', 'panel' ]">
             <div class="title">
@@ -7,31 +7,19 @@
             </div>
 
             <div class="content">
-                <my-filter :list="filterListTable" :noBottomBorder="true" @callback="searchTable"></my-filter>
+                <my-filter :list="filterListTable" :noBottomBorder="true" @callback="search"></my-filter>
                 <div v-if="showExamTable">
                     <div class="title">
                         <el-input placeholder="请输入搜索关键词" v-model="keyword">
-                            <el-button slot="append" icon="el-icon-search"></el-button>
+                            <el-button slot="append" icon="el-icon-search" @click="getList"></el-button>
                         </el-input>
-
-                        <el-button type="success" @click="importTable" class="el-button-shadow">导出</el-button>
-
-                        <!--分页-->
                         <div class="pageArea">
-                            <Page :current="page"
-                                  :total="examTotal"
-                                  :pageSize="pageSize"
-                                  @page-change="handleCurrentChange"></Page>
+                            <Page :pageNo="pageNo" :totalCount="totalCount" :pageSize="pageSize" @page-change="handleCurrentChange"></Page>
                         </div>
 
                     </div>
                     <!--列表-->
-                    <el-table
-                            :data="examList"
-                            highlight-current-row
-                            v-loading="listLoading"
-                            @selection-change="selsChange"
-                            style="width: 100%;">
+                    <el-table :data="rows" highlight-current-row v-loading="listLoading" style="width: 100%;">
                         <el-table-column type="index" label="ID">
                         </el-table-column>
                         <el-table-column prop="course" label="课程" sortable>
@@ -55,25 +43,15 @@
                 <div v-if="showScoreTable">
                     <div class="title">
                         <el-input placeholder="请输入搜索关键词" v-model="keyword">
-                            <el-button slot="append" icon="el-icon-search"></el-button>
+                            <el-button slot="append" icon="el-icon-search" @click="getList"></el-button>
                         </el-input>
-
-                        <el-button type="success" @click="importTable" class="el-button-shadow">导出</el-button>
-
-                        <!--分页-->
                         <div class="pageArea">
-                            <Page :current="page" :total="scoreTotal" :pageSize="pageSize"
-                                  @page-change="handleCurrentChange"></Page>
+                            <Page :pageNo="pageNo" :totalCount="totalCount" :pageSize="pageSize" @page-change="handleCurrentChange"></Page>
                         </div>
 
                     </div>
                     <!--列表-->
-                    <el-table
-                            :data="scoreList"
-                            highlight-current-row
-                            v-loading="listLoading"
-                            @selection-change="selsChange"
-                            style="width: 100%;">
+                    <el-table :data="rows" highlight-current-row v-loading="listLoading" style="width: 100%;">
                         <el-table-column type="index" label="ID">
                         </el-table-column>
                         <el-table-column prop="course" label="课程" sortable>
@@ -94,65 +72,68 @@
                         </el-table-column>
                     </el-table>
                 </div>
-            </div>
-        </div>
-        <div v-if="showExamChart" class="panel">
-            <div class="title samll">
-                <span>大学物理</span>
-            </div>
-            <div class="content chart">
-                <ul class="chart-ul clearfix">
-                    <template v-for="item in examList">
-                        <li class="chart-li" :key="item.id">
-                            <div class="chart-area">
-                                <template v-if="item.id !== undefined">
-                                    <chart :index="item.id"></chart>
-                                </template>
-                            </div>
-                            <ul class="chart-text">
-                                <li class="text-li">最高分：97分</li>
-                                <li class="text-li">最低分：27分</li>
-                                <li class="text-li">平均分：65分</li>
-                                <li class="text-li">及格人数：287人</li>
-                                <li class="text-li">及格率：87%</li>
-                            </ul>
-                            <div class="chart-mid">课程名称</div>
-                        </li>
-                    </template>
-                </ul>
-            </div>
-        </div>
-        <div v-if="showScoreChart" class="panel">
-            <div class="title samll">
-                <span>大学物理</span>
-            </div>
-            <div class="content chart">
-                <ul class="chart-ul clearfix">
-                    <template v-for="item in scoreList">
-                        <li class="chart-li" :key="item.id">
-                            <div class="chart-area">
-                                <template v-if="item.id !== undefined">
-                                    <chart :index="item.id"></chart>
-                                </template>
-                            </div>
-                            <ul class="chart-text">
-                                <li class="text-li">最高分：97分</li>
-                                <li class="text-li">最低分：27分</li>
-                                <li class="text-li">平均分：65分</li>
-                                <li class="text-li">及格人数：287人</li>
-                                <li class="text-li">及格率：87%</li>
-                            </ul>
-                            <div class="chart-mid">课程名称</div>
-                        </li>
-                    </template>
-                </ul>
+                <div v-if="showExamChart" class="panel">
+                    <div class="title samll">
+                        <span>大学物理</span>
+                    </div>
+                    <div class="content chart">
+                        <ul class="chart-ul clearfix">
+                            <template v-for="item in rows">
+                                <li class="chart-li" :key="item.id">
+                                    <div class="chart-area">
+                                        <template v-if="item.id !== undefined">
+                                            <chart :index="item.id"></chart>
+                                        </template>
+                                    </div>
+                                    <ul class="chart-text">
+                                        <li class="text-li">最高分：97分</li>
+                                        <li class="text-li">最低分：27分</li>
+                                        <li class="text-li">平均分：65分</li>
+                                        <li class="text-li">及格人数：287人</li>
+                                        <li class="text-li">及格率：87%</li>
+                                    </ul>
+                                    <div class="chart-mid">课程名称</div>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
+                </div>
+                <div v-if="showScoreChart" class="panel">
+                    <div class="title samll">
+                        <span>大学物理</span>
+                    </div>
+                    <div class="content chart">
+                        <ul class="chart-ul clearfix">
+                            <template v-for="item in rows">
+                                <li class="chart-li" :key="item.id">
+                                    <div class="chart-area">
+                                        <template v-if="item.id !== undefined">
+                                            <chart :index="item.id"></chart>
+                                        </template>
+                                    </div>
+                                    <ul class="chart-text">
+                                        <li class="text-li">最高分：97分</li>
+                                        <li class="text-li">最低分：27分</li>
+                                        <li class="text-li">平均分：65分</li>
+                                        <li class="text-li">及格人数：287人</li>
+                                        <li class="text-li">及格率：87%</li>
+                                    </ul>
+                                    <div class="chart-mid">课程名称</div>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 </template>
 
 <script>
-    import {getStuStaFilter,getStuByGroup,getDepExamStaList, getDepScoreStaList} from '../../../api/api';
+    import {
+        getStatisticsStudentFilter,
+        getStatisticsStudentList,
+    } from '../../../api/api';
     import myFilter from '../../common/myFilter.vue'
     import Pagination from '../../common/Pagination.vue'
     import _ from 'lodash';
@@ -162,25 +143,25 @@
         data() {
             return {
                 keyword: '',
-                filters: {
-                    type: 'list',
+                filter: {
                     statistics: 'exam',
+                    type: 'list',
                 },
-                examList: [],
-                scoreList: [],
-                examTotal: 0,
-                scoreTotal: 0,
-                page: 1,
-                pageSize: 5,
+                rows: [],
+                totalCount: 0,
+                pageNo: 1,
+                pageSize: 30,
                 listLoading: false,
-                sels: [],//列表选中列
+                allLoading: false,
+
+
 
 
                 filterList: [
                     {
                         title: '院系',
                         field: 'department',
-                        noAll: true,
+                        noAll: false,
                         children: [{
                             value: '11',
                             text: '计算机'
@@ -194,7 +175,7 @@
                     }, {
                         title: '年级',
                         field: 'grade',
-                        noAll: true,
+                        noAll: false,
                         children: [{
                             value: '14',
                             text: '14级'
@@ -211,7 +192,7 @@
                     }, {
                         title: '学期',
                         field: 'team',
-                        noAll: true,
+                        noAll: false,
                         children: [{
                             value: '1',
                             text: '上学期'
@@ -222,7 +203,7 @@
                     }, {
                         title: '课程',
                         field: 'project',
-                        noAll: true,
+                        noAll: false,
                         children: [{
                             value: 'physics',
                             text: '大学物理'
@@ -236,7 +217,7 @@
                     }, {
                         title: '班级',
                         field: 'class',
-                        noAll: true,
+                        noAll: false,
                         children: [{
                             value: '1',
                             text: '1班'
@@ -295,142 +276,80 @@
                         }]
                     },
                 ],
-                // 表格上的选择框
-                searchSelect: '',
 
             }
         },
         methods: {
-            handleSizeChange(val) {
-                console.log(val);
-            },
             handleCurrentChange(val) {
-                this.page = val;
-                this.getUsers();
+                this.pageNo = val;
+                this.getList();
             },
-            selsChange: function (sels) {
-                this.sels = sels;
+            search(obj) {
+                this.filter = _.assign(this.filter, obj);
+                this.pageNo = 1;
+                this.getList();
             },
-            search(filter) {
-                this.filters = _.cloneDeep(_.assign(this.filters, filter));
-                // console.log('search', this.filters, filter);
-                this.$forceUpdate();
-            },
-            searchTable(filter) {
-                this.filters = _.cloneDeep(_.assign(this.filters, filter));
-                // console.log('searchTable', this.filters, filter);
-                this.$forceUpdate();
-            },
-            importTable() {
-            },
-             // 获取初始数据
-            getDefaultData() {
-                getStuStaFilter({}).then((res) => {
-                        this.filterList = res.data;
-                        // filter 对应key默认好 -1
-                        this.filter = u.getDefaultFilter(this.filterList);
-                        this.getList();
-                    });
-            },
-            getGroupStu(groupId){
-                var param={
-                    'groupId':groupId
-                };
-                 getStuByGroup(param).then((res) => {
-                      //通过班级id 获取学生集合
-                      //
-                    /*              "data": {
-                    "arr": [
-                        {
-                            "data": [
-                                {
-                                    "name": "080510101",
-                                    "id": 11
-                                },
-                                {
-                                    "name": "080510102",
-                                    "id": 12
-                                },
-                                {
-                                    "name": "080510103",
-                                    "id": 20
-                                },
-                                {
-                                    "name": "080510104",
-                                    "id": 22
-                                },
-                                {
-                                    "name": "080510105",
-                                    "id": 23
-                                }
-                            ],
-                            "groupId": 1,
-                            "type": "select"
-                        }
-                    ],
-                    "noAll": true,
-                    "field": "studentNo",
-                    "title": "学号"
-                }*/
-                    console.log('getStuByGroup',res.data);
-
-                    });
-            },
-            //获取用户列表
+            //获取列表
             getList() {
                 let para = {
-                    page: this.page,
-                    pageSize: this.pageSize
+                    pageNo: this.pageNo,
+                    filter: JSON.stringify(this.filter),
+                    keyword: this.keyword,
+                    pageSize: this.pageSize,
                 };
-                this.listLoading = true;
-                getDepExamStaList(para).then((res) => {
-                    console.log(res);
-                    this.examTotal = res.data.total;
-                    this.examList = res.data.list;
-                    this.listLoading = false;
+                if (!this.allLoading) this.listLoading = true;
+                getStatisticsStudentList(para).then((res) => {
+                    res = res.data;
+                    this.totalCount = res.totalCount;
+                    this.rows = res.rows;
+
+                    if (!this.allLoading) this.listLoading = false;
+                    if (this.allLoading) this.allLoading = false;
                 });
-                getDepScoreStaList(para).then((res) => {
-                    console.log(res);
-                    this.scoreTotal = res.data.total;
-                    this.scoreList = res.data.list;
-                    this.listLoading = false;
+            },
+            // 获取过滤器数据
+            getFilter() {
+                this.allLoading = true;
+                getStatisticsStudentFilter({}).then((res) => {
+                    // this.filterList = res.data;
+                    this.getList();
                 });
             },
         },
         computed: {
             showExamTable() {
                 let flag = false;
-                if (this.filters) {
-                    flag = this.filters.type === 'list' && this.filters.statistics === 'exam';
+                if (this.filter) {
+                    flag = this.filter.type === 'list' && this.filter.statistics === 'exam';
                 }
-                console.log(this.filters);
+                console.log(this.filter);
                 return flag;
             },
             showScoreTable() {
                 let flag = false;
-                if (this.filters) {
-                    flag = this.filters.type === 'list' && this.filters.statistics === 'score';
+                if (this.filter) {
+                    flag = this.filter.type === 'list' && this.filter.statistics === 'score';
                 }
                 return flag;
             },
             showExamChart() {
                 let flag = false;
-                if (this.filters) {
-                    flag = this.filters.type === 'chart' && this.filters.statistics === 'exam';
+                if (this.filter) {
+                    flag = this.filter.type === 'chart' && this.filter.statistics === 'exam';
                 }
                 return flag;
             },
             showScoreChart() {
                 let flag = false;
-                if (this.filters) {
-                    flag = this.filters.type === 'chart' && this.filters.statistics === 'score';
+                if (this.filter) {
+                    flag = this.filter.type === 'chart' && this.filter.statistics === 'score';
                 }
                 return flag;
             },
             getMainTitle() {
                 let str = '';
-                if (this.filters) {
-                    const fil = this.filters;
+                if (this.filter) {
+                    const fil = this.filter;
                     str = `${fil.grade}${fil.department}院${fil.course}`;
                 }
                 return str;
@@ -443,7 +362,7 @@
             chart,
         },
         mounted() {
-            this.getDefaultData();
+            this.getFilter();
         }
     }
 

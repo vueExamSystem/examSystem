@@ -83,7 +83,7 @@
             },
             handleCurrentChange(val) {
                 this.pageNo = val;
-                this.getUsers();
+                this.getList();
             },
             search(obj) {
                 this.filter = obj;this.pageNo = 1;

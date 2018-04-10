@@ -1,9 +1,10 @@
 import instance  from './instance';
 import qs from 'qs'
 
+let base = '';
 //let base = 'aps/api';
 //let base = 'http://127.0.0.1:8081/api';
-let base = 'http://121.43.164.178:8081/api';//公网线上调试api
+//let base = 'http://121.43.164.178:8081/api';//公网线上调试api
 //export const requestLogin = params => { return axios.post(`${base}/login/verify`,params).then(res => res.data); };
  export const requestLogin = params => { return instance.post(`${base}/login/verify`,  qs.stringify(params)).then(res => res.data); };
 
@@ -216,6 +217,15 @@ export const getDepExamStaList = params => { return instance.get(`${base}/depart
 
 // 院系成绩统计列表
 export const getDepScoreStaList = params => { return instance.get(`${base}/department/score/statistics/list`, params ).then(res => res.data); };
+
+
+// 学生统计
+export const getStatisticsStudentFilter = params => { return instance.get(`${base}/stat/student/filter`, params ).then(res => res.data); };
+
+export const getStatisticsStudentList = params => { return instance.get(`${base}/stat/student/list`, params ).then(res => res.data); };
+
+
+
 
 
 //测验试卷
