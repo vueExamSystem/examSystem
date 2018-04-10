@@ -69,6 +69,58 @@
                     </el-collapse>
                 </div>
             </div>
+
+
+            <!--编辑界面-->
+            <el-dialog title="添加班级" :visible.sync="addFormVisible">
+                <el-form :model="addForm" label-width="80px" :rules="addFormRules" ref="addForm" :inline-message="isInlineMessage" v-loading="addLoading">
+                    <el-form-item label="所属院系" prop="collegeId">
+                        <el-select v-model="addForm.collegeId" placeholder="请选择院系">
+                            <el-option :loading="addLoading"
+                                       v-for="item in addFormInfo.collegeId"
+                                       :key="item.id"
+                                       :label="item.name"
+                                       :value="item.id">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="所属年级" prop="grade">
+                        <el-select v-model="addForm.grade" placeholder="请选择年级">
+                            <el-option :loading="addLoading"
+                                       v-for="item in addFormInfo.grade"
+                                       :key="item.id"
+                                       :label="item.name"
+                                       :value="item.id">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="负责老师" prop="teacher">
+                        <el-select v-model="addForm.teacher" placeholder="请选择负责老师">
+                            <el-option :loading="addLoading"
+                                       v-for="item in addFormInfo.teacher"
+                                       :key="item.id"
+                                       :label="item.name"
+                                       :value="item.id">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="班级名称" prop="name">
+                        <el-input v-model="addForm.name"></el-input>
+                    </el-form-item>
+                    <el-form-item label="班级描述" prop="desc">
+                        <el-input
+                                type="textarea"
+                                :rows="3"
+                                placeholder="请输入班级描述"
+                                v-model="addForm.desc">
+                        </el-input>
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click.native="addFormVisible = false">取消</el-button>
+                    <el-button type="primary" @click.native="addSubmit">提交</el-button>
+                </div>
+            </el-dialog>
         </section>
         <section v-else>
             <class-detail :id="classId" @close="detailClose"></class-detail>
@@ -77,7 +129,12 @@
 </template>
 
 <script>
-    import {getDepartmentList,getGradeFilter} from '../../../api/api';
+    import {
+        getDepartmentList,
+        getGradeFilter,
+        getBackstageStuAddInfo,
+        addClass,
+    } from '../../../api/api';
     import myFilter from '../../common/myFilter.vue'
     import Pagination from '../../common/Pagination.vue'
     import classDetail from './Detail.vue'
@@ -117,6 +174,32 @@
                     }],
                 // 选择某个班级id
                 classId: 0,
+
+                // 添加班级
+                addFormVisible: false,
+                addLoading: false,
+                isInlineMessage: true,
+                addFormRules: {
+                    name: [
+                        { required: true, message: '请填写班级名称', trigger: 'blur' }
+                    ],
+                    collegeId: [
+                        { required: true, message: '请选择院系', trigger: 'blur' }
+                    ],
+                    grade: [
+                        { required: true, message: '请选择年级', trigger: 'blur' }
+                    ],
+                    teacher: [
+                        { required: true, message: '请选择负责老师', trigger: 'blur' }
+                    ],
+                },
+                //编辑界面数据
+                addForm: {
+                    collegeId: '',
+                    grade: '',
+                    teacher: ''
+                },
+                addFormInfo: {},
             }
         },
         methods: {
@@ -195,8 +278,37 @@
             },
             departmentAdd() {},
             classAdd(e, index) {
+                this.addFormVisible = true;
+                // todo 院系，年级，老师，数据get
+                if (_.isEmpty(this.addFormInfo)) {
+                    getBackstageStuAddInfo({}).then(res => {
+                        res=res.data;
+                        this.addFormInfo = res;
+                    });
+                }
                 e.stopPropagation();
             },
+            //编辑
+            addSubmit: function () {
+                this.$refs.addForm.validate((valid) => {
+                    if (valid) {
+                        this.$confirm('确认提交吗？', '提示', {}).then(res => {
+                            this.addLoading = true;
+                            let para = _.assign({}, this.addForm);
+                            addClass(para).then((res) => {
+                                this.addLoading = false;
+                                this.$message({
+                                    message: '提交成功',
+                                    type: 'success'
+                                });
+                                this.$refs['addForm'].resetFields();
+                                this.addFormVisible = false;
+                                this.search();
+                            });
+                        }).catch(res=>{});
+                    }
+                });
+            }
         },
         components: {
             'Page': Pagination,
