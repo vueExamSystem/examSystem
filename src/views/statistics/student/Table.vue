@@ -232,8 +232,6 @@
                     this.filterLoading = false;
                     // 过滤器数据增加联动判断字段
                     this.dealFilterList();
-                    // filter 对应key默认好 -1
-                    this.filter = _.assign(this.filter,u.getDefaultFilter(this.filterList, true));
                     // get table list
                     this.getList();
                 });
@@ -248,6 +246,8 @@
                 if (index1 > -1) {
                     this.filterList[index1].isLinkage = true;
                 }
+                // filter 对应key默认好 -1
+                this.filter = _.assign(this.filter,u.getDefaultFilter(this.filterList));
             },
             // 联动处理数据
             linkage(field, value) {
@@ -341,7 +341,8 @@
                 let str = '';
                 if (this.filter) {
                     const fil = this.filter;
-                    str = `${fil.grade}${fil.department}院${fil.course}`;
+                    const list = this.filterList;
+                    str = `${u.getFilterNameByValue(list,'grade',fil.grade)}${u.getFilterNameByValue(list,'college',fil.college)}院${u.getFilterNameByValue(list,'course',fil.course)}`;
                 }
                 return str;
             },

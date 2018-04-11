@@ -83,7 +83,7 @@
 <script>
     import $ from 'jquery';
     import _ from 'lodash';
-    // import u from '../../common/js/util.js';
+    import u from '../../common/js/util';
     // import Vue from 'vue';
 
     const demoList = [{ // common
@@ -125,12 +125,12 @@
             },
             noBottomBorder: {
                 required: false,
-            }
+            },
         },
         data() {
             return {
                 isOpen: 0,//收起展开未做
-                filters: {},
+                filters: u.getDefaultFilter(this.list),
                 rows: this.list,
             }
         },

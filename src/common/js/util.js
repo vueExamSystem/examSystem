@@ -11,6 +11,7 @@ function padding(s, len) {
 };
 
 import axios from 'axios';
+import _ from 'lodash';
 
 export default {
     install(Vue, options) {
@@ -135,11 +136,14 @@ export default {
 
     },
     //filter default
-    getDefaultFilter: (list, noAll) => {
+    getDefaultFilter: (list) => {
         const res = {};
         list.forEach(item => {
-            const val = noAll ? (item.children.length > 0 ? item.children[0].value : -1) : -1;
-            res[item.field] = -1;
+            let val = -1;
+            if (item.noAll) {
+                val = item.children.length > 0 ? item.children[0].value : -1;
+            }
+            res[item.field] = val;
         });
         return res;
     },
@@ -163,5 +167,25 @@ export default {
                 }]);
             }, 1000);
         });
-    }
+    },
+    // get filter list name by value
+    getFilterNameByValue: (listPara, fieldPara, valuePara) => {
+        let res = '';
+        if (listPara.length > 0) {
+            const obj = _.find(listPara, { field: fieldPara});
+            let object;
+            if (!_.isEmpty(obj) && obj.children) {
+                const arr = obj.children;
+                object = _.find(arr, { value: valuePara });
+            }
+            if (!_.isEmpty(obj) && obj.arr) {
+                const arr = obj.arr;
+                object = _.find(arr, { value: valuePara });
+            }
+            if (!_.isEmpty(object)) {
+                res = object.text;
+            }
+        }
+        return res;
+    },
 };
