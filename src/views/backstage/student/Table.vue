@@ -8,7 +8,7 @@
                         <el-button slot="append" icon="el-icon-search" @click="getList"></el-button>
                     </el-input>
 
-                    <el-button type="success" @click="departmentAdd" class="el-button-shadow">添加院系</el-button>
+                    <!-- <el-button type="success" @click="departmentAdd" class="el-button-shadow">添加院系</el-button> -->
                     <!--分页-->
 <!--                     <div class="pageArea">
                         <Page :current="pageNo" :totalCount="totalCount" :pageSize="pageSize" @page-change="handleCurrentChange"></Page>
@@ -27,14 +27,14 @@
                             <template slot="title" name="index">
                                 <div v-if="!isShowResetInput(item.collegeId)">
                                     <span>{{item.college}}</span>
-                                    <el-button type="primary" @click="resetNameEvent($event, item.collegeId)" class="el-button-shadow">重命名</el-button>
+                                    <!-- <el-button type="primary" @click="resetNameEvent($event, item.collegeId)" class="el-button-shadow">重命名</el-button> -->
                                     <el-button type="success" @click="classAdd($event, index)" class="el-button-shadow">添加班级</el-button>
                                 </div>
                                 <div v-if="isShowResetInput(item.collegeId)">
                                     <div class="resetNameInput">
                                         <el-input v-model="item.college"></el-input>
                                     </div>
-                                    <el-button type="success" @click="saveResetName($event, item.collegeId)" class="el-button-shadow">保存</el-button>
+                                    <el-button type="success" @click="saveResetName($event, item)" class="el-button-shadow">保存</el-button>
                                     <el-button type="danger" @click="cancelResetName($event)" class="el-button-shadow">取消</el-button>
                                 </div>
                             </template>
@@ -56,13 +56,13 @@
                                 </el-table-column>
                                 <el-table-column prop="teacher" label="辅导员" sortable>
                                 </el-table-column>
-                                <el-table-column
+                        <!--         <el-table-column
                                         label="操作"
                                         width="100">
                                     <template slot-scope="scope">
-                                        <el-button type="primary" size="small" @click="classAdd(scope.$index, scope.row)">编辑</el-button>
+                                 <el-button type="primary" size="small" @click="classAdd(scope.$index, scope.row)">编辑</el-button>
                                     </template>
-                                </el-table-column>
+                                </el-table-column> -->
                             </el-table>
 
                         </el-collapse-item>
@@ -77,30 +77,30 @@
                     <el-form-item label="所属院系" prop="collegeId">
                         <el-select v-model="addForm.collegeId" placeholder="请选择院系">
                             <el-option :loading="addLoading"
-                                       v-for="item in addFormInfo.collegeId"
-                                       :key="item.id"
-                                       :label="item.name"
-                                       :value="item.id">
+                                       v-for="item in addFormInfo.colleges"
+                                       :key="item.value"
+                                       :label="item.text"
+                                       :value="item.value">
                             </el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="所属年级" prop="grade">
-                        <el-select v-model="addForm.grade" placeholder="请选择年级">
+                    <el-form-item label="所属年级" prop="gradeId">
+                        <el-select v-model="addForm.gradeId" placeholder="请选择年级">
                             <el-option :loading="addLoading"
-                                       v-for="item in addFormInfo.grade"
-                                       :key="item.id"
-                                       :label="item.name"
-                                       :value="item.id">
+                                       v-for="item in addFormInfo.grades"
+                                       :key="item.value"
+                                       :label="item.text"
+                                       :value="item.value">
                             </el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="负责老师" prop="teacher">
-                        <el-select v-model="addForm.teacher" placeholder="请选择负责老师">
+                    <el-form-item label="负责老师" prop="teacherId">
+                        <el-select v-model="addForm.teacherId" placeholder="请选择负责老师">
                             <el-option :loading="addLoading"
-                                       v-for="item in addFormInfo.teacher"
-                                       :key="item.id"
-                                       :label="item.name"
-                                       :value="item.id">
+                                       v-for="item in addFormInfo.teachers"
+                                       :key="item.value"
+                                       :label="item.text"
+                                       :value="item.value">
                             </el-option>
                         </el-select>
                     </el-form-item>
@@ -117,7 +117,7 @@
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
-                    <el-button @click.native="addFormVisible = false">取消</el-button>
+                    <el-button @click.native="close">取消</el-button>
                     <el-button type="primary" @click.native="addSubmit">提交</el-button>
                 </div>
             </el-dialog>
@@ -132,8 +132,8 @@
     import {
         getDepartmentList,
         getGradeFilter,
-        getBackstageStuAddInfo,
-        addClass,
+        addGroup,
+        getAddGroupFilter
     } from '../../../api/api';
     import myFilter from '../../common/myFilter.vue'
     import Pagination from '../../common/Pagination.vue'
@@ -186,18 +186,18 @@
                     collegeId: [
                         { required: true, message: '请选择院系', trigger: 'blur' }
                     ],
-                    grade: [
+                    gradeId: [
                         { required: true, message: '请选择年级', trigger: 'blur' }
                     ],
-                    teacher: [
+                    teacherId: [
                         { required: true, message: '请选择负责老师', trigger: 'blur' }
                     ],
                 },
                 //编辑界面数据
                 addForm: {
                     collegeId: '',
-                    grade: '',
-                    teacher: ''
+                    gradeId: '',
+                    teacherId: ''
                 },
                 addFormInfo: {},
             }
@@ -246,18 +246,24 @@
                 });
             },
             changeCollapse(val) {
-                console.log('changeCollapse', val);
+               // console.log('changeCollapse', val);
             },
             // 重命名d
             resetNameEvent(e, id){
                 e.stopPropagation();
-                console.log('resetNameEvent',id);
+                //console.log('resetNameEvent',id);
                 this.resetIndex = id;
             },
             // 保存重命名名称
-            saveResetName(e, id) {
+            saveResetName(e, item) {
                 e.stopPropagation();
-                console.log('save name success index = ', id);
+                //console.log('save name success index = ', item.collegeId,item.college);
+                // let para={
+                //     collegeId:item.collegeId,
+                //     collegeName:item.college
+                // }
+                // resetCollegeName(para).then((res) => {
+                // });
                 this.resetIndex = '';
             },
             // 取消重命名
@@ -281,21 +287,33 @@
                 this.addFormVisible = true;
                 // todo 院系，年级，老师，数据get
                 if (_.isEmpty(this.addFormInfo)) {
-                    getBackstageStuAddInfo({}).then(res => {
+                    getAddGroupFilter({}).then(res => {
                         res=res.data;
                         this.addFormInfo = res;
                     });
                 }
                 e.stopPropagation();
             },
+             close: function () {
+                                this.$refs['addForm'].resetFields();
+                                this.addFormVisible = false;
+             },
             //编辑
             addSubmit: function () {
                 this.$refs.addForm.validate((valid) => {
                     if (valid) {
                         this.$confirm('确认提交吗？', '提示', {}).then(res => {
                             this.addLoading = true;
-                            let para = _.assign({}, this.addForm);
-                            addClass(para).then((res) => {
+                            let para = _.assign({}, this.addForm);    
+                            para={
+                                collegeId:para.collegeId,
+                                gradeId:para.gradeId,
+                                dutyTeacher:para.teacherId,
+                                name:para.name,
+                                remark:para.desc    
+                            };
+                            console.log('papa',para);
+                            addGroup(para).then((res) => {
                                 this.addLoading = false;
                                 this.$message({
                                     message: '提交成功',

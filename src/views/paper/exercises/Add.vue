@@ -36,7 +36,7 @@
 							<el-option label="手动组卷" value="manual"></el-option>
 						</el-select>
 					</el-form-item>
-					<el-form-item label="考试时长：" prop="time">
+					<el-form-item label="建议时长：" prop="time">
 						<el-input v-model="form.time"></el-input>
 						<span class="text-primary" style="margin-left:12px;">*单位分钟</span>
 					</el-form-item>

@@ -58,20 +58,20 @@
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
-                    <el-button @click.native="addTeamVisible = false">取消</el-button>
+                    <el-button @click.native="addTermClose">取消</el-button>
                     <el-button type="primary" @click.native="addTeamSubmit">提交</el-button>
                 </div>
             </el-dialog>
             <!--添加课表界面-->
-            <el-dialog title="添加课程" :visible.sync="addTeamCourseVisible">
+            <el-dialog title="添加课表" :visible.sync="addTeamCourseVisible">
                 <el-form :model="addTeamCourse" label-width="80px" :rules="addTeamCourseRules" ref="addTeamCourse" :inline-message="isInlineMessage" v-loading="addLoading">
-                    <el-form-item label="所属学期" prop="teamId">
-                        <el-select v-model="addTeamCourse.teamId" placeholder="请选择学期">
+                    <el-form-item label="所属学期" prop="termId">
+                        <el-select v-model="addTeamCourse.termId" placeholder="请选择学期">
                             <el-option :loading="addLoading"
-                                       v-for="item in addFormInfo.team"
-                                       :key="item.id"
-                                       :label="item.name"
-                                       :value="item.id">
+                                       v-for="item in addFormInfo.term"
+                                       :key="item.value"
+                                       :label="item.text"
+                                       :value="item.value">
                             </el-option>
                         </el-select>
                     </el-form-item>
@@ -79,9 +79,9 @@
                         <el-select v-model="addTeamCourse.courseId" placeholder="请选择课程">
                             <el-option :loading="addLoading"
                                        v-for="item in addFormInfo.course"
-                                       :key="item.id"
-                                       :label="item.name"
-                                       :value="item.id">
+                                       :key="item.value"
+                                       :label="item.text"
+                                       :value="item.value">
                             </el-option>
                         </el-select>
                     </el-form-item>
@@ -98,9 +98,9 @@
                         <el-select v-model="addCourse.collegeId" placeholder="请选择院系">
                             <el-option :loading="addLoading"
                                        v-for="item in addFormInfo.college"
-                                       :key="item.id"
-                                       :label="item.name"
-                                       :value="item.id">
+                                       :key="item.value"
+                                       :label="item.text"
+                                       :value="item.value">
                             </el-option>
                         </el-select>
                     </el-form-item>
@@ -108,25 +108,28 @@
                         <el-select v-model="addCourse.gradeId" placeholder="请选择年级">
                             <el-option :loading="addLoading"
                                        v-for="item in addFormInfo.grade"
-                                       :key="item.id"
-                                       :label="item.name"
-                                       :value="item.id">
+                                       :key="item.value"
+                                       :label="item.text"
+                                       :value="item.value">
                             </el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item label="所属班级" prop="classId">
                         <el-select v-model="addCourse.classId" placeholder="请选择班级">
                             <el-option :loading="addLoading"
-                                       v-for="item in addFormInfo.class"
-                                       :key="item.id"
-                                       :label="item.name"
-                                       :value="item.id">
+                                       v-for="item in addFormInfo.group"
+                                       :key="item.value"
+                                       :label="item.text"
+                                       :value="item.value">
                             </el-option>
                         </el-select>
                     </el-form-item>
+                     <el-form-item>
+                           <el-checkbox style="margin-left:-80px;" v-model="addCourse.isAll">班级学生全部参加</el-checkbox>
+                    </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
-                    <el-button @click.native="addCourseVisible = false">取消</el-button>
+                    <el-button @click.native="addCourseGroupClose">取消</el-button>
                     <el-button type="primary" @click.native="addCourseSubmit">提交</el-button>
                 </div>
             </el-dialog>
@@ -141,10 +144,10 @@
     import {
         getSelectCourseList,
         getBackCourseFilter,
-        getBackstageSCouAddInfo,
-        teamAdd,
-        teamCourseAdd,
-        courseAdd,
+        addTerm,
+        getAddTermCourseFilter,
+        addTermCourse,
+        addCourseGroup
     } from '../../../api/api';
     import myFilter from '../../common/myFilter.vue'
     import Pagination from '../../common/Pagination.vue'
@@ -184,8 +187,8 @@
                     }],
                 // 选择某个班级id
                 courseId: '',
-
-
+                selectCourseId:'',
+                selectTermId:'',
                 //addTeam 添加学期
                 addTeamVisible: false,
                 addTeamRules: {
@@ -204,7 +207,7 @@
                 //addTeamCourse 添加课表
                 addTeamCourseVisible: false,
                 addTeamCourseRules: {
-                    teamId: [
+                    termId: [
                         { required: true, message: '请选择学期', trigger: 'blur' }
                     ],
                     courseId: [
@@ -305,23 +308,30 @@
                 this.addTeamCourseVisible = true;
                 // todo 数据get
                 if (_.isEmpty(this.addFormInfo)) {
-                    getBackstageCouAddInfo({}).then(res => {
+                    getAddTermCourseFilter({}).then(res => {
                         res=res.data;
                         this.addFormInfo = res;
                     });
                 }
                 e.stopPropagation();
             },
-            courseAdd(e, index) {
+            courseAdd(e, index,row) {
                 this.addCourseVisible = true;
+                this.selectCourseId=row.courseId;
+                this.selectTermId=row.termId;
                 // todo 数据get
                 if (_.isEmpty(this.addFormInfo)) {
-                    getBackstageSCouAddInfo({}).then(res => {
+                    getAddTermCourseFilter({}).then(res => {
                         res=res.data;
                         this.addFormInfo = res;
                     });
                 }
                 e.stopPropagation();
+            },
+            addTermClose:function(){
+                        this.$refs['addTeam'].resetFields();
+                        this.addTeamVisible = false;
+                        this.addLoading=false;
             },
             // 添加 提交
             addTeamSubmit: function () {
@@ -329,14 +339,14 @@
                     if (valid) {
                         this.$confirm('确认提交吗？', '提示', {}).then(res => {
                             this.addLoading = true;
-                            let para = _.assign({}, this.addForm);
-                            addTeam(para).then((res) => {
+                            let para = _.assign({}, this.addTeam);
+                            addTerm(para).then((res) => {
                                 this.addLoading = false;
                                 this.$message({
                                     message: '提交成功',
                                     type: 'success'
                                 });
-                                this.$refs['addForm'].resetFields();
+                                this.$refs['addTeam'].resetFields();
                                 this.addTeamVisible = false;
                                 this.search();
                             });
@@ -344,19 +354,24 @@
                     }
                 });
             },
+            addTermCourseClose:function(){
+                        this.$refs['addTeamCourse'].resetFields();
+                        this.addTeamVisible = false;
+                        this.addLoading=false;
+            },
             addTeamCourseSubmit: function () {
                 this.$refs.addTeamCourse.validate((valid) => {
                     if (valid) {
                         this.$confirm('确认提交吗？', '提示', {}).then(res => {
                             this.addLoading = true;
-                            let para = _.assign({}, this.addForm);
-                            addTeamCourse(para).then((res) => {
+                            let para = _.assign({}, this.addTeamCourse);
+                            addTermCourse(para).then((res) => {
                                 this.addLoading = false;
                                 this.$message({
                                     message: '提交成功',
                                     type: 'success'
                                 });
-                                this.$refs['addForm'].resetFields();
+                                this.$refs['addTeamCourse'].resetFields();
                                 this.addTeamCourseVisible = false;
                                 this.search();
                             });
@@ -364,19 +379,33 @@
                     }
                 });
             },
+            addCourseGroupClose:function(){
+                        this.$refs['addCourse'].resetFields();
+                        this.addCourseVisible = false;
+                        this.addLoading = false;
+            },
             addCourseSubmit: function () {
                 this.$refs.addCourse.validate((valid) => {
                     if (valid) {
                         this.$confirm('确认提交吗？', '提示', {}).then(res => {
                             this.addLoading = true;
-                            let para = _.assign({}, this.addForm);
-                            addCourse(para).then((res) => {
+                            //let para = _.assign({}, this.addCourse);
+                            let para={
+                                courseId:this.selectCourseId,
+                                termId:this.selectTermId,
+                                collegeId:this.addCourse.collegeId,
+                                gradeId:this.addCourse.gradeId,
+                                groupId:this.addCourse.classId,
+                                isAll:this.addCourse.isAll
+                            }
+                            console.log('addCourseGroup',para);
+                            addCourseGroup(para).then((res) => {
                                 this.addLoading = false;
                                 this.$message({
                                     message: '提交成功',
                                     type: 'success'
                                 });
-                                this.$refs['addForm'].resetFields();
+                                this.$refs['addCourse'].resetFields();
                                 this.addCourseVisible = false;
                                 this.search();
                             });
