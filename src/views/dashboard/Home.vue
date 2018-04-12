@@ -49,13 +49,14 @@
                     <span>16级大学英语即将开考，请各位同学做好准备！</span>
                 </div>
                 <div class="exam-panel">
-                    <el-row :gutter="1">
+                    <router-link to="/exam/list">
+                        <el-row :gutter="1" @click="changePath">
                         <el-col :span="12">
                             <div class="grid-content bg-green">
                                 <i class="fa fa-th"></i>
                                 <dl>
                                     <dt>今日考试</dt>
-                                    <dd>{{info.today}}</dd>
+                                    <dd>{{info.today || 0}}</dd>
                                 </dl>
                             </div>
                         </el-col>
@@ -64,11 +65,12 @@
                                 <i class="fa fa-th"></i>
                                 <dl>
                                     <dt>全部考试（已结束／未进行）</dt>
-                                    <dd>{{info.finished}}/{{info.noStart}}</dd>
+                                    <dd>{{info.finished || 0}}/{{info.noStart || 0}}</dd>
                                 </dl>
                             </div>
                         </el-col>
                     </el-row>
+                    </router-link>
                     <div class="exam-table">
                         <examTable></examTable>
                     </div>
@@ -115,6 +117,9 @@
                     this.info = res.data;
                     this.loading = false;
                 });
+            },
+            changePath:() => {
+
             },
         },
         mounted() {
