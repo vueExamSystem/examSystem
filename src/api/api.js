@@ -179,6 +179,9 @@ export const addTeacher=params => { return instance.post(`${base}/back/addTeache
 
 export const getGradeFilter=params => { return instance.post(`${base}/back/gradeFilter`, qs.stringify(params) ).then(res => res.data); };
 
+export const getAddGroupFilter=params => { return instance.get(`${base}/back/addGroupFilter`, { params: params } ).then(res => res.data); };
+
+export const addGroup=params => { return instance.post(`${base}/back/addGroup`, qs.stringify(params) ).then(res => res.data); };
 // department
 export const getDepartmentList = params => { return instance.post(`${base}/back/collegeInfo`, qs.stringify(params) ).then(res => res.data); };
 
@@ -188,7 +191,14 @@ export const ResetStuPwd = params => { return instance.post(`${base}/back/resetS
 
 // class
 export const getClassList = params => { return instance.get(`${base}/group/list`, params ).then(res => res.data); };
+//选课
+export const addTerm = params => { return instance.post(`${base}/back/addTerm`, qs.stringify(params) ).then(res => res.data); };
 
+export const getAddTermCourseFilter = params => { return instance.get(`${base}/back/addTermCourse/filter`, { params: params } ).then(res => res.data); };
+
+export const addTermCourse = params => { return instance.post(`${base}/back/addTermCourse`, qs.stringify(params) ).then(res => res.data); };
+
+export const addCourseGroup = params => { return instance.post(`${base}/back/addCourseGroup`, qs.stringify(params) ).then(res => res.data); };
 // role
 //export const getRoleList = params => { return instance.get(`${base}/role/list`, params ).then(res => res.data); };
 export const getRoleList = params => { return instance.get(`${base}/back/role/list`,  {params:params} ).then(res => res.data); };
