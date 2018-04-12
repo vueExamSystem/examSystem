@@ -55,7 +55,7 @@
                                 <i class="fa fa-th"></i>
                                 <dl>
                                     <dt>今日考试</dt>
-                                    <dd>2</dd>
+                                    <dd>{{info.today}}</dd>
                                 </dl>
                             </div>
                         </el-col>
@@ -64,7 +64,7 @@
                                 <i class="fa fa-th"></i>
                                 <dl>
                                     <dt>全部考试（已结束／未进行）</dt>
-                                    <dd>23/4</dd>
+                                    <dd>{{info.finished}}/{{info.noStart}}</dd>
                                 </dl>
                             </div>
                         </el-col>
@@ -94,12 +94,14 @@
 <script>
     import charts from './Echarts.vue';
     import table from './Table.vue';
-    import api from '../../api'
+    import {
+        getDashboardInfo,
+    } from '../../api'
     export default {
         data() {
             return {
-                courseId: '',
-                courseArr: [],
+                info: {},
+                loading: false,
             }
         },
         components: {
@@ -107,14 +109,16 @@
             'examTable': table
         },
         methods: {
-            goQue: () => {
-                // todo
+            getDefaultInfo: () => {
+                this.loading = true;
+                getDashboardInfo({}).then((res) => {
+                    this.info = res.data;
+                    this.loading = false;
+                });
             },
         },
         mounted() {
-          api.getCourseList({}).then(res => {
-            this.courseArr = res.data;
-          });
+          this.getDefaultInfo()
         }
     }
 

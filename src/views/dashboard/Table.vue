@@ -61,21 +61,22 @@
         },
         methods: {
             formatState: function (row, column) {
-                return row.sex == 1 ? '已结束' : row.sex == 0 ? '进行中' : '未知';
+                return row.state == 1 ? '已结束' : row.state == 0 ? '进行中' : '未知';
             },
             handleCurrentChange(val) {
-                this.pageNo = val;
+                this.page = val;
                 this.getList();
             },
-            //获取用户列表
+            //获取tag列表
             getList() {
                 let para = {
-                    pageNo: this.pageNo,
-                    pageSize: this.pageSize,
+                    pageNo: this.page,
                     keyword: this.keyword,
+                    pageSize: this.pageSize
                 };
                 this.listLoading = true;
                 getWeekExam(para).then((res) => {
+                    res=res.data;
                     this.totalCount = res.totalCount;
                     this.rows = res.rows;
                     this.listLoading = false;
