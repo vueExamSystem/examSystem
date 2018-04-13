@@ -46,7 +46,7 @@
             <div>
                 <div class="tip">
                     <i class="fa fa-volume-up"></i>
-                    <span>16级大学英语即将开考，请各位同学做好准备！</span>
+                    <span>即将开考，欢迎老师进行监考！</span>
                 </div>
                 <div class="exam-panel">
                     <router-link to="/exam/list">
@@ -74,7 +74,7 @@
                     <div class="exam-table">
                         <examTable></examTable>
                     </div>
-                    <div class="panel charts">
+                    <!-- <div class="panel charts">
                         <div class="title">
                             <span>学生成绩统计</span>
                             <el-select v-model="courseId" class="pull-right" placeholder="请选择试题类型">
@@ -86,7 +86,7 @@
                         <div class="content">
                             <Echarts :courseId="courseId"></Echarts>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </el-main>
@@ -96,9 +96,10 @@
 <script>
     import charts from './Echarts.vue';
     import table from './Table.vue';
+    import util from '../../common/js/util';
     import {
-        getDashboardInfo,
-    } from '../../api'
+        getDashboardInfo
+    } from '../../api/api'
     export default {
         data() {
             return {
@@ -111,19 +112,20 @@
             'examTable': table
         },
         methods: {
-            getDefaultInfo: () => {
-                this.loading = true;
+            getDefaultInfo(){
+                //this.loading = true;
                 getDashboardInfo({}).then((res) => {
-                    this.info = res.data;
-                    this.loading = false;
+                    res=res.data;
+                    this.info = res;
                 });
+
             },
-            changePath:() => {
+            changePath(){
 
             },
         },
         mounted() {
-          this.getDefaultInfo()
+          this.getDefaultInfo();
         }
     }
 
