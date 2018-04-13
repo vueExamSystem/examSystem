@@ -11,6 +11,9 @@ let base = 'aps/api';
 //用户信息
 export const getUserInfo = params => { return instance.post(`${base}/user/info`, qs.stringify(params)).then(res => res.data); };
 
+//修改用户密码
+export const updatePassword = params => { return instance.post(`${base}/user/editpwd`, params).then(res => res.data); };
+
 /*
 * dashboard
 * */
@@ -152,6 +155,7 @@ export const getClassTestDetailList = params => { return instance.get(`${base}/c
 /*
 *  设置 start
 * */
+
 // log
 export const getSetLogList = params => { return instance.get(`${base}/log/list`, params ).then(res => res.data); };
 
