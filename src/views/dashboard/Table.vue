@@ -21,18 +21,28 @@
                     :data="rows" highlight-current-row
                     v-loading="listLoading"                    
                     style="width: 100%;">
-                <el-table-column type="index" label="ID">
-                </el-table-column>
-                <el-table-column prop="name" label="考试名称" sortable>
-                </el-table-column>
-                <el-table-column prop="time" label="考试时间" sortable>
-                </el-table-column>
-                <el-table-column prop="state" label="状态" :formatter="formatState" sortable>
-                </el-table-column>
-                <el-table-column prop="teacher" label="监考老师" sortable>
-                </el-table-column>
-                <el-table-column prop="examPerson" label="考试人员" sortable>
-                </el-table-column>
+                        <el-table-column type="index" label="序号" width="100">
+                        </el-table-column>
+                        <el-table-column prop="name" label="考试名称" min-width="160">
+                        </el-table-column>
+                        <el-table-column prop="paper" label="选择试卷" min-width="160">
+                          </el-table-column>
+                        <el-table-column prop="beginTime" :formatter="timeRangeFormatter" label="考试时间" min-width="180">
+                        </el-table-column>
+                        <el-table-column prop="status" label="状态">
+                            <template scope="scope">
+                                <span class="text-danger" v-if="scope.row.status == '0'">编辑中</span>
+                                <span class="text-warning" v-else-if="scope.row.status == '1'">已发布</span>
+                                <span class="text-success" v-else-if="scope.row.status == '2'">考试中</span>
+                                <span v-else>已结束</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="teachers" label="监考老师">
+                        </el-table-column>
+                        <el-table-column prop="groups" label="考试人员" min-width="160">
+     
+                        </el-table-column>
+                
             </el-table>
         </div>
     </section>
@@ -82,6 +92,12 @@
                     this.listLoading = false;
                 });
             },
+             timeRangeFormatter(row){//时间范围格式化
+                var st = row.beginTime;
+                var et = row.endTime;
+                //var etStr = et.split(' ')[1];
+                return st + '-' + et;
+            }
         },
         components: {
             'Page': Pagination

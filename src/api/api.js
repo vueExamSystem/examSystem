@@ -2,6 +2,7 @@ import instance  from './instance';
 import qs from 'qs'
 
 let base = 'aps/api';
+//let base='/api';
 //let base = 'http://127.0.0.1:8081/api';
 //let base = 'http://121.43.164.178:8081/api';//公网线上调试api
 //export const requestLogin = params => { return axios.post(`${base}/login/verify`,params).then(res => res.data); };
@@ -13,8 +14,10 @@ export const getUserInfo = params => { return instance.post(`${base}/user/info`,
 /*
 * dashboard
 * */
+
+export const getDashboardInfo = params => { return instance.get(`${base}/index/getDashboardInfo`, { params: params } ).then(res => res.data); };
 // 本周考试
-export const getWeekExam = params => { return instance.get(`${base}/weekExam/list`, params ).then(res => res.data); };
+export const getWeekExam = params => { return instance.get(`${base}/index/weekExam/list`, params ).then(res => res.data); };
 // 学生成绩统计
 export const getStudentSta = params => { return instance.get(`${base}/studentScore/chart`, params ).then(res => res.data); };
 
@@ -168,6 +171,12 @@ export const getStudentScoreList = params => { return instance.post(`${base}/sco
 export const getStudentScoreFilter = params => { return instance.get(`${base}/score/filter`, { params: params } ).then(res => res.data); };
 
 export const getStudentScoreDetailList = params => { return instance.get(`${base}/score/student/detailList`, { params: params } ).then(res => res.data); };
+
+export const judgeOne= params => { return instance.post(`${base}/score/judgeOne`, qs.stringify(params)  ).then(res => res.data); };
+
+export const judgeBatch= params => { return instance.post(`${base}/score/batchJudge`, qs.stringify(params)  ).then(res => res.data); };
+
+export const getStudentTotalScoreList = params => { return instance.post(`${base}/score/total/list`, qs.stringify(params)  ).then(res => res.data); };
 /*
 *  后台 start
 * */
@@ -210,6 +219,19 @@ export const getCompetenceList = params => { return instance.get(`${base}/compet
 
 // 选课
 export const getSelectCourseList = params => { return instance.post(`${base}/back/selectCourse/list`,  qs.stringify(params) ).then(res => res.data); };
+//考试班级列表
+export const getCourseClassList = params => { return instance.post(`${base}/back/course/grouplist`, qs.stringify(params) ).then(res => res.data); };
+//获取学习该课程但未参加考试的班级
+export const getUnCourseClassList = params => { return instance.post(`${base}/back/course/ungrouplist`, qs.stringify(params) ).then(res => res.data); };
+//添加考试班级
+export const addCourseClass = params => { return instance.post(`${base}/back/course/addclass`, qs.stringify(params) ).then(res => res.data); };
+//获取班级学生
+export const getCourseStudentsByClassId = params => { return instance.post(`${base}/back/course/group/student`, qs.stringify(params) ).then(res => res.data); };
+//保存班级考生
+export const saveStudents = params => { return instance.post(`${base}/back/course/savestudents`, qs.stringify(params) ).then(res => res.data); };
+//删除考试班级
+export const delCourseClass = params => { return instance.post(`${base}/back/course/removeclass`, qs.stringify(params) ).then(res => res.data); };
+
 
 export const getBackCourseFilter=params => { return instance.post(`${base}/back/courseFilter`, qs.stringify(params) ).then(res => res.data); };
 // 选课页面弹出框所需下拉框数据

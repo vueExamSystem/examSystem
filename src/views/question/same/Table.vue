@@ -86,7 +86,7 @@
                             label="操作"
                             width="200">
                         <template slot-scope="scope">
-                            <el-button type="primary" size="small" @click="addGroup(scope.row)">添加</el-button>
+                            <el-button type="primary" size="small" @click="addGroup(scope.row)">编辑</el-button>
                             <el-button type="danger" size="small" @click="delGroup(scope.row.id)">删除</el-button>
                         </template>
                     </el-table-column>
@@ -302,6 +302,7 @@
             delQuestion(id) {
                 this.$confirm('确认从相似题组移除试题吗？', '提示', {}).then(() => {
                     var para = {'questionid': id,};
+                    console.log(para);
                     removeSameQuestion(para).then(res => {
                         if (res.code === 0) {
                             this.$message({

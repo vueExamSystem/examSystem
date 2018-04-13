@@ -7,6 +7,7 @@
                     <el-input placeholder="请输入搜索关键词" v-model="keyword">
                         <el-button slot="append" icon="el-icon-search" @click="getList"></el-button>
                     </el-input>
+                    <el-button type="success" @click="judgeBatch()" class="el-button-shadow">批量评定</el-button>
                     <div class="pageArea">
                         <Page :pageNo="pageNo" :totalCount="totalCount" :pageSize="pageSize" @page-change="handleCurrentChange"></Page>
                     </div>
@@ -37,6 +38,18 @@
                         </el-table-column>
                         <el-table-column prop="rank" label="等级">
                         </el-table-column>
+                         <el-table-column prop="status" label="状态">
+                            <template scope="scope">
+                                <span>{{scope.row.status==1?'已评定':'未评定'}}</span>
+                            </template>
+                        </el-table-column>
+                         <el-table-column
+                                label="操作"
+                                width="100">
+                            <template slot-scope="scope">
+                                <el-button type="primary" size="small" @click="judge(scope.row)">评定</el-button>
+                            </template>
+                        </el-table-column>
                     </el-table>
                 </div>
             </div>
@@ -48,7 +61,7 @@
 </template>
 <script>
 	import myFilter from '../../common/myFilter.vue'
-    import {getStudentScoreList, getStudentScoreFilter} from '../../../api/api';
+    import {getStudentTotalScoreList, getStudentScoreFilter,judgeOne,judgeBatch} from '../../../api/api';
     import Pagination from '../../common/Pagination.vue';
     import _ from 'lodash';
     import testDetail from './Detail.vue'
@@ -101,7 +114,7 @@
                     pageSize: this.pageSize,
                 };
                 if (!this.allLoading) this.listLoading = true;
-                getStudentScoreList(para).then((res) => {
+                getStudentTotalScoreList(para).then((res) => {
                     res = res.data;
                     this.totalCount = res.totalCount;
                     this.rows = res.rows;
@@ -118,6 +131,23 @@
                     this.getList();
                 });
             },
+            judge(row){
+                console.log('OneJudeg',row);
+                judgeOne(row).then((res) => {
+                    
+                });
+            },
+            judgeBatch(){
+                var filter=JSON.stringify(this.filter);
+                console.log('bathJudge',filter);
+                //console.log('rows',this.rows);
+                let para={
+                    filter:filter
+                }
+                judgeBatch(para).then((res) => {
+                    
+                });
+            }
         },
         mounted() {
             this.getFilter();

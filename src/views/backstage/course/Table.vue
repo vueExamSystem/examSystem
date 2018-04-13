@@ -24,7 +24,7 @@
                         </el-table-column>
                         <el-table-column prop="course" label="课程" sortable>
                             <template scope="scope">
-                                <el-button type="text" @click="detailShow(scope.row.courseId)">{{scope.row.course}}</el-button>
+                                <el-button type="text" @click="detailShow(scope.row.courseId,scope.row.termId)">{{scope.row.course}}</el-button>
                             </template>
                         </el-table-column>
                         <el-table-column prop="teacher" label="授课老师">
@@ -33,13 +33,13 @@
                         </el-table-column>
                         <el-table-column prop="groups" label="班级名称">
                         </el-table-column>
-                        <el-table-column
+                       <!--  <el-table-column
                                 label="操作"
                                 width="100">
                             <template slot-scope="scope">
                                 <el-button type="primary" size="small" @click="courseAdd($event, scope.$index, scope.row)">添加</el-button>
                             </template>
-                        </el-table-column>
+                        </el-table-column> -->
                     </el-table>
                 </div>
             </div>
@@ -135,7 +135,7 @@
             </el-dialog>
         </section>
         <section v-else>
-            <course-detail :id="courseId" @close="detailClose"></course-detail>
+            <course-detail :id="courseId" :termId="termId" @close="detailClose"></course-detail>
         </section>
     </div>
 </template>
@@ -151,7 +151,7 @@
     } from '../../../api/api';
     import myFilter from '../../common/myFilter.vue'
     import Pagination from '../../common/Pagination.vue'
-    import courseDetail from './Detail.vue'
+    import courseDetail from './AddClasses.vue'
     import u from '../../../common/js/util';
     import _ from 'lodash';
     export default {
@@ -187,6 +187,7 @@
                     }],
                 // 选择某个班级id
                 courseId: '',
+                termId:'',
                 selectCourseId:'',
                 selectTermId:'',
                 //addTeam 添加学期
@@ -291,13 +292,15 @@
                 console.log('changeCollapse', val);
             },
             // 显示详情面板
-            detailShow(id) {
-                this.courseId = id;
-                console.log('courseId:',id);
+            detailShow(coursId,termId) {
+                this.courseId = coursId;
+                this.termId=termId;
+                console.log('coursId',coursId,"termId",termId);
             },
             // 关闭详情面板
             detailClose() {
                 this.courseId = '';
+                this.termId='';
             },
             // 弹框添加
             teamAdd(e, index) {
@@ -398,7 +401,7 @@
                                 groupId:this.addCourse.classId,
                                 isAll:this.addCourse.isAll
                             }
-                            console.log('addCourseGroup',para);
+                            //console.log('addCourseGroup',para);
                             addCourseGroup(para).then((res) => {
                                 this.addLoading = false;
                                 this.$message({
