@@ -7,7 +7,7 @@
         <div class="el-input-myprepend"><i class="iconfont icon-user-larger"></i></div>
       </el-form-item>
       <el-form-item prop="checkPass">
-        <el-input type="password" v-model="loginForm.checkPass" auto-complete="off" placeholder="请输入密码"></el-input>
+        <el-input type="password" v-model="loginForm.checkPass" auto-complete="off" placeholder="请输入密码" @keyup.enter.native="handleSubmit"></el-input>
         <div class="el-input-myprepend"><i class="iconfont icon-lock-larger"></i></div>
       </el-form-item>
       <el-form-item style="margin-top:40px;">
