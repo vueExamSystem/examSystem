@@ -67,6 +67,9 @@
                         </template>
                     </el-select>
                 </el-form-item> -->
+                 <el-form-item label="试题名称:" prop="name">
+                   <el-input type="textarea" v-model="form.name"></el-input>
+                </el-form-item>
                 <el-form-item label="试题内容:" prop="content" class="contentArea clearfix">
                     <script id="editor" type="text/plain" class="editor"></script>
                 </el-form-item>
@@ -258,6 +261,7 @@
         data() {
             return {
                 form: {
+                    name:'',
                     type: 1,
                     level: 1,
                     isSelect: 0,
@@ -280,6 +284,9 @@
                     analysis: '', // 解析
                 },
                 rules: {
+                    name:[
+                        {required: true, message: '试题名称不能为空', trigger: 'change'}
+                    ],
                     type: [
                         {required: true, message: '请选择试题类型', trigger: 'change'}
                     ],
@@ -418,7 +425,7 @@
             onSubmit() {
                 //console.log('content', this.ue.getContent());
                 this.form.content = this.ue.getContent();
-                var name=this.ue.getContentTxt();
+                var name=this.form.name;
                 this.form.selection[0] = this.ueA.getContent();
                 this.form.selectionA = this.ueA.getContent();
                 this.form.selection[1] = this.ueB.getContent();
@@ -544,7 +551,7 @@
                 if (this.selectNum === 2) {
                     return;
                 }
-                console.log('del selection', index);
+                //console.log('del selection', index);
                 this.selectNum = this.selectNum - 1;
                 this.correctManyArr = this.getCorrectArrByNum(this.selectNum, 'many');
                 this.correctRadioArr = this.getCorrectArrByNum(this.selectNum, 'radio');

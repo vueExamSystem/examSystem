@@ -102,15 +102,15 @@
 					subject: '',//科目
 					mode: 'random',//组卷方式
 					time: '',//考试时间
-					radiocount:'',//单选题数
-					radioscore:'',//单选每题分数
-					checkcount:'',//多选题数
-					checkscore:'',//多选每题分数
-					judgecount:'',//判断分数
-					judgescore:'',//判断每题分数
-					optionalCount:'',//选做题数
-					mustCount:'',//选做必做题数
-					choosescore:'',//选做每题分数
+					radiocount:0,//单选题数
+					radioscore:0,//单选每题分数
+					checkcount:0,//多选题数
+					checkscore:0,//多选每题分数
+					judgecount:0,//判断分数
+					judgescore:0,//判断每题分数
+					optionalCount:0,//选做题数
+					mustCount:0,//选做必做题数
+					choosescore:0,//选做每题分数
 					total: 100//总分
 				},
 				detailPaperId:'',

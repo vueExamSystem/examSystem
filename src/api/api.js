@@ -297,13 +297,14 @@ export const getQuizProblemList = params => { return instance.post(`${base}/quiz
 export const addTestProblem = params => { return instance.post(`${base}/quiz/problem/add`, qs.stringify(params) ).then(res => res.data); };
 
 //添加测验
-export const testSubmit = params => { return instance.post(`${base}/quiz/submit`, params ).then(res => res.data); };
+export const testSubmit = params => { return instance.post(`${base}/quiz/submit`, qs.stringify(params) ).then(res => res.data); };
 
 //编辑测验
-export const eidtTest = params => { return instance.post(`${base}/quiz/edit`, params ).then(res => res.data); };
+export const eidtTest = params => { return instance.post(`${base}/quiz/edit`, qs.stringify(params) ).then(res => res.data); };
 //删除测验
-export const removeTest = params => { return instance.post(`${base}/quiz/remove`, params ).then(res => res.data); };
+export const removeTest = params => { return instance.post(`${base}/quiz/remove`, qs.stringify(params) ).then(res => res.data); };
 
+export const copyTest = params => { return instance.post(`${base}/quiz/copy`, qs.stringify(params) ).then(res => res.data); };
 
 //练习题 train
 export const saveTrainPaper = params => { return instance.post(`${base}/train/save`, qs.stringify(params)  ).then(res => res.data);};
@@ -312,9 +313,12 @@ export const getTrainFilter = params => { return instance.get(`${base}/train/fil
 export const getTrainList = params => { return instance.post(`${base}/train/list`, qs.stringify(params)  ).then(res => res.data);};
 
 //编辑练习题
-export const eidtTrain = params => { return instance.post(`${base}/train/edit`, params ).then(res => res.data); };
+export const eidtTrain = params => { return instance.post(`${base}/train/edit`, qs.stringify(params) ).then(res => res.data); };
 //删除练习题
-export const removeTrain = params => { return instance.post(`${base}/train/remove`, params ).then(res => res.data); };
+export const removeTrain = params => { return instance.post(`${base}/train/remove`, qs.stringify(params) ).then(res => res.data); };
+
+export const copyTrain = params => { return instance.post(`${base}/train/copy`, qs.stringify(params) ).then(res => res.data); };
+
 //获取练习题题目列表
 export const getTrainProblemList = params => { return instance.post(`${base}/train/problem/list`, qs.stringify(params) ).then(res => res.data); };
 //删除练习题题目
@@ -333,7 +337,7 @@ export const addTrainProblem = params => { return instance.post(`${base}/train/p
 /*
 * 试卷 start
 * */
-export const getPaperFilter = params => { return instance.get(`${base}/paper/filter`, params ).then(res => res.data);};
+export const getPaperFilter = params => { return instance.get(`${base}/paper/filter`, {params:params} ).then(res => res.data);};
 
 export const getPaperList = params => { return instance.post(`${base}/paper/list`, qs.stringify(params)  ).then(res => res.data);};
 
@@ -359,12 +363,14 @@ export const getProblemList = params => { return instance.post(`${base}/paper/pr
 export const addPaperProblem = params => { return instance.post(`${base}/paper/problem/add`, qs.stringify(params) ).then(res => res.data); };
 
 //添加试卷
-export const paperSubmit = params => { return instance.post(`${base}/paper/submit`, params ).then(res => res.data); };
+export const paperSubmit = params => { return instance.post(`${base}/paper/submit`, qs.stringify(params) ).then(res => res.data); };
 
 //编辑试卷
-export const eidtPaper = params => { return instance.post(`${base}/paper/edit`, params ).then(res => res.data); };
+export const eidtPaper = params => { return instance.post(`${base}/paper/edit`, qs.stringify(params) ).then(res => res.data); };
 //删除试卷
-export const removePaper = params => { return instance.post(`${base}/paper/remove`, params ).then(res => res.data); };
+export const removePaper = params => { return instance.post(`${base}/paper/remove`, qs.stringify(params) ).then(res => res.data); };
+//复制试卷
+export const copyPaper = params => { return instance.post(`${base}/paper/copy`, qs.stringify(params) ).then(res => res.data); };
 
 
 /* 

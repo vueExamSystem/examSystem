@@ -3,7 +3,7 @@
         <div class="panel">
             <div class="title">
 				<span>
-				试题预览
+				试题预览--{{detail.name}}
 				</span>
                 <div class="pull-right">
                     <el-button type="danger" @click="goBack()" class="el-button-shadow">关闭</el-button>

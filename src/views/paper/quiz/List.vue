@@ -20,7 +20,7 @@
                                 <el-button type="text" @click="detailShow(scope.row)">{{scope.row.name}}</el-button>
                             </template>
                         </el-table-column>
-                        <el-table-column prop="duration" label="时长(min)" min-width="50">
+                        <el-table-column prop="duration" label="建议时长(分钟)" min-width="50">
                         </el-table-column>
 <!--                         <el-table-column prop="project" label="所属课程" min-width="120">
                         </el-table-column> -->
@@ -42,10 +42,11 @@
                         </el-table-column>
                         <el-table-column prop="creator" label="创建人" min-width="100">
                         </el-table-column>
-                        <el-table-column label="操作" width="150">
+                        <el-table-column label="操作">
                             <template scope="scope">
                                 <el-button type="primary" @click="showEdit(scope.$index, scope.row)" :disabled="!isRowEditable(scope.row)">编辑</el-button>
                                 <el-button type="danger" @click="handleDel(scope.$index, scope.row)" :disabled="!isRowRemoveable(scope.row)">删除</el-button>
+                                <el-button type="primary" @click="showCopy(scope.$index, scope.row)">复制</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -57,7 +58,7 @@
                         <el-form-item label="试卷名称" prop="name">
                             <el-input v-model="editForm.name"></el-input>
                         </el-form-item>
-                        <el-form-item label="所属课程" prop="project"> 
+                        <!-- <el-form-item label="所属课程" prop="project"> 
                             <el-select v-model="editForm.project" placeholder="请选择科目">
                                 <el-option :loading="subjectLoading" 
                                   v-for="item in subjectOptions"
@@ -66,8 +67,11 @@
                                   :value="item.id">
                                 </el-option>
                             </el-select>
+                        </el-form-item> -->
+                        <el-form-item label="所属课程" prop="course">
+                            <el-input v-model="editForm.course" readonly></el-input>
                         </el-form-item>
-                        <el-form-item label="测验时长" prop="duration">
+                        <el-form-item label="建议时长" prop="duration">
                             <el-input v-model="editForm.duration"></el-input>
                             <span class="text-primary" style="margin-left:12px;">*单位分钟</span>
                         </el-form-item>
@@ -75,6 +79,18 @@
                     <div slot="footer" class="dialog-footer">
                         <el-button @click.native="hideEdit">取消</el-button>
                         <el-button type="primary" @click.native="editSubmit">提交</el-button>
+                    </div>
+                </el-dialog>
+                <!--复制界面-->
+                <el-dialog title="复制试卷" :visible.sync="copyFormVisible">
+                    <el-form :model="copyForm" label-width="80px" :rules="copyFormRules" ref="copyForm" :inline-message="isInlineMessage" v-loading="copyLoading">
+                        <el-form-item label="试卷名称" prop="name">
+                            <el-input v-model="copyForm.name"></el-input>
+                        </el-form-item>
+                    </el-form>
+                    <div slot="footer" class="dialog-footer">
+                        <el-button @click.native="hideCopy">取消</el-button>
+                        <el-button type="primary" @click.native="copySubmit">提交</el-button>
                     </div>
                 </el-dialog>
             </div>
@@ -87,7 +103,7 @@
 
 <script>
     import u from '../../../common/js/util';
-    import { getSubjectList, getTestFilter, getTestList, eidtTest, removeTest } from '../../../api/api';
+    import { getSubjectList, getTestFilter, getTestList, eidtTest, removeTest,copyTest } from '../../../api/api';
     import myFilter from '../../common/myFilter.vue'
     import Pagination from '../../common/Pagination.vue'
     import Detail from './Detail.vue'
@@ -113,17 +129,21 @@
                 filterList: [],
                 editFormVisible: false,
                 editLoading: false,
+                copyFormVisible: false,
+                copyLoading: false,
                 isInlineMessage: true,
                 editFormRules: {
                     name: [
-                        { required: true, message: '请填写试卷名称', trigger: 'blur' }
+                        { required: true, message: '请填写测验名称', trigger: 'blur' }
                     ],
                     duration: [
                         {required: true, message: '请输入时长', trigger:'change'},
                         {pattern: '^\\d+$', message: '请输入整数', trigger:'change'}
-                    ],
-                    project: [
-                        { required: true, message: '请选择科目', trigger: 'blur' }
+                    ]
+                },
+                copyFormRules: {
+                    name: [
+                        { required: true, message: '请填写测验名称', trigger: 'blur' }
                     ]
                 },
                 //编辑界面数据
@@ -131,7 +151,11 @@
                     id: -1,
                     name: '',
                     duration: '',
-                    project: ''
+                    course:''
+                },
+                copyForm:{
+                    id:-1,
+                    name:''
                 },
                 subjectLoading: true,
                 subjectOptions: [],//科目组
@@ -231,20 +255,28 @@
                     this.search();
                 }
             },
+            showCopy(index, row) {//编辑
+                this.copyFormVisible = true;
+                this.copyForm.id = row.id;
+                this.copyForm.name = row.name;
+            },
+             hideCopy(){
+                this.copyFormVisible = false;
+            },
             //显示编辑界面
             showEdit(index, row) {//编辑
                 this.editFormVisible = true;
                 this.editForm.id = row.id;
                 this.editForm.name = row.name;
                 this.editForm.duration = row.duration;
-                this.editForm.project = row.project;
+                this.editForm.course = row.course.name;
             },
             hideEdit(){
                 this.editFormVisible = false;
             },
             handleDel(index, row){//删除试卷
                 this.$confirm('确定删除该试卷吗？','提示',{
-                    confirmButtonText: '确定删除'
+                    confirmButtonText: '确定'
                 }).then(res => {
                     this.listLoading = true;
                     var params = {
@@ -280,14 +312,46 @@
             },
             //行是否可删除
             isRowRemoveable(row){
-                //当前用户与创建人一致
+                //当前用户与创建人一致row.creator != this.userName || 
                 //试卷为初始化状态
                 //试卷组卷模型为手动
                 var isAble = true;
-                if(row.creator != this.userName || row.status != '0' || row.category != '2'){
+                if(row.status != '0'){
                     isAble = false;
                 }
                 return isAble;
+            },
+            //复制
+            copySubmit: function () {
+                this.$refs.copyForm.validate((valid) => {
+                    if (valid) {
+                        this.$confirm('确认复制试卷吗？', '提示', {}).then(res => {
+                            this.copyLoading = true;
+                            //let para = _.assign({}, this.copyForm);
+                            let para={
+                                paperId:this.copyForm.id,
+                                paperName:this.copyForm.name
+                            };
+                            copyTest(para).then((res) => {
+                                this.copyLoading = false;
+                                if(res.code===0){
+                                this.$message({
+                                    message: '复制成功',
+                                    type: 'success'
+                                });
+                                this.$refs['copyForm'].resetFields();
+                                this.copyFormVisible = false;
+                                this.search();}
+                                else{
+                                    this.$message({
+                                    message: res.msg,
+                                    type: 'error'
+                                });
+                                }
+                            });
+                        }).catch(res=>{});
+                    }
+                });
             },
             //编辑
             editSubmit: function () {
@@ -295,7 +359,12 @@
                     if (valid) {
                         this.$confirm('确认提交吗？', '提示', {}).then(res => {
                             this.editLoading = true;
-                            let para = _.assign({}, this.editForm);
+                           //let para = _.assign({}, this.editForm);
+                            let para={
+                                paperId:this.editForm.id,
+                                paperName:this.editForm.name,
+                                duration:this.editForm.duration
+                            };
                             eidtTest(para).then((res) => {
                                 this.editLoading = false;
                                 this.$message({

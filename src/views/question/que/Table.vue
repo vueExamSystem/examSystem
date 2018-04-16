@@ -46,6 +46,11 @@
                         <el-table-column prop="creator" label="创建人" sortable>
                         </el-table-column>                   
                     </el-table>
+                <div class="panel">
+                <div class="title">
+                      <div class="pageArea">
+                        <Page :pageNo="pageNo" :totalCount="totalCount" :pageSize="pageSize" @page-change="handleCurrentChange"></Page>
+                     </div></div></div>
                 </div>
             </div>
         </div>

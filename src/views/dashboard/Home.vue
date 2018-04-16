@@ -45,8 +45,10 @@
         <el-main>
             <div>
                 <div class="tip">
-                    <i class="fa fa-volume-up"></i>
-                    <span>即将开考，欢迎老师进行监考！</span>
+                   <marquee>
+                        <i class="fa fa-volume-up"></i>
+                        <span>即将开考，欢迎老师进行监考！</span>
+                    </marquee>
                 </div>
                 <div class="exam-panel">
                     <router-link to="/exam/list">
