@@ -26,7 +26,7 @@
                         </el-table-column>
                         <el-table-column prop="name" label="试题名称" sortable>
                             <template slot-scope="scope">
-                                <el-button type="text" @click="detailShow(scope.row.id)">{{scope.row.name}}</el-button>
+                                <a href="javascript:void(0);" @click="detailShow(scope.row.id)">{{scope.row.name}}</a>
                             </template>
                         </el-table-column>
                         <el-table-column prop="questionType" label="试题类型" sortable>
