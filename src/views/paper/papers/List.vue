@@ -265,7 +265,7 @@
                 this.editFormVisible = true;
                 this.editForm.id = row.id;
                 this.editForm.name = row.name;
-                this.editForm.duration = row.duration;
+                this.editForm.duration = row.duration.toString();
                 this.editForm.course = row.course.name;
             },
             hideEdit(){

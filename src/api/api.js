@@ -9,10 +9,12 @@ let base = 'aps/api';
  export const requestLogin = params => { return instance.post(`${base}/login/verify`,  qs.stringify(params)).then(res => res.data); };
 
 //用户信息
-export const getUserInfo = params => { return instance.post(`${base}/user/info`, qs.stringify(params)).then(res => res.data); };
+export const getMenuInfo = params => { return instance.get(`${base}/user/menu`,{params:params}).then(res => res.data); };
+
+export const getUserInfo = params => { return instance.get(`${base}/user/info`, {params:params}).then(res => res.data); };
 
 //修改用户密码
-export const updatePassword = params => { return instance.post(`${base}/user/editpwd`, params).then(res => res.data); };
+export const updatePassword = params => { return instance.post(`${base}/user/editpwd`, qs.stringify(params)).then(res => res.data); };
 
 /*
 * dashboard
@@ -83,16 +85,21 @@ export const getSectionFilter = params => { return instance.post(`${base}/chapte
 export const getSameList = params => { return instance.post(`${base}/same/list`, qs.stringify(params) ).then(res => res.data); };
 
 // department
-export const getGroupList = params => { return instance.get(`${base}/group/list`, params ).then(res => res.data); };
+export const getGroupList = params => { return instance.get(`${base}/group/list`, { params: params } ).then(res => res.data); };
 
 /*
 * filter
 * */
 // question filter
-export const getSameGroupList = params => { return instance.get(`${base}/same/list`, params ).then(res => res.data); };
+export const getSameGroupList = params => { return instance.get(`${base}/same/list`, { params: params } ).then(res => res.data); };
 
 // filter
-export const getQuestionFilter = params => { return instance.get(`${base}/question/filter`, params ).then(res => res.data);};
+export const getQuestionFilter = params => { return instance.get(`${base}/question/filter`, { params: params } ).then(res => res.data);};
+
+export const copyQuestion = params => { return instance.post(`${base}/question/copy`, qs.stringify(params) ).then(res => res.data);};
+
+export const deleteQuestion = params => { return instance.post(`${base}/question/delete`, qs.stringify(params) ).then(res => res.data);};
+
 // same filter
 export const getSameFilter = params => { return instance.get(`${base}/same/filter`, { params: params } ).then(res => res.data);};
 

@@ -44,6 +44,12 @@
                         <el-table-column prop="similarName" label="相似题组" sortable>
                         </el-table-column>
                         <el-table-column prop="creator" label="创建人" sortable>
+                        </el-table-column>
+                           <el-table-column label="操作" >
+                            <template scope="scope">
+                                <el-button type="primary" @click="showCopy(scope.$index, scope.row)">复制</el-button>
+                                <el-button type="danger" @click="handleDel(scope.$index, scope.row)" :disabled="!isRowRemoveable(scope.row)">删除</el-button>
+                            </template>
                         </el-table-column>                   
                     </el-table>
                 <div class="panel">
@@ -53,6 +59,18 @@
                      </div></div></div>
                 </div>
             </div>
+             <!--复制界面-->
+                <el-dialog title="复制试题" :visible.sync="copyFormVisible">
+                    <el-form :model="copyForm" label-width="80px" :rules="copyFormRules" ref="copyForm" :inline-message="isInlineMessage" v-loading="copyLoading">
+                        <el-form-item label="试题名称" prop="name">
+                            <el-input v-model="copyForm.name"></el-input>
+                        </el-form-item>
+                    </el-form>
+                    <div slot="footer" class="dialog-footer">
+                        <el-button @click.native="hideCopy">取消</el-button>
+                        <el-button type="primary" @click.native="copySubmit">提交</el-button>
+                    </div>
+                </el-dialog>
         </div>
 
         <section v-if="detailId">
@@ -64,7 +82,7 @@
 <script>
     import u from '../../../common/js/util';
     import _ from 'lodash';
-    import {getQueList, getQuestionFilter, getSectionFilter} from '../../../api/api';
+    import {getQueList, getQuestionFilter, getSectionFilter,copyQuestion,deleteQuestion} from '../../../api/api';
     import myFilter from '../../common/myFilter.vue'
     import Pagination from '../../common/Pagination.vue'
     import questionDetail from './Detail.vue'
@@ -84,6 +102,18 @@
                 filterList: [],
 
                 detailId: '',
+                copyFormRules: {
+                    name: [
+                        { required: true, message: '请填写试卷名称', trigger: 'blur' }
+                    ]
+                },
+                isInlineMessage: true,
+                copyFormVisible: false,
+                copyLoading: false,
+                copyForm:{
+                    id:-1,
+                    name:''
+                },
             }
         },
         methods: {
@@ -94,6 +124,81 @@
             search(obj) {
                 this.filter = obj;this.pageNo = 1;
                 this.getList();
+            },
+            //行是否可删除
+            isRowRemoveable(row){
+                //试题为初始化状态
+                var isAble = true;
+                if(row.status != '0'){
+                    isAble = false;
+                }
+                return isAble;
+            },
+            handleDel(index, row){//删除试卷
+                this.$confirm('确定删除该试题吗？','提示',{
+                    confirmButtonText: '确定'
+                }).then(res => {
+                    this.listLoading = true;
+                    var params = {
+                        questionId: row.id//试卷id
+                    };
+                    deleteQuestion(params).then(res => {
+                        if(res.code == '0'){
+                            this.$message({
+                                type: 'success',
+                                message: '删除成功'
+                            });
+                            this.isNewPage = true;
+                            this.pageNo = 1;
+                            this.search();
+                        }else{
+                            this.$message({
+                                type: 'error',
+                                message: res.msg
+                            });
+                        }
+                    });
+                }).catch(res => {});
+            },
+            showCopy(index, row) {//编辑
+                this.copyFormVisible = true;
+                this.copyForm.id = row.id;
+                this.copyForm.name = row.name;
+            },
+             hideCopy(){
+                this.copyFormVisible = false;
+            },
+            //复制
+            copySubmit: function () {
+                this.$refs.copyForm.validate((valid) => {
+                    if (valid) {
+                        this.$confirm('确认复制试题吗？', '提示', {}).then(res => {
+                            this.copyLoading = true;
+                            //let para = _.assign({}, this.copyForm);
+                            let para={
+                                questionId:this.copyForm.id,
+                                questionName:this.copyForm.name
+                            };
+                            copyQuestion(para).then((res) => {
+                                this.copyLoading = false;
+                                if(res.code===0){
+                                this.$message({
+                                    message: '复制成功',
+                                    type: 'success'
+                                });
+                                this.$refs['copyForm'].resetFields();
+                                this.copyFormVisible = false;
+                                this.search();}
+                                else{
+                                    this.$message({
+                                    message: res.msg,
+                                    type: 'error'
+                                });
+                                }
+                            });
+                        }).catch(res=>{});
+                    }
+                });
             },
             //获取用户列表
             getList() {
