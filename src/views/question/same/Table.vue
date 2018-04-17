@@ -18,6 +18,8 @@
             <div class="content">
                 <!--列表-->
                 <el-table
+                        ref="expandTable"
+                        @cell-click="toggleExpand"
                         :data="rows"
                         class="el-table-expand"
                         highlight-current-row
@@ -157,6 +159,11 @@
             }
         },
         methods: {
+            toggleExpand(row, column, cell, event){//折叠展开
+                if(column.property == 'name'){
+                    this.$refs.expandTable.toggleRowExpansion(row);
+                }
+            },
             getCheckedNodes() {
                 const checkArr = this.$refs.tree.getCheckedNodes();
                 let para = checkArr.filter(item => { return !item.children });
@@ -391,6 +398,3 @@
 
 </script>
 
-<style scoped lang="scss">
-    @import '~scss_vars';
-</style>
