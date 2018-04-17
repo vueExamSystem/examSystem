@@ -261,6 +261,9 @@
 										this.detailPaperInfo.totalPoint = paperParams.total;
 										this.detailPaperInfo.status = 0;
 										this.isNext = true;
+									} else {
+										//tab跳转
+										this.$emit('changetab','quizlist');
 									}
                                 }
 
