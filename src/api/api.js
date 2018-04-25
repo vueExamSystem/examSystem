@@ -225,6 +225,7 @@ export const getClassObject = params => { return instance.get(`${base}/class/det
 // competence
 export const getCompetenceList = params => { return instance.post(`${base}/back/menu`, qs.stringify(params) ).then(res => res.data); };
 
+export const getMenuTree = params => { return instance.post(`${base}/back/menu/tree`, qs.stringify(params) ).then(res => res.data); };
 // 选课
 export const getSelectCourseList = params => { return instance.post(`${base}/back/selectCourse/list`,  qs.stringify(params) ).then(res => res.data); };
 //考试班级列表

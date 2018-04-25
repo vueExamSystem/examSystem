@@ -30,7 +30,7 @@
 </template>
 
 <script>
-    import { getCompetenceList, getRoleList } from '../../../api/api'
+    import { getCompetenceList, getRoleList,getMenuTree} from '../../../api/api'
     export default {
         props: {
             id: {
@@ -64,6 +64,10 @@
                 };
                 getCompetenceList(para).then((res) => {
                     this.competenceArr = res.data;
+                });
+                getMenuTree(para).then((res) => {
+                    //tree data
+                    console.log('getMenuTree',res.data);
                 });
                 // getRoleList().then((res) => {
                 //     if(res.data === undefined) return;

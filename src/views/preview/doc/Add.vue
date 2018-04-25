@@ -131,8 +131,8 @@
 		},
 		methods: {
 			UploadUrl: function (url) {
-                return 'http://localhost:8081/api/question/' + url;
-                //return 'http://121.43.164.178:8081/api/question/' + url;
+                // return 'http://localhost:8081/api/question/' + url;
+                return 'http://121.43.164.178:8081/api/question/' + url;
             },
             // 上传题目图片成功后的回调
             uploadTitleSuccess(res, file, fileList) {
