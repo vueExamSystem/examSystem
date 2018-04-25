@@ -7,7 +7,7 @@
                 <li class="filter-row clearfix" :field="row.field">
                     <label>{{row.title}}：</label>
                     <!--单选-->
-                    <ul v-if="row.children && row.children.length > 0 && !row.multiple" class="filter-items">
+                    <ul v-if="row.type===undefined && row.children && row.children.length > 0 && !row.multiple" class="filter-items">
                         <li
                                 v-if="!row.noAll"
                                 v-bind:class="{ checked: filters[row.field] === -1 || !filters[row.field] }"
@@ -28,7 +28,7 @@
                         </template>
                     </ul>
                     <!--多选-->
-                    <ul v-if="row.children && row.children.length > 0 && row.multiple" class="filter-items">
+                    <ul v-if="row.type===undefined && row.children && row.children.length > 0 && row.multiple" class="filter-items">
                         <!-- <li :class="{checked:row.isCheckedAll}" @click="toggleCheck($event);" role="all"><span>全部</span></li> -->
                         <li class="checked" @click="toggleCheck($event);" role="all"><span>全部</span></li>
                         <template v-for="item in row.children">
@@ -39,11 +39,12 @@
                         </template>
                     </ul>
                     <!--特殊列-->
-                    <div v-if="row.arr !== undefined && row.arr.length > 0" class="filter-item-special">
-                        <template v-for="item in row.arr">
+                    <div v-if="row.type==='select' && row.children !== undefined && row.children.length > 0" class="filter-item-special">
+                        <template v-for="item in row.children">
                             <el-select
                                     :key="filters[row.field]"
                                     v-if="item.type === 'select'"
+                                    v-model="row.selected"
                                     placeholder="请选择正确选项"
                                     @change="selectChange($event, row.field)"
                             >
@@ -103,7 +104,7 @@
     }, { // special row 都必填
         title: '班级',
         field: 'class',
-        arr: [ // 具体特殊项（目前加入单选，按钮，需要继续加）
+        children: [ // 具体特殊项（目前加入单选，按钮，需要继续加）
             {
                 id: 0,
                 type: 'select', // 特殊项的类型 （button select等）
@@ -199,8 +200,10 @@
             },
             selectChange(e, field) {
                 this.filters[field] = e;
-                this.$forceUpdate();
-                this.$emit('callback', this.filters);
+                //this.$forceUpdate();
+                //console.log('selectChange',e);
+                //单独的callback
+                this.$emit('callbackSelect', this.filters);
             },
             addEmit(eveName) {
                 this.$emit(eveName);

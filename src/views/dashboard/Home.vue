@@ -47,7 +47,7 @@
                 <div class="tip">
                    <marquee>
                         <i class="fa fa-volume-up"></i>
-                        <span>即将开考，欢迎老师进行监考！</span>
+                        <span>{{info.examName}}即将开考，欢迎老师进行监考！</span>
                     </marquee>
                 </div>
                 <div class="exam-panel">

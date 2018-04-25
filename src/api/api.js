@@ -22,9 +22,9 @@ export const updatePassword = params => { return instance.post(`${base}/user/edi
 
 export const getDashboardInfo = params => { return instance.get(`${base}/index/getDashboardInfo`, { params: params } ).then(res => res.data); };
 // 本周考试
-export const getWeekExam = params => { return instance.get(`${base}/index/weekExam/list`, params ).then(res => res.data); };
+export const getWeekExam = params => { return instance.post(`${base}/index/weekExam/list`, qs.stringify(params) ).then(res => res.data); };
 // 学生成绩统计
-export const getStudentSta = params => { return instance.get(`${base}/studentScore/chart`, params ).then(res => res.data); };
+export const getStudentSta = params => { return instance.post(`${base}/studentScore/chart`, qs.stringify(params) ).then(res => res.data); };
 
 /*
 * 试题 question start
@@ -143,9 +143,6 @@ export const getExampleAddInfo = params => { return instance.get(`${base}/exampl
 
 export const getDocAddInfo = params => { return instance.get(`${base}/doc/add/info`, params ).then(res => res.data);};
 
-export const getDocFilter = params => { return instance.get(`${base}/doc/filter`, params ).then(res => res.data);};
-
-export const getDocList = params => { return instance.get(`${base}/doc/list`, params ).then(res => res.data);};
 
 /*
 *  测验 start
@@ -226,7 +223,7 @@ export const getRoleList = params => { return instance.get(`${base}/back/role/li
 export const getClassObject = params => { return instance.get(`${base}/class/detail`, params ).then(res => res.data); };
 
 // competence
-export const getCompetenceList = params => { return instance.get(`${base}/competence/list`, params ).then(res => res.data); };
+export const getCompetenceList = params => { return instance.post(`${base}/back/menu`, qs.stringify(params) ).then(res => res.data); };
 
 // 选课
 export const getSelectCourseList = params => { return instance.post(`${base}/back/selectCourse/list`,  qs.stringify(params) ).then(res => res.data); };
@@ -446,3 +443,12 @@ export const getLessonTrainList = params => { return instance.post(`${base}/less
 export const addLessonTrain = params => { return instance.post(`${base}/lesson/train/add`, qs.stringify(params) ).then(res => res.data); };
 
 export const updateLessonTrain = params => { return instance.post(`${base}/lesson/train/update`, qs.stringify(params) ).then(res => res.data); };
+
+//预习资料
+export const getAddDocFilter = params => { return instance.post(`${base}/lesson/train/addDocFilter`, qs.stringify(params) ).then(res => res.data); };
+
+export const addDoc = params => { return instance.post(`${base}/lesson/train/addDoc`, qs.stringify(params) ).then(res => res.data); };
+
+export const getDocFilter = params => { return instance.get(`${base}/lesson/train/docfilter`, {params:params} ).then(res => res.data);};
+
+export const getDocList = params => { return instance.post(`${base}/lesson/train/doclist`, qs.stringify(params) ).then(res => res.data);};

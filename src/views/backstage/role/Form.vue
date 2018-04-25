@@ -59,16 +59,19 @@
                 this.close();
             },
             getList() {
-                getCompetenceList().then((res) => {
+                let para={
+                    roleId:this.id
+                };
+                getCompetenceList(para).then((res) => {
                     this.competenceArr = res.data;
                 });
-                getRoleList().then((res) => {
-                    if(res.data === undefined) return;
-                    const str = res.data[this.id].competence;
-                    const arr = str.split('，');
-                    console.log(arr);
-                    this.form.competence = arr;
-                });
+                // getRoleList().then((res) => {
+                //     if(res.data === undefined) return;
+                //     const str = res.data[this.id].competence;
+                //     const arr = str.split('，');
+                //     console.log(arr);
+                //     this.form.competence = arr;
+                // });
             },
             close() {
                 this.$emit('close');
@@ -78,7 +81,7 @@
             comArr() {
                 const str = res.data[this.id].competence;
                 const arr = str.split('，');
-                console.log(arr);
+                //console.log(arr);
                 return arr || [];
             },
         },

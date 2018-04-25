@@ -620,6 +620,7 @@
         },
         mounted() {
             this.getDefaultData();
+            //'simpleupload', //去掉图片
             const config = {
                 toolbars: [['fullscreen', 'source', '|',
                     'undo', 'redo', '|',
@@ -627,7 +628,7 @@
                     'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', '|',
                     'paragraph', 'fontfamily', 'fontsize', '|',
                     'indent', 'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|',
-                    'simpleupload', 'horizontal', 'inserttable', '|',
+                    'horizontal', 'inserttable', '|',
                     'searchreplace', 'kityformula'
                 ]],
                 autoHeightEnabled: true,

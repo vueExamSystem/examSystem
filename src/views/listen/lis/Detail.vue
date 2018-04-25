@@ -190,7 +190,7 @@
             	var para = {
             		examId: this.id //考试id
             	};
-                console.log('para',para);
+                
                 getListenDetailFilter(para).then((res) => {
                     this.filterList = res.data;
                     this.filterLoading = false;
@@ -277,7 +277,8 @@
             },
             getStatistics(callback){ // 统计信息
             	let basePara = {
-            		examId: this.id,//考试id
+            		examId:this.id,//考试id
+                    filter:JSON.stringify(this.filter)
             	};
             	this.stat_Loading = true;
             	getListentStatistics(basePara).then((res) => {

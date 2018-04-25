@@ -94,7 +94,15 @@
                     </el-table-column>
                 </el-table>
             </div>
+            <div class="title">
 
+                <!--分页-->
+                <div class="pageArea">
+                    <Page :pageNo="pageNo" :totalCount="totalCount" :pageSize="pageSize"
+                          @page-change="handleCurrentChange"></Page>
+                </div>
+
+            </div>
             <!--编辑界面-->
             <el-dialog title="添加相似题组" :visible.sync="addFormVisible">
                 <el-tree

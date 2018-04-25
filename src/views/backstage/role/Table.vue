@@ -12,20 +12,20 @@
                             style="width: 100%;">
                         <el-table-column type="index" label="ID" hidden>
                         </el-table-column>
-                        <el-table-column prop="role" label="角色" sortable>
+                        <el-table-column prop="name" label="角色" sortable>
                             <template slot-scope="scope">
-                                <el-button type="text" @click="detailShow(scope.row.id)">{{scope.row.role}}</el-button>
+                                <el-button type="text" @click="detailShow(scope.row.id)">{{scope.row.name}}</el-button>
                             </template>
                         </el-table-column>
                         <el-table-column prop="competence" label="权限" sortable>
                         </el-table-column>
-                        <el-table-column
+                       <!--  <el-table-column
                                 label="操作"
                                 width="100">
                             <template slot-scope="scope">
                                 <el-button type="primary" size="small">编辑</el-button>
                             </template>
-                        </el-table-column>
+                        </el-table-column> -->
                     </el-table>
                 </div>
             </div>
@@ -88,7 +88,7 @@
                 });
             },
             detailShow(id) {
-                console.log('detailShow', id);
+                //console.log('detailShow', id);
                 this.detailId = id;
             },
             detailClose() {

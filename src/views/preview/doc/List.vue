@@ -1,7 +1,7 @@
 <template>
 	<div>
         <section v-show="!detailId">
-    		<my-filter v-if="filterList.length > 0" :list="filterList" @callback="search" v-loading="filterLoading"></my-filter>
+    		<my-filter v-if="filterList.length > 0" :list="filterList" @callback="search"  @linkage="linkage" v-loading="filterLoading"></my-filter>
             <div class="panel">
                 <div class="title">
                     <el-input placeholder="请输入搜索关键词" v-model="keyword">
@@ -18,25 +18,28 @@
                         </el-table-column>
                         <el-table-column prop="name" label="资料名称" min-width="160">
                             <template slot-scope="scope">
-                                <el-button type="text" @click="detailShow(scope.row.id)">{{scope.row.name}}</el-button>
+                                <el-button type="text" @click="detailShow(scope.row)">{{scope.row.name}}</el-button>
                             </template>
                         </el-table-column>
-                        <el-table-column prop="project" label="所属课程" min-width="160">
+                        <el-table-column prop="courseName" label="所属课程">
+                        </el-table-column>
+                        <el-table-column prop="sectionName" label="所属章节">
                         </el-table-column>
                     </el-table>
                 </div>
             </div>
     	</section>
         <section v-if="detailId">
-            <doc-detail :id="detailId" @close="detailClose"></doc-detail>
+            <doc-detail :id="detailId" :detailRow="detailRow" @close="detailClose"></doc-detail>
         </section>
     </div>
 </template>
 <script>
 	import myFilter from '../../common/myFilter.vue'
-    import {getDocList, getDocFilter} from '../../../api/api';
+    import {getDocList, getDocFilter,getSectionFilter} from '../../../api/api';
     import Pagination from '../../common/Pagination.vue';
     import _ from 'lodash';
+    import u from '../../../common/js/util';
     import docDetail from './Detail.vue'
     export default {
         components: {
@@ -57,14 +60,18 @@
                 filterLoading: false,
 
                 detailId: '',
+                detailRow:'',
             }
         },
         methods: {
-            detailShow(id) {
-                this.detailId = id;
+            detailShow(row) {
+                this.detailId = row.id;
+                this.detailRow=row;
+                console.log(row);
             },
             detailClose() {
                 this.detailId = '';
+                this.detailRow='';
             },
             handleCurrentChange(val) {
                 this.pageNo = val;
@@ -97,8 +104,45 @@
                 getDocFilter({}).then((res) => {
                     this.filterList = res.data;
                     this.filterLoading = false;
+                    // 过滤器数据增加联动判断字段
+                    this.dealFilterList();
+                    // filter 对应key默认好 -1
+                    this.filter = u.getDefaultFilter(this.filterList);
+                    // get table list
                     this.getList();
                 });
+            },
+            // 处理过滤器数据
+            dealFilterList() {
+                const index = _.findIndex(this.filterList, {field: 'course'});
+                if (index > -1) {
+                    this.filterList[index].isLinkage = true;
+                }
+            },
+            // 联动处理数据
+            linkage(field, value) {
+                const ts = this;
+                // 课程联动
+                if (field === 'course') {
+                    if (value === -1) {
+                        const index = _.findIndex(ts.filterList, {field: 'section'});
+                        ts.filterList.splice(index, 1);
+                        return;
+                    }
+                    this.filterLoading = true;
+                    getSectionFilter({
+                        filter:"{courseid: "+value+"}"
+                    }).then(res => {
+                        res=res.data;
+                        this.filterLoading = false;
+                        const index = _.findIndex(ts.filterList, {field: res.field});
+                        if (index > -1) {
+                            ts.filterList.splice(1, 1, res);
+                        } else {
+                            ts.filterList.splice(1, 0, res);
+                        }
+                    });
+                }
             },
         },
         mounted() {

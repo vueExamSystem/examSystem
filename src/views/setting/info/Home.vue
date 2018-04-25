@@ -24,7 +24,6 @@
         },
         methods: {
             handleClick(tab, event){
-                console.log('tab',tab,event);
             },
         },
         mounted() {

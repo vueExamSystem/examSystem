@@ -43,7 +43,12 @@
                     </el-table-column>
                 </el-table>
             </div>
-
+            <div class="title">
+                <!--分页-->
+                <div class="pageArea">
+                    <Page :pageNo="pageNo" :totalCount="totalCount" :pageSize="pageSize" @page-change="handleCurrentChange"></Page>
+                </div>
+            </div>
             <!--编辑界面-->
             <el-dialog title="编辑章节" :visible.sync="editFormVisible">
                 <el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">

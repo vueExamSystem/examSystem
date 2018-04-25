@@ -1,9 +1,9 @@
 <template>
     <el-tabs type="border-card" v-model="activeName">
-        <el-tab-pane label="试卷列表" name="list">
+        <el-tab-pane label="资料列表" name="list">
             <List ref="table"></List>
         </el-tab-pane>
-        <el-tab-pane label="添加试卷" name="add">
+        <el-tab-pane label="添加资料" name="add">
             <add-form @toTable="toTable"></add-form>
         </el-tab-pane>
     </el-tabs>

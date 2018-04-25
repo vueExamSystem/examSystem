@@ -148,9 +148,8 @@
                                 type: 'success',
                                 message: '删除成功'
                             });
-                            this.isNewPage = true;
                             this.pageNo = 1;
-                            this.search();
+                            this.getList();
                         }else{
                             this.$message({
                                 type: 'error',
@@ -188,8 +187,11 @@
                                 });
                                 this.$refs['copyForm'].resetFields();
                                 this.copyFormVisible = false;
-                                this.search();}
-                                else{
+                                 this.pageNo = 1;
+                                this.getList();
+                            }
+                            else{
+                                this.copyLoading = false;
                                     this.$message({
                                     message: res.msg,
                                     type: 'error'
@@ -257,7 +259,7 @@
                         res=res.data;
                         this.filterLoading = false;
                         const index = _.findIndex(ts.filterList, { field: res.field });
-                        console.log('index', index);
+                        //console.log('index', index);
                         if (index > -1) {
                             // ts.filterList[index] = res;
                             ts.filterList.splice(1, 1, res);

@@ -1,42 +1,41 @@
 <template>
     <section id="depStatistics" v-loading="allLoading">
-        <my-filter v-if="filterList.length > 0" :list="filterList" @callback="search" v-loading="filterLoading" @linkage="linkage"></my-filter>
+        <my-filter v-if="filterList.length > 0" :list="filterList" @callback="search" @callbackSelect="selectSearch" v-loading="filterLoading" @linkage="linkage"></my-filter>
         <div v-bind:class="[ showExamChart || showScoreChart ? 'noBottom' : '', 'panel' ]">
             <div class="title">
-                <span :model="getMainTitle"></span>
+                <span>{{mainTitle}}</span>
             </div>
 
             <div class="content">
-                <my-filter :list="filterListTable" :noBottomBorder="true" @callback="search"></my-filter>
+                <my-filter :list="filterListTable" :noBottomBorder="true" @callback="statChange"></my-filter>
                 <div v-if="showExamTable">
-                    <div class="title">
+                   <!--  <div class="title">
                         <el-input placeholder="请输入搜索关键词" v-model="keyword">
                             <el-button slot="append" icon="el-icon-search" @click="getList"></el-button>
                         </el-input>
                         <div class="pageArea">
                             <Page :pageNo="pageNo" :totalCount="totalCount" :pageSize="pageSize" @page-change="handleCurrentChange"></Page>
                         </div>
-
-                    </div>
+                    </div> -->
                     <!--列表-->
                     <el-table :data="rows" highlight-current-row v-loading="listLoading" style="width: 100%;">
                         <el-table-column type="index" label="ID">
                         </el-table-column>
-                        <el-table-column prop="course" label="课程" sortable>
+                        <el-table-column prop="courseName" label="课程" sortable>
                         </el-table-column>
-                        <el-table-column prop="examName" label="考试名称" sortable>
+                        <el-table-column prop="termName" label="学期" sortable>
                         </el-table-column>
-                        <el-table-column prop="class" label="班级" sortable>
+                        <el-table-column prop="studentNo" label="学号" sortable>
                         </el-table-column>
-                        <el-table-column prop="highest" label="最高分" sortable>
+                        <el-table-column prop="examScore" label="考试分数" sortable>
                         </el-table-column>
-                        <el-table-column prop="lowest" label="最低分" sortable>
+                        <el-table-column prop="testScore" label="测验分数" sortable>
                         </el-table-column>
-                        <el-table-column prop="average" label="平均分" sortable>
+                        <el-table-column prop="previewScore" label="预习分数" sortable>
                         </el-table-column>
-                        <el-table-column prop="passNum" label="及格人数" sortable>
+                        <el-table-column prop="totalScore" label="总体成绩" sortable>
                         </el-table-column>
-                        <el-table-column prop="passPercent" label="及格率" sortable>
+                        <el-table-column prop="rank" label="等级">
                         </el-table-column>
                     </el-table>
                 </div>
@@ -78,7 +77,7 @@
                     </div>
                     <div class="content chart">
                         <ul class="chart-ul clearfix">
-                            <template v-for="item in rows">
+                            <!-- <template v-for="item in rows">
                                 <li class="chart-li" :key="item.id">
                                     <div class="chart-area">
                                         <template v-if="item.id !== undefined">
@@ -94,7 +93,8 @@
                                     </ul>
                                     <div class="chart-mid">课程名称</div>
                                 </li>
-                            </template>
+                            </template> -->
+                             <chart :index="1"></chart>
                         </ul>
                     </div>
                 </div>
@@ -160,10 +160,10 @@
 
 
 
-
+                mainTitle:'',
                 filterList: [],
                 filterListTable: [
-                    {
+                   /* {
                         title: '统计',
                         field: 'statistics',
                         noAll: true,
@@ -175,7 +175,8 @@
                             value: 'score',
                             text: '成绩'
                         }]
-                    }, {
+                    },*/
+                     {
                         title: '类型',
                         field: 'type',
                         noAll: true,
@@ -196,10 +197,39 @@
                 this.pageNo = val;
                 this.getList();
             },
+            statChange(obj){
+                this.filter.type='chart';
+                //load chart data
+                 this.filter = _.assign(this.filter, obj);
+                if(this.filter.studentNo!=undefined&&this.filter.studentNo>-1){
+
+                }
+            },
             search(obj) {
+                this.rows=[];
+                //this.filter = _.assign(this.filter, obj);
+                // if(this.filter.studentNo!=undefined&&this.filter.studentNo>-1){
+                //     console.log('this.filter.studentNo',this.filter.studentNo);
+                //     this.pageNo = 1;
+                //     this.getList();
+                // }
+                this.getMainTitle();
+            },
+            selectSearch(obj){
                 this.filter = _.assign(this.filter, obj);
-                this.pageNo = 1;
-                this.getList();
+                if(this.filter.studentNo!=undefined&&this.filter.studentNo>-1){
+                    this.pageNo = 1;
+                    this.getList();
+                }
+            },
+            getMainTitle() {
+                let str = '';
+                if (this.filter) {
+                    const fil = this.filter;
+                    const list = this.filterList;
+                    str = `${u.getFilterNameByValue(list,'college',fil.college)} ${u.getFilterNameByValue(list,'course',fil.course)} ${u.getFilterNameByValue(list,'term',fil.term)}`;
+                }
+                this.mainTitle=str;
             },
             //获取列表
             getList() {
@@ -209,14 +239,14 @@
                     keyword: this.keyword,
                     pageSize: this.pageSize,
                 };
-                console.log('getlist para',para);
-                console.log('this.filter',this.filter);
+                // console.log('getlist para',para);
+                // console.log('this.filter',this.filter);
                 if (!this.allLoading) this.listLoading = true;
                 getStatisticsStudentInfo(para).then((res) => {
                     console.log('getStatisticsStudentInfo', res);
                     res = res.data;
-                    this.totalCount = res.totalCount;
-                    this.rows = res.rows;
+                    //this.totalCount = res.totalCount;
+                    this.rows = res;
 
                     if (!this.allLoading) this.listLoading = false;
                     if (this.allLoading) this.allLoading = false;
@@ -225,7 +255,6 @@
             // 获取过滤器数据
             getFilter() {
                 this.filterLoading = true;
-                this.listLoading = true;
                 getStatisticsStudentFilter({}).then((res) => {
                     res=res.data;
                     this.filterList = res;
@@ -233,16 +262,16 @@
                     // 过滤器数据增加联动判断字段
                     this.dealFilterList();
                     // get table list
-                    this.getList();
+                    //this.getList();
                 });
             },
             // 处理过滤器数据
             dealFilterList() {
-                const index = _.findIndex(this.filterList, { field: 'grade' });
+                var index = _.findIndex(this.filterList, { field: 'grade' });
                 if (index > -1) {
                     this.filterList[index].isLinkage = true;
                 }
-                const index1 = _.findIndex(this.filterList, { field: 'class' });
+                var index1 = _.findIndex(this.filterList, { field: 'class' });
                 if (index1 > -1) {
                     this.filterList[index1].isLinkage = true;
                 }
@@ -252,22 +281,27 @@
             // 联动处理数据
             linkage(field, value) {
                 const ts = this;
+                // console.log('before',this.filter.studentNo);
+                // if(ts.filter.studentNo!==undefined||ts.filter.studentNo!==-1){
+                //     ts.filter.studentNo=-1;
+                // }
+                // console.log('after',ts.filter.studentNo);
                 // 年级与班级联动
                 if (field === 'grade') {
                     if (value === -1) {
-                        const index = _.findIndex(ts.filterList, { field: 'class' });
+                        var index = _.findIndex(ts.filterList, { field: 'class' });
                         ts.filterList.splice(index, 1);
                         return;
                     }
-                    const index_grade = _.findIndex(ts.filterList, { field: 'grade' });//grade index
+                    var index_grade = _.findIndex(ts.filterList, { field: 'grade' });//grade index
                     this.filterLoading = true;
                     getStatStuClassFilter({
                         'gradeId':value//filter:"{gradeid: "+value+"}"
                     }).then(res => {
                         res=res.data;
                         this.filterLoading = false;
-                        const index = _.findIndex(ts.filterList, { field: res.field });
-                        console.log('index', index);
+                        var index = _.findIndex(ts.filterList, { field: res.field });
+                        //console.log('index', index);
                         if (index > -1) {
                             ts.filterList.splice(index_grade+1, 1, res);
                         } else {
@@ -279,30 +313,43 @@
                         // filter 对应key默认好 -1
                         ts.filter = _.assign(ts.filter,u.getDefaultFilter(ts.filterList, true));
                         // get table list
-                        ts.getList();
+                        //ts.getList();
                     });
                 }
                 // 班级与学号联动
                 if (field === 'class') {
                     if (value === -1) {
-                        const index = _.findIndex(ts.filterList, { field: 'studentNo' });
+                        
+                        var index = _.findIndex(ts.filterList, { field: 'studentNo' });
                         ts.filterList.splice(index, 1);
                         return;
                     }
-                    const index_class = _.findIndex(ts.filterList, { field: 'class' });//class index
+                    // {
+                    //     var indexNo = _.findIndex(ts.filterList, { field: 'studentNo' });
+                    //     if(indexNo>-1){
+                    //         ts.filterList.splice(indexNo, 1);
+                    //     }
+                    // }
+                    var index_class = _.findIndex(ts.filterList, { field: 'class' });//class index
+                   
                     this.filterLoading = true;
                     getStatisticsStudentList({
                         'groupId':value//filter:"{classid: "+value+"}"
                     }).then(res => {
                         res=res.data;
+
                         this.filterLoading = false;
-                        const index = _.findIndex(ts.filterList, { field: res.field });
-                        console.log('index', index);
+                        var index = _.findIndex(ts.filterList, { field: res.field });
+                        
                         if (index > -1) {
                             ts.filterList.splice(index_class+1, 1, res);
                         } else {
                             ts.filterList.splice(index_class+1, 0, res);
                         }
+                        if(ts.filter.studentNo!==undefined||ts.filter.studentNo!==-1){
+                            ts.filter.studentNo=-1;
+                        }
+                        //console.log('afterEnd',ts.filter.studentNo);
                     });
                 }
             },
@@ -313,7 +360,6 @@
                 if (this.filter) {
                     flag = this.filter.type === 'list' && this.filter.statistics === 'exam';
                 }
-                console.log(this.filter);
                 return flag;
             },
             showScoreTable() {
@@ -337,15 +383,7 @@
                 }
                 return flag;
             },
-            getMainTitle() {
-                let str = '';
-                if (this.filter) {
-                    const fil = this.filter;
-                    const list = this.filterList;
-                    str = `${u.getFilterNameByValue(list,'grade',fil.grade)}${u.getFilterNameByValue(list,'college',fil.college)}院${u.getFilterNameByValue(list,'course',fil.course)}`;
-                }
-                return str;
-            },
+            
         },
         components: {
             'Page':

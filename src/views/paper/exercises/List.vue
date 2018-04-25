@@ -59,7 +59,8 @@
                             <el-input v-model="editForm.name"></el-input>
                         </el-form-item>
                         <el-form-item label="所属课程" prop="course">
-                            <el-input v-model="editForm.course" readonly></el-input>
+                            <!-- <el-input v-model="editForm.course" readonly></el-input> -->
+                            <span>{{ editForm.course }}</span>
                         </el-form-item>
                         <el-form-item label="建议时长" prop="duration">
                             <el-input v-model="editForm.duration"></el-input>

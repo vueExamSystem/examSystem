@@ -278,6 +278,7 @@
             getStatistics(callback){ // 统计信息
                 let basePara = {
                     examId: this.id,//考试id
+                    filter:JSON.stringify(this.filter)
                 };
                 //console.log('getListentStatisticsbasePara',basePara);
                 this.stat_Loading = true;
