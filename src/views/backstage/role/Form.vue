@@ -14,14 +14,13 @@
                         label="权限"
                         prop="competence"
                         :rules="[{required: true, message: '请选择权限', trigger: 'change'}]">
-                    <el-checkbox-group v-model="form.competence">
-                    <el-checkbox
-                            v-for="item in competenceArr"
-                            :key="item.id"
-                            :label="item.name"
+                    <el-tree
+                            :data="competenceArr"
+                            show-checkbox
+                            node-key="id"
+                            :default-checked-keys="form.competence"
                     >
-                        {{item.name}}
-                    </el-checkbox></el-checkbox-group>
+                    </el-tree>
                 </el-form-item>
             </el-form>
         </div>
@@ -30,7 +29,8 @@
 </template>
 
 <script>
-    import { getCompetenceList, getRoleList,getMenuTree} from '../../../api/api'
+    import { getCompetenceList, getRoleList,getMenuTree,addDemo} from '../../../api/api';
+    import _ from 'lodash';
     export default {
         props: {
             id: {
@@ -43,7 +43,6 @@
                     competence: [],
                 },
                 competenceArr: [],
-                roleList: [],
             }
         },
         methods: {
@@ -62,23 +61,56 @@
                 let para={
                     roleId:this.id
                 };
-                getCompetenceList(para).then((res) => {
-                    this.competenceArr = res.data;
-                });
                 getMenuTree(para).then((res) => {
                     //tree data
-                    console.log('getMenuTree',res.data);
+                    this.competenceArr = res.data;
+                    _.forEach(res.data[0].children, item => {
+                        const arr = item.children;
+                        _.forEach(arr, item1 => {
+                            if (item1.isCheck) {
+                                this.form.competence.push(item1.id);
+                            }
+                        });
+                    });
                 });
-                // getRoleList().then((res) => {
-                //     if(res.data === undefined) return;
-                //     const str = res.data[this.id].competence;
-                //     const arr = str.split('，');
-                //     console.log(arr);
-                //     this.form.competence = arr;
-                // });
             },
             close() {
                 this.$emit('close');
+            },
+            onSubmit(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        this.$confirm('确认修改吗？', '提示', {}).then(() => {
+                            let para = _.assign({}, this.form);
+                            console.log(para);
+                            this.loading = true;
+                            addDemo(para).then((res) => {
+                                if (res.code !== '0') {
+                                    this.$message({
+                                        message: res.msg,
+                                        type: 'error'
+                                    });
+                                } else {
+                                    this.$message({
+                                        message: '提交成功',
+                                        type: 'success'
+                                    });
+                                    this.loading = false;
+                                    this.$refs['form'].resetFields();
+                                    this.$emit('refresh');
+                                    this.close();
+                                }
+
+                            });
+                        });
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            resetForm(formName) {
+                this.$refs[formName].resetFields();
             },
         },
         computed: {

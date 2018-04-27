@@ -31,7 +31,7 @@
             </div>
         </section>
         <section v-else>
-            <role-form :id="detailId" @close="detailClose"></role-form>
+            <role-form :id="detailId" @close="detailClose" @refresh="getList"></role-form>
         </section>
     </div>
 
