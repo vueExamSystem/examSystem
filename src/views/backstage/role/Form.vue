@@ -1,5 +1,5 @@
 <template>
-    <section class="panel" id="infoForm">
+    <section class="panel" id="infoForm" v-loading="loading">
         <div class="title">
             <span>个人信息</span>
             <div class="pull-right">
@@ -19,6 +19,7 @@
                             show-checkbox
                             node-key="id"
                             :default-checked-keys="form.competence"
+                            @check-change="treeClick"
                     >
                     </el-tree>
                 </el-form-item>
@@ -43,20 +44,10 @@
                     competence: [],
                 },
                 competenceArr: [],
+                loading: false,
             }
         },
         methods: {
-            onSubmit(formName) {
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                        alert('submit!');
-                    } else {
-                        console.log('error submit!!');
-                        return false;
-                    }
-                });
-                this.close();
-            },
             getList() {
                 let para={
                     roleId:this.id
@@ -82,7 +73,7 @@
                     if (valid) {
                         this.$confirm('确认修改吗？', '提示', {}).then(() => {
                             let para = _.assign({}, this.form);
-                            console.log(para);
+                            console.log('submit params', para);
                             this.loading = true;
                             addDemo(para).then((res) => {
                                 if (res.code !== '0') {
@@ -111,6 +102,17 @@
             },
             resetForm(formName) {
                 this.$refs[formName].resetFields();
+            },
+            treeClick(object, isCheck, hasChildren) {
+                if (!object.children) {
+                    if (isCheck) {
+                        this.form.competence.push(object.id);
+                    }
+                    if (!isCheck) {
+                        const index = (this.form.competence).indexOf(object.id);
+                        this.form.competence.splice(index, 1);
+                    }
+                }
             },
         },
         computed: {
