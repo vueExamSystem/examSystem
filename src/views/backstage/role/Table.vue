@@ -14,7 +14,7 @@
                         </el-table-column>
                         <el-table-column prop="name" label="角色" sortable>
                             <template slot-scope="scope">
-                                <el-button type="text" @click="detailShow(scope.row.id)">{{scope.row.name}}</el-button>
+                                <el-button type="text" @click="detailShow(scope.row)">{{scope.row.name}}</el-button>
                             </template>
                         </el-table-column>
                         <el-table-column prop="competence" label="权限" sortable>
@@ -31,7 +31,7 @@
             </div>
         </section>
         <section v-else>
-            <role-form :id="detailId" @close="detailClose" @refresh="getList"></role-form>
+            <role-form :id="detailId" :roleName="roleName" @close="detailClose" @refresh="getList"></role-form>
         </section>
     </div>
 
@@ -57,6 +57,7 @@
                 sels: [],//列表选中列
 
                 detailId: '',
+                roleName:''
             }
         },
         methods: {
@@ -87,9 +88,10 @@
                     //NProgress.done();
                 });
             },
-            detailShow(id) {
+            detailShow(row) {
                 //console.log('detailShow', id);
-                this.detailId = id;
+                this.detailId = row.id;
+                this.roleName=row.name;
             },
             detailClose() {
                 this.detailId = '';

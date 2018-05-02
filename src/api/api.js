@@ -219,6 +219,10 @@ export const addCourseGroup = params => { return instance.post(`${base}/back/add
 // role
 //export const getRoleList = params => { return instance.get(`${base}/role/list`, params ).then(res => res.data); };
 export const getRoleList = params => { return instance.get(`${base}/back/role/list`,  {params:params} ).then(res => res.data); };
+
+export const editRole = params => { return instance.post(`${base}/back/role/edit`,  qs.stringify(params) ).then(res => res.data); };
+
+
 // class
 export const getClassObject = params => { return instance.get(`${base}/class/detail`, params ).then(res => res.data); };
 
