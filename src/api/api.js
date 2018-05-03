@@ -278,6 +278,10 @@ export const getStatStuClassFilter = params => { return instance.get(`${base}/st
 export const getStatStuStudentNoFilter = params => { return instance.get(`${base}/stat/student/class/filter`, {params:params} ).then(res => res.data); };
 
 
+export const getStatisticsGroupInfo = params => { return instance.post(`${base}/stat/group/info`, qs.stringify(params) ).then(res => res.data); };
+
+export const getStatisticsGroupFilter = params => { return instance.get(`${base}/stat/group/filter`, {params:params} ).then(res => res.data); };
+
 
 
 

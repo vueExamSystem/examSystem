@@ -167,10 +167,10 @@ export const asyncRouterMap  = [{
             path: '/statistics',
             component: StatisticsHome,  
             name: '统计',
-            redirect: '/statistics/department',
+            redirect: '/statistics/class',
             children: [
-                { path: '/statistics/department', component: StatisticsDepartment, name: '院系统计', icon:'iconfont icon-department-larger', defaultPath: true},
-                { path: '/statistics/class', component: StatisticsClass, name: '班级统计', icon:'iconfont icon-class-larger'},
+                // { path: '/statistics/department', component: StatisticsDepartment, name: '院系统计', icon:'iconfont icon-department-larger', defaultPath: true},
+                { path: '/statistics/class', component: StatisticsClass, name: '班级统计', icon:'iconfont icon-class-larger',defaultPath: true},
                 { path: '/statistics/student', component: StatisticsStudent, name: '学生统计', icon:'iconfont icon-student-larger'}
             ]
         },
@@ -183,8 +183,8 @@ export const asyncRouterMap  = [{
                 { path: '/backstage/student', component: BackstageStudent, name: '院系管理', icon:'iconfont icon-student-larger', defaultPath: true},
                 { path: '/backstage/course', component: BackstageCourse, name: '选课管理', icon:'iconfont icon-kecheng-larger' },
                 { path: '/backstage/role', component: BackstageRole, name: '角色管理', icon:'iconfont icon-user-larger' },
-                { path: '/backstage/score', component: BackstageScore, name: '成绩管理', icon:'iconfont icon-score-larger' },
-                { path: '/backstage/competence', component: BackstageCompetence, name: '权限管理', icon:'iconfont icon-lock-larger' }
+                { path: '/backstage/score', component: BackstageScore, name: '成绩管理', icon:'iconfont icon-score-larger' }
+                //,{ path: '/backstage/competence', component: BackstageCompetence, name: '权限管理', icon:'iconfont icon-lock-larger' }
             ]
         },
         {

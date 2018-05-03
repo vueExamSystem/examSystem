@@ -75,9 +75,9 @@
                     <div class="title samll">
                         <span>大学物理</span>
                     </div>
-                    <div class="content chart">
+                   <!--  <div class="content chart">
                         <ul class="chart-ul clearfix">
-                            <!-- <template v-for="item in rows">
+                            <template v-for="item in rows">
                                 <li class="chart-li" :key="item.id">
                                     <div class="chart-area">
                                         <template v-if="item.id !== undefined">
@@ -93,16 +93,21 @@
                                     </ul>
                                     <div class="chart-mid">课程名称</div>
                                 </li>
-                            </template> -->
+                            </template>
                              <chart :index="1"></chart>
                         </ul>
-                    </div>
+                    </div> -->
+                   <div class="content chart">
+                    <template>
+                        <div id="chart" style="width:100%;height:100%"></div>
+                    </template>
+                   </div> 
                 </div>
                 <div v-if="showScoreChart" class="panel">
                     <div class="title samll">
-                        <span>大学物理</span>
+                        <span>大学物理11</span>
                     </div>
-                    <div class="content chart">
+                    <!-- <div class="content chart">
                         <ul class="chart-ul clearfix">
                             <template v-for="item in rows">
                                 <li class="chart-li" :key="item.id">
@@ -122,7 +127,7 @@
                                 </li>
                             </template>
                         </ul>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -140,7 +145,7 @@
     import myFilter from '../../common/myFilter.vue'
     import Pagination from '../../common/Pagination.vue'
     import _ from 'lodash';
-    import chart from './Echarts.vue';
+    import echarts from 'echarts';
     import u from '../../../common/js/util';
 
     export default {
@@ -158,7 +163,10 @@
                 listLoading: false,
                 allLoading: false,
 
-
+                selectType:'list',
+                chartData:'',//图表数据
+                chart: null,
+                loading: false,
 
                 mainTitle:'',
                 filterList: [],
@@ -198,11 +206,17 @@
                 this.getList();
             },
             statChange(obj){
-                this.filter.type='chart';
+                console.log('obj',obj);
+                this.selectType=obj.type;
+                this.filter.type=obj.type;
+                /*this.filter.type='chart';
                 //load chart data
                  this.filter = _.assign(this.filter, obj);
                 if(this.filter.studentNo!=undefined&&this.filter.studentNo>-1){
 
+                }*/
+                if(this.selectType==='chart'){
+                    this.drawCharts();
                 }
             },
             search(obj) {
@@ -231,6 +245,111 @@
                 }
                 this.mainTitle=str;
             },
+            drawCharts() {
+                let chartData = this.chartData;
+                console.log('chartData',chartData);
+                if(chartData===undefined||chartData===''){
+                    chartData.xData=[];
+                    chartData.totalScore=[];
+                    chartData.examScore=[];
+                    chartData.testScore=[];
+                    chartData.previewScore=[];
+                }
+                console.log(document.getElementById('chart'));//如果页面没有加载完毕 这是null 后面执行错误
+                this.chart = echarts.init(document.getElementById('chart'));
+                this.chart.setOption({
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                            type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                        }
+                    },
+                    legend: {
+                        data: ['成绩', '考试', '测验', '预习'],
+                        itemWidth: 20,
+                        borderRadius: 6,
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: [
+                        {
+                            type: 'category',
+                            //data : ['课程1','课程2','课程3'],//xData
+                            data: chartData.xData,
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            type: 'value'
+                        }
+                    ],
+                    series: [
+                        {
+                            name: '成绩',
+                            type: 'bar',
+                            stack: '搜索引擎',
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'inside',
+                                    formatter: '{c}'
+                                },
+                            },
+                            //data:[80, 8, 8, 8, 8, 8, 8]//totalScore
+                            data: chartData.totalScore
+                        },
+                        {
+                            name: '考试',
+                            type: 'bar',
+                            stack: '搜索引擎',
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'inside',
+                                    formatter: '{c}'
+                                },
+                            },
+                            data: chartData.examScore,
+                            //data:[30, 30, 30, 30, 30, 30, 30]//examScore
+                        },
+                        {
+                            name: '测验',
+                            type: 'bar',
+                            stack: '搜索引擎',
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'inside',
+                                    formatter: '{c}'
+                                },
+                            },
+                            //data:[54, 54, 54, 54, 54, 54, 54],//testScore
+                            data: chartData.testScore,
+                        },
+                        {
+                            name: '预习',
+                            type: 'bar',
+                            stack: '搜索引擎',
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'inside',
+                                    formatter: '{c}'
+                                },
+                            },
+                            //data:[8, 8, 8, 8, 8, 8, 8],//previewScore
+                            data: chartData.previewScore,
+                        }
+                    ],
+                    color: ['#87BFBC','#AEE2AD',
+                            '#F8D39A','#EB8B87']
+                });
+
+            },
             //获取列表
             getList() {
                 let para = {
@@ -243,13 +362,16 @@
                 // console.log('this.filter',this.filter);
                 if (!this.allLoading) this.listLoading = true;
                 getStatisticsStudentInfo(para).then((res) => {
-                    console.log('getStatisticsStudentInfo', res);
+                    //console.log('getStatisticsStudentInfo', res);
                     res = res.data;
                     //this.totalCount = res.totalCount;
-                    this.rows = res;
-
+                    this.rows = res.list;
+                    this.chartData=res.chart;
                     if (!this.allLoading) this.listLoading = false;
                     if (this.allLoading) this.allLoading = false;
+                    if(this.selectType==='chart'){
+                    this.drawCharts();
+                    }
                 });
             },
             // 获取过滤器数据
@@ -374,6 +496,7 @@
                 if (this.filter) {
                     flag = this.filter.type === 'chart' && this.filter.statistics === 'exam';
                 }
+                console.log('showExamChart',flag);
                 return flag;
             },
             showScoreChart() {
@@ -388,8 +511,7 @@
         components: {
             'Page':
             Pagination,
-            myFilter,
-            chart,
+            myFilter
         },
         mounted() {
             this.getFilter();

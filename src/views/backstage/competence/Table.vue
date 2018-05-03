@@ -78,14 +78,14 @@
                     name: this.filters.name,
                     pageSize: this.pageSize
                 };
-                this.listLoading = true;
+                /*this.listLoading = true;
                 //NProgress.start();
                 getSetAlertList(para).then((res) => {
                     this.total = res.data.total;
                     this.list = res.data.list;
                     this.listLoading = false;
                     //NProgress.done();
-                });
+                });*/
             },
         },
         components: {
