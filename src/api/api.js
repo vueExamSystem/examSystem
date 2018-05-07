@@ -161,7 +161,7 @@ export const getClassTestDetailList = params => { return instance.get(`${base}/c
 * */
 
 // log
-export const getSetLogList = params => { return instance.get(`${base}/log/list`, params ).then(res => res.data); };
+export const getLoginList = params => { return instance.get(`${base}/back/login/list`, {params:params} ).then(res => res.data); };
 
 // alert
 export const getSetAlertList = params => { return instance.get(`${base}/alert/list`, params ).then(res => res.data); };
