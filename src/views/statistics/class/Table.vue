@@ -216,7 +216,8 @@
 
                 }*/
                 if(this.selectType==='chart'){
-                    this.drawCharts();
+                    setTimeout(this.drawCharts, 100);
+                    // this.drawCharts();
                 }
             },
             search(obj) {
@@ -258,98 +259,101 @@
                     chartData.previewScore=[];
                 }
                 console.log(document.getElementById('chart'));//如果页面没有加载完毕 这是null 后面执行错误
-                this.chart = echarts.init(document.getElementById('chart'));
-                this.chart.setOption({
-                    tooltip: {
-                        trigger: 'axis',
-                        axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-                            type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-                        }
-                    },
-                    legend: {
-                        data: chartData.xData,//['成绩', '考试', '测验', '预习'],
-                        itemWidth: 20,
-                        borderRadius: 6,
-                    },
-                    grid: {
-                        left: '3%',
-                        right: '4%',
-                        bottom: '3%',
-                        containLabel: true
-                    },
-                    xAxis: [
-                        {
-                            type: 'category',
-                            //data : ['课程1','课程2','课程3'],//xData
-                            data: chartData.xData,
-                        }
-                    ],
-                    yAxis: [
-                        {
-                            type: 'value'
-                        }
-                    ],
-                    series: [
-                        {
-                            name: '成绩',
-                            type: 'bar',
-                            stack: '搜索引擎',
-                            label: {
-                                normal: {
-                                    show: true,
-                                    position: 'inside',
-                                    formatter: '{c}'
-                                },
-                            },
-                            //data:[80, 8, 8, 8, 8, 8, 8]//totalScore
-                            data: chartData.totalScore
+                if (document.getElementById('chart')) {
+                    this.chart = echarts.init(document.getElementById('chart'));
+                    this.chart.setOption({
+                        tooltip: {
+                            trigger: 'axis',
+                            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                                type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                            }
                         },
-                        {
-                            name: '考试',
-                            type: 'bar',
-                            stack: '搜索引擎',
-                            label: {
-                                normal: {
-                                    show: true,
-                                    position: 'inside',
-                                    formatter: '{c}'
-                                },
-                            },
-                            data: chartData.examScore,
-                            //data:[30, 30, 30, 30, 30, 30, 30]//examScore
+                        legend: {
+                            data: chartData.xData,//['成绩', '考试', '测验', '预习'],
+                            itemWidth: 20,
+                            borderRadius: 6,
                         },
-                        {
-                            name: '测验',
-                            type: 'bar',
-                            stack: '搜索引擎',
-                            label: {
-                                normal: {
-                                    show: true,
-                                    position: 'inside',
-                                    formatter: '{c}'
-                                },
-                            },
-                            //data:[54, 54, 54, 54, 54, 54, 54],//testScore
-                            data: chartData.testScore,
+                        grid: {
+                            left: '3%',
+                            right: '4%',
+                            bottom: '3%',
+                            containLabel: true
                         },
-                        {
-                            name: '预习',
-                            type: 'bar',
-                            stack: '搜索引擎',
-                            label: {
-                                normal: {
-                                    show: true,
-                                    position: 'inside',
-                                    formatter: '{c}'
+                        xAxis: [
+                            {
+                                type: 'category',
+                                //data : ['课程1','课程2','课程3'],//xData
+                                data: chartData.xData,
+                            }
+                        ],
+                        yAxis: [
+                            {
+                                type: 'value'
+                            }
+                        ],
+                        series: [
+                            {
+                                name: '成绩',
+                                type: 'bar',
+                                stack: '搜索引擎',
+                                label: {
+                                    normal: {
+                                        show: true,
+                                        position: 'inside',
+                                        formatter: '{c}'
+                                    },
                                 },
+                                //data:[80, 8, 8, 8, 8, 8, 8]//totalScore
+                                data: chartData.totalScore
                             },
-                            //data:[8, 8, 8, 8, 8, 8, 8],//previewScore
-                            data: chartData.previewScore,
-                        }
-                    ],
-                    color: ['#87BFBC','#AEE2AD',
+                            {
+                                name: '考试',
+                                type: 'bar',
+                                stack: '搜索引擎',
+                                label: {
+                                    normal: {
+                                        show: true,
+                                        position: 'inside',
+                                        formatter: '{c}'
+                                    },
+                                },
+                                data: chartData.examScore,
+                                //data:[30, 30, 30, 30, 30, 30, 30]//examScore
+                            },
+                            {
+                                name: '测验',
+                                type: 'bar',
+                                stack: '搜索引擎',
+                                label: {
+                                    normal: {
+                                        show: true,
+                                        position: 'inside',
+                                        formatter: '{c}'
+                                    },
+                                },
+                                //data:[54, 54, 54, 54, 54, 54, 54],//testScore
+                                data: chartData.testScore,
+                            },
+                            {
+                                name: '预习',
+                                type: 'bar',
+                                stack: '搜索引擎',
+                                label: {
+                                    normal: {
+                                        show: true,
+                                        position: 'inside',
+                                        formatter: '{c}'
+                                    },
+                                },
+                                //data:[8, 8, 8, 8, 8, 8, 8],//previewScore
+                                data: chartData.previewScore,
+                            }
+                        ],
+                        color: ['#87BFBC','#AEE2AD',
                             '#F8D39A','#EB8B87']
-                });
+                    });
+
+                }
 
             },
             //获取列表
