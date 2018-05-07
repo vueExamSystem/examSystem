@@ -267,7 +267,7 @@
                         }
                     },
                     legend: {
-                        data: ['成绩', '考试', '测验', '预习'],
+                        data: chartData.xData,//['成绩', '考试', '测验', '预习'],
                         itemWidth: 20,
                         borderRadius: 6,
                     },

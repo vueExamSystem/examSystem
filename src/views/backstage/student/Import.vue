@@ -11,12 +11,15 @@
 		<div class="content">
 			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
 				<el-form-item label="下载模版:" prop="download">
-					<el-button type="primary" icon="iconfont icon-arrow-down">点击下载</el-button>
+					<el-button type="primary" icon="iconfont icon-arrow-down" @click="download()">点击下载</el-button>
 				</el-form-item>
+				<!-- <a href="/static/excels/学生导入模板.xlsx" download="w3logo"> -->
 				<el-form-item label="上传文件:" prop="upload">
 					<el-upload
 							class="upload-demo"
-							:action="uploadSource"
+							:action="UploadUrl('import')"
+							:before-upload="beforeUpload"
+             				:onSuccess="uploadSuccess"
 							:on-preview="handlePreview"
 							:on-remove="handleRemove"
 							:file-list="ruleForm.upload"
@@ -35,13 +38,15 @@
 	import {
         getCourseList,
 	} from '../../../api/api';
+	import store from '../../../vuex/store';
+	import axios from 'axios';
 	export default {
 		data() {
 			return {
                 ruleForm: {
                     course: '',
                     usage: '0',
-                    download: '',
+                    download: '/static/excels/学生导入模板.xlsx',
                     upload: [],
                 },
                 rules: {
@@ -53,7 +58,8 @@
                     ],
                 },
 				// 上传文件的路径
-				uploadSource: 'https://jsonplaceholder.typicode.com/posts/',
+				//uploadSource: 'http://localhost:8081/api/back/import',
+				uploadSource: 'http://121.43.164.178:8081/api/back/import',
 				// 默认数据
 				usageArr: [{
                     id: '0',
@@ -69,6 +75,44 @@
 			}
 		},
 		methods: {
+			UploadUrl: function (url) {
+                return 'http://localhost:8081/api/back/' + url;
+                // return 'http://121.43.164.178:8081/api/back/' + url;
+            },
+            // 上传题目图片成功后的回调
+            uploadSuccess(res, file, fileList) {
+                console.log('上传文件', res);
+                //记住返回的文件存储的相对路径
+            },
+            beforeUpload (file) {
+			    let fd = new window.FormData();
+			    fd.append('key', file, 'fileName');
+			    
+			    let config = {
+        			headers: {'Content-Type': 'multipart/form-data',
+        					  'authorization':`${store.state.token}`	
+        					  }
+      				}
+      				//console.log('headers',config);
+			     // 添加请求头
+			    axios.post(this.uploadSource, fd, config)
+			        .then(response => {
+			        	let res=response.data
+			          if (res.code === 0) {
+			          	this.$message({
+		                  type: 'success',
+		                  message: '上传Excel成功！',
+		                });
+			             
+			          }else{
+			          	this.$message({
+			                  message: res.msg,
+			                  type: 'error'
+			                });
+			          }
+			        });
+			    return false; // 返回false不会自动上传
+			},
             onSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
@@ -82,6 +126,12 @@
             resetForm(formName) {
                 this.$refs[formName].resetFields();
             },
+            download(){
+			let link = document.createElement('a');
+            link.href = '/static/excels/学生导入模板.xls';
+            link.download = '学生导入模板.xls';
+            link.click();
+            },
 			// 获取初始数据
 			getDefaultData() {
                 getCourseList({}).then((res) => {
@@ -91,10 +141,10 @@
 			},
 			// 上传文件相关
 			handleRemove(file, fileList) {
-                console.log(file, fileList);
+                //console.log(file, fileList);
             },
             handlePreview(file) {
-                console.log(file);
+                //console.log(file);
             },
             selectAddFunc() {
                 this.selectNum = this.selectNum + 1;

@@ -8,7 +8,7 @@
 
                 <!--分页-->
                 <div class="pageArea">
-                    <Page current="1" total="23" pageSize="5" @page-change="handleCurrentChange"></Page>
+                     <Page :pageNo="pageNo" :totalCount="totalCount" :pageSize="pageSize" @page-change="handleCurrentChange"></Page>
                 </div>
 
             </div>
@@ -16,17 +16,19 @@
             <div class="content">
                 <!--列表-->
                 <el-table
-                        :data="list"
+                        :data="rows"
                         highlight-current-row
                         v-loading="listLoading"
                         style="width: 100%;">
                     <el-table-column type="index" label="ID" sortable>
                     </el-table-column>
-                    <el-table-column prop="account" label="帐号" sortable>
+                    <el-table-column prop="userName" label="帐号" sortable>
                     </el-table-column>
-                    <el-table-column prop="time" label="登录时间" sortable>
+                    <el-table-column prop="loginTime" label="登录时间" sortable>
                     </el-table-column>
-                    <el-table-column prop="state" label="状态" sortable>
+                     <el-table-column prop="loginIp" label="登录IP" sortable>
+                    </el-table-column>
+                    <el-table-column prop="deviceCode" label="登录指纹码" sortable>
                     </el-table-column>
                 </el-table>
             </div>
@@ -35,17 +37,17 @@
 </template>
 
 <script>
-    import {getSetLogList} from '../../../api/api';
+    import {getLoginList} from '../../../api/api';
     import Pagination from '../../common/Pagination.vue'
 
     export default {
         data() {
             return {
                 keyword: '',
-                list: [],
-                total: 0,
-                page: 1,
-                pageSize: 5,
+                rows: [],
+                totalCount: 0,
+                pageNo: 1,
+                pageSize: 20,
                 listLoading: false,
 
             }
@@ -55,24 +57,26 @@
                 console.log(val);
             },
             handleCurrentChange(val) {
-                this.page = val;
+                this.pageNo = val;
                 this.getList();
             },
-            search() {},
+            search() {
+                this.pageNo = 1;
+                this.getList();
+            },
             //获取用户列表
             getList() {
                 let para = {
-                    page: this.page,
-                    pageSize: this.pageSize
+                    pageNo: this.pageNo,
+                    pageSize: this.pageSize,
+                    keyword: this.keyword,
                 };
                 this.listLoading = true;
-                //NProgress.start();
-                getSetLogList(para).then((res) => {
-                    console.log('res', res);
-                    this.total = res.data.total;
-                    this.list = res.data.list;
+                getLoginList(para).then((res) => {
+                    //console.log('res', res);
+                    this.totalCount = res.data.totalCount;
+                    this.rows = res.data.rows;
                     this.listLoading = false;
-                    //NProgress.done();
                 });
             },
         },
