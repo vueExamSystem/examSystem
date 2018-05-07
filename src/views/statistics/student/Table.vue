@@ -216,7 +216,7 @@
 
                 }*/
                 if(this.selectType==='chart'){
-                    this.drawCharts();
+                   setTimeout(this.drawCharts, 100);
                 }
             },
             search(obj) {
@@ -247,7 +247,7 @@
             },
             drawCharts() {
                 let chartData = this.chartData;
-                console.log('chartData',chartData);
+                //console.log('chartData',chartData);
                 if(chartData===undefined||chartData===''){
                     chartData.xData=[];
                     chartData.totalScore=[];
@@ -255,7 +255,8 @@
                     chartData.testScore=[];
                     chartData.previewScore=[];
                 }
-                console.log(document.getElementById('chart'));//如果页面没有加载完毕 这是null 后面执行错误
+                //console.log(document.getElementById('chart'));//如果页面没有加载完毕 这是null 后面执行错误
+                if (document.getElementById('chart')) {
                 this.chart = echarts.init(document.getElementById('chart'));
                 this.chart.setOption({
                     tooltip: {
@@ -348,7 +349,7 @@
                     color: ['#87BFBC','#AEE2AD',
                             '#F8D39A','#EB8B87']
                 });
-
+                }
             },
             //获取列表
             getList() {
@@ -496,7 +497,6 @@
                 if (this.filter) {
                     flag = this.filter.type === 'chart' && this.filter.statistics === 'exam';
                 }
-                console.log('showExamChart',flag);
                 return flag;
             },
             showScoreChart() {

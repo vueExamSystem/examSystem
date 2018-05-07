@@ -466,7 +466,6 @@
                 if (this.filter) {
                     flag = this.filter.type === 'chart' && this.filter.statistics === 'exam';
                 }
-                console.log('showExamChart',flag);
                 return flag;
             },
             showScoreChart() {
