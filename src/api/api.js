@@ -409,6 +409,9 @@ export const updateAbnormal = params => { return instance.post(`${base}/listen/a
 * */
 //考试过滤器
 export const getExamFilter = params => { return instance.post(`${base}/exam/filter`, qs.stringify(params) ).then(res => res.data);};
+
+export const getExamQueryFilter = params => { return instance.post(`${base}/exam/queryfilter`, qs.stringify(params) ).then(res => res.data);};
+
 //考试列表
 export const getExamList = params => { return instance.post(`${base}/exam/list`, qs.stringify(params) ).then(res => res.data);};
 // 编辑考试
@@ -434,6 +437,8 @@ export const publishExam = params => { return instance.post(`${base}/exam/publis
 //随堂测验 发布
 export const getLessonQuizFilter = params => { return instance.post(`${base}/lesson/quiz/filter`, qs.stringify(params) ).then(res => res.data);};
 
+export const getLessonQuizQueryFilter = params => { return instance.post(`${base}/lesson/quiz/queryfilter`, qs.stringify(params) ).then(res => res.data);};
+
 export const getLessonQuizList = params => { return instance.post(`${base}/lesson/quiz/list`, qs.stringify(params) ).then(res => res.data);};
 
 export const addLessonQuiz = params => { return instance.post(`${base}/lesson/quiz/add`, qs.stringify(params) ).then(res => res.data); };
@@ -445,6 +450,8 @@ export const getSections=params => { return instance.post(`${base}/chapter/secti
 
 
 //练习题 发布
+export const getLessonTrainQueryFilter = params => { return instance.post(`${base}/lesson/train/queryfilter`, qs.stringify(params) ).then(res => res.data);};
+
 export const getLessonTrainFilter = params => { return instance.post(`${base}/lesson/train/filter`, qs.stringify(params) ).then(res => res.data);};
 
 export const getLessonTrainList = params => { return instance.post(`${base}/lesson/train/list`, qs.stringify(params) ).then(res => res.data);};

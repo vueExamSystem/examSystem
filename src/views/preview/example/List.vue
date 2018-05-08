@@ -76,7 +76,7 @@
 <script>
     import myFilter from '../../common/myFilter.vue'
     import { 
-        getLessonTrainFilter, 
+        getLessonTrainQueryFilter, 
         getLessonTrainList
     } from '../../../api/api';
     import Pagination from '../../common/Pagination.vue';
@@ -151,7 +151,7 @@
                 this.getList();
             },
             cancelEdit(){//取消编辑
-                this.ditFormVisible = false; 
+                this.editFormVisible = false; 
                 this.formObj = {};
                 this.minuteTimeClockRun();
             },
@@ -205,7 +205,7 @@
             // 获取过滤器数据
             getFilter() {
                 this.allLoading = true;
-                getLessonTrainFilter({}).then((res) => {
+                getLessonTrainQueryFilter({}).then((res) => {
                     this.filterList = res.data;
                     this.getList();
                 });

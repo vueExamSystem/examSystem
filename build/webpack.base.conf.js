@@ -23,6 +23,7 @@ module.exports = {
     alias: {
         'vue$': 'vue/dist/vue.esm.js',
         '@': resolve('src'),
+        'vendor': path.resolve(__dirname, '../src/vendor'),
         'jquery': path.resolve(__dirname, '../node_modules/jquery/src/jquery'),
         '_': path.resolve(__dirname, '../node_modules/lodash'),
         'scss_vars': '@/styles/vars.scss'

@@ -4,6 +4,7 @@
         <div v-bind:class="[ showExamChart || showScoreChart ? 'noBottom' : '', 'panel' ]">
             <div class="title">
                 <span>{{mainTitle}}</span>
+                <el-button type="success" @click="export2Excel()" class="el-button-shadow">导出</el-button>
             </div>
 
             <div class="content">
@@ -201,6 +202,19 @@
             }
         },
         methods: {
+            formatJson(filterVal, jsonData) {
+        　　　　return jsonData.map(v => filterVal.map(j => v[j]))
+        　　},
+            export2Excel() {
+        　　　　require.ensure([], () => {
+        　　　　　　const { export_json_to_excel } = require('../../../vendor/Export2Excel');
+        　　　　　　const tHeader = ['课程','学期','学号','考试分数','测验分数','预习分数','总体成绩','等级'];
+        　　　　　　const filterVal = ['courseName', 'termName', 'studentNo', 'examScore', 'testScore', 'previewScore','totalScore','rank' ];
+        　　　　　　const list = this.rows;
+        　　　　　　const data = this.formatJson(filterVal, list);
+        　　　　　　export_json_to_excel(tHeader, data, this.mainTitle);
+        　　　　})
+        　 },
             handleCurrentChange(val) {
                 this.pageNo = val;
                 this.getList();
@@ -364,7 +378,7 @@
                     keyword: this.keyword,
                     pageSize: this.pageSize,
                 };
-                console.log('getlist para',para);
+                //console.log('getlist para',para);
                 if (!this.allLoading) this.listLoading = true;
                 getStatisticsGroupInfo(para).then((res) => {
                     //console.log('getStatisticsGroupInfo', res);

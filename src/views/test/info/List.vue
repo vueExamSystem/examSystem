@@ -76,7 +76,7 @@
 <script>
     import myFilter from '../../common/myFilter.vue'
     import { 
-        getLessonQuizFilter, 
+        getLessonQuizQueryFilter, 
         getLessonQuizList
     } from '../../../api/api';
     import Pagination from '../../common/Pagination.vue';
@@ -205,7 +205,7 @@
             // 获取过滤器数据
             getFilter() {
                 this.allLoading = true;
-                getLessonQuizFilter({}).then((res) => {
+                getLessonQuizQueryFilter({}).then((res) => {
                     this.filterList = res.data;
                     this.getList();
                 });
