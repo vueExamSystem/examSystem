@@ -10,8 +10,8 @@
 			</div>
 			<div class="content">
 				<el-form ref="form" :model="form" :rules="rules" v-loading="loading"
-						 label-width="110px" :inline-message="isInlineMessage" @submit.prevent="onSubmit">
-					<el-form-item label="选择年级：" prop="grade">
+						 label-width="150px" :inline-message="isInlineMessage" @submit.prevent="onSubmit">
+					<!-- <el-form-item label="选择年级：" prop="grade">
 						<el-select v-model="form.test" placeholder="请选择年级">
 							<template v-for="item in defaultInfo.gradeArr">
 								<el-option :label="item.name" :value="item.id" :key="item.id"></el-option>
@@ -24,15 +24,15 @@
 								<el-option :label="item.name" :value="item.id" :key="item.id"></el-option>
 							</template>
 						</el-select>
+					</el-form-item> -->
+					<el-form-item label="预习分数百分比：" prop="preview">
+						<el-input class="point" v-model="form.preview"></el-input> %
 					</el-form-item>
-					<el-form-item label="预习分数：" prop="prepare">
-						<el-input class="point" v-model="form.name"></el-input> %
+					<el-form-item label="测验分数百分比：" prop="test">
+						<el-input class="point" v-model="form.test"></el-input> %
 					</el-form-item>
-					<el-form-item label="测验分数：" prop="test">
-						<el-input class="point" v-model="form.name"></el-input> %
-					</el-form-item>
-					<el-form-item label="考试分数：" prop="exam">
-						<el-input class="point" v-model="form.name"></el-input> %
+					<el-form-item label="考试分数百分比：" prop="exam">
+						<el-input class="point" v-model="form.exam"></el-input> %
 					</el-form-item>
 					<span class="tip">*三部分百分比之和必须=100%</span>
 				</el-form>
@@ -42,8 +42,8 @@
 </template>
 <script>
     import {
-        getScoreAddInfo,
-        addDemo,
+        getScoreSetConfig,
+        updateScoreSetConfig,
     } from '../../../api/api';
     import _ from 'lodash';
 	export default {
@@ -52,37 +52,31 @@
 			return {
 				isInlineMessage: true,
 				form: {
-                    course: '',
-                    grade: '',
-                    prepare: '',
+                    preview: '',
                     test: '',
                     exam: '',
 				},
 				rules:{
-                    course:[
+                    /*course:[
 						{required: true, message: '请选择课程', trigger:'change'}
 					],
 					grade: [
 						{required: true, message: '请选择年级', trigger:'change'}
-					],
-                    prepare: [
-                        {required: true, message: '请输入预习分数', trigger:'change'},
+					],*/
+                    preview: [
+                        {required: true, message: '请输入预习分数百分比', trigger:'change'},
                         {pattern: integerPattern, message: '请输入整数', trigger: 'change'}
                     ],
                     test: [
-                        {required: true, message: '请输入测验分数', trigger:'change'},
+                        {required: true, message: '请输入测验分数百分比', trigger:'change'},
                         {pattern: integerPattern, message: '请输入整数', trigger: 'change'}
                     ],
                     exam: [
-                        {required: true, message: '请输入考试分数', trigger:'change'},
+                        {required: true, message: '请输入考试分数百分比', trigger:'change'},
                         {pattern: integerPattern, message: '请输入整数', trigger: 'change'}
                     ],
 				},
                 loading: false,
-                defaultInfo: {
-                    courseArr: [],
-                    gradeArr: [],
-                },
 			}
 		},
 		computed:{
@@ -92,28 +86,33 @@
             onSubmit(formName, flag) {
                 this.$refs[formName].validate((isValid) => {
                     if (isValid) {
-                        this.$confirm('确认保存吗？', '提示', {}).then(() => {
-                            let para = _.assign({}, this.form);
-                            this.loading = true;
-                            addDemo(para).then((res) => {
-                                if (res.code !== '0') {
-                                    this.$message({
-                                        message: res.msg,
+                         let para = _.assign({}, this.form);
+                            if(Number(para.preview)+Number(para.test)+Number(para.exam)!==100){
+                                this.$message({
+                                        message: "三部分百分比之和必须=100%!",
                                         type: 'error'
                                     });
-                                } else {
-                                    this.$message({
-                                        message: '保存成功',
-                                        type: 'success'
-                                    });
-                                    this.loading = false;
-                                    this.$refs['form'].resetFields();
-                                    // this.$emit('toTable');
-                                }
+                            }else{
+                            this.$confirm('确认保存吗？', '提示', {}).then(() => {
+                                this.loading = true;
+                                updateScoreSetConfig(para).then((res) => {
+                                    if (res.code !== 0) {
+                                        this.$message({
+                                            message: res.msg,
+                                            type: 'error'
+                                        });
+                                    } else {
+                                        this.$message({
+                                            message: '保存成功',
+                                            type: 'success'
+                                        });
+                                        this.loading = false;
+                                        //this.$refs['form'].resetFields();
+                                    }
 
+                                });
                             });
-                        });
-                    } else {
+                    }} else {
                         return false;
                     }
                 });
@@ -122,9 +121,8 @@
                 this.$refs[formName].resetFields();
             },
             getDefaultData() {
-                getScoreAddInfo({}).then(res => {
-                    this.defaultInfo = res.data;
-                    console.log(res);
+                getScoreSetConfig({}).then(res => {
+                    this.form=res.data;
                     this.$forceUpdate();
                 });
             },

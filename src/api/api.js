@@ -185,6 +185,10 @@ export const judgeOne= params => { return instance.post(`${base}/score/judgeOne`
 export const judgeBatch= params => { return instance.post(`${base}/score/batchJudge`, qs.stringify(params)  ).then(res => res.data); };
 
 export const getStudentTotalScoreList = params => { return instance.post(`${base}/score/total/list`, qs.stringify(params)  ).then(res => res.data); };
+
+export const getScoreSetConfig = params => { return instance.get(`${base}/score/percentConfig`, {params:params}  ).then(res => res.data); };
+
+export const updateScoreSetConfig = params => { return instance.post(`${base}/score/percentConfig/update`, qs.stringify(params)  ).then(res => res.data); };
 /*
 *  后台 start
 * */
