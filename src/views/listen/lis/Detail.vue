@@ -3,6 +3,7 @@
 		<div class="title">
 			<span>{{name}}（{{remainTime(endtime)}}）</span>
 			<div class="pull-right">
+                <el-button type="success" @click="onListen" class="el-button-shadow">监听</el-button>
                 <el-button type="success" @click="onRefresh" class="el-button-shadow">刷新</el-button>
 				<el-button type="danger" class="el-button-shadow" @click="close">关闭</el-button>
 			</div>
@@ -75,7 +76,7 @@
 	                </el-table>
 				</div>
 			</div>
-			<!-- <div class="panel inner-panel" style="margin-top: 20px;">
+			<div class="panel inner-panel" style="margin-top: 20px;">
 				<div class="title">
 					<span>异常列表</span>
 					<div class="pageArea">
@@ -87,31 +88,45 @@
 				</div>
 				<div class="content">
 					<el-table :data="abnormalRows" highlight-current-row v-loading="abn_Loading" fit>
-	                    <el-table-column type="index" label="序号" width="120">
+	                    <el-table-column type="index" label="序号" width="100">
 	                    </el-table-column>
-	                    <el-table-column prop="abnTime" label="时间" min-width="120"></el-table-column>
-	                    <el-table-column prop="abnEvent" label="事件" min-width="200">
-	                    	<template scope="scope">
-	                    		<span>{{scope.row.studentName}}（{{scope.row.studentNo}}） {{scope.row.abnEvent}}</span>
-	                    	</template>
+	                    <el-table-column prop="createTime" label="发现时间" min-width="160"></el-table-column>
+                        <el-table-column prop="keyInfo" label="关键信息" min-width="220">
+                        </el-table-column>
+	                    <el-table-column prop="mark" label="事件" min-width="200">
 	                    </el-table-column>
-	                    <el-table-column prop="id" label="操作" min-width="160">
+                        <el-table-column prop="userNos" label="关联帐号" min-width="220">
+                        </el-table-column>
+                         <el-table-column prop="devices" label="关联设备" min-width="220">
+                        </el-table-column>
+                        <el-table-column prop="status" label="状态" min-width="100">
+                            <template scope="scope">
+                             <div v-if="scope.row.status==1">
+                                强制下线
+                             </div>
+                             <div v-else-if="scope.row.status==2">
+                                终止考试
+                             </div>
+                             <div v-else>未处理</div>
+                            </template>
+                        </el-table-column>
+	                    <el-table-column prop="id" label="操作" min-width="220">
 	                    	<template scope="scope">
-	                            <el-button type="primary" plain disabled v-if="scope.row.isOutline">已强制下线</el-button>
-	                            <el-button type="primary" v-else @click="forceToOutline(scope.row)">强制下线</el-button>
-	                            <el-button type="danger" plain disabled v-if="scope.row.isCheap">已作弊处理</el-button>
-	                            <el-button type="danger" v-else @click="signIncheap(scope.row)">作弊处理</el-button>
+	                            <el-button type="primary" @click="forceToOutline(scope.row)">强制下线</el-button>
+	                            <el-button type="danger" :disabled="scope.row.status==2"  @click="signIncheap(scope.row)">终止考试</el-button>
+                                <el-button type="primary" @click="reset(scope.row)">恢复</el-button>
 	                        </template>
 	                    </el-table-column>
 	                </el-table>
 				</div>
-			</div> -->
+			</div>
 		</div>
 	</div>
 </template>
 <script>
 	import myFilter from '../../common/myFilter.vue'
     import { //api
+        onListenExam,
     	getListenDetailFilter, //过滤器
     	getListentStatistics, //百分比数据（保留两位）
     	getListenDetailList, //考试人员列表
@@ -178,6 +193,26 @@
             onRefresh() {
                 this.getList();
             },
+            onListen(){
+                var para = {
+                    examId: this.id //考试id
+                };
+                onListenExam(para).then(
+                    (res)=>{
+
+                        if(res.code===0){
+                            this.$message({
+                                type: 'success',
+                                message: '开启监听成功',
+                            });
+                        }else{
+                             this.$message({
+                                type: 'error',
+                                message: res.msg,
+                            });
+                        }
+                    });
+            },
             search(obj) {//filter回调
                 this.filter = obj;
                 this.stu_pageNo = 1;
@@ -191,23 +226,29 @@
             		examId: this.id //考试id
             	};
                 
-                getListenDetailFilter(para).then((res) => {
+            getListenDetailFilter(para).then((res) => {
                     this.filterList = res.data;
                     this.filterLoading = false;
                     this.getList();
                 });
             },
+            callback(){
+                if(!this.stat_Loading && !this.stu_Loading && !this.abn_Loading) {
+                    this.minuteTimeClockRun();//分计时器启动
+                    if(this.allLoading) this.allLoading = false;
+                  }
+            },
             getList() {//获取列表
         		this.clearMinuteClock();
-            	var callback = ()=>{
+            	/*var callback = ()=>{
                     if(!this.stat_Loading && !this.stu_Loading && !this.abn_Loading) {
             			this.minuteTimeClockRun();//分计时器启动
             			if(this.allLoading) this.allLoading = false;
                     }
-            	};
-            	this.getStatistics(callback); // 统计信息
-            	this.getStudent(callback); //考试人员列表
-            	this.getAbnormal(callback); // 异常列表
+            	};*/
+            	this.getStatistics(this.callback); // 统计信息
+            	this.getStudent(this.callback); //考试人员列表
+            	this.getAbnormal(this.callback); // 异常列表
             },
             studentPageChange(val) {//考试人员分页回调
                 this.stu_pageNo = val;
@@ -222,20 +263,21 @@
                     confirmButtonText: '强制下线'
                 }).then(res => {
 	            	var para = {
-	            		id: row.id, //异常记录id
-	            		type: 'outline'
-	            	};
+                        id:row.id,
+                        kind:'outline'
+                    };
 	            	updateAbnormal(para).then(res => {
 	            		if(res.code == '0'){
 	            			this.$message({
 	            				type: 'success',
-	            				message: '账号 ' + row.studentNo + ' 已强制下线',
+                                message:'处理成功！'
+	            				//message: '账号 ' + row.studentNo + ' 已强制下线',
 	            			});
-
+                            this.getAbnormal();
 	            			//更新行
-	            			row.isOutline = 1;
-	            			var index = _.findIndex(this.abnormalRows, {id: row.id});
-	            			this.abnormalRows.splice(index, 1, row);
+	            			// row.isOutline = 1;
+	            			// var index = _.findIndex(this.abnormalRows, {id: row.id});
+	            			// this.abnormalRows.splice(index, 1, row);
 
 	            		}else{
 	            			this.$message({
@@ -246,25 +288,56 @@
 	            	});
             	}).catch(res => {});
             },
+            reset(row){ //强制下线
+                this.$confirm('确定恢复账号考试资格吗？','提示',{
+                    confirmButtonText: '恢复帐号'
+                }).then(res => {
+                    var para = {
+                        id:row.id,
+                        kind:'reset'
+                    };
+                    updateAbnormal(para).then(res => {
+                        if(res.code == '0'){
+                            this.$message({
+                                type: 'success',
+                                message:'处理成功！'
+                                //message: '账号 ' + row.studentNo + ' 已强制下线',
+                            });
+                            this.getAbnormal();
+                            //更新行
+                            // row.isOutline = 1;
+                            // var index = _.findIndex(this.abnormalRows, {id: row.id});
+                            // this.abnormalRows.splice(index, 1, row);
+
+                        }else{
+                            this.$message({
+                                type: 'error',
+                                message: res.msg,
+                            });
+                        }
+                    });
+                }).catch(res => {});
+            },
             signIncheap(row){ //作弊处理
-            	this.$confirm('确定将异常做作弊处理吗？','提示',{
-                    confirmButtonText: '作弊处理'
+            	this.$confirm('确定将异常做终止考试吗？','提示',{
+                    confirmButtonText: '终止考试'
                 }).then(res => {
 	            	var para = {
-	            		id: row.id, //异常记录id
-	            		type: 'cheap'
-	            	};
+                        id:row.id,
+                        kind:'stop'
+                    };
 	            	updateAbnormal(para).then(res => {
 	            		if(res.code == '0'){
 	            			this.$message({
 	            				type: 'success',
-	            				message: '账号 ' + row.studentNo + ' 已作弊处理',
+                                message:'处理成功！'
+	            				//message: '账号 ' + row.studentNo + ' 已作弊处理',
 	            			});
-
+                            this.getAbnormal();
 	            			//更新行
-	            			row.isCheap = 1;
-	            			var index = _.findIndex(this.abnormalRows, {id: row.id});
-	            			this.abnormalRows.splice(index, 1, row);
+	            			// row.isCheap = 1;
+	            			// var index = _.findIndex(this.abnormalRows, {id: row.id});
+	            			// this.abnormalRows.splice(index, 1, row);
 
 	            		}else{
 	            			this.$message({
@@ -291,7 +364,7 @@
                     this.avgExamPCT = res.avgExam; //考试总体平均答题
                     this.unExamPCT = res.unExam; //未开始答卷
                     this.stat_Loading = false;
-                    if(callback) callback();
+                    if(this.callback) this.callback();
                 });
             },
             getStudent(callback){ //考试人员列表
@@ -308,11 +381,11 @@
                     this.stu_totalCount = res.totalCount;
                     this.studentRows = res.rows;
                     this.stu_Loading = false;
-                    if(callback) callback();
+                    if(this.callback) this.callback();
                 });
             },
             getAbnormal(callback){ // 异常列表
-            	/*let abnPara = {
+            	let abnPara = {
             		examId: this.id,//考试id
                     pageNo: this.abn_pageNo,
                     filter: JSON.stringify(this.filter),
@@ -325,8 +398,8 @@
                     this.abn_totalCount = res.totalCount;
                     this.abnormalRows = res.rows;
                     this.abn_Loading = false;
-                    if(callback) callback();
-                });*/
+                    if(this.callback) this.callback();
+                });
             },
             dateParse(dateString){
                 return new Date(dateString);

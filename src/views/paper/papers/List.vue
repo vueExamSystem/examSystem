@@ -40,7 +40,7 @@
                         </el-table-column>
                         <el-table-column prop="creator" label="创建人" min-width="100">
                         </el-table-column>
-                        <el-table-column label="操作" >
+                        <el-table-column label="操作" width="200px" >
                             <template scope="scope">
                                 <el-button type="primary" @click="showEdit(scope.$index, scope.row)" :disabled="!isRowEditable(scope.row)">编辑</el-button>
                                 <el-button type="danger" @click="handleDel(scope.$index, scope.row)" :disabled="!isRowRemoveable(scope.row)">删除</el-button>

@@ -15,9 +15,9 @@
                 <el-form-item label="课程名称" prop="name">
                     <el-input v-model="ruleForm.name"></el-input>
                 </el-form-item>
-                <el-form-item label="学科种类" prop="subject">
+               <!--  <el-form-item label="学科种类" prop="subject">
                     <el-input v-model="ruleForm.subject"></el-input>
-                </el-form-item>
+                </el-form-item> -->
                 <el-form-item label="课程描述" prop="desc">
                     <el-input
                             type="textarea"
@@ -34,7 +34,7 @@
 
 <script>
     import {
-        addDemo,
+        addCourse,
     } from '../../../api/api';
     import _ from 'lodash';
     export default {
@@ -52,9 +52,9 @@
                     desc: [
                         {required: true, message: '请填写课程描述', trigger: 'blur'}
                     ],
-                    subject: [
-                        {required: true, message: '请填写学科种类', trigger: 'blur'}
-                    ],
+                    // subject: [
+                    //     {required: true, message: '请填写学科种类', trigger: 'blur'}
+                    // ],
                 },
                 loading: false,
             }
@@ -67,8 +67,8 @@
                             let para = _.assign({}, this.ruleForm);
                             console.log(para);
                             this.loading = true;
-                            addDemo(para).then((res) => {
-                                if (res.code !== '0') {
+                            addCourse(para).then((res) => {
+                                if (res.code !== 0) {
                                     this.$message({
                                         message: res.msg,
                                         type: 'error'

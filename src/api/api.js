@@ -1,11 +1,8 @@
 import instance  from './instance';
 import qs from 'qs'
 
-let base = 'aps/api';
-//let base='/api';
-//let base = 'http://127.0.0.1:8081/api';
-//let base = 'http://121.43.164.178:8081/api';//公网线上调试api
-//export const requestLogin = params => { return axios.post(`${base}/login/verify`,params).then(res => res.data); };
+// let base = 'aps/api';
+let base='/api';
  export const requestLogin = params => { return instance.post(`${base}/login/verify`,  qs.stringify(params)).then(res => res.data); };
 
 //用户信息
@@ -43,6 +40,9 @@ export const saveQue = params => { return instance.post(`${base}/question/save`,
 
 // 科目列表
 export const getSubjectList = params => { return instance.get(`${base}/subject/list`, params ).then(res => res.data); };
+
+
+export const addCourse = params => { return instance.post(`${base}/course/add`, qs.stringify(params) ).then(res => res.data); };
 
 // tag
 export const getTagList = params => {return instance.get(`${base}/category/list`, { params: params } ).then(res => res.data); };
@@ -161,10 +161,10 @@ export const getClassTestDetailList = params => { return instance.get(`${base}/c
 * */
 
 // log
-export const getLoginList = params => { return instance.get(`${base}/back/login/list`, {params:params} ).then(res => res.data); };
+export const getLoginList = params => { return instance.post(`${base}/back/login/list`,  qs.stringify(params) ).then(res => res.data); };
 
 // alert
-export const getSetAlertList = params => { return instance.get(`${base}/alert/list`, params ).then(res => res.data); };
+export const getAlarmInfoList = params => { return instance.post(`${base}/back/alarm/list`,  qs.stringify(params) ).then(res => res.data); };
 
 // chart
 export const getSetChartList = params => { return instance.get(`${base}/chart/list`, params ).then(res => res.data); };
@@ -408,6 +408,7 @@ export const getAbnormalList = params => { return instance.post(`${base}/listen/
 //更新异常列表
 export const updateAbnormal = params => { return instance.post(`${base}/listen/abnormal/update`,  qs.stringify(params) ).then(res => res.data);};
 
+export const onListenExam = params => { return instance.post(`${base}/task/onListen`,  qs.stringify(params) ).then(res => res.data);};
 /*
 * 考试 start
 * */
