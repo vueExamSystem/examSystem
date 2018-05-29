@@ -32,6 +32,20 @@ instance.interceptors.request.use(
 //respone拦截器
 instance.interceptors.response.use(
     response => {
+        let res=response.data;
+        if(res.code===-4001){
+            //token 失效
+            Vue.prototype.$message({
+                message: res.msg,
+                type: 'error',
+                duration:3000
+                });
+             store.dispatch('LogOut'); //可能是token过期，清除它
+             router.replace({ //跳转到登录页面
+                        path: 'login',
+                        query: { redirect: router.currentRoute.fullPath } // 将跳转的路由path作为参数，登录成功后跳转到该路由
+                    });
+        }
         return response;
     },
     error => { //默认除了2XX之外的都是错误的，就会走这里

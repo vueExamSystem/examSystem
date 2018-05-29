@@ -47,7 +47,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="选择课程:" prop="subject">
-                    <el-select v-model="form.subject" placeholder="请选择课程">
+                    <el-select v-model="form.subject" placeholder="请选择课程" @change="changeCourse">
                         <template v-for="item in subjectArr">
                             <el-option :label="item.text" :value="item.value"></el-option>
                         </template>
@@ -362,6 +362,7 @@
                 }],
                 subjectArr: [],
                 chapterArr: [],
+                chapterAllArr: [],
                 departmentArr: [],
                 correctRadioArr: [{
                     id: 'A',
@@ -421,6 +422,10 @@
             // 上传错误
             uploadError(response, file, fileList) {
                 console.log('上传失败，请重试！');
+            },
+             changeCourse(val) {
+                this.chapterArr = this.chapterAllArr.filter(item => { return item.courseid === val });
+                this.form.chapter = '';
             },
             onSubmit() {
                 //console.log('content', this.ue.getContent());
@@ -518,6 +523,7 @@
                     //done 加载初始数据
                     this.subjectArr = res.data[0].children;
                     this.chapterArr = res.data[1].children;
+                    this.chapterAllArr=res.data[1].children;
                     this.typeArr = res.data[2].children;
                     this.levelArr=res.data[3].children;
                     this.usageArr = res.data[4].children;

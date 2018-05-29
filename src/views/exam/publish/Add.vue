@@ -134,7 +134,7 @@
                 		endTime:this.form.endTime.replace(/-/g,'/'),
                 		dutyTeachers:this.form.teacher.join(','),
                 	};
-                	console.log('updatePara111',updatePara);
+                	//console.log('updatePara111',updatePara);
                     if (isValid) {
                         this.$confirm('确认添加考试吗？', '提示', {}).then(() => {     
                             this.loading = true;
@@ -161,7 +161,7 @@
 	                            });
                             }else{
                             	//更新
-                            	console.log('updatePara',updatePara);
+                            	//console.log('updatePara',updatePara);
                             	updateExam(updatePara).then((res) => {
 	                                if (res.code !== 0) {
 	                                    this.$message({

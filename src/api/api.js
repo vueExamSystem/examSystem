@@ -166,6 +166,14 @@ export const getLoginList = params => { return instance.post(`${base}/back/login
 // alert
 export const getAlarmInfoList = params => { return instance.post(`${base}/back/alarm/list`,  qs.stringify(params) ).then(res => res.data); };
 
+export const getTeacherList = params => { return instance.post(`${base}/back/teacher/list`,  qs.stringify(params) ).then(res => res.data); };
+
+export const getTeacherCourses = params => { return instance.post(`${base}/back/teacher/courses`,  qs.stringify(params) ).then(res => res.data); };
+
+export const eidtTeacherCourses = params => { return instance.post(`${base}/back/teacher/courses/edit`,  qs.stringify(params) ).then(res => res.data); };
+
+export const ResetTeacherPwd = params => { return instance.post(`${base}/back/teacher/resetPwd`,  qs.stringify(params) ).then(res => res.data); };
+
 // chart
 export const getSetChartList = params => { return instance.get(`${base}/chart/list`, params ).then(res => res.data); };
 

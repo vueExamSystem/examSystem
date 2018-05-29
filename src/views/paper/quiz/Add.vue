@@ -14,7 +14,7 @@
 						<el-input v-model="form.name"></el-input>
 					</el-form-item>
 					<el-form-item label="选择课程：" prop="subject"> 
-						<el-select v-model="form.subject" placeholder="请选择课程">
+						<el-select v-model="form.subject" placeholder="请选择课程" @change="changeCourse">
 						    <el-option :loading="subjectLoading" 
 						      v-for="item in subjectOptions"
 						      :key="item.value"
@@ -105,10 +105,11 @@
 				subjectLoading: true,//科目加载
 				subjectOptions: [], //科目选项组
 				sections:[],//章节
+				chapterAllArr: [],
 				form: {
 					name: '',//试卷名称
 					subject: '',//科目
-					section:'',//章节
+					section:[],//章节
 					mode: 'random',//组卷方式
 					time: '',//考试时间
 					radiocount: '0',//单选题数
@@ -199,7 +200,12 @@
 			getSectionOptions(){//获取章节
 				getSections({}).then(res => {
 					this.sections = res.data;
+					this.chapterAllArr=res.data;
 				});
+			},
+			changeCourse(val) {
+                this.sections = this.chapterAllArr.filter(item => { return item.courseid === val });
+                this.form.section = [];
 			},
 			onSubmit(formName, flag) {
 				   this.$refs['form'].validate((valid) => {

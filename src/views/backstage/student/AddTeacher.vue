@@ -116,7 +116,7 @@
                             phone:this.form.phone,
                             signTime:this.form.signTime==null||this.form.signTime==''?null:this.form.signTime.replace(/-/g,'/')
                         };
-                        console.log('stuParams ',stuParams);
+                        //console.log('stuParams ',stuParams);
                         this.$confirm('确认添加吗？', '提示', {}).then(() => {
                             this.loading = true;
                             addTeacher(stuParams).then((res) => {

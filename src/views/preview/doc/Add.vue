@@ -14,7 +14,7 @@
 						<el-input v-model="form.name"></el-input>
 					</el-form-item>
 					<el-form-item label="选择课程：" prop="course"> 
-						<el-select v-model="form.course" placeholder="请选择课程">
+						<el-select v-model="form.course" placeholder="请选择课程" @change="changeCourse">
 							<template v-for="item in defaultInfo.courses">
 								<el-option :label="item.text" :value="item.value" :key="item.value"></el-option>
 							</template>
@@ -118,6 +118,7 @@
                     ]
 				},
 				loading: false,
+                chapterAllArr: [],
                 defaultInfo: {
                     courses: [],
                     sections:[]
@@ -209,9 +210,14 @@
             handlePreview(file, type) {
                 console.log(file, type);
             },
+            changeCourse(val) {
+                this.defaultInfo.sections = this.chapterAllArr.filter(item => { return item.courseid === val });
+                this.form.section = '';
+            },
             getDefaultData() {
                 getAddDocFilter({}).then(res => {
                     this.defaultInfo = res.data;
+                    this.chapterAllArr=this.defaultInfo.sections;
                     this.$forceUpdate();
                 });
             },

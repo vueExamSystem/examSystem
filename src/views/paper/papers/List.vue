@@ -271,6 +271,7 @@
             },
             hideEdit(){
                 this.editFormVisible = false;
+                this.$refs['editForm'].resetFields();
             },
             handleDel(index, row){//删除试卷
                 this.$confirm('确定删除该试卷吗？','提示',{

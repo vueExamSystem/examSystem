@@ -1,6 +1,6 @@
 <template>
     <el-tabs type="border-card" v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="权限管理" name="list">
+        <el-tab-pane label="用户管理" name="list">
             <alert-table></alert-table>
         </el-tab-pane>
     </el-tabs>
