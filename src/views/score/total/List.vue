@@ -17,28 +17,28 @@
                     <el-table :data="rows" highlight-current-row v-loading="listLoading" style="width: 100%;">
                         <el-table-column type="index" label="序号" width="100">
                         </el-table-column>
-                        <el-table-column prop="courseName" label="课程">
+                        <el-table-column prop="courseName" label="课程" sortable>
                             <template slot-scope="scope">
                                 <el-button type="text" @click="detailShow(scope.row)">{{scope.row.courseName}}</el-button>
                             </template>
                         </el-table-column>
-                        <el-table-column prop="termName" label="学期">
+                        <el-table-column prop="termName" label="学期" sortable>
                         </el-table-column>
-                        <el-table-column prop="studentNo" label="学号">
+                        <el-table-column prop="studentNo" label="学号" sortable>
                         </el-table-column>
-                        <el-table-column prop="studentName" label="姓名">
+                        <el-table-column prop="studentName" label="姓名" sortable>
                         </el-table-column>
-                        <el-table-column prop="previewScore" label="预习分数">
+                        <el-table-column prop="previewScore" label="预习分数" sortable>
                         </el-table-column>
-                        <el-table-column prop="testScore" label="测验分数">
+                        <el-table-column prop="testScore" label="测验分数" sortable>
                         </el-table-column>
-                        <el-table-column prop="examScore" label="考试分数">
+                        <el-table-column prop="examScore" label="考试分数" sortable>
                         </el-table-column>
-                        <el-table-column prop="totalScore" label="总体成绩">
+                        <el-table-column prop="totalScore" label="总体成绩" sortable>
                         </el-table-column>
-                        <el-table-column prop="rank" label="等级">
+                        <el-table-column prop="rank" label="等级" sortable>
                         </el-table-column>
-                         <el-table-column prop="status" label="状态">
+                         <el-table-column prop="status" label="状态" sortable>
                             <template scope="scope">
                                 <span>{{scope.row.status==1?'已评定':'未评定'}}</span>
                             </template>

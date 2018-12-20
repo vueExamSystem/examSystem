@@ -65,7 +65,10 @@
                     if (valid) {
                         this.$confirm('确认添加吗？', '提示', {}).then(() => {
                             let para = _.assign({}, this.ruleForm);
-                            console.log(para);
+                            para= {
+                                name: para.name,
+                                desc: para.desc
+                            };
                             this.loading = true;
                             addCourse(para).then((res) => {
                                 if (res.code !== 0) {

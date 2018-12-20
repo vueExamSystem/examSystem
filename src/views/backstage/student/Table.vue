@@ -2,18 +2,19 @@
     <div>
         <section v-if="!classId" id="studentTable">
             <my-filter v-if="filterList.length > 0" :list="filterList" @callback="search" v-loading="filterLoading"></my-filter>
+
             <div class="panel">
                 <div class="title">
                     <el-input placeholder="请输入搜索关键词" v-model="keyword">
                         <el-button slot="append" icon="el-icon-search" @click="getList"></el-button>
                     </el-input>
-
+                    <el-button type="success" @click="gradeAdd($event)" class="el-button-shadow">添加年级</el-button>
                     <!-- <el-button type="success" @click="departmentAdd" class="el-button-shadow">添加院系</el-button> -->
                     <!--分页-->
 <!--                     <div class="pageArea">
                         <Page :current="pageNo" :totalCount="totalCount" :pageSize="pageSize" @page-change="handleCurrentChange"></Page>
                     </div> -->
-
+      
                 </div>
 
                 <div class="content">
@@ -121,6 +122,24 @@
                     <el-button type="primary" @click.native="addSubmit">提交</el-button>
                 </div>
             </el-dialog>
+
+                         <!--添加年级界面-->
+                    <el-dialog title="添加年级" :visible.sync="addGradeVisible">
+                        <el-form :model="addGrade" label-width="120px" :rules="addGradeRules" ref="addGrade" :inline-message="isInlineMessage" v-loading="addLoading">
+                            <el-form-item label="年级名称" prop="name">
+                                <el-input v-model="addGrade.name"></el-input>
+                            </el-form-item>
+                            <el-form-item label="开始时间：" prop="signTime">
+                                <el-date-picker type="datetime" placeholder="请选择开始时间" format="yyyy/MM/dd" value-format="yyyy/MM/dd" v-model="addGrade.signTime" style="width: 240px;"></el-date-picker>
+                            </el-form-item>
+                        </el-form>
+                        <div slot="footer" class="dialog-footer">
+                            <el-button @click.native="addGradeClose">取消</el-button>
+                            <el-button type="primary" @click.native="addGradeSubmit">提交</el-button>
+                        </div>
+                    </el-dialog>
+
+
         </section>
         <section v-else>
             <class-detail :id="classId" @close="detailClose"></class-detail>
@@ -133,7 +152,8 @@
         getDepartmentList,
         getGradeFilter,
         addGroup,
-        getAddGroupFilter
+        getAddGroupFilter,
+        addGrade,
     } from '../../../api/api';
     import myFilter from '../../common/myFilter.vue'
     import Pagination from '../../common/Pagination.vue'
@@ -179,6 +199,7 @@
                 addFormVisible: false,
                 addLoading: false,
                 isInlineMessage: true,
+                addGradeVisible: false,
                 addFormRules: {
                     name: [
                         { required: true, message: '请填写班级名称', trigger: 'blur' }
@@ -193,11 +214,21 @@
                         { required: true, message: '请选择负责老师', trigger: 'blur' }
                     ],
                 },
+                addGradeRules: {
+                    name: [
+                        { required: true, message: '请填写年级名称 如2018级', trigger: 'blur' }
+                    ],
+                    sginTime:{required:true, message: '请选择注册时间 如2018-09-01', trigger:'change'},
+                },
                 //编辑界面数据
                 addForm: {
                     collegeId: '',
                     gradeId: '',
                     teacherId: ''
+                },
+                addGrade: {
+                    name: '',
+                    signTime: ''
                 },
                 addFormInfo: {},
             }
@@ -298,6 +329,56 @@
                                 this.$refs['addForm'].resetFields();
                                 this.addFormVisible = false;
              },
+            gradeAdd(e, index) {
+                this.addGradeVisible = true;
+            },
+            addGradeClose:function(){
+                        this.$refs['addGrade'].resetFields();
+                        this.addGradeVisible = false;
+                        this.addLoading=false;
+            },
+            // 添加 提交
+            addGradeSubmit: function () {
+                this.$refs.addGrade.validate((valid) => {
+                    if (valid) {
+                        this.$confirm('确认提交吗？', '提示', {}).then(res => {
+                            this.addLoading = true;
+                            let para = _.assign({}, this.addGrade);
+                            para={
+                                name:para.name,
+                                signTime:para.signTime
+                            };
+                            console.log('grade:',para);
+                            addGrade(para).then((res) => {
+                                this.addLoading = false;
+                                if(res.code==0){
+                                    this.$message({
+                                        message: '提交成功',
+                                        type: 'success'
+                                    });
+                                    this.getDefaultData();
+                                }
+                                else{
+                                    this.$message({
+                                        message: res.msg,
+                                        type: 'error'
+                                    });
+                                }
+                                this.$refs['addGrade'].resetFields();
+                                this.addGradeVisible = false;
+                                this.search();
+                            });
+                        }).catch(res=>{
+                             this.$message({
+                                    message: '添加失败：'+res.data,
+                                    type: 'error'
+                                });
+                        });
+                    }
+                });
+            },
+
+            
             //编辑
             addSubmit: function () {
                 this.$refs.addForm.validate((valid) => {

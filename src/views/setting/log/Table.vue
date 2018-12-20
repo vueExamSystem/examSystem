@@ -20,24 +20,26 @@
                     <span>指纹码</span>
                     <el-input placeholder="" v-model="deviceCode" style="width:200px">
                     </el-input>
-                     <span>登录时间</span>
-                    <el-date-picker type="datetime" placeholder="请选择开始时间" format="yyyy/MM/dd HH:mm:ss" 
-                    value-format="yyyy/MM/dd HH:mm:ss" v-model="beginTime" style="width: 200px;" >
-                    </el-date-picker>
-                    <span>至</span>
-                    <el-date-picker type="datetime" placeholder="请选择结束时间" format="yyyy/MM/dd HH:mm:ss"
-                    value-format="yyyy/MM/dd HH:mm:ss" v-model="endTime" style="width: 200px;" >
-                    </el-date-picker>
+                    
                     <el-button type="success" @click="getList" class="el-button-shadow">查询</el-button>
                     <el-button type="success" @click="reset" class="el-button-shadow">重置</el-button>
                 <!--分页-->
             </div>
             <div class="title">
-
+                    <span></span>
+                    <span>登录时间</span>
+                    <el-date-picker type="datetime" placeholder="请选择开始时间" format="yyyy/MM/dd HH:mm:ss" 
+                    value-format="yyyy/MM/dd HH:mm:ss" v-model="beginTime" style="width: 200px;" >
+                    </el-date-picker>
+                    <span>至</span>
+                    <el-date-picker type="datetime" placeholder="请选择结束时间" format="yyyy/MM/dd HH:mm:ss"
+                    value-format="yyyy/MM/dd HH:mm:ss" v-model="endTime" style="width: 200px;margin-left: 35px;" >
+                    </el-date-picker>
+            </div>
+            <div class="title">
                 <div class="pageArea">
                      <Page :pageNo="pageNo" :totalCount="totalCount" :pageSize="pageSize" @page-change="handleCurrentChange"></Page>
                 </div>
-
             </div>
 
             <div class="content">

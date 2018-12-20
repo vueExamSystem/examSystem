@@ -59,7 +59,7 @@
                 },
 				// 上传文件的路径
 				//uploadSource: 'http://localhost:8081/api/back/import',
-				uploadSource: 'http://121.43.164.178:8081/api/back/import',
+				uploadSource: 'http://47.99.154.20:8081/api/back/import',
 				// 默认数据
 				usageArr: [{
                     id: '0',
@@ -76,8 +76,8 @@
 		},
 		methods: {
 			UploadUrl: function (url) {
-                return 'http://localhost:8081/api/back/' + url;
-                // return 'http://121.43.164.178:8081/api/back/' + url;
+                //return 'http://localhost:8081/api/back/' + url;
+                return 'http://47.99.154.20:8081/api/back/' + url;
             },
             // 上传题目图片成功后的回调
             uploadSuccess(res, file, fileList) {

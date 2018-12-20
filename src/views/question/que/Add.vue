@@ -387,8 +387,8 @@
         methods: {
 
             UploadUrl: function (url) {
-                //return 'http://localhost:8081/api/question/' + url;
-                return 'http://121.43.164.178:8081/api/question/' + url;
+                // return 'http://localhost:8081/api/question/' + url;
+                return 'http://47.99.154.20:8081/api/question/' + url;
             },
             // 上传题目图片成功后的回调
             uploadTitleSuccess(res, file, fileList) {
@@ -481,7 +481,7 @@
                             keyword: this.form.keywords,
                             analysis: this.form.analysis
                         };
-                        console.log('question params',queParams);
+                        //console.log('question params',queParams);
                         this.$confirm('确认添加吗？', '提示', {}).then(() => {
                             this.loading = true;
                             saveQue(queParams).then((res) => {

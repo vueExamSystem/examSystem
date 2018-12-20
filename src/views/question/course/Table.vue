@@ -25,10 +25,12 @@
                     </el-table-column>
                     <el-table-column prop="name" label="课程名称" sortable>
                     </el-table-column>
-                    <el-table-column prop="subject" label="学科" sortable>
+                   <!--  <el-table-column prop="subject" label="学科" sortable>
                         <template slot-scope="scope">
                             <span v-if="scope.row.subject">{{scope.row.subject.name}}</span>
                         </template>
+                    </el-table-column> -->
+                     <el-table-column prop="remark" label="描述" sortable>
                     </el-table-column>
                     <el-table-column prop="creator" label="创建人" sortable>
                     </el-table-column>
@@ -48,15 +50,15 @@
                     <el-form-item label="课程名称" prop="name">
                         <el-input v-model="editForm.name"></el-input>
                     </el-form-item>
-                    <el-form-item label="学科种类" prop="subject">
+                    <!-- <el-form-item label="学科种类" prop="subject">
                         <el-input v-model="editForm.subject"></el-input>
-                    </el-form-item>
+                    </el-form-item> -->
                     <el-form-item label="课程描述" prop="desc">
                         <el-input
                                 type="textarea"
                                 :rows="3"
                                 placeholder="请输入内容"
-                                v-model="editForm.desc">
+                                v-model="editForm.remark">
                         </el-input>
                     </el-form-item>
                 </el-form>
@@ -93,9 +95,6 @@
                     desc: [
                         { required: true, message: '请填写课程描述', trigger: 'blur' }
                     ],
-                    subject: [
-                        { required: true, message: '请填写学科种类', trigger: 'blur' }
-                    ],
                 },
                 //编辑界面数据
                 editForm: {
@@ -118,9 +117,12 @@
                     if (valid) {
                         this.$confirm('确认提交吗？', '提示', {}).then(() => {
                             this.editLoading = true;
-                            //NProgress.start();
                             let para = _.assign({}, this.editForm);
-                            console.log(para);
+                            para = {
+                                id: para.id,
+                                name: para.name,
+                                desc: para.desc
+                            };
                             editCourse(para).then((res) => {
                                 this.editLoading = false;
                                 this.$message({

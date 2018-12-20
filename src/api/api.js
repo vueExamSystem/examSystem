@@ -1,8 +1,8 @@
 import instance  from './instance';
 import qs from 'qs'
 
-// let base = 'aps/api';
-let base='/api';
+// let base = 'aps/api';//本地
+let base='/api';//线上
  export const requestLogin = params => { return instance.post(`${base}/login/verify`,  qs.stringify(params)).then(res => res.data); };
 
 //用户信息
@@ -39,7 +39,7 @@ export const saveQue = params => { return instance.post(`${base}/question/save`,
 // export const saveQue = params => { return instance.get(`${base}/question/save`, qs.stringify(params) ); };
 
 // 科目列表
-export const getSubjectList = params => { return instance.get(`${base}/subject/list`, params ).then(res => res.data); };
+export const getSubjectList = params => { return instance.get(`${base}/subject/list`, { params: params } ).then(res => res.data); };
 
 
 export const addCourse = params => { return instance.post(`${base}/course/add`, qs.stringify(params) ).then(res => res.data); };
@@ -58,7 +58,7 @@ export const getCourseList = params => {
 export const getCoursesMap = params => { 
 	return instance.get(`${base}/course/map`, { params: params } ).then(res => res.data); };
 export const editCourse = params => {
-	return instance.get(`${base}/course/edit`, params ).then(res => res.data); };
+	return instance.get(`${base}/course/edit`, { params: params } ).then(res => res.data); };
 //course filter
 export const getCourseFilter = params => { 
     return instance.get(`${base}/course/filter`, { params: params } ).then(res => res.data); };
@@ -123,37 +123,37 @@ export const addSame = params => { return instance.post(`${base}/same/add`, qs.s
 
 // 删除，添加，编辑 demo api
 export const addDemo = params => {
-    return instance.get(`${base}/add`, params ).then(res => res.data); };
+    return instance.get(`${base}/add`, { params: params } ).then(res => res.data); };
 export const delDemo = params => {
-    return instance.get(`${base}/del`, params ).then(res => res.data); };
+    return instance.get(`${base}/del`, { params: params } ).then(res => res.data); };
 
 /*
 *  预习 start
 * */
 
-export const getExampleFilter = params => { return instance.get(`${base}/example/filter`, params ).then(res => res.data);};
+export const getExampleFilter = params => { return instance.get(`${base}/example/filter`, { params: params } ).then(res => res.data);};
 
-export const getExampleList = params => { return instance.get(`${base}/example/list`, params ).then(res => res.data);};
+export const getExampleList = params => { return instance.get(`${base}/example/list`, { params: params } ).then(res => res.data);};
 
-export const getExampleDetailFilter = params => { return instance.get(`${base}/example/detail/filter`, params ).then(res => res.data);};
+export const getExampleDetailFilter = params => { return instance.get(`${base}/example/detail/filter`, { params: params } ).then(res => res.data);};
 
-export const getExampleDetailList = params => { return instance.get(`${base}/example/detail/list`, params ).then(res => res.data);};
+export const getExampleDetailList = params => { return instance.get(`${base}/example/detail/list`, { params: params } ).then(res => res.data);};
 
-export const getExampleAddInfo = params => { return instance.get(`${base}/example/add/info`, params ).then(res => res.data);};
+export const getExampleAddInfo = params => { return instance.get(`${base}/example/add/info`, { params: params } ).then(res => res.data);};
 
-export const getDocAddInfo = params => { return instance.get(`${base}/doc/add/info`, params ).then(res => res.data);};
+export const getDocAddInfo = params => { return instance.get(`${base}/doc/add/info`, { params: params } ).then(res => res.data);};
 
 
 /*
 *  测验 start
 * */
-export const getClassTestFilter = params => { return instance.get(`${base}/classTest/filter`, params ).then(res => res.data);};
+export const getClassTestFilter = params => { return instance.get(`${base}/classTest/filter`, { params: params } ).then(res => res.data);};
 
-export const getClassTestList = params => { return instance.get(`${base}/classTest/list`, params ).then(res => res.data);};
+export const getClassTestList = params => { return instance.get(`${base}/classTest/list`, { params: params } ).then(res => res.data);};
 
-export const getClassTestDetailFilter = params => { return instance.get(`${base}/classTest/detail/filter`, params ).then(res => res.data);};
+export const getClassTestDetailFilter = params => { return instance.get(`${base}/classTest/detail/filter`, { params: params } ).then(res => res.data);};
 
-export const getClassTestDetailList = params => { return instance.get(`${base}/classTest/detail/list`, params ).then(res => res.data);};
+export const getClassTestDetailList = params => { return instance.get(`${base}/classTest/detail/list`, { params: params } ).then(res => res.data);};
 
 
 /*
@@ -175,7 +175,7 @@ export const eidtTeacherCourses = params => { return instance.post(`${base}/back
 export const ResetTeacherPwd = params => { return instance.post(`${base}/back/teacher/resetPwd`,  qs.stringify(params) ).then(res => res.data); };
 
 // chart
-export const getSetChartList = params => { return instance.get(`${base}/chart/list`, params ).then(res => res.data); };
+export const getSetChartList = params => { return instance.get(`${base}/chart/list`, { params: params } ).then(res => res.data); };
 
 /*
 *  成绩 start
@@ -211,6 +211,9 @@ export const getGradeFilter=params => { return instance.post(`${base}/back/grade
 export const getAddGroupFilter=params => { return instance.get(`${base}/back/addGroupFilter`, { params: params } ).then(res => res.data); };
 
 export const addGroup=params => { return instance.post(`${base}/back/addGroup`, qs.stringify(params) ).then(res => res.data); };
+
+export const addGrade=params => { return instance.post(`${base}/back/addGrade`, qs.stringify(params) ).then(res => res.data); };
+
 // department
 export const getDepartmentList = params => { return instance.post(`${base}/back/collegeInfo`, qs.stringify(params) ).then(res => res.data); };
 
@@ -219,7 +222,7 @@ export const getGroupInfo = params => { return instance.post(`${base}/back/group
 export const ResetStuPwd = params => { return instance.post(`${base}/back/resetStuPwd`, qs.stringify(params) ).then(res => res.data); };
 
 // class
-export const getClassList = params => { return instance.get(`${base}/group/list`, params ).then(res => res.data); };
+export const getClassList = params => { return instance.get(`${base}/group/list`, { params: params } ).then(res => res.data); };
 //选课
 export const addTerm = params => { return instance.post(`${base}/back/addTerm`, qs.stringify(params) ).then(res => res.data); };
 
@@ -236,7 +239,7 @@ export const editRole = params => { return instance.post(`${base}/back/role/edit
 
 
 // class
-export const getClassObject = params => { return instance.get(`${base}/class/detail`, params ).then(res => res.data); };
+export const getClassObject = params => { return instance.get(`${base}/class/detail`, { params: params } ).then(res => res.data); };
 
 // competence
 export const getCompetenceList = params => { return instance.post(`${base}/back/menu`, qs.stringify(params) ).then(res => res.data); };

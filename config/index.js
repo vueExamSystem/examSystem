@@ -29,10 +29,16 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
         '/aps':{
-            //target:'http://localhost:8081',
-            target:'http://121.43.164.178:8081',//线上api地址
+            target:'http://localhost:8081',
+            //target:'http://121.43.164.178:8081',//线上api地址
             changeOrigin:true,
             pathRewrite:{'^/aps':''}
+        },
+        '/mp4':{
+            target:'http://localhost:8081',
+            //target:'http://121.43.164.178:8081',//线上api地址
+            changeOrigin:true,
+            pathRewrite:{'^/mp4':'/work'}
         }
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"

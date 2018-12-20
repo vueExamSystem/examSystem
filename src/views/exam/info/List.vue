@@ -151,7 +151,7 @@
                 this.getList();
             },
             cancelEdit(){//取消编辑
-                this.ditFormVisible = false; 
+                this.editFormVisible = false; 
                 this.formObj = {};
                 this.minuteTimeClockRun();
             },

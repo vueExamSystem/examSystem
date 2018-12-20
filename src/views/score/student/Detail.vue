@@ -38,9 +38,9 @@
 	                    <el-table-column type="index" label="ID" width="60"></el-table-column>
 	                    <el-table-column prop="name" label="名称"></el-table-column>
 						<!-- <el-table-column prop="studentNo" label="时间"></el-table-column> -->
-	                    <el-table-column prop="percent" label="完成度" ></el-table-column>
-	                    <el-table-column prop="score" label="分数" ></el-table-column>
-	                    <el-table-column prop="ranking" label="等级" ></el-table-column>
+	                    <el-table-column prop="percent" label="完成度" sortable ></el-table-column>
+	                    <el-table-column prop="score" label="分数"  sortable></el-table-column>
+	                    <el-table-column prop="ranking" label="等级" sortable></el-table-column>
 	                </el-table>
 				</div>
 			</div>

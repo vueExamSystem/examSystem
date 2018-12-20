@@ -112,7 +112,6 @@
                 getQuestionDetail({
                     id: this.id,
                 }).then(res => {
-                    console.log('detail', res);
                     this.detail = res.data;
                     if(this.detail.questionTypeId === 2){//多选
                         this.detail.answer = this.checkAnswerFormat(this.detail.answer);

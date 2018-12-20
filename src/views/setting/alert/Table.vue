@@ -43,7 +43,7 @@
                         style="width: 100%;">
                         <el-table-column type="index" label="序号" width="80">
                         </el-table-column>
-                        <el-table-column prop="createTime" label="发现时间" min-width="160"></el-table-column>
+                        <el-table-column prop="createTime" label="发现时间" min-width="160" sortable></el-table-column>
                         <el-table-column prop="keyInfo" label="关键信息" min-width="220">
                         </el-table-column>
                         <el-table-column prop="examName" label="考试名称" min-width="200">
@@ -54,7 +54,7 @@
                         </el-table-column>
                          <el-table-column prop="devices" label="关联设备" min-width="220">
                         </el-table-column>
-                        <el-table-column prop="status" label="状态" min-width="200">
+                        <el-table-column prop="status" label="状态" min-width="200" sortable>
                             <template scope="scope">
                              <div v-if="scope.row.status==1">
                                 强制下线
